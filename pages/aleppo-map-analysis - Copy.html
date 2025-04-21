@@ -1,0 +1,2160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>تحليل أحياء حلب</title>
+  
+  <!-- Google Fonts - Cairo (Arabic) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- Leaflet MarkerCluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  
+  <!-- Leaflet Draw CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+  
+  <!-- Animate.css for animations -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  
+  <style>
+    :root {
+      --primary-color: #1e40af;
+      --primary-light: #3b82f6;
+      --primary-dark: #1e3a8a;
+      --secondary-color: #10b981;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --info-color: #3b82f6;
+      --text-color: #1f2937;
+      --light-bg: #f9fafb;
+      --border-color: #e5e7eb;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    
+    .container {
+      width: 100%;
+      padding: 20px;
+      margin: 0 auto;
+      max-width: 1400px;
+    }
+    
+    .header {
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      font-weight: 600;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .flex-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .col-1 {
+      width: 100%;
+    }
+    
+    .col-2 {
+      width: calc(50% - 10px);
+    }
+    
+    .col-3 {
+      width: calc(33.333% - 14px);
+    }
+    
+    .col-4 {
+      width: calc(25% - 15px);
+    }
+    
+    @media (max-width: 992px) {
+      .col-2, .col-3, .col-4 {
+        width: 100%;
+      }
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .card-title {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .map-container {
+      height: 600px;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin: 20px 0;
+    }
+    
+    .map-controls {
+      position: absolute;
+      top: 10px;
+      z-index: 1000;
+      
+    }
+    
+    .map-control-button {
+      display: block;
+      margin-bottom: 5px;
+      padding: 8px 12px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      transition: background-color 0.2s ease;
+    }
+    
+    .map-control-button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .map-layers {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+    }
+    
+    .info-panel {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      max-width: 300px;
+      z-index: 1000;
+      display: none;
+    }
+    
+    .info-panel h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .info-panel p {
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    
+    .info-panel .close-btn {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+    
+    .stat-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease;
+      height: 100%;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-title {
+      font-size: 1rem;
+      color: var(--text-color);
+      margin-bottom: 5px;
+    }
+    
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .stat-icon {
+      align-self: flex-end;
+      font-size: 2.5rem;
+      color: rgba(59, 130, 246, 0.1);
+      margin-top: auto;
+    }
+    
+    .neighborhood-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .neighborhood-item {
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    
+    .neighborhood-item:hover {
+      background-color: #f0f4f8;
+    }
+    
+    .leaflet-popup-content-wrapper {
+      border-radius: 8px;
+      padding: 0;
+      overflow: hidden;
+    }
+    
+    .leaflet-popup-content {
+      margin: 0;
+      padding: 0;
+    }
+    
+    .popup-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 10px 15px;
+    }
+    
+    .popup-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .popup-body {
+      padding: 15px;
+    }
+    
+    .popup-stat {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .legend {
+      background-color: white;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      margin-left: 8px;
+      border-radius: 3px;
+    }
+    
+    .filter-bar {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      flex-wrap: wrap;
+    }
+    
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .filter-label {
+      font-weight: 500;
+      color: var(--text-color);
+    }
+    
+    .filter-select {
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: white;
+      font-family: 'Cairo', sans-serif;
+      min-width: 150px;
+    }
+    
+    .search-input {
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      width: 100%;
+      max-width: 300px;
+      font-family: 'Cairo', sans-serif;
+    }
+    
+    /* Analysis panel styling */
+    .analysis-panel {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      max-width: 300px;
+      z-index: 1000;
+      display: none;
+    }
+    
+    .analysis-panel h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+    
+    .analysis-panel label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .analysis-panel select,
+    .analysis-panel input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: 'Cairo', sans-serif;
+    }
+    
+    .analysis-panel button {
+      padding: 8px 12px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      transition: background-color 0.2s ease;
+      width: 100%;
+    }
+    
+    .analysis-panel button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .analysis-panel .close-btn {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    .progress {
+      height: 8px;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      border-radius: 4px;
+    }
+    
+    .progress-success {
+      background-color: var(--success-color);
+    }
+    
+    .progress-warning {
+      background-color: var(--warning-color);
+    }
+    
+    .progress-danger {
+      background-color: var(--danger-color);
+    }
+    
+    .progress-info {
+      background-color: var(--info-color);
+    }
+    
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      color: var(--text-color);
+    }
+    
+    /* Loading transitions and animations */
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1100;
+      border-radius: 8px;
+    }
+    
+    /* نمط نافذة التقارير */
+    .reports-panel {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      z-index: 2000;
+      display: none;
+    }
+    
+    .reports-panel h3 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+    
+    .reports-panel .report-options {
+      margin-bottom: 20px;
+    }
+    
+    .reports-panel .close-btn {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+    
+    .reports-panel label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+    
+    .reports-panel select,
+    .reports-panel input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: 'Cairo', sans-serif;
+    }
+    
+    .reports-panel .checkbox-group {
+      margin-bottom: 15px;
+    }
+    
+    .reports-panel .checkbox-option {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .reports-panel .checkbox-option input[type="checkbox"] {
+      width: auto;
+      margin-left: 10px;
+      margin-bottom: 0;
+    }
+    
+    .reports-panel button {
+      padding: 10px 15px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      transition: background-color 0.2s ease;
+      width: 100%;
+      margin-top: 10px;
+    }
+    
+    .reports-panel button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .reports-panel .report-format-options {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .reports-panel .report-format-option {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .reports-panel .report-format-option:hover {
+      background-color: #f0f4f8;
+    }
+    
+    .reports-panel .report-format-option.selected {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    .reports-panel .report-format-option i {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+    
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      display: none;
+    }
+    
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(30, 64, 175, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+      margin-bottom: 15px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      font-size: 16px;
+      color: var(--primary-color);
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    .data-insight {
+      opacity: 0;
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    
+    .data-insight.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="header-content">
+      <a href="../pages/" class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <div class="logo-text">تحليل أحياء حلب</div>
+      </a>
+      <div class="nav-bar">
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section-title">لوحة تحليل أحياء حلب</div>
+    
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label class="filter-label">القطاع:</label>
+        <select id="sector-filter" class="filter-select">
+          <option value="all">الكل</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">تحليل:</label>
+        <select id="analysis-type" class="filter-select">
+          <option value="none">بدون تحليل</option>
+          <option value="area">المساحة</option>
+          <option value="population">الكثافة السكانية</option>
+          <option value="damage">مستوى الضرر</option>
+          <option value="priority">أولوية التدخل</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <input type="text" id="search-input" class="search-input" placeholder="بحث عن حي...">
+      </div>
+    </div>
+    
+    <div class="flex-grid">
+      <div class="col-1">
+        <div class="card">
+          <div class="card-title">خريطة أحياء حلب</div>
+          <div class="map-container">
+            <div id="map"></div>
+            <div class="map-controls">
+              <button id="btn-zoom-in" class="map-control-button"><i class="fas fa-plus"></i> تكبير</button>
+              <button id="btn-zoom-out" class="map-control-button"><i class="fas fa-minus"></i> تصغير</button>
+              <button id="btn-reset-view" class="map-control-button"><i class="fas fa-home"></i> إعادة الضبط</button>
+              <button id="btn-toggle-analysis" class="map-control-button"><i class="fas fa-chart-bar"></i> التحليل</button>
+              <button id="btn-measure" class="map-control-button"><i class="fas fa-ruler"></i> قياس</button>
+              <button id="btn-export" class="map-control-button"><i class="fas fa-download"></i> تصدير</button>
+              <button id="btn-reports" class="map-control-button"><i class="fas fa-file-alt"></i> التقارير</button>
+            </div>
+            <div class="info-panel" id="info-panel">
+              <span class="close-btn" onclick="document.getElementById('info-panel').style.display = 'none';">&times;</span>
+              <h3 id="info-title">معلومات الحي</h3>
+              <div id="info-content"></div>
+            </div>
+            <div class="analysis-panel" id="analysis-panel">
+              <span class="close-btn" onclick="document.getElementById('analysis-panel').style.display = 'none';">&times;</span>
+              <h3>التحليل المكاني</h3>
+              <label for="analysis-field">نوع التحليل:</label>
+              <select id="analysis-field">
+                <option value="area">تحليل المساحة</option>
+                <option value="population">تحليل الكثافة السكانية</option>
+                <option value="damage">تحليل مستوى الضرر</option>
+                <option value="priority">تحليل أولوية التدخل</option>
+              </select>
+              <label for="analysis-method">طريقة التحليل:</label>
+              <select id="analysis-method">
+                <option value="equal">تقسيم متساوٍ</option>
+                <option value="quantile">تقسيم كميّ</option>
+                <option value="natural">فواصل طبيعية</option>
+              </select>
+              <label for="class-count">عدد الفئات:</label>
+              <input type="number" id="class-count" min="3" max="9" value="5">
+              <button id="run-analysis">تشغيل التحليل</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex-grid">
+      <div class="col-3">
+        <div class="stat-card">
+          <div class="stat-title">إجمالي عدد الأحياء</div>
+          <div class="stat-value" id="total-neighborhoods">0</div>
+          <div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-card">
+          <div class="stat-title">إجمالي المساحة</div>
+          <div class="stat-value" id="total-area">0 كم²</div>
+          <div class="stat-icon"><i class="fas fa-chart-area"></i></div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-card">
+          <div class="stat-title">متوسط المساحة</div>
+          <div class="stat-value" id="avg-area">0 كم²</div>
+          <div class="stat-icon"><i class="fas fa-calculator"></i></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex-grid">
+      <div class="col-2">
+        <div class="card">
+          <div class="card-title">توزيع الأحياء حسب القطاع</div>
+          <div class="chart-container">
+            <div id="sectors-chart-loading" class="loading-overlay">
+              <div class="loading-spinner"></div>
+              <div class="loading-text">جارِ تحليل البيانات...</div>
+            </div>
+            <canvas id="sectors-chart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="card">
+          <div class="card-title">توزيع المساحات</div>
+          <div class="chart-container">
+            <div id="areas-chart-loading" class="loading-overlay">
+              <div class="loading-spinner"></div>
+              <div class="loading-text">جارِ تحليل البيانات...</div>
+            </div>
+            <canvas id="areas-chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- قسم رؤى البيانات مع تأثيرات متحركة -->
+    <div class="flex-grid">
+      <div class="col-1">
+        <div class="card">
+          <div class="card-title">رؤى البيانات وتحليلات متقدمة</div>
+          <div class="flex-grid">
+            <div class="col-3">
+              <div id="insight-1" class="data-insight" style="transform: translateY(20px);">
+                <div class="stat-card">
+                  <div class="stat-title">الحي الأكبر مساحة</div>
+                  <div class="stat-value" id="largest-neighborhood">جارِ التحليل...</div>
+                  <p id="largest-neighborhood-area">المساحة: جارِ الحساب...</p>
+                  <div class="stat-icon"><i class="fas fa-expand"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div id="insight-2" class="data-insight" style="transform: translateY(20px);">
+                <div class="stat-card">
+                  <div class="stat-title">الحي الأكثر احتياجًا</div>
+                  <div class="stat-value" id="highest-priority">جارِ التحليل...</div>
+                  <p id="priority-level">مستوى الأولوية: جارِ الحساب...</p>
+                  <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div id="insight-3" class="data-insight" style="transform: translateY(20px);">
+                <div class="stat-card">
+                  <div class="stat-title">إحصاءات التوزيع</div>
+                  <p>متوسط مساحة الأحياء: <span id="avg-neighborhood-size">جارِ الحساب...</span></p>
+                  <p>القطاع الأكثر تضررًا: <span id="most-damaged-sector">جارِ التحليل...</span></p>
+                  <div class="stat-icon"><i class="fas fa-chart-pie"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex-grid">
+      <div class="col-1">
+        <div class="card">
+          <div class="card-title">قائمة الأحياء</div>
+          <div class="neighborhood-list" id="neighborhood-list">
+            <!-- سيتم ملء هذه القائمة بالبيانات من الـ JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <!-- Leaflet Draw JS -->
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+  
+  <!-- Leaflet MarkerCluster JS -->
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  
+  <!-- html2canvas for export functionality -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
+  <!-- بيانات الأحياء المحولة إلى مصفوفة -->
+  <script src="js/neighborhoods-data.js"></script>
+  
+  <!-- Aleppo Analysis JS -->
+  <script src="js/aleppo-analysis.js"></script>
+  
+  <script>
+    // تهيئة الخريطة
+    const map = L.map('map', {
+      center: [36.2021, 37.1343], // إحداثيات مدينة حلب
+      zoom: 12,
+      zoomControl: false
+    });
+    
+    // إضافة طبقة الخريطة الأساسية من OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    
+    // إضافة أزرار التحكم في الخريطة
+    document.getElementById('btn-zoom-in').addEventListener('click', () => {
+      map.zoomIn();
+    });
+    
+    document.getElementById('btn-zoom-out').addEventListener('click', () => {
+      map.zoomOut();
+    });
+    
+    document.getElementById('btn-reset-view').addEventListener('click', () => {
+      map.setView([36.2021, 37.1343], 12);
+    });
+    
+    document.getElementById('btn-toggle-analysis').addEventListener('click', () => {
+      document.getElementById('analysis-panel').style.display = document.getElementById('analysis-panel').style.display === 'none' ? 'block' : 'none';
+    });
+    
+    document.getElementById('btn-measure').addEventListener('click', () => {
+      // سيتم تنفيذ وظيفة القياس هنا
+      startMeasure();
+    });
+    
+    document.getElementById('btn-export').addEventListener('click', () => {
+      // تصدير الخريطة كصورة
+      exportMap();
+    });
+
+    // متغيرات لتخزين البيانات
+    let neighborhoodData = [];
+    let geojsonLayer = null;
+    let currentAnalysisLayer = null;
+    let measureControl = null;
+    let measureActive = false;
+    
+    // استخدام بيانات الأحياء المحولة إلى مصفوفة مباشرة بدلاً من تحميل ملف GeoJSON
+    document.addEventListener('DOMContentLoaded', function() {
+      // استخدام المتغير neighborhoodsData المحدد في ملف neighborhoods-data.js
+      neighborhoodData = neighborhoodsData;
+      
+      // تحليل البيانات وعرضها على الخريطة
+      processNeighborhoodData(neighborhoodData);
+      
+      // ملء المرشحات بالبيانات
+      fillFilters(neighborhoodData);
+      
+      // تحديث الإحصائيات
+      updateStatistics(neighborhoodData);
+      
+      // إنشاء رسوم بيانية
+      createCharts(neighborhoodData);
+      
+      // إنشاء قائمة الأحياء
+      createNeighborhoodList(neighborhoodData);
+    });
+    
+    // معالجة بيانات الأحياء وعرضها على الخريطة
+    function processNeighborhoodData(data) {
+      // إضافة طبقة GeoJSON للخريطة
+      geojsonLayer = L.geoJSON(data, {
+        style: function (feature) {
+          return {
+            fillColor: getRandomColor(),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+          };
+        },
+        onEachFeature: function (feature, layer) {
+          // إضافة معلومات النوافذ المنبثقة والتفاعلات
+          const popupContent = `
+            <div class="popup-header">
+              <h3 class="popup-title">${feature.properties.Names}</h3>
+            </div>
+            <div class="popup-body">
+              <div class="popup-stat">
+                <span>الاسم بالإنجليزية:</span>
+                <span>${feature.properties.Name_En}</span>
+              </div>
+              <div class="popup-stat">
+                <span>القطاع:</span>
+                <span>${feature.properties.Sector_01 || 'غير محدد'}</span>
+              </div>
+              <div class="popup-stat">
+                <span>المساحة:</span>
+                <span>${(feature.properties.Shape_Area / 1000000).toFixed(2)} كم²</span>
+              </div>
+              <div class="popup-stat">
+                <span>الرقم التعريفي:</span>
+                <span>${feature.properties.ID}</span>
+              </div>
+            </div>
+          `;
+          
+          layer.bindPopup(popupContent);
+          
+          layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: showNeighborhoodInfo
+          });
+        }
+      }).addTo(map);
+      
+      // تغيير حدود الخريطة لتشمل جميع الأحياء
+      map.fitBounds(geojsonLayer.getBounds());
+    }
+    
+    // وظيفة لإبراز المنطقة عند تمرير الماوس
+    function highlightFeature(e) {
+      const layer = e.target;
+      
+      layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+      });
+      
+      layer.bringToFront();
+    }
+    
+    // وظيفة لإعادة تعيين نمط المنطقة بعد إزالة الماوس
+    function resetHighlight(e) {
+      geojsonLayer.resetStyle(e.target);
+    }
+    
+    // وظيفة لعرض معلومات الحي عند النقر عليه
+    function showNeighborhoodInfo(e) {
+      const properties = e.target.feature.properties;
+      const infoPanel = document.getElementById('info-panel');
+      const infoTitle = document.getElementById('info-title');
+      const infoContent = document.getElementById('info-content');
+      
+      infoTitle.textContent = properties.Names;
+      
+      // حساب مساحة الحي بالكيلومتر المربع
+      const areaKm2 = (properties.Shape_Area / 1000000).toFixed(2);
+      
+      // إنشاء محتوى لوحة المعلومات
+      let content = `
+        <p><strong>الاسم بالإنجليزية:</strong> ${properties.Name_En}</p>
+        <p><strong>القطاع:</strong> ${properties.Sector_01 || 'غير محدد'}</p>
+        <p><strong>المساحة:</strong> ${areaKm2} كم²</p>
+        <p><strong>الرقم التعريفي:</strong> ${properties.ID}</p>
+      `;
+      
+      // إضافة معلومات مخصصة هنا
+      // على سبيل المثال، يمكننا إضافة معلومات الكثافة السكانية أو مستوى الضرر
+      // إذا كانت متوفرة في بيانات GeoJSON
+      
+      // إضافة محتوى مؤشر تقدم رمزي
+      content += `
+        <p><strong>مستوى الأضرار:</strong></p>
+        <div class="progress">
+          <div class="progress-bar progress-warning" style="width: 65%"></div>
+        </div>
+        <div class="progress-label">
+          <span>متوسط</span>
+          <span>65%</span>
+        </div>
+        
+        <p><strong>أولوية التدخل:</strong></p>
+        <div class="progress">
+          <div class="progress-bar progress-danger" style="width: 80%"></div>
+        </div>
+        <div class="progress-label">
+          <span>عالية</span>
+          <span>80%</span>
+        </div>
+      `;
+      
+      infoContent.innerHTML = content;
+      infoPanel.style.display = 'block';
+    }
+    
+    // ملء المرشحات بالبيانات
+    function fillFilters(data) {
+      const sectorFilter = document.getElementById('sector-filter');
+      
+      // جمع جميع القطاعات الفريدة
+      const sectors = new Set();
+      data.features.forEach(feature => {
+        if (feature.properties.Sector_01) {
+          sectors.add(feature.properties.Sector_01);
+        }
+      });
+      
+      // إضافة خيارات القطاعات إلى عنصر التحديد
+      sectors.forEach(sector => {
+        const option = document.createElement('option');
+        option.value = sector;
+        option.textContent = sector;
+        sectorFilter.appendChild(option);
+      });
+      
+      // إضافة مستمعي الأحداث للمرشحات
+      sectorFilter.addEventListener('change', filterNeighborhoods);
+      document.getElementById('analysis-type').addEventListener('change', updateAnalysis);
+      document.getElementById('search-input').addEventListener('input', filterNeighborhoods);
+    }
+    
+    // وظيفة لتصفية الأحياء بناءً على المرشحات
+    function filterNeighborhoods() {
+      const sectorValue = document.getElementById('sector-filter').value;
+      const searchValue = document.getElementById('search-input').value.trim().toLowerCase();
+      
+      // إعادة تعيين الطبقة GeoJSON
+      map.removeLayer(geojsonLayer);
+      
+      // إنشاء طبقة مرشحة جديدة
+      geojsonLayer = L.geoJSON(neighborhoodData, {
+        filter: function(feature) {
+          // تطبيق فلتر القطاع
+          const sectorMatch = sectorValue === 'all' || feature.properties.Sector_01 === sectorValue;
+          
+          // تطبيق فلتر البحث
+          const nameMatch = searchValue === '' || 
+                           feature.properties.Names.toLowerCase().includes(searchValue) ||
+                           (feature.properties.Name_En && feature.properties.Name_En.toLowerCase().includes(searchValue));
+          
+          return sectorMatch && nameMatch;
+        },
+        style: function (feature) {
+          return {
+            fillColor: getRandomColor(),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+          };
+        },
+        onEachFeature: function (feature, layer) {
+          // إعادة إضافة التفاعلات
+          const popupContent = `
+            <div class="popup-header">
+              <h3 class="popup-title">${feature.properties.Names}</h3>
+            </div>
+            <div class="popup-body">
+              <div class="popup-stat">
+                <span>الاسم بالإنجليزية:</span>
+                <span>${feature.properties.Name_En}</span>
+              </div>
+              <div class="popup-stat">
+                <span>القطاع:</span>
+                <span>${feature.properties.Sector_01 || 'غير محدد'}</span>
+              </div>
+              <div class="popup-stat">
+                <span>المساحة:</span>
+                <span>${(feature.properties.Shape_Area / 1000000).toFixed(2)} كم²</span>
+              </div>
+              <div class="popup-stat">
+                <span>الرقم التعريفي:</span>
+                <span>${feature.properties.ID}</span>
+              </div>
+            </div>
+          `;
+          
+          layer.bindPopup(popupContent);
+          
+          layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: showNeighborhoodInfo
+          });
+        }
+      }).addTo(map);
+      
+      // تحديث قائمة الأحياء
+      createNeighborhoodList(getFilteredFeatures());
+      
+      // تحديث الإحصائيات
+      updateStatistics(getFilteredFeatures());
+      
+      // تحديث الرسوم البيانية
+      createCharts(getFilteredFeatures());
+    }
+    
+    // الحصول على الميزات المرشحة الحالية
+    function getFilteredFeatures() {
+      const sectorValue = document.getElementById('sector-filter').value;
+      const searchValue = document.getElementById('search-input').value.trim().toLowerCase();
+      
+      return {
+        type: "FeatureCollection",
+        features: neighborhoodData.features.filter(feature => {
+          // تطبيق فلتر القطاع
+          const sectorMatch = sectorValue === 'all' || feature.properties.Sector_01 === sectorValue;
+          
+          // تطبيق فلتر البحث
+          const nameMatch = searchValue === '' || 
+                           feature.properties.Names.toLowerCase().includes(searchValue) ||
+                           (feature.properties.Name_En && feature.properties.Name_En.toLowerCase().includes(searchValue));
+          
+          return sectorMatch && nameMatch;
+        })
+      };
+    }
+    
+    // تحديث نوع التحليل على الخريطة
+    function updateAnalysis() {
+      const analysisType = document.getElementById('analysis-type').value;
+      
+      // إزالة الطبقة السابقة إذا كانت موجودة
+      if (currentAnalysisLayer) {
+        map.removeLayer(currentAnalysisLayer);
+      }
+      
+      // إذا تم اختيار "بدون تحليل"، إظهار الطبقة العادية فقط
+      if (analysisType === 'none') {
+        return;
+      }
+      
+      // تحديد طريقة التحليل والتصنيف
+      const analysisMethod = document.getElementById('analysis-method') ? 
+                             document.getElementById('analysis-method').value : 'equal';
+      const classCount = document.getElementById('class-count') ? 
+                         parseInt(document.getElementById('class-count').value) : 5;
+      
+      // الحصول على البيانات المرشحة
+      const filteredData = getFilteredFeatures();
+      
+      // تطبيق التحليل المكاني باستخدام وظيفة applySpatialAnalysis
+      const analyzedData = applySpatialAnalysis(filteredData, analysisType, analysisMethod, classCount);
+      
+      // إعداد طبقة التحليل الجديدة
+      currentAnalysisLayer = L.geoJSON(analyzedData, {
+        style: function (feature) {
+          return {
+            fillColor: feature.properties.analysisColor,
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+          };
+        },
+        onEachFeature: function (feature, layer) {
+          // إضافة معلومات النوافذ المنبثقة والتفاعلات
+          const popupContent = `
+            <div class="popup-header">
+              <h3 class="popup-title">${feature.properties.Names}</h3>
+            </div>
+            <div class="popup-body">
+              <div class="popup-stat">
+                <span>الاسم بالإنجليزية:</span>
+                <span>${feature.properties.Name_En}</span>
+              </div>
+              <div class="popup-stat">
+                <span>القطاع:</span>
+                <span>${feature.properties.Sector_01 || 'غير محدد'}</span>
+              </div>
+              <div class="popup-stat">
+                <span>المساحة:</span>
+                <span>${(feature.properties.Shape_Area / 1000000).toFixed(2)} كم²</span>
+              </div>
+              <div class="popup-stat">
+                <span>${getAnalysisLabel(analysisType)}:</span>
+                <span>${getAnalysisValue(feature, analysisType)}</span>
+              </div>
+            </div>
+          `;
+          
+          layer.bindPopup(popupContent);
+          
+          layer.on({
+            mouseover: function(e) {
+              const layer = e.target;
+              
+              layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+              });
+              
+              layer.bringToFront();
+            },
+            mouseout: function(e) {
+              currentAnalysisLayer.resetStyle(e.target);
+            },
+            click: showNeighborhoodInfo
+          });
+        }
+      }).addTo(map);
+      
+      // إضافة وسيلة إيضاح للخريطة باستخدام معلومات التحليل
+      if (analyzedData.analysisInfo) {
+        addLegendForAnalysis(analyzedData.analysisInfo);
+      } else {
+        addLegend(analysisType);
+      }
+    }
+    
+    // إضافة وسيلة إيضاح بناءً على معلومات التحليل
+    function addLegendForAnalysis(analysisInfo) {
+      // إزالة وسيلة الإيضاح الحالية إن وجدت
+      if (map.legend) {
+        map.removeControl(map.legend);
+      }
+      
+      // إنشاء وسيلة إيضاح جديدة
+      const legend = L.control({ position: 'bottomleft' });
+      
+      legend.onAdd = function (map) {
+        const div = L.DomUtil.create('div', 'legend');
+        div.innerHTML = `<h4>${getAnalysisLabel(analysisInfo.field)}</h4>`;
+        
+        // إنشاء عناصر وسيلة الإيضاح بناءً على الفواصل
+        for (let i = 0; i < analysisInfo.breaks.length - 1; i++) {
+          const rangeStart = analysisInfo.breaks[i].toFixed(2);
+          const rangeEnd = analysisInfo.breaks[i + 1].toFixed(2);
+          
+          div.innerHTML += `
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: ${analysisInfo.colorScale[i]}"></div>
+              <span>${rangeStart} - ${rangeEnd}</span>
+            </div>
+          `;
+        }
+        
+        return div;
+      };
+      
+      legend.addTo(map);
+      
+      // تخزين وسيلة الإيضاح في كائن الخريطة للإزالة لاحقًا
+      map.legend = legend;
+    }
+    
+    // الحصول على نمط عرض الحي بناءً على نوع التحليل
+    function getAnalysisStyle(feature, analysisType) {
+      switch (analysisType) {
+        case 'area':
+          // تحليل المساحة
+          const area = feature.properties.Shape_Area;
+          return {
+            fillColor: getColorForArea(area),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+          };
+        
+        case 'population':
+          // تحليل الكثافة السكانية (بيانات وهمية)
+          // في النظام الحقيقي، هذه البيانات ستأتي من GeoJSON أو مصدر بيانات آخر
+          const populationDensity = getSimulatedValue(feature.properties.ID, 1000, 10000);
+          return {
+            fillColor: getColorForPopulation(populationDensity),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+          };
+        
+        case 'damage':
+          // تحليل مستوى الضرر (بيانات وهمية)
+          const damageLevel = getSimulatedValue(feature.properties.ID, 0, 100);
+          return {
+            fillColor: getColorForDamage(damageLevel),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+          };
+        
+        case 'priority':
+          // تحليل أولوية التدخل (بيانات وهمية)
+          const priorityLevel = getSimulatedValue(feature.properties.ID, 1, 5);
+          return {
+            fillColor: getColorForPriority(priorityLevel),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+          };
+          
+        default:
+          return {
+            fillColor: getRandomColor(),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+          };
+      }
+    }
+    
+    // الحصول على قيمة التحليل
+    function getAnalysisValue(feature, analysisType) {
+      switch (analysisType) {
+        case 'area':
+          return (feature.properties.Shape_Area / 1000000).toFixed(2) + ' كم²';
+        
+        case 'population':
+          const populationDensity = getSimulatedValue(feature.properties.ID, 1000, 10000);
+          return populationDensity.toFixed(0) + ' نسمة/كم²';
+        
+        case 'damage':
+          const damageLevel = getSimulatedValue(feature.properties.ID, 0, 100);
+          return damageLevel.toFixed(0) + '%';
+        
+        case 'priority':
+          const priorityLevel = getSimulatedValue(feature.properties.ID, 1, 5);
+          const priorityLabels = ['منخفضة جداً', 'منخفضة', 'متوسطة', 'عالية', 'عالية جداً'];
+          return priorityLabels[Math.floor(priorityLevel) - 1];
+        
+        default:
+          return '';
+      }
+    }
+    
+    // الحصول على تسمية نوع التحليل
+    function getAnalysisLabel(analysisType) {
+      switch (analysisType) {
+        case 'area':
+          return 'المساحة';
+        case 'population':
+          return 'الكثافة السكانية';
+        case 'damage':
+          return 'مستوى الضرر';
+        case 'priority':
+          return 'أولوية التدخل';
+        default:
+          return 'القيمة';
+      }
+    }
+    
+    // إضافة وسيلة إيضاح للخريطة
+    function addLegend(analysisType) {
+      // إزالة وسيلة الإيضاح الحالية إن وجدت
+      if (map.legend) {
+        map.removeControl(map.legend);
+      }
+      
+      // إنشاء وسيلة إيضاح جديدة
+      const legend = L.control({ position: 'bottomleft' });
+      
+      legend.onAdd = function (map) {
+        const div = L.DomUtil.create('div', 'legend');
+        let labels = [];
+        
+        switch (analysisType) {
+          case 'area':
+            div.innerHTML = '<h4>المساحة (كم²)</h4>';
+            // تحديد نطاقات المساحة
+            const areaRanges = [0, 1, 2, 5, 10, 20];
+            for (let i = 0; i < areaRanges.length - 1; i++) {
+              labels.push(
+                `<div class="legend-item">
+                  <div class="legend-color" style="background-color: ${getColorForArea((areaRanges[i] + areaRanges[i+1]) * 500000)}"></div>
+                  <span>${areaRanges[i]} - ${areaRanges[i+1]}</span>
+                </div>`
+              );
+            }
+            labels.push(
+              `<div class="legend-item">
+                <div class="legend-color" style="background-color: ${getColorForArea(25000000)}"></div>
+                <span>> ${areaRanges[areaRanges.length - 1]}</span>
+              </div>`
+            );
+            break;
+          
+          case 'population':
+            div.innerHTML = '<h4>الكثافة السكانية (نسمة/كم²)</h4>';
+            const popRanges = [1000, 3000, 5000, 7000, 9000];
+            for (let i = 0; i < popRanges.length - 1; i++) {
+              labels.push(
+                `<div class="legend-item">
+                  <div class="legend-color" style="background-color: ${getColorForPopulation((popRanges[i] + popRanges[i+1]) / 2)}"></div>
+                  <span>${popRanges[i]} - ${popRanges[i+1]}</span>
+                </div>`
+              );
+            }
+            labels.push(
+              `<div class="legend-item">
+                <div class="legend-color" style="background-color: ${getColorForPopulation(10000)}"></div>
+                <span>> ${popRanges[popRanges.length - 1]}</span>
+              </div>`
+            );
+            break;
+          
+          case 'damage':
+            div.innerHTML = '<h4>مستوى الضرر (%)</h4>';
+            const damageRanges = [0, 20, 40, 60, 80, 100];
+            for (let i = 0; i < damageRanges.length - 1; i++) {
+              labels.push(
+                `<div class="legend-item">
+                  <div class="legend-color" style="background-color: ${getColorForDamage(damageRanges[i] + 1)}"></div>
+                  <span>${damageRanges[i]} - ${damageRanges[i+1]}</span>
+                </div>`
+              );
+            }
+            break;
+          
+          case 'priority':
+            div.innerHTML = '<h4>أولوية التدخل</h4>';
+            const priorityLabels = ['منخفضة جداً', 'منخفضة', 'متوسطة', 'عالية', 'عالية جداً'];
+            for (let i = 0; i < priorityLabels.length; i++) {
+              labels.push(
+                `<div class="legend-item">
+                  <div class="legend-color" style="background-color: ${getColorForPriority(i + 1)}"></div>
+                  <span>${priorityLabels[i]}</span>
+                </div>`
+              );
+            }
+            break;
+        }
+        
+        div.innerHTML += labels.join('');
+        return div;
+      };
+      
+      legend.addTo(map);
+      map.legend = legend;
+    }
+    
+    // تحديث الإحصائيات
+    function updateStatistics(data) {
+      // استخدام دالة حساب الإحصائيات الأساسية من ملف التحليل
+      const stats = calculateBasicStatistics(data);
+      
+      // عرض الإحصائيات في اللوحة
+      document.getElementById('total-neighborhoods').textContent = stats.count;
+      document.getElementById('total-area').textContent = stats.totalArea.toFixed(2) + ' كم²';
+      document.getElementById('avg-area').textContent = stats.avgArea.toFixed(2) + ' كم²';
+      
+      // عرض معلومات القطاعات إذا كان العنصر موجوداً
+      try {
+        document.getElementById('total-sectors').textContent = stats.sectorCount;
+      } catch (e) {
+        // العنصر غير موجود في واجهة المستخدم، تجاهل
+      }
+      
+      // تحديث بيانات الرؤى المتقدمة مع التأثيرات المتحركة بعد تأخير
+      setTimeout(() => updateInsights(data), 1500);
+    }
+    
+    // تحديث رؤى البيانات مع تأثيرات متحركة
+    function updateInsights(data) {
+      // العثور على الحي الأكبر مساحة
+      let largestNeighborhood = { properties: { Names: '', Shape_Area: 0 } };
+      
+      // العثور على الحي ذو الأولوية الأعلى (نحاكي هذا لأغراض العرض)
+      let highestPriorityNeighborhood = { properties: { Names: '', priority: 0 } };
+      
+      // حساب متوسط المساحة والعثور على القطاع الأكثر تضرراً
+      const sectors = {};
+      
+      data.features.forEach(feature => {
+        // العثور على الحي الأكبر مساحة
+        if (feature.properties.Shape_Area > largestNeighborhood.properties.Shape_Area) {
+          largestNeighborhood = feature;
+        }
+        
+        // محاكاة أولوية التدخل بناءً على المعرف (حتى تكون ثابتة بين التحميلات)
+        const featureId = parseInt(feature.properties.ID || '0');
+        const simulatedPriority = ((featureId * 13) % 100); // استخدام خوارزمية بسيطة لتوليد قيمة شبه عشوائية
+        
+        if (simulatedPriority > (highestPriorityNeighborhood.properties.priority || 0)) {
+          highestPriorityNeighborhood = feature;
+          highestPriorityNeighborhood.properties.priority = simulatedPriority;
+        }
+        
+        // تتبع عدد الأحياء في كل قطاع
+        if (feature.properties.Sector_01) {
+          sectors[feature.properties.Sector_01] = (sectors[feature.properties.Sector_01] || 0) + 1;
+        }
+      });
+      
+      // تحديد القطاع الأكثر تضرراً (نفترض أن القطاع بأكبر عدد من الأحياء هو الأكثر تضرراً)
+      let mostDamagedSector = '';
+      let maxNeighborhoods = 0;
+      
+      Object.keys(sectors).forEach(sector => {
+        if (sectors[sector] > maxNeighborhoods) {
+          mostDamagedSector = sector;
+          maxNeighborhoods = sectors[sector];
+        }
+      });
+      
+      // تحديث عناصر الصفحة مع رؤى البيانات
+      document.getElementById('largest-neighborhood').textContent = largestNeighborhood.properties.Names;
+      document.getElementById('largest-neighborhood-area').textContent = 
+        `المساحة: ${(largestNeighborhood.properties.Shape_Area / 1000000).toFixed(2)} كم²`;
+      
+      document.getElementById('highest-priority').textContent = highestPriorityNeighborhood.properties.Names;
+      document.getElementById('priority-level').textContent = 
+        `مستوى الأولوية: ${highestPriorityNeighborhood.properties.priority}%`;
+      
+      document.getElementById('avg-neighborhood-size').textContent = 
+        `${(data.features.reduce((sum, feature) => sum + (feature.properties.Shape_Area || 0), 0) / 
+          data.features.length / 1000000).toFixed(2)} كم²`;
+      
+      document.getElementById('most-damaged-sector').textContent = mostDamagedSector;
+      
+      // إضافة تأثيرات الظهور التدريجي للرؤى
+      animateInsights();
+    }
+    
+    // تحريك رؤى البيانات للظهور تدريجيًا
+    function animateInsights() {
+      const insights = document.querySelectorAll('.data-insight');
+      
+      insights.forEach((insight, index) => {
+        setTimeout(() => {
+          insight.classList.add('visible');
+          insight.style.transform = 'translateY(0)';
+          
+          // إضافة تأثير النبض للعنصر الأول فقط
+          if (index === 0) {
+            setTimeout(() => {
+              insight.querySelector('.stat-card').classList.add('pulse-animation');
+            }, 500);
+          }
+        }, 300 * (index + 1)); // ظهور متتابع للرؤى
+      });
+    }
+    
+    // إنشاء الرسوم البيانية
+    function createCharts(data) {
+      // إظهار مؤشرات التحميل
+      document.getElementById('sectors-chart-loading').style.display = 'flex';
+      document.getElementById('areas-chart-loading').style.display = 'flex';
+      
+      // إنشاء الرسوم البيانية بعد تأخير للتأثير البصري
+      setTimeout(() => {
+        createSectorsChart(data);
+        // إخفاء مؤشر تحميل مخطط القطاعات بعد الانتهاء
+        document.getElementById('sectors-chart-loading').style.display = 'none';
+        
+        setTimeout(() => {
+          createAreasChart(data);
+          // إخفاء مؤشر تحميل مخطط المساحات بعد الانتهاء
+          document.getElementById('areas-chart-loading').style.display = 'none';
+        }, 500);
+      }, 800);
+    }
+    
+    // إنشاء رسم بياني للقطاعات
+    function createSectorsChart(data) {
+      // استخدام وظيفة تحليل توزيع القطاعات من ملف التحليل
+      const sectorDistribution = analyzeSectorDistribution(data);
+      
+      // إعداد البيانات للرسم البياني
+      const labels = sectorDistribution.map(item => item.sector);
+      const values = sectorDistribution.map(item => item.count);
+      const colors = labels.map(() => getRandomColor());
+      
+      // إنشاء الرسم البياني
+      const sectorsCtx = document.getElementById('sectors-chart').getContext('2d');
+      
+      // تدمير الرسم البياني السابق إذا كان موجوداً
+      if (window.sectorsChart) {
+        window.sectorsChart.destroy();
+      }
+      
+      window.sectorsChart = new Chart(sectorsCtx, {
+        type: 'pie',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: values,
+            backgroundColor: colors,
+            borderColor: 'white',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                font: {
+                  family: 'Cairo'
+                }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const value = context.raw;
+                  const total = context.dataset.data.reduce((sum, val) => sum + val, 0);
+                  const percentage = Math.round((value / total) * 100);
+                  return `${context.label}: ${value} (${percentage}%)`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // إنشاء رسم بياني للمساحات
+    function createAreasChart(data) {
+      // استخدام وظيفة تحليل توزيع المساحة من ملف التحليل
+      const areaDistribution = analyzeAreaDistribution(data);
+      
+      // إعداد البيانات للرسم البياني
+      const labels = areaDistribution.map(item => item.range);
+      const values = areaDistribution.map(item => item.count);
+      
+      // إنشاء الرسم البياني
+      const areasCtx = document.getElementById('areas-chart').getContext('2d');
+      
+      // تدمير الرسم البياني السابق إذا كان موجوداً
+      if (window.areasChart) {
+        window.areasChart.destroy();
+      }
+      
+      window.areasChart = new Chart(areasCtx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'عدد الأحياء',
+            data: values,
+            backgroundColor: getColorScale(5),
+            borderColor: 'white',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+    }
+    
+    // إنشاء قائمة الأحياء
+    function createNeighborhoodList(data) {
+      const listContainer = document.getElementById('neighborhood-list');
+      listContainer.innerHTML = '';
+      
+      // ترتيب الأحياء أبجدياً
+      const sortedFeatures = [...data.features].sort((a, b) => {
+        return a.properties.Names.localeCompare(b.properties.Names);
+      });
+      
+      // إنشاء عناصر القائمة
+      sortedFeatures.forEach(feature => {
+        const listItem = document.createElement('div');
+        listItem.className = 'neighborhood-item';
+        
+        listItem.innerHTML = `
+          <span>${feature.properties.Names}</span>
+          <span>${feature.properties.Sector_01 || 'غير محدد'}</span>
+        `;
+        
+        // إضافة حدث النقر لتحريك الخريطة إلى الحي
+        listItem.addEventListener('click', () => {
+          // العثور على الطبقة المناسبة في geojsonLayer
+          let targetLayer = null;
+          geojsonLayer.eachLayer(layer => {
+            if (layer.feature.properties.ID === feature.properties.ID) {
+              targetLayer = layer;
+            }
+          });
+          
+          if (targetLayer) {
+            // تحريك الخريطة إلى الحي وإظهار النافذة المنبثقة
+            map.fitBounds(targetLayer.getBounds());
+            targetLayer.openPopup();
+          }
+        });
+        
+        listContainer.appendChild(listItem);
+      });
+    }
+    
+    // وظيفة بدء القياس
+    function startMeasure() {
+      if (measureActive) {
+        // إزالة أدوات القياس إذا كانت نشطة
+        if (measureControl) {
+          map.removeControl(measureControl);
+          measureControl = null;
+        }
+        
+        measureActive = false;
+        document.getElementById('btn-measure').innerHTML = '<i class="fas fa-ruler"></i> قياس';
+      } else {
+        // إضافة أدوات القياس
+        measureControl = new L.Control.Draw({
+          position: 'topright',
+          draw: {
+            polyline: {
+              shapeOptions: {
+                color: '#3388ff',
+                weight: 5
+              },
+              metric: true,
+              showLength: true
+            },
+            polygon: {
+              shapeOptions: {
+                color: '#3388ff'
+              },
+              metric: true,
+              showArea: true
+            },
+            circle: false,
+            marker: false,
+            rectangle: false
+          }
+        });
+        
+        map.addControl(measureControl);
+        
+        // إضافة طبقة للرسومات
+        if (!window.drawnItems) {
+          window.drawnItems = new L.FeatureGroup();
+          map.addLayer(window.drawnItems);
+        }
+        
+        // مستمع حدث إنشاء القياس
+        map.on('draw:created', function (e) {
+          const layer = e.layer;
+          
+          // إضافة القياس للطبقة
+          window.drawnItems.addLayer(layer);
+          
+          // عرض المعلومات بناءً على نوع الرسم
+          let measurementInfo = '';
+          
+          if (e.layerType === 'polyline') {
+            // حساب المسافة بالكيلومتر
+            const lengthMeters = calculatePolylineLength(layer);
+            measurementInfo = `المسافة: ${(lengthMeters / 1000).toFixed(2)} كم`;
+          } else if (e.layerType === 'polygon') {
+            // حساب المساحة بالكيلومتر المربع
+            const areaMeters = calculatePolygonArea(layer);
+            measurementInfo = `المساحة: ${(areaMeters / 1000000).toFixed(2)} كم²`;
+          }
+          
+          // إضافة نافذة منبثقة بمعلومات القياس
+          layer.bindPopup(measurementInfo).openPopup();
+        });
+        
+        measureActive = true;
+        document.getElementById('btn-measure').innerHTML = '<i class="fas fa-times"></i> إلغاء القياس';
+      }
+    }
+    
+    // حساب طول خط مضلع
+    function calculatePolylineLength(layer) {
+      const latLngs = layer.getLatLngs();
+      let length = 0;
+      
+      for (let i = 1; i < latLngs.length; i++) {
+        length += latLngs[i-1].distanceTo(latLngs[i]);
+      }
+      
+      return length;
+    }
+    
+    // حساب مساحة مضلع
+    function calculatePolygonArea(layer) {
+      return L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]);
+    }
+    
+    // تصدير الخريطة كصورة
+    function exportMap() {
+      html2canvas(document.getElementById('map')).then(canvas => {
+        // إنشاء رابط تنزيل
+        const link = document.createElement('a');
+        link.download = 'aleppo-neighborhoods-map.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+    
+    // وظائف مساعدة
+    
+    // الحصول على لون عشوائي
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+    
+    // الحصول على مجموعة من الألوان المتدرجة
+    function getColorScale(steps) {
+      return generateColorScale('#3b82f6', steps);
+    }
+    
+    // الحصول على لون بناءً على المساحة
+    function getColorForArea(area) {
+      // تحويل المساحة إلى كيلومتر مربع
+      const areaKm2 = area / 1000000;
+      
+      // استخدام مقياس الألوان من ملف التحليل
+      const colorScale = getDefaultColorScale('area');
+      
+      return areaKm2 > 20 ? colorScale[4] :
+             areaKm2 > 10 ? colorScale[4] :
+             areaKm2 > 5  ? colorScale[3] :
+             areaKm2 > 2  ? colorScale[2] :
+             areaKm2 > 1  ? colorScale[1] :
+                         colorScale[0];
+    }
+    
+    // الحصول على لون بناءً على الكثافة السكانية
+    function getColorForPopulation(density) {
+      // استخدام مقياس الألوان من ملف التحليل
+      const colorScale = getDefaultColorScale('population');
+      
+      return density > 9000 ? colorScale[4] :
+             density > 7000 ? colorScale[4] :
+             density > 5000 ? colorScale[3] :
+             density > 3000 ? colorScale[2] :
+             density > 1000 ? colorScale[1] :
+                         colorScale[0];
+    }
+    
+    // الحصول على لون بناءً على مستوى الضرر
+    function getColorForDamage(damage) {
+      // استخدام مقياس الألوان من ملف التحليل
+      const colorScale = getDefaultColorScale('damage');
+      
+      return damage > 80 ? colorScale[4] :
+             damage > 60 ? colorScale[3] :
+             damage > 40 ? colorScale[2] :
+             damage > 20 ? colorScale[1] :
+                        colorScale[0];
+    }
+    
+    // الحصول على لون بناءً على أولوية التدخل
+    function getColorForPriority(priority) {
+      // استخدام مقياس الألوان من ملف التحليل
+      const colorScale = getDefaultColorScale('priority');
+      
+      switch (Math.floor(priority)) {
+        case 1: return colorScale[0]; // منخفضة جداً
+        case 2: return colorScale[1]; // منخفضة
+        case 3: return colorScale[2]; // متوسطة 
+        case 4: return colorScale[3]; // عالية
+        case 5: return colorScale[4]; // عالية جداً
+        default: return '#9e9e9e'; // غير معروف - رمادي
+      }
+    }
+
+    // إضافة مستمع لزر التحليل
+    document.getElementById('run-analysis').addEventListener('click', function() {
+      const analysisField = document.getElementById('analysis-field').value;
+      const analysisMethod = document.getElementById('analysis-method').value;
+      const classCount = parseInt(document.getElementById('class-count').value);
+      
+      // تعيين نوع التحليل في القائمة الرئيسية
+      document.getElementById('analysis-type').value = analysisField;
+      
+      // تحديث التحليل
+      updateAnalysis();
+      
+      // إخفاء لوحة التحليل
+      document.getElementById('analysis-panel').style.display = 'none';
+    });
+    
+    // إضافة مستمع حدث لزر التقارير
+    document.getElementById('btn-reports').addEventListener('click', showReportsPanel);
+    
+    // عرض نافذة التقارير
+    function showReportsPanel() {
+      document.getElementById('reports-panel').style.display = 'block';
+      document.getElementById('modal-backdrop').style.display = 'block';
+    }
+    
+    // إخفاء نافذة التقارير
+    function hideReportsPanel() {
+      document.getElementById('reports-panel').style.display = 'none';
+      document.getElementById('modal-backdrop').style.display = 'none';
+    }
+    
+    // تحديد تنسيق التقرير
+    function selectReportFormat(format) {
+      const formatOptions = document.querySelectorAll('.report-format-option');
+      formatOptions.forEach(option => {
+        option.classList.remove('selected');
+      });
+      
+      document.getElementById('format-' + format).classList.add('selected');
+      document.getElementById('selected-format').value = format;
+    }
+    
+    // إنشاء تقرير مخصص
+    function generateCustomReport() {
+      const reportFormat = document.getElementById('selected-format').value;
+      const reportTitle = document.getElementById('report-title').value || 'تقرير أحياء حلب';
+      
+      // الحصول على خيارات البيانات المحددة
+      const includeMap = document.getElementById('include-map').checked;
+      const includeStats = document.getElementById('include-stats').checked;
+      const includeCharts = document.getElementById('include-charts').checked;
+      const includeNeighborhoods = document.getElementById('include-neighborhoods').checked;
+      
+      // إظهار حالة التحميل
+      const loadingEl = document.createElement('div');
+      loadingEl.className = 'loading-overlay';
+      loadingEl.style.zIndex = '3000';
+      loadingEl.innerHTML = `
+        <div class="loading-spinner"></div>
+        <div class="loading-text">جارِ إنشاء التقرير...</div>
+      `;
+      document.body.appendChild(loadingEl);
+      
+      setTimeout(() => {
+        // المحتوى الفعلي للتقرير سوف يختلف حسب التنسيق
+        if (reportFormat === 'pdf') {
+          exportAsPDF(reportTitle, includeMap, includeStats, includeCharts, includeNeighborhoods);
+        } else if (reportFormat === 'excel') {
+          exportAsExcel(reportTitle, includeStats, includeNeighborhoods);
+        } else if (reportFormat === 'image') {
+          exportAsImage(reportTitle, includeMap, includeStats, includeCharts);
+        }
+        
+        // إزالة حالة التحميل
+        document.body.removeChild(loadingEl);
+        
+        // إخفاء نافذة التقارير
+        hideReportsPanel();
+      }, 1500);
+    }
+    
+    // تصدير كـ PDF
+    function exportAsPDF(title, includeMap, includeStats, includeCharts, includeNeighborhoods) {
+      alert('تم إنشاء تقرير PDF بنجاح: ' + title);
+      // هنا يتم تنفيذ التصدير الفعلي إلى PDF
+      // يمكن استخدام مكتبات مثل jsPDF للتصدير إلى PDF
+    }
+    
+    // تصدير كـ Excel
+    function exportAsExcel(title, includeStats, includeNeighborhoods) {
+      // تحضير البيانات للتصدير
+      const data = [];
+      
+      // إضافة الإحصائيات إذا تم تحديدها
+      if (includeStats) {
+        data.push(['إجمالي عدد الأحياء', document.getElementById('total-neighborhoods').textContent]);
+        data.push(['إجمالي المساحة', document.getElementById('total-area').textContent]);
+        data.push(['متوسط المساحة', document.getElementById('avg-area').textContent]);
+      }
+      
+      // إضافة بيانات الأحياء إذا تم تحديدها
+      if (includeNeighborhoods) {
+        data.push(['', '']); // سطر فارغ
+        data.push(['اسم الحي', 'القطاع', 'المساحة (كم²)']);
+        
+        neighborhoodData.features.forEach(feature => {
+          data.push([
+            feature.properties.Names,
+            feature.properties.Sector_01 || 'غير محدد',
+            (feature.properties.Shape_Area / 1000000).toFixed(2)
+          ]);
+        });
+      }
+      
+      alert('تم إنشاء ملف Excel بنجاح: ' + title);
+      // في التطبيق الفعلي، يمكن استخدام مكتبات مثل xlsx لتصدير البيانات إلى Excel
+    }
+    
+    // تصدير كصورة
+    function exportAsImage(title, includeMap, includeStats, includeCharts) {
+      if (includeMap) {
+        html2canvas(document.getElementById('map')).then(canvas => {
+          const link = document.createElement('a');
+          link.download = title + '-map.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+      }
+      
+      if (includeCharts) {
+        // تصدير الرسوم البيانية كصور
+        html2canvas(document.querySelector('.chart-container')).then(canvas => {
+          const link = document.createElement('a');
+          link.download = title + '-charts.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+      }
+      
+      alert('تم تصدير الصور بنجاح!');
+    }
+  </script>
+  
+  <!-- نافذة التقارير المخصصة -->
+  <div id="modal-backdrop" class="modal-backdrop" onclick="hideReportsPanel()"></div>
+  <div id="reports-panel" class="reports-panel">
+    <span class="close-btn" onclick="hideReportsPanel()">&times;</span>
+    <h3>إنشاء تقرير مخصص</h3>
+    
+    <div class="report-options">
+      <label for="report-title">عنوان التقرير:</label>
+      <input type="text" id="report-title" placeholder="تقرير أحياء حلب">
+      
+      <label>تنسيق التقرير:</label>
+      <div class="report-format-options">
+        <div id="format-pdf" class="report-format-option selected" onclick="selectReportFormat('pdf')">
+          <i class="fas fa-file-pdf"></i>
+          PDF
+        </div>
+        <div id="format-excel" class="report-format-option" onclick="selectReportFormat('excel')">
+          <i class="fas fa-file-excel"></i>
+          Excel
+        </div>
+        <div id="format-image" class="report-format-option" onclick="selectReportFormat('image')">
+          <i class="fas fa-file-image"></i>
+          صورة
+        </div>
+      </div>
+      <input type="hidden" id="selected-format" value="pdf">
+      
+      <label>محتويات التقرير:</label>
+      <div class="checkbox-group">
+        <div class="checkbox-option">
+          <input type="checkbox" id="include-map" checked>
+          <label for="include-map">تضمين الخريطة</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="include-stats" checked>
+          <label for="include-stats">تضمين الإحصائيات</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="include-charts" checked>
+          <label for="include-charts">تضمين الرسوم البيانية</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="include-neighborhoods" checked>
+          <label for="include-neighborhoods">تضمين قائمة الأحياء</label>
+        </div>
+      </div>
+      
+      <button onclick="generateCustomReport()">إنشاء التقرير</button>
+    </div>
+  </div>
+</body>
+
+</html>

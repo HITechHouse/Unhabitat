@@ -1,0 +1,2532 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليل بيانات الأحياء</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Cairo (Arabic) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Leaflet Draw CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+    
+    <!-- Leaflet MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    
+    <!-- Chart.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --primary-light: #3b82f6;
+            --primary-dark: #1e3a8a;
+            --secondary-color: #10b981;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --text-color: #1f2937;
+            --light-bg: #f9fafb;
+            --border-color: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+        
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .logo img, .logo svg {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+        
+        .tab-container::-webkit-scrollbar {
+            height: 5px;
+        }
+        
+        .tab-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .tab-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .tab:hover {
+            background-color: #f9fafb;
+            color: var(--primary-color);
+        }
+        
+        .tab.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .flex-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .col-1 {
+            width: 100%;
+        }
+        
+        .col-2 {
+            width: calc(50% - 10px);
+        }
+        
+        .col-3 {
+            width: calc(33.333% - 14px);
+        }
+        
+        .col-4 {
+            width: calc(25% - 15px);
+        }
+        
+        @media (max-width: 992px) {
+            .col-2, .col-3, .col-4 {
+                width: 100%;
+            }
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-title {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .stat-icon {
+            align-self: flex-end;
+            font-size: 2.5rem;
+            color: rgba(59, 130, 246, 0.1);
+            margin-top: auto;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 5px;
+        }
+        
+        .status-good {
+            background-color: var(--success-color);
+        }
+        
+        .status-medium {
+            background-color: var(--warning-color);
+        }
+        
+        .status-bad {
+            background-color: var(--danger-color);
+        }
+        
+        .progress {
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+        }
+        
+        .progress-success {
+            background-color: var(--success-color);
+        }
+        
+        .progress-warning {
+            background-color: var(--warning-color);
+        }
+        
+        .progress-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .progress-info {
+            background-color: var(--info-color);
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--text-color);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: #f3f4f6;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        tr:hover {
+            background-color: #f0f4f8;
+        }
+        
+        .priority-high {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .priority-medium {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .priority-low {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: white;
+            font-family: 'Cairo', sans-serif;
+            min-width: 150px;
+        }
+        
+        .search-input {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            width: 100%;
+            max-width: 300px;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+        
+        .badge-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+        
+        .badge-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+        
+        .badge-info {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        
+        /* Map container */
+        .map-container {
+            height: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Leaflet popup customization */
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .leaflet-popup-content {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .popup-content {
+            padding: 15px;
+        }
+        
+        .popup-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+        }
+        
+        .popup-title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .popup-body {
+            padding: 15px;
+        }
+        
+        .popup-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .popup-label {
+            font-weight: 500;
+        }
+        
+        .popup-value {
+            font-weight: 600;
+        }
+        
+        .legend {
+            background-color: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+        
+        .legend-label {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="../pages/" class="logo">
+                <svg width="40" height="40" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="256" height="256" rx="100" fill="#E6F2FF"/>
+                    <path d="M128 48C81.6 48 48 81.6 48 128C48 174.4 81.6 208 128 208C174.4 208 208 174.4 208 128C208 81.6 174.4 48 128 48ZM180 136H136V180H120V136H76V120H120V76H136V120H180V136Z" fill="#1e40af"/>
+                </svg>
+                <span class="logo-text">تحليل بيانات الأحياء</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Tabs -->
+        <div class="tab-container">
+            <div class="tab active" data-tab="overview">نظرة عامة</div>
+            <div class="tab" data-tab="infrastructure">البنية التحتية</div>
+            <div class="tab" data-tab="services">الخدمات الأساسية</div>
+            <div class="tab" data-tab="housing">الإسكان والعمران</div>
+            <div class="tab" data-tab="population">السكان والتغيرات الديموغرافية</div>
+            <div class="tab" data-tab="humanitarian">التدخلات الإنسانية</div>
+            <div class="tab" data-tab="additional-tables">جداول إضافية</div>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div class="tab-content active" id="overview">
+            <h2 class="section-title">ملخص حالة الأحياء</h2>
+            
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label class="filter-label">المدينة:</label>
+                    <select class="filter-select" id="city-filter">
+                        <option value="">الكل</option>
+                        <option value="city1">المدينة 1</option>
+                        <option value="city2">المدينة 2</option>
+                        <option value="city3">المدينة 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">الحي:</label>
+                    <select class="filter-select" id="neighborhood-filter">
+                        <option value="">الكل</option>
+                        <option value="neighborhood1">الحي 1</option>
+                        <option value="neighborhood2">الحي 2</option>
+                        <option value="neighborhood3">الحي 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <input type="text" class="search-input" placeholder="بحث...">
+                </div>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="flex-grid">
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">عدد الأحياء</div>
+                        <div class="stat-value">48</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">إجمالي السكان</div>
+                        <div class="stat-value">345,678</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">الوحدات السكنية</div>
+                        <div class="stat-value">78,450</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">أولوية التدخل العالية</div>
+                        <div class="stat-value">18</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row -->
+            <div class="flex-grid">
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">توزيع حالة البنية التحتية</div>
+                        <div class="chart-container">
+                            <canvas id="infrastructure-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">توزيع أولويات التدخل</div>
+                        <div class="chart-container">
+                            <canvas id="priority-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Neighborhoods Table -->
+            <div class="card">
+                <div class="card-title">قائمة الأحياء</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>المدينة</th>
+                                <th>عدد السكان</th>
+                                <th>حالة البنية التحتية</th>
+                                <th>حالة الإسكان</th>
+                                <th>أولوية التدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>الحي 1</td>
+                                <td>المدينة 1</td>
+                                <td>12,450</td>
+                                <td><span class="status-indicator status-good"></span> جيدة</td>
+                                <td><span class="status-indicator status-medium"></span> متوسطة</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 2</td>
+                                <td>المدينة 1</td>
+                                <td>8,320</td>
+                                <td><span class="status-indicator status-bad"></span> سيئة</td>
+                                <td><span class="status-indicator status-bad"></span> سيئة</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 3</td>
+                                <td>المدينة 2</td>
+                                <td>15,780</td>
+                                <td><span class="status-indicator status-good"></span> جيدة</td>
+                                <td><span class="status-indicator status-good"></span> جيدة</td>
+                                <td><span class="priority-low">منخفضة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 4</td>
+                                <td>المدينة 2</td>
+                                <td>9,650</td>
+                                <td><span class="status-indicator status-medium"></span> متوسطة</td>
+                                <td><span class="status-indicator status-medium"></span> متوسطة</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 5</td>
+                                <td>المدينة 3</td>
+                                <td>18,900</td>
+                                <td><span class="status-indicator status-bad"></span> سيئة</td>
+                                <td><span class="status-indicator status-medium"></span> متوسطة</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Infrastructure Tab -->
+        <div class="tab-content" id="infrastructure">
+            <h2 class="section-title">البنية التحتية</h2>
+            
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label class="filter-label">المدينة:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="city1">المدينة 1</option>
+                        <option value="city2">المدينة 2</option>
+                        <option value="city3">المدينة 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">الحي:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="neighborhood1">الحي 1</option>
+                        <option value="neighborhood2">الحي 2</option>
+                        <option value="neighborhood3">الحي 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">نوع البنية التحتية:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="water">شبكة المياه</option>
+                        <option value="wastewater">شبكة الصرف الصحي</option>
+                        <option value="electricity">شبكة الكهرباء</option>
+                        <option value="communications">شبكة الاتصالات</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Infrastructure Summary Cards -->
+            <div class="flex-grid">
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">شبكة المياه</div>
+                        <div class="stat-value">63%</div>
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar progress-warning" style="width: 63%"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>نسبة التشغيل</span>
+                                <span>63%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">شبكة الصرف الصحي</div>
+                        <div class="stat-value">48%</div>
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar progress-danger" style="width: 48%"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>نسبة التشغيل</span>
+                                <span>48%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">شبكة الكهرباء</div>
+                        <div class="stat-value">75%</div>
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar progress-success" style="width: 75%"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>نسبة التشغيل</span>
+                                <span>75%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">شبكة الاتصالات</div>
+                        <div class="stat-value">58%</div>
+                        <div>
+                            <div class="progress">
+                                <div class="progress-bar progress-warning" style="width: 58%"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>نسبة التشغيل</span>
+                                <span>58%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Infrastructure Charts -->
+            <div class="flex-grid">
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">نسبة الأضرار في شبكات البنية التحتية</div>
+                        <div class="chart-container">
+                            <canvas id="infrastructure-damage-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">نسبة تشغيل شبكات البنية التحتية</div>
+                        <div class="chart-container">
+                            <canvas id="infrastructure-operation-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Water Network Table -->
+            <div class="card">
+                <div class="card-title">حالة شبكة المياه</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>متصل بالشبكة</th>
+                                <th>حالة الشبكة الرئيسية</th>
+                                <th>حالة الشبكة الفرعية</th>
+                                <th>نسبة الأضرار</th>
+                                <th>نسبة التشغيل</th>
+                                <th>أولوية التدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>الحي 1</td>
+                                <td>نعم</td>
+                                <td>متوسطة</td>
+                                <td>جيدة</td>
+                                <td>25%</td>
+                                <td>75%</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 2</td>
+                                <td>نعم</td>
+                                <td>سيئة</td>
+                                <td>سيئة</td>
+                                <td>65%</td>
+                                <td>35%</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 3</td>
+                                <td>نعم</td>
+                                <td>جيدة</td>
+                                <td>جيدة</td>
+                                <td>15%</td>
+                                <td>85%</td>
+                                <td><span class="priority-low">منخفضة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 4</td>
+                                <td>نعم</td>
+                                <td>متوسطة</td>
+                                <td>سيئة</td>
+                                <td>45%</td>
+                                <td>55%</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 5</td>
+                                <td>لا</td>
+                                <td>سيئة</td>
+                                <td>سيئة</td>
+                                <td>80%</td>
+                                <td>20%</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Services Tab -->
+        <div class="tab-content" id="services">
+            <h2 class="section-title">الخدمات الأساسية</h2>
+            
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label class="filter-label">المدينة:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="city1">المدينة 1</option>
+                        <option value="city2">المدينة 2</option>
+                        <option value="city3">المدينة 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">الحي:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="neighborhood1">الحي 1</option>
+                        <option value="neighborhood2">الحي 2</option>
+                        <option value="neighborhood3">الحي 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">نوع الخدمة:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="health">الصحة</option>
+                        <option value="education">التعليم</option>
+                        <option value="markets">الأسواق</option>
+                        <option value="waste">إدارة النفايات</option>
+                        <option value="gardens">الحدائق</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Services Summary Cards -->
+            <div class="flex-grid">
+                <div class="col-3">
+                    <div class="stat-card">
+                        <div class="stat-title">المراكز الصحية</div>
+                        <div class="stat-value">42</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-warning" style="width: 65%"></div>
+                        </div>
+                        <div class="progress-label">
+                            <span>نسبة التشغيل</span>
+                            <span>65%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="stat-card">
+                        <div class="stat-title">المرافق التعليمية</div>
+                        <div class="stat-value">78</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-warning" style="width: 58%"></div>
+                        </div>
+                        <div class="progress-label">
+                            <span>نسبة التشغيل</span>
+                            <span>58%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="stat-card">
+                        <div class="stat-title">الأسواق الأساسية</div>
+                        <div class="stat-value">25</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-success" style="width: 75%"></div>
+                        </div>
+                        <div class="progress-label">
+                            <span>نسبة التشغيل</span>
+                            <span>75%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex-grid">
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">توزيع حالة المراكز الصحية</div>
+                        <div class="chart-container">
+                            <canvas id="health-status-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">توزيع حالة المرافق التعليمية</div>
+                        <div class="chart-container">
+                            <canvas id="education-status-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Health Centers Table -->
+            <div class="card">
+                <div class="card-title">حالة المراكز الصحية</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>اسم المركز</th>
+                                <th>منطقة الخدمة</th>
+                                <th>حالة البنية التحتية</th>
+                                <th>حالة الكادر</th>
+                                <th>حالة المستهلكات</th>
+                                <th>حالة التشغيل</th>
+                                <th>أولوية التدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>الحي 1</td>
+                                <td>مركز صحي 1</td>
+                                <td>وسط المدينة</td>
+                                <td><span class="badge badge-warning">متوسطة</span></td>
+                                <td><span class="badge badge-success">جيدة</span></td>
+                                <td><span class="badge badge-warning">متوسطة</span></td>
+                                <td><span class="badge badge-success">يعمل</span></td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 2</td>
+                                <td>مركز صحي 2</td>
+                                <td>شرق المدينة</td>
+                                <td><span class="badge badge-danger">سيئة</span></td>
+                                <td><span class="badge badge-warning">متوسطة</span></td>
+                                <td><span class="badge badge-danger">سيئة</span></td>
+                                <td><span class="badge badge-danger">متوقف</span></td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 3</td>
+                                <td>مركز صحي 3</td>
+                                <td>غرب المدينة</td>
+                                <td><span class="badge badge-success">جيدة</span></td>
+                                <td><span class="badge badge-success">جيدة</span></td>
+                                <td><span class="badge badge-success">جيدة</span></td>
+                                <td><span class="badge badge-success">يعمل</span></td>
+                                <td><span class="priority-low">منخفضة</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Housing Tab -->
+        <div class="tab-content" id="housing">
+            <h2 class="section-title">الإسكان والعمران</h2>
+            
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label class="filter-label">المدينة:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="city1">المدينة 1</option>
+                        <option value="city2">المدينة 2</option>
+                        <option value="city3">المدينة 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">الحي:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="neighborhood1">الحي 1</option>
+                        <option value="neighborhood2">الحي 2</option>
+                        <option value="neighborhood3">الحي 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">مستوى الضرر:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="severe">شديد</option>
+                        <option value="medium">متوسط</option>
+                        <option value="light">خفيف</option>
+                        <option value="none">لا يوجد</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Housing Summary Cards -->
+            <div class="flex-grid">
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">إجمالي الوحدات السكنية</div>
+                        <div class="stat-value">78,450</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">نسبة الوحدات الشاغرة</div>
+                        <div class="stat-value">18%</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-info" style="width: 18%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">نسبة الوحدات المتضررة</div>
+                        <div class="stat-value">42%</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-warning" style="width: 42%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-card">
+                        <div class="stat-title">أولوية التدخل العالية</div>
+                        <div class="stat-value">15</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Housing Charts -->
+            <div class="flex-grid">
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">توزيع مستوى الضرر في الوحدات السكنية</div>
+                        <div class="chart-container">
+                            <canvas id="housing-damage-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">توزيع أنواع المساكن</div>
+                        <div class="chart-container">
+                            <canvas id="housing-type-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Housing Damage Table -->
+            <div class="card">
+                <div class="card-title">حالة الأضرار في الوحدات السكنية</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>إجمالي الوحدات</th>
+                                <th>نسبة الوحدات الشاغرة</th>
+                                <th>نوع الملكية</th>
+                                <th>نسبة الضرر الشديد</th>
+                                <th>نسبة الضرر المتوسط</th>
+                                <th>نسبة الضرر الخفيف</th>
+                                <th>نسبة عدم الضرر</th>
+                                <th>أولوية التدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>الحي 1</td>
+                                <td>3,250</td>
+                                <td>15%</td>
+                                <td>خاص</td>
+                                <td>20%</td>
+                                <td>30%</td>
+                                <td>25%</td>
+                                <td>25%</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 2</td>
+                                <td>4,850</td>
+                                <td>25%</td>
+                                <td>مختلط</td>
+                                <td>45%</td>
+                                <td>30%</td>
+                                <td>15%</td>
+                                <td>10%</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 3</td>
+                                <td>2,780</td>
+                                <td>10%</td>
+                                <td>خاص</td>
+                                <td>5%</td>
+                                <td>15%</td>
+                                <td>30%</td>
+                                <td>50%</td>
+                                <td><span class="priority-low">منخفضة</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Population Tab -->
+        <div class="tab-content" id="population">
+            <h2 class="section-title">السكان والتغيرات الديموغرافية</h2>
+            
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label class="filter-label">المدينة:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="city1">المدينة 1</option>
+                        <option value="city2">المدينة 2</option>
+                        <option value="city3">المدينة 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">الحي:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="neighborhood1">الحي 1</option>
+                        <option value="neighborhood2">الحي 2</option>
+                        <option value="neighborhood3">الحي 3</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Population Summary Cards -->
+            <div class="flex-grid">
+                <div class="col-3">
+                    <div class="stat-card">
+                        <div class="stat-title">إجمالي السكان</div>
+                        <div class="stat-value">345,678</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="stat-card">
+                        <div class="stat-title">نسبة النازحين</div>
+                        <div class="stat-value">28%</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-info" style="width: 28%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="stat-card">
+                        <div class="stat-title">نسبة العائدين</div>
+                        <div class="stat-value">15%</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-success" style="width: 15%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Population Charts -->
+            <div class="flex-grid">
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">توزيع السكان حسب الأحياء</div>
+                        <div class="chart-container">
+                            <canvas id="population-by-neighborhood-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">توزيع الاحتياجات الإنسانية</div>
+                        <div class="chart-container">
+                            <canvas id="human-needs-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Population Changes Table -->
+            <div class="card">
+                <div class="card-title">التغيرات السكانية</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>عدد السكان</th>
+                                <th>نسبة النازحين</th>
+                                <th>نسبة العائدين</th>
+                                <th>الاحتياجات الإنسانية</th>
+                                <th>أولوية التدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>الحي 1</td>
+                                <td>12,450</td>
+                                <td>25%</td>
+                                <td>15%</td>
+                                <td>متوسطة</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 2</td>
+                                <td>8,320</td>
+                                <td>45%</td>
+                                <td>5%</td>
+                                <td>عالية</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 3</td>
+                                <td>15,780</td>
+                                <td>10%</td>
+                                <td>25%</td>
+                                <td>منخفضة</td>
+                                <td><span class="priority-low">منخفضة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 4</td>
+                                <td>9,650</td>
+                                <td>30%</td>
+                                <td>10%</td>
+                                <td>متوسطة</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 5</td>
+                                <td>18,900</td>
+                                <td>35%</td>
+                                <td>5%</td>
+                                <td>عالية</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Humanitarian Tab -->
+        <div class="tab-content" id="humanitarian">
+            <h2 class="section-title">التدخلات الإنسانية</h2>
+            
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label class="filter-label">المدينة:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="city1">المدينة 1</option>
+                        <option value="city2">المدينة 2</option>
+                        <option value="city3">المدينة 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">الحي:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="neighborhood1">الحي 1</option>
+                        <option value="neighborhood2">الحي 2</option>
+                        <option value="neighborhood3">الحي 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">نوع التدخل:</label>
+                    <select class="filter-select">
+                        <option value="">الكل</option>
+                        <option value="health">صحي</option>
+                        <option value="food">غذائي</option>
+                        <option value="shelter">إيواء</option>
+                        <option value="education">تعليمي</option>
+                        <option value="psychosocial">دعم نفسي</option>
+                        <option value="income">مشاريع دخل</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Humanitarian Interventions Stats -->
+            <div class="flex-grid">
+                <div class="col-3">
+                    <div class="stat-card">
+                        <div class="stat-title">المساعدات الصحية</div>
+                        <div class="stat-value">35</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-medkit"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="stat-card">
+                        <div class="stat-title">المساعدات الغذائية</div>
+                        <div class="stat-value">48</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="stat-card">
+                        <div class="stat-title">برامج الإيواء</div>
+                        <div class="stat-value">22</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-house-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Humanitarian Charts -->
+            <div class="flex-grid">
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">توزيع التدخلات الإنسانية حسب النوع</div>
+                        <div class="chart-container">
+                            <canvas id="interventions-by-type-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="card">
+                        <div class="card-title">توزيع التدخلات الإنسانية حسب الأحياء</div>
+                        <div class="chart-container">
+                            <canvas id="interventions-by-neighborhood-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Humanitarian Interventions Table -->
+            <div class="card">
+                <div class="card-title">التدخلات الإنسانية الفاعلة</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>المساعدات الصحية</th>
+                                <th>المساعدات الغذائية</th>
+                                <th>الملابس والمعونات السكنية</th>
+                                <th>الإيواء والسكن</th>
+                                <th>دعم التعليم</th>
+                                <th>الدعم النفسي والأسري</th>
+                                <th>مشاريع توليد الدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>الحي 1</td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                                <td><span class="badge badge-warning">محدود</span></td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                                <td><span class="badge badge-warning">محدود</span></td>
+                                <td><span class="badge badge-warning">محدود</span></td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 2</td>
+                                <td><span class="badge badge-warning">محدود</span></td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                                <td><span class="badge badge-danger">غير متوفر</span></td>
+                                <td><span class="badge badge-warning">محدود</span></td>
+                                <td><span class="badge badge-danger">غير متوفر</span></td>
+                                <td><span class="badge badge-danger">غير متوفر</span></td>
+                                <td><span class="badge badge-warning">محدود</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحي 3</td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                                <td><span class="badge badge-warning">محدود</span></td>
+                                <td><span class="badge badge-success">متوفر</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Map Tab -->
+        <div class="tab-content" id="map">
+            <h2 class="section-title">الخريطة التفاعلية</h2>
+            
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label class="filter-label">المدينة:</label>
+                    <select class="filter-select" id="map-city-filter">
+                        <option value="">الكل</option>
+                        <option value="city1">المدينة 1</option>
+                        <option value="city2">المدينة 2</option>
+                        <option value="city3">المدينة 3</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">عرض البيانات:</label>
+                    <select class="filter-select" id="map-data-filter">
+                        <option value="priority">أولوية التدخل</option>
+                        <option value="infrastructure">حالة البنية التحتية</option>
+                        <option value="housing">حالة المساكن</option>
+                        <option value="population">التوزيع السكاني</option>
+                        <option value="services">توزيع الخدمات</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Map Container -->
+            <div class="card">
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+         <!-- Additional Tables Tab -->
+         <div class="tab-content" id="additional-tables">
+            <h2 class="section-title">الجداول الإضافية</h2>
+            
+            <!-- Education Facilities Table -->
+            <div class="card">
+                <div class="card-title">المرافق التعليمية</div>
+                <div class="table-responsive">
+                    <table id="education-facilities-table">
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>اسم المرفق</th>
+                                <th>منطقة الخدمة</th>
+                                <th>حالة البنية التحتية</th>
+                                <th>حالة الكادر</th>
+                                <th>حالة المستهلكات</th>
+                                <th>حالة التشغيل</th>
+                                <th>أولوية التدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- سيتم ملء هذا الجدول ديناميكياً -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Gardens and Living Spaces Table -->
+            <div class="card">
+                <div class="card-title">الحدائق والمساحات الحيوية</div>
+                <div class="table-responsive">
+                    <table id="gardens-table">
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>منطقة الخدمة</th>
+                                <th>توفر المياه</th>
+                                <th>الإنارة</th>
+                                <th>أثاث الحديقة</th>
+                                <th>حالة التشغيل</th>
+                                <th>وصف الاحتياجات</th>
+                                <th>أولوية التدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ضهرة عواد</td>
+                                <td>وسط الحي</td>
+                                <td>محدود</td>
+                                <td>متوفرة</td>
+                                <td>متضرر</td>
+                                <td><span class="badge badge-warning">جزئي</span></td>
+                                <td>بحاجة لصيانة أثاث الحديقة وتأمين مصدر مياه</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الرصافة</td>
+                                <td>جنوب الحي</td>
+                                <td>متوفر</td>
+                                <td>متوفرة</td>
+                                <td>جيد</td>
+                                <td><span class="badge badge-success">يعمل</span></td>
+                                <td>تحتاج لصيانة دورية</td>
+                                <td><span class="priority-low">منخفضة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الحيدرية 1</td>
+                                <td>شرق الحي</td>
+                                <td>غير متوفر</td>
+                                <td>غير متوفرة</td>
+                                <td>متضرر بشدة</td>
+                                <td><span class="badge badge-danger">متوقف</span></td>
+                                <td>بحاجة لإعادة تأهيل كاملة</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Markets Table -->
+            <div class="card">
+                <div class="card-title">الأسواق الأساسية</div>
+                <div class="table-responsive">
+                    <table id="markets-table">
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>نوع السوق</th>
+                                <th>منطقة الخدمة</th>
+                                <th>حالة التشغيل</th>
+                                <th>عدد المحلات</th>
+                                <th>وصف الاحتياجات</th>
+                                <th>أولوية التدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>الرصافة</td>
+                                <td>سوق خضار</td>
+                                <td>الحي والأحياء المجاورة</td>
+                                <td><span class="badge badge-success">يعمل</span></td>
+                                <td>45</td>
+                                <td>بحاجة لصيانة البنية التحتية وتحسين النظافة</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>عين التل</td>
+                                <td>سوق شعبي</td>
+                                <td>الحي</td>
+                                <td><span class="badge badge-warning">جزئي</span></td>
+                                <td>28</td>
+                                <td>بحاجة لإعادة تأهيل وتنظيم</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                            <tr>
+                                <td>الشيخ فارس</td>
+                                <td>سوق ملابس</td>
+                                <td>عدة أحياء</td>
+                                <td><span class="badge badge-warning">جزئي</span></td>
+                                <td>32</td>
+                                <td>بحاجة لترميم المحلات المتضررة</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Solid Waste Management Table -->
+            <div class="card">
+                <div class="card-title">إدارة النفايات الصلبة</div>
+                <div class="table-responsive">
+                    <table id="waste-management-table">
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>مكبات النفايات العشوائية</th>
+                                <th>مستوى نظافة الشوارع</th>
+                                <th>مكافحة القوارض</th>
+                                <th>إزالة الأنقاض</th>
+                                <th>وصف الاحتياجات</th>
+                                <th>أولوية التدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>الحيدرية 2</td>
+                                <td>متعددة</td>
+                                <td>منخفض</td>
+                                <td>غير متوفرة</td>
+                                <td>جزئية</td>
+                                <td>بحاجة لحملة نظافة شاملة وإزالة المكبات العشوائية</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                            <tr>
+                                <td>حلب الجديدة الشمالي</td>
+                                <td>قليلة</td>
+                                <td>مرتفع</td>
+                                <td>متوفرة</td>
+                                <td>مكتملة</td>
+                                <td>تحتاج لمراقبة دورية</td>
+                                <td><span class="priority-low">منخفضة</span></td>
+                            </tr>
+                            <tr>
+                                <td>كرم القاطرجي</td>
+                                <td>متعددة</td>
+                                <td>متوسط</td>
+                                <td>متوفرة جزئياً</td>
+                                <td>جزئية</td>
+                                <td>تحتاج لتكثيف جمع النفايات وإزالة الأنقاض</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Electricity Network Table -->
+            <div class="card">
+                <div class="card-title">شبكة الكهرباء</div>
+                <div class="table-responsive">
+                    <table id="electricity-table">
+                        <thead>
+                            <tr>
+                                <th>الحي</th>
+                                <th>مستوى ضرر المحولات</th>
+                                <th>مستوى ضرر الخطوط</th>
+                                <th>حالة الشبكة</th>
+                                <th>وصف الاحتياجات</th>
+                                <th>أولوية التدخل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>عويجة وتوابعها</td>
+                                <td>متوسط</td>
+                                <td>عالي</td>
+                                <td>متضررة</td>
+                                <td>بحاجة لاستبدال الخطوط وإصلاح المحولات</td>
+                                <td><span class="priority-high">عالية</span></td>
+                            </tr>
+                            <tr>
+                                <td>حي الفيلات</td>
+                                <td>منخفض</td>
+                                <td>منخفض</td>
+                                <td>شبه سليمة</td>
+                                <td>صيانة دورية</td>
+                                <td><span class="priority-low">منخفضة</span></td>
+                            </tr>
+                            <tr>
+                                <td>بستان الباشا</td>
+                                <td>متوسط</td>
+                                <td>متوسط</td>
+                                <td>تعمل جزئياً</td>
+                                <td>تأهيل بعض المحولات وإصلاح الخطوط المتضررة</td>
+                                <td><span class="priority-medium">متوسطة</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Leaflet Draw JS -->
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    
+    <!-- Leaflet MarkerCluster JS -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.getAttribute('data-tab');
+                    
+                    // Deactivate all tabs and tab contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Activate selected tab and content
+                    tab.classList.add('active');
+                    document.getElementById(target).classList.add('active');
+                    
+                    // Initialize map if map tab is selected
+                    if (target === 'map') {
+                        initMap();
+                    }
+                });
+            });
+            
+            // Initialize Charts
+            initCharts();
+            
+           
+        });
+        // Populate tables with data
+        function populateTables() {
+            // Neighborhoods table
+            const neighborhoodsTable = document.getElementById('neighborhoods-table');
+            if (neighborhoodsTable) {
+                const tbody = neighborhoodsTable.querySelector('tbody');
+                tbody.innerHTML = '';
+                
+                aleppoNeighborhoods.forEach(neighborhood => {
+                    const tr = document.createElement('tr');
+                    
+                    // Get random status for demo
+                    const statusOptions = ['good', 'medium', 'bad'];
+                    const randomInfraStatus = statusOptions[Math.floor(Math.random() * statusOptions.length)];
+                    const randomHousingStatus = statusOptions[Math.floor(Math.random() * statusOptions.length)];
+                    
+                    // Priority based on infrastructure and housing status
+                    let priority = 'medium';
+                    if (randomInfraStatus === 'bad' || randomHousingStatus === 'bad') {
+                        priority = 'high';
+                    } else if (randomInfraStatus === 'good' && randomHousingStatus === 'good') {
+                        priority = 'low';
+                    }
+                    
+                    const areaInSqKm = (neighborhood.area / 1000000).toFixed(2);
+                    
+                    tr.innerHTML = `
+                        <td>${neighborhood.name}</td>
+                        <td>${neighborhood.sector}</td>
+                        <td>${areaInSqKm}</td>
+                        <td>
+                            <span class="status-indicator status-${randomInfraStatus}"></span>
+                            ${randomInfraStatus === 'good' ? 'جيدة' : randomInfraStatus === 'medium' ? 'متوسطة' : 'سيئة'}
+                        </td>
+                        <td>
+                            <span class="status-indicator status-${randomHousingStatus}"></span>
+                            ${randomHousingStatus === 'good' ? 'جيدة' : randomHousingStatus === 'medium' ? 'متوسطة' : 'سيئة'}
+                        </td>
+                        <td><span class="priority-${priority}">${priority === 'high' ? 'عالية' : priority === 'medium' ? 'متوسطة' : 'منخفضة'}</span></td>
+                    `;
+                    
+                    tbody.appendChild(tr);
+                });
+            }
+            
+            // Health centers table
+            const healthCentersTable = document.getElementById('health-centers-table');
+            if (healthCentersTable) {
+                const tbody = healthCentersTable.querySelector('tbody');
+                tbody.innerHTML = '';
+                
+                healthCenters.forEach(center => {
+                    const neighborhood = aleppoNeighborhoods.find(n => n.id === center.neighborhoodId);
+                    if (!neighborhood) return;
+                    
+                    const tr = document.createElement('tr');
+                    
+                    tr.innerHTML = `
+                        <td>${neighborhood.name}</td>
+                        <td>${center.name}</td>
+                        <td>${center.serviceArea}</td>
+                        <td><span class="badge badge-${center.infrastructureStatus === 'good' ? 'success' : center.infrastructureStatus === 'medium' ? 'warning' : 'danger'}">${center.infrastructureStatus === 'good' ? 'جيدة' : center.infrastructureStatus === 'medium' ? 'متوسطة' : 'سيئة'}</span></td>
+                        <td><span class="badge badge-${center.staffStatus === 'good' ? 'success' : center.staffStatus === 'medium' ? 'warning' : 'danger'}">${center.staffStatus === 'good' ? 'جيدة' : center.staffStatus === 'medium' ? 'متوسطة' : 'سيئة'}</span></td>
+                        <td><span class="badge badge-${center.consumablesStatus === 'good' ? 'success' : center.consumablesStatus === 'medium' ? 'warning' : 'danger'}">${center.consumablesStatus === 'good' ? 'جيدة' : center.consumablesStatus === 'medium' ? 'متوسطة' : 'سيئة'}</span></td>
+                        <td><span class="badge badge-${center.operationalStatus === 'operational' ? 'success' : center.operationalStatus === 'partially' ? 'warning' : 'danger'}">${center.operationalStatus === 'operational' ? 'يعمل' : center.operationalStatus === 'partially' ? 'يعمل جزئياً' : 'متوقف'}</span></td>
+                        <td><span class="priority-${center.interventionPriority}">${center.interventionPriority === 'high' ? 'عالية' : center.interventionPriority === 'medium' ? 'متوسطة' : 'منخفضة'}</span></td>
+                    `;
+                    
+                    tbody.appendChild(tr);
+                });
+            }
+            
+            // Housing damage table
+            const housingTable = document.getElementById('housing-damage-table');
+            if (housingTable) {
+                const tbody = housingTable.querySelector('tbody');
+                tbody.innerHTML = '';
+                
+                housingData.forEach(data => {
+                    const neighborhood = aleppoNeighborhoods.find(n => n.id === data.neighborhoodId);
+                    if (!neighborhood) return;
+                    
+                    const tr = document.createElement('tr');
+                    
+                    tr.innerHTML = `
+                        <td>${neighborhood.name}</td>
+                        <td>${data.totalUnits.toLocaleString()}</td>
+                        <td>${data.vacantPercentage}%</td>
+                        <td>${data.ownershipType === 'private' ? 'خاص' : data.ownershipType === 'mixed' ? 'مختلط' : 'حكومي'}</td>
+                        <td>${data.severeDamagePercentage}%</td>
+                        <td>${data.mediumDamagePercentage}%</td>
+                        <td>${data.lightDamagePercentage}%</td>
+                        <td>${data.noDamagePercentage}%</td>
+                        <td><span class="priority-${data.interventionPriority}">${data.interventionPriority === 'high' ? 'عالية' : data.interventionPriority === 'medium' ? 'متوسطة' : 'منخفضة'}</span></td>
+                    `;
+                    
+                    tbody.appendChild(tr);
+                });
+            }
+            
+            // Population changes table
+            const populationTable = document.getElementById('population-changes-table');
+            if (populationTable) {
+                const tbody = populationTable.querySelector('tbody');
+                tbody.innerHTML = '';
+                
+                populationData.forEach(data => {
+                    const neighborhood = aleppoNeighborhoods.find(n => n.id === data.neighborhoodId);
+                    if (!neighborhood) return;
+                    
+                    const tr = document.createElement('tr');
+                    
+                    tr.innerHTML = `
+                        <td>${neighborhood.name}</td>
+                        <td>${data.populationCount.toLocaleString()}</td>
+                        <td>${data.immigrantPercentage}%</td>
+                        <td>${data.returneePercentage}%</td>
+                        <td>${data.humanNeeds === 'high' ? 'عالية' : data.humanNeeds === 'medium' ? 'متوسطة' : 'منخفضة'}</td>
+                        <td><span class="priority-${data.interventionPriority}">${data.interventionPriority === 'high' ? 'عالية' : data.interventionPriority === 'medium' ? 'متوسطة' : 'منخفضة'}</span></td>
+                    `;
+                    
+                    tbody.appendChild(tr);
+                });
+            }
+            
+            // Humanitarian interventions table
+            const humanitarianTable = document.getElementById('humanitarian-interventions-table');
+            if (humanitarianTable) {
+                const tbody = humanitarianTable.querySelector('tbody');
+                tbody.innerHTML = '';
+                
+                humanitarianInterventions.forEach(data => {
+                    const neighborhood = aleppoNeighborhoods.find(n => n.id === data.neighborhoodId);
+                    if (!neighborhood) return;
+                    
+                    const tr = document.createElement('tr');
+                    
+                    const getStatusBadge = (status) => {
+                        if (status === 'available') {
+                            return '<span class="badge badge-success">متوفر</span>';
+                        } else if (status === 'limited') {
+                            return '<span class="badge badge-warning">محدود</span>';
+                        } else {
+                            return '<span class="badge badge-danger">غير متوفر</span>';
+                        }
+                    };
+                    
+                    tr.innerHTML = `
+                        <td>${neighborhood.name}</td>
+                        <td>${getStatusBadge(data.healthSupport)}</td>
+                        <td>${getStatusBadge(data.foodAid)}</td>
+                        <td>${getStatusBadge(data.clothingHousingAid)}</td>
+                        <td>${getStatusBadge(data.shelterHousing)}</td>
+                        <td>${getStatusBadge(data.educationSupport)}</td>
+                        <td>${getStatusBadge(data.psychologicalFamilySupport)}</td>
+                        <td>${getStatusBadge(data.incomeGenerationProjects)}</td>
+                    `;
+                    
+                    tbody.appendChild(tr);
+                });
+            }
+            
+            // Education facilities table
+            const educationTable = document.getElementById('education-facilities-table');
+            if (educationTable) {
+                const tbody = educationTable.querySelector('tbody');
+                tbody.innerHTML = '';
+                
+                educationFacilities.forEach(facility => {
+                    const neighborhood = aleppoNeighborhoods.find(n => n.id === facility.neighborhoodId);
+                    if (!neighborhood) return;
+                    
+                    const tr = document.createElement('tr');
+                    
+                    tr.innerHTML = `
+                        <td>${neighborhood.name}</td>
+                        <td>${facility.name}</td>
+                        <td>${facility.serviceArea}</td>
+                        <td><span class="badge badge-${facility.infrastructureStatus === 'good' ? 'success' : facility.infrastructureStatus === 'medium' ? 'warning' : 'danger'}">${facility.infrastructureStatus === 'good' ? 'جيدة' : facility.infrastructureStatus === 'medium' ? 'متوسطة' : 'سيئة'}</span></td>
+                        <td><span class="badge badge-${facility.staffStatus === 'good' ? 'success' : facility.staffStatus === 'medium' ? 'warning' : 'danger'}">${facility.staffStatus === 'good' ? 'جيدة' : facility.staffStatus === 'medium' ? 'متوسطة' : 'سيئة'}</span></td>
+                        <td><span class="badge badge-${facility.consumablesStatus === 'good' ? 'success' : facility.consumablesStatus === 'medium' ? 'warning' : 'danger'}">${facility.consumablesStatus === 'good' ? 'جيدة' : facility.consumablesStatus === 'medium' ? 'متوسطة' : 'سيئة'}</span></td>
+                        <td><span class="badge badge-${facility.operationalStatus === 'operational' ? 'success' : facility.operationalStatus === 'partially' ? 'warning' : 'non-operational' ? 'danger' : 'danger'}">${facility.operationalStatus === 'operational' ? 'يعمل' : facility.operationalStatus === 'partially' ? 'يعمل جزئياً' : 'متوقف'}</span></td>
+                        <td><span class="priority-${facility.interventionPriority}">${facility.interventionPriority === 'high' ? 'عالية' : facility.interventionPriority === 'medium' ? 'متوسطة' : 'منخفضة'}</span></td>
+                    `;
+                    
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+        
+       
+        // Neighborhood data
+        const neighborhoodData = [
+            {
+                id: 1,
+                name: 'الحي 1',
+                city: 'المدينة 1',
+                population: 12450,
+                location: [24.774265, 46.740586],
+                infrastructureStatus: 'good',
+                housingStatus: 'medium',
+                priority: 'medium',
+                waterNetwork: {
+                    connected: true,
+                    mainStatus: 'medium',
+                    subStatus: 'good',
+                    damagePercentage: 25,
+                    operationPercentage: 75
+                }
+            },
+            {
+                id: 2,
+                name: 'الحي 2',
+                city: 'المدينة 1',
+                population: 8320,
+                location: [24.764265, 46.730586],
+                infrastructureStatus: 'bad',
+                housingStatus: 'bad',
+                priority: 'high',
+                waterNetwork: {
+                    connected: true,
+                    mainStatus: 'bad',
+                    subStatus: 'bad',
+                    damagePercentage: 65,
+                    operationPercentage: 35
+                }
+            },
+            {
+                id: 3,
+                name: 'الحي 3',
+                city: 'المدينة 2',
+                population: 15780,
+                location: [24.784265, 46.750586],
+                infrastructureStatus: 'good',
+                housingStatus: 'good',
+                priority: 'low',
+                waterNetwork: {
+                    connected: true,
+                    mainStatus: 'good',
+                    subStatus: 'good',
+                    damagePercentage: 15,
+                    operationPercentage: 85
+                }
+            },
+            {
+                id: 4,
+                name: 'الحي 4',
+                city: 'المدينة 2',
+                population: 9650,
+                location: [24.779265, 46.735586],
+                infrastructureStatus: 'medium',
+                housingStatus: 'medium',
+                priority: 'medium',
+                waterNetwork: {
+                    connected: true,
+                    mainStatus: 'medium',
+                    subStatus: 'bad',
+                    damagePercentage: 45,
+                    operationPercentage: 55
+                }
+            },
+            {
+                id: 5,
+                name: 'الحي 5',
+                city: 'المدينة 3',
+                population: 18900,
+                location: [24.769265, 46.745586],
+                infrastructureStatus: 'bad',
+                housingStatus: 'medium',
+                priority: 'high',
+                waterNetwork: {
+                    connected: false,
+                    mainStatus: 'bad',
+                    subStatus: 'bad',
+                    damagePercentage: 80,
+                    operationPercentage: 20
+                }
+            }
+        ];
+        
+        // Initialize Charts
+        function initCharts() {
+            // Set default Chart.js options
+            Chart.defaults.font.family = "'Cairo', sans-serif";
+            Chart.defaults.color = '#1f2937';
+            Chart.defaults.plugins.legend.position = 'right';
+            Chart.defaults.plugins.legend.labels.usePointStyle = true;
+            Chart.defaults.plugins.legend.labels.boxWidth = 6;
+            Chart.defaults.plugins.legend.labels.padding = 15;
+            Chart.defaults.plugins.tooltip.padding = 10;
+            Chart.defaults.plugins.tooltip.cornerRadius = 6;
+            Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+            
+            // Infrastructure Status Chart
+            const infrastructureCtx = document.getElementById('infrastructure-chart');
+            if (infrastructureCtx) {
+                new Chart(infrastructureCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['جيدة', 'متوسطة', 'سيئة'],
+                        datasets: [{
+                            data: [30, 45, 25],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%'
+                    }
+                });
+            }
+            
+            // Priority Chart
+            const priorityCtx = document.getElementById('priority-chart');
+            if (priorityCtx) {
+                new Chart(priorityCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['منخفضة', 'متوسطة', 'عالية'],
+                        datasets: [{
+                            data: [25, 40, 35],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+            
+            // Infrastructure Damage Chart
+            const infrastructureDamageCtx = document.getElementById('infrastructure-damage-chart');
+            if (infrastructureDamageCtx) {
+                new Chart(infrastructureDamageCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['شبكة المياه', 'شبكة الصرف', 'شبكة الكهرباء', 'شبكة الاتصالات'],
+                        datasets: [{
+                            label: 'نسبة الأضرار',
+                            data: [37, 52, 25, 42],
+                            backgroundColor: '#ef4444',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Infrastructure Operation Chart
+            const infrastructureOperationCtx = document.getElementById('infrastructure-operation-chart');
+            if (infrastructureOperationCtx) {
+                new Chart(infrastructureOperationCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['شبكة المياه', 'شبكة الصرف', 'شبكة الكهرباء', 'شبكة الاتصالات'],
+                        datasets: [{
+                            label: 'نسبة التشغيل',
+                            data: [63, 48, 75, 58],
+                            backgroundColor: '#10b981',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Health Status Chart
+            const healthStatusCtx = document.getElementById('health-status-chart');
+            if (healthStatusCtx) {
+                new Chart(healthStatusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['يعمل بشكل كامل', 'يعمل بشكل جزئي', 'متوقف'],
+                        datasets: [{
+                            data: [45, 35, 20],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%'
+                    }
+                });
+            }
+            
+            // Education Status Chart
+            const educationStatusCtx = document.getElementById('education-status-chart');
+            if (educationStatusCtx) {
+                new Chart(educationStatusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['يعمل بشكل كامل', 'يعمل بشكل جزئي', 'متوقف'],
+                        datasets: [{
+                            data: [35, 40, 25],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%'
+                    }
+                });
+            }
+            
+            // Housing Damage Chart
+            const housingDamageCtx = document.getElementById('housing-damage-chart');
+            if (housingDamageCtx) {
+                new Chart(housingDamageCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['ضرر شديد', 'ضرر متوسط', 'ضرر خفيف', 'لا يوجد ضرر'],
+                        datasets: [{
+                            data: [25, 30, 20, 25],
+                            backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+            
+            // Housing Type Chart
+            const housingTypeCtx = document.getElementById('housing-type-chart');
+            if (housingTypeCtx) {
+                new Chart(housingTypeCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['سكن تقليدي', 'أبراج سكنية', 'سكن عشوائي'],
+                        datasets: [{
+                            data: [45, 35, 20],
+                            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+            
+            // Population by Neighborhood Chart
+            const populationByNeighborhoodCtx = document.getElementById('population-by-neighborhood-chart');
+            if (populationByNeighborhoodCtx) {
+                new Chart(populationByNeighborhoodCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['الحي 1', 'الحي 2', 'الحي 3', 'الحي 4', 'الحي 5'],
+                        datasets: [{
+                            label: 'عدد السكان',
+                            data: [12450, 8320, 15780, 9650, 18900],
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Human Needs Chart
+            const humanNeedsCtx = document.getElementById('human-needs-chart');
+            if (humanNeedsCtx) {
+                new Chart(humanNeedsCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['غذاء', 'ماء', 'صحة', 'سكن', 'تعليم', 'كهرباء', 'نقل'],
+                        datasets: [{
+                            label: 'الحي 1',
+                            data: [65, 70, 60, 75, 55, 80, 50],
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderColor: '#3b82f6',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#3b82f6'
+                        }, {
+                            label: 'الحي 2',
+                            data: [85, 80, 75, 90, 70, 65, 80],
+                            backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                            borderColor: '#ef4444',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#ef4444'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Interventions by Type Chart
+            const interventionsByTypeCtx = document.getElementById('interventions-by-type-chart');
+            if (interventionsByTypeCtx) {
+                new Chart(interventionsByTypeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['صحي', 'غذائي', 'ملابس وسكن', 'إيواء', 'تعليم', 'دعم نفسي', 'مشاريع دخل'],
+                        datasets: [{
+                            label: 'عدد التدخلات',
+                            data: [35, 48, 20, 22, 30, 25, 18],
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Interventions by Neighborhood Chart
+            const interventionsByNeighborhoodCtx = document.getElementById('interventions-by-neighborhood-chart');
+            if (interventionsByNeighborhoodCtx) {
+                new Chart(interventionsByNeighborhoodCtx, {
+                    type: 'polarArea',
+                    data: {
+                        labels: ['الحي 1', 'الحي 2', 'الحي 3', 'الحي 4', 'الحي 5'],
+                        datasets: [{
+                            data: [25, 15, 30, 20, 10],
+                            backgroundColor: [
+                                '#3b82f6',
+                                '#10b981',
+                                '#f59e0b',
+                                '#6366f1',
+                                '#8b5cf6'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+        }
+        
+        // Initialize Map
+        let map;
+        
+        function initMap() {
+            // Only initialize map if it doesn't already exist
+            if (map) return;
+            
+            const mapContainer = document.getElementById('map');
+            if (!mapContainer) return;
+            
+            // Create map
+            map = L.map('map', {
+                center: [24.774265, 46.738586], // Riyadh, Saudi Arabia
+                zoom: 12,
+                zoomControl: false
+            });
+            
+            // Add custom zoom control
+            L.control.zoom({
+                position: 'topleft'
+            }).addTo(map);
+            
+            // Add tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Get selected data to display
+            const dataFilter = document.getElementById('map-data-filter').value;
+            
+            // Create neighborhood markers with different colors based on priority
+            neighborhoodData.forEach(neighborhood => {
+                let color;
+                
+                // Set color based on selected data type
+                if (dataFilter === 'priority' || !dataFilter) {
+                    color = neighborhood.priority === 'high' ? '#ef4444' : 
+                            neighborhood.priority === 'medium' ? '#f59e0b' : '#10b981';
+                } else if (dataFilter === 'infrastructure') {
+                    color = neighborhood.infrastructureStatus === 'bad' ? '#ef4444' : 
+                            neighborhood.infrastructureStatus === 'medium' ? '#f59e0b' : '#10b981';
+                } else if (dataFilter === 'housing') {
+                    color = neighborhood.housingStatus === 'bad' ? '#ef4444' : 
+                            neighborhood.housingStatus === 'medium' ? '#f59e0b' : '#10b981';
+                } else if (dataFilter === 'population') {
+                    // Color based on population size
+                    color = neighborhood.population > 15000 ? '#3b82f6' : 
+                            neighborhood.population > 10000 ? '#6366f1' : '#8b5cf6';
+                }
+                
+                // Create circle marker
+                const marker = L.circleMarker(neighborhood.location, {
+                    radius: 10,
+                    fillColor: color,
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map);
+                
+                // Add popup with neighborhood info
+                marker.bindPopup(`
+                    <div class="popup-header">
+                        <h3 class="popup-title">${neighborhood.name}</h3>
+                    </div>
+                    <div class="popup-body">
+                        <div class="popup-stat">
+                            <span class="popup-label">المدينة:</span>
+                            <span class="popup-value">${neighborhood.city}</span>
+                        </div>
+                        <div class="popup-stat">
+                            <span class="popup-label">عدد السكان:</span>
+                            <span class="popup-value">${neighborhood.population.toLocaleString()}</span>
+                        </div>
+                        <div class="popup-stat">
+                            <span class="popup-label">حالة البنية التحتية:</span>
+                            <span class="popup-value">
+                                ${neighborhood.infrastructureStatus === 'good' ? 'جيدة' : 
+                                  neighborhood.infrastructureStatus === 'medium' ? 'متوسطة' : 'سيئة'}
+                            </span>
+                        </div>
+                        <div class="popup-stat">
+                            <span class="popup-label">حالة الإسكان:</span>
+                            <span class="popup-value">
+                                ${neighborhood.housingStatus === 'good' ? 'جيدة' : 
+                                  neighborhood.housingStatus === 'medium' ? 'متوسطة' : 'سيئة'}
+                            </span>
+                        </div>
+                        <div class="popup-stat">
+                            <span class="popup-label">أولوية التدخل:</span>
+                            <span class="popup-value">
+                                ${neighborhood.priority === 'high' ? 'عالية' : 
+                                  neighborhood.priority === 'medium' ? 'متوسطة' : 'منخفضة'}
+                            </span>
+                        </div>
+                    </div>
+                `);
+            });
+            
+            // Add legend based on selected data type
+            addMapLegend(dataFilter);
+            
+            // Update map when data filter changes
+            document.getElementById('map-data-filter').addEventListener('change', function() {
+                // Clear existing markers
+                map.eachLayer(layer => {
+                    if (layer instanceof L.CircleMarker) {
+                        map.removeLayer(layer);
+                    }
+                });
+                
+                // Remove existing legend
+                const existingLegend = document.querySelector('.legend');
+                if (existingLegend) {
+                    existingLegend.remove();
+                }
+                
+                // Reinitialize map with new data filter
+                initMap();
+            });
+        }
+        
+        function addMapLegend(dataType) {
+            let legendItems = [];
+            
+            if (dataType === 'priority' || !dataType) {
+                legendItems = [
+                    { color: '#ef4444', label: 'أولوية عالية' },
+                    { color: '#f59e0b', label: 'أولوية متوسطة' },
+                    { color: '#10b981', label: 'أولوية منخفضة' }
+                ];
+            } else if (dataType === 'infrastructure') {
+                legendItems = [
+                    { color: '#ef4444', label: 'حالة سيئة' },
+                    { color: '#f59e0b', label: 'حالة متوسطة' },
+                    { color: '#10b981', label: 'حالة جيدة' }
+                ];
+            } else if (dataType === 'housing') {
+                legendItems = [
+                    { color: '#ef4444', label: 'حالة سيئة' },
+                    { color: '#f59e0b', label: 'حالة متوسطة' },
+                    { color: '#10b981', label: 'حالة جيدة' }
+                ];
+            } else if (dataType === 'population') {
+                legendItems = [
+                    { color: '#3b82f6', label: 'سكان >15,000' },
+                    { color: '#6366f1', label: 'سكان 10,000-15,000' },
+                    { color: '#8b5cf6', label: 'سكان <10,000' }
+                ];
+            } else if (dataType === 'services') {
+                legendItems = [
+                    { color: '#10b981', label: 'خدمات كافية' },
+                    { color: '#f59e0b', label: 'خدمات محدودة' },
+                    { color: '#ef4444', label: 'خدمات غير كافية' }
+                ];
+            }
+            
+            // Create legend control
+            const legend = L.control({ position: 'bottomright' });
+            
+            legend.onAdd = function() {
+                const div = L.DomUtil.create('div', 'legend');
+                let html = '';
+                
+                legendItems.forEach(item => {
+                    html += `
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: ${item.color}"></div>
+                            <div class="legend-label">${item.label}</div>
+                        </div>
+                    `;
+                });
+                
+                div.innerHTML = html;
+                return div;
+            };
+            
+            legend.addTo(map);
+        }
+    </script>
+</body>
+</html>

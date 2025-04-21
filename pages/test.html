@@ -1,0 +1,30 @@
+<meta name="viewport" content="width=device-width">
+<title>replit</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Esri Leaflet -->
+  <script src="https://unpkg.com/esri-leaflet@3.0.10/dist/esri-leaflet.js"></script>
+</head>
+
+<body>
+Hello world
+<div class="layer-control">
+        <input type="checkbox" id="layer-infrastructure" checked>
+        <label for="layer-infrastructure">
+          <i class="fas fa-bolt" style="color:orange"></i> البنية التحتية (${additionalLayers.infrastructure.features.length})
+        </label>
+      </div>
+
+      <div class="layer-control">
+        <input type="checkbox" id="layer-arcgis" checked>
+        <label for="layer-arcgis">
+          <i class="fas fa-map-marked-alt" style="color:purple"></i> خدمة ArcGIS
+        </label>
+      </div>
+<script src="script.js"></script>
+</body>
+
+</html>

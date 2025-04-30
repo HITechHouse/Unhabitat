@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>تحليل أحياء حلب</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- Leaflet MarkerCluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  
+  <!-- Leaflet Draw CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+  
+  <!-- Animate.css for animations -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <!-- Application CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/tabs.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    #mainHeader {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 70px; /* Adjust as needed */
+      background: #007bff;
+      color: white;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+
+    #mainFooter {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 70px; /* Adjust as needed */
+      background: #3066ff;
+      color: white;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+
+    .mainContent {
+      position: relative;
+      top: 70px;
+      width: 100%;
+      height: calc(100vh - 140px);
+      overflow-y: auto;
+      background: #fff;
+      box-sizing: border-box;
+      display: flex;
+    }
+
+    .main-content {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .map-container {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+    }
+
+    #map {
+      flex: 1 1 auto;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    /* Responsive adjustments if needed */
+    @media (max-width: 600px) {
+      #mainHeader, #mainFooter {
+        height: 56px;
+        font-size: 1rem;
+      }
+      .mainContent {
+        top: 56px;
+        height: calc(100vh - 112px);
+      }
+    }
+
+    .header-logo {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      object-fit: contain;
+    }
+    
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      line-height: 1.4;
+    }
+    
+    .header-logos {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 5px;
+    }
+    
+    .header-logos img {
+      height: 40px;
+      width: 40px;
+      object-fit: contain;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+    }
+    
+    .title-ar {
+      font-size: 1.8rem;
+      line-height: 1.4;
+      font-weight: bold;
+      white-space: normal;
+    }
+    
+    .title-en {
+      font-size: 1.2rem;
+      line-height: 1.4;
+      font-weight: bold;
+      white-space: normal;
+    }
+    
+    @media (max-width: 768px) {
+      .title-en {
+        display: none;
+      }
+    }
+    
+    .language-dropdown {
+      position: relative;
+    }
+    
+    .dots-button {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: white;
+      padding: 5px;
+    }
+    
+    .language-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 2000;
+      min-width: 60px;
+    }
+    
+    .language-menu div {
+      padding: 8px 12px;
+      cursor: pointer;
+      color: #333;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    .language-menu div:hover {
+      background-color: #f1f1f1;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+      color: white;
+    }
+    
+    .social-icon {
+      color: #fff;
+      font-size: 1.2rem;
+      margin-left: 1rem;
+      transition: color 0.3s ease;
+    }
+    
+    .social-icon:hover {
+      color: #3498db;
+    }
+    
+    footer .copyright img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      background-color: white;
+      padding: 2px;
+      object-fit: contain;
+      background-clip: content-box;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    
+    .footer-logo {
+      height: 24px;
+      margin-right: 8px;
+      vertical-align: middle;
+      display: inline-block !important;
+    }
+    
+    .companyHITech {
+      color: white !important;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .companyHITech:hover {
+      color: #f0f0f0 !important;
+      text-decoration: underline;
+    }
+
+    .info-panel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      max-width: 400px;
+      width: 90vw;
+      max-height: 70vh;
+      background: #fff;
+      color: #222;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      z-index: 1200;
+      padding: 1.2rem 1.5rem 1.2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      overflow: auto;
+      transition: all 0.2s;
+      display: none; /* Hide by default */
+    }
+
+    .info-panel.open {
+      display: flex; /* Show when .open is added */
+    }
+
+    .info-panel .close-btn {
+      align-self: flex-end;
+      cursor: pointer;
+      font-size: 1.3rem;
+      color: #888;
+      background: none;
+      border: none;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-panel h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #1e40af;
+    }
+
+    #infoPanelContent {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      min-height: 0;
+    }
+
+    /* Responsive for mobile */
+    @media (max-width: 600px) {
+      .info-panel {
+        top: 10px;
+        left: 5vw;
+        right: 5vw;
+        max-width: 95vw;
+        max-height: 60vh;
+        padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+        font-size: 0.95rem;
+      }
+      .info-panel h3 {
+        font-size: 1rem;
+      }
+    }
+
+    /* Custom Google Maps-like layers button in bottom left */
+    .leaflet-bottom.leaflet-left .leaflet-control-layers {
+      margin-left: 20px;
+      margin-bottom: 80px; /* adjust as needed for your footer */
+    }
+
+    .leaflet-control-layers {
+      border: none !important;
+      background: none !important;
+      box-shadow: none !important;
+    }
+
+    .leaflet-control-layers-toggle {
+      width: 80px !important;
+      height: 80px !important;
+      border-radius: 16px !important;
+      background: url('assets/img/cover.jfif') center center/cover no-repeat, #fff !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18) !important;
+      border: 1px solid #e0e0e0 !important;
+      display: flex !important;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-end;
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .leaflet-control-layers-toggle::after {
+      content: "الطبقات";
+      display: block;
+      position: absolute;
+      bottom: 8px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+      pointer-events: none;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    .leaflet-control-layers-toggle::before {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32px;
+      height: 32px;
+      background: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L1 7l11 5 9.9-4.5L12 2zm0 7.7L3.6 7 12 3.3 20.4 7 12 9.7zm0 2.6l-8.4-3.7v2.1l8.4 3.7 8.4-3.7v-2.1l-8.4 3.7zm0 2.6l-8.4-3.7v2.1l8.4 3.7 8.4-3.7v-2.1l-8.4 3.7z"/></svg>') center center/contain no-repeat;
+      pointer-events: none;
+      opacity: 0.95;
+    }
+
+    .custom-layers-btn {
+      position: absolute;
+      bottom: 90px;
+      left: 30px;
+      width: 90px;
+      height: 90px;
+      border-radius: 16px;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80') center center/cover no-repeat, #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      border: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      cursor: pointer;
+      z-index: 1201;
+      overflow: hidden;
+      transition: box-shadow 0.2s, background 0.2s;
+    }
+
+    .custom-layers-btn:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+    }
+
+    .custom-layers-label {
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+      margin-bottom: 8px;
+      font-family: 'Cairo', sans-serif;
+      pointer-events: none;
+    }
+
+    .custom-layers-icon {
+      margin-bottom: 18px;
+      pointer-events: none;
+    }
+
+    .custom-layers-modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.25);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .custom-layers-modal.open {
+      display: flex;
+    }
+
+    .custom-layers-modal-content {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      min-width: 260px;
+      max-width: 90vw;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      position: relative;
+      text-align: center;
+    }
+
+    .custom-layers-modal-close {
+      position: absolute;
+      top: 10px;
+      left: 16px;
+      font-size: 2rem;
+      color: #888;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .gmaps-base-btn {
+      position: absolute;
+      bottom: 90px;
+      left: 30px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1201;
+      transition: box-shadow 0.2s, background 0.2s;
+      outline: none;
+    }
+    .gmaps-base-btn:hover {
+      background: #f5f5f5;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+    }
+    .gmaps-base-icon {
+      pointer-events: none;
+    }
+  </style>
+    <style>
+     
+      .hero {
+        position: relative;
+        height: 100vh;
+        color: #fff;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background-color: #1e293b;
+      }
+  
+      #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+  
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        padding: 2rem;
+      }
+  
+      .hero-subtitle {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        line-height: 1.8;
+      }
+  
+      .btn {
+        padding: 0.75rem 1.5rem;
+        margin: 0.5rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: background 0.3s ease;
+        display: inline-block;
+      }
+  
+      .btn-primary {
+        background-color: #3b82f6;
+        color: #fff;
+      }
+  
+      .btn-primary:hover {
+        background-color: #2563eb;
+      }
+  
+      .btn-secondary {
+        background-color: #e5e7eb;
+        color: #1f2937;
+      }
+  
+      .btn-secondary:hover {
+        background-color: #d1d5db;
+      }
+  
+      .stats {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+        color: #fff;
+      }
+  
+      .stat {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem 2rem;
+        border-radius: 1rem;
+        backdrop-filter: blur(5px);
+        min-width: 150px;
+      }
+  
+      .stat h3 {
+        font-size: 2rem;
+        margin: 0;
+      }
+  
+      .stat p {
+        margin: 0;
+        font-size: 1rem;
+      }
+      .hero-carousel {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Cairo', sans-serif;
+  }
+  
+  .carousel-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .carousel-track {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    transition: transform 0.5s ease;
+  }
+  
+  .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.1));
+    z-index: 1;
+  }
+  
+  .slide-content {
+    font-size: 2.2rem;
+              margin-bottom: 500px;
+              font-weight: 700;
+              color: white;
+              text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .slide-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .slide-content p {
+    font-size: 1.2rem;
+              line-height: 1.6;
+              opacity: 0.9;
+              max-width: 600px;
+              margin: 0 auto;
+  }
+  
+  .slide-content .btn {
+    margin: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  
+  .btn-primary {
+    background-color: #3b82f6;
+    color: #fff;
+  }
+  
+  .btn-secondary {
+    background-color: #f3f4f6;
+    color: #1f2937;
+  }
+  
+  .btn-primary:hover {
+    background-color: #2563eb;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #e5e7eb;
+  }
+  
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255,255,255,0.3);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    z-index: 5;
+    transition: 0.3s;
+  }
+  
+  .carousel-btn:hover {
+    background-color: rgba(255,255,255,0.5);
+  }
+  
+  .carousel-btn.prev {
+    left: 15px;
+  }
+  
+  .carousel-btn.next {
+    right: 15px;
+  }
+  
+  /* جعل mainContent يأخذ المساحة المتاحة */
+  #mainContent {
+    flex: 1;
+    width: 100%;
+    height: calc(100vh - 120px); /* 120px = ارتفاع الهيدر + الفوتر */
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  
+  /* تعديلات السلايدر */
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .swiper-slide {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* التأكد من أن محتوى السلايد يغطي المساحة كاملة */
+  .swiper-slide > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+  }
+  
+  /* تعديلات للغة الإنجليزية */
+  body[dir="ltr"] .header-title {
+    text-align: center;
+  }
+  body[dir="ltr"] .header-logos.right-logos {
+    margin-left: auto;
+  }
+  body[dir="ltr"] .language-menu {
+    left: auto;
+    right: 0;
+  }
+  body[dir="ltr"] .social-icon {
+    margin-left: 0;
+    margin-right: 1rem;
+  }
+  body[dir="ltr"] .footer-content {
+    direction: ltr;
+  }
+  body[dir="ltr"] .footer-logo {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+  body[dir="ltr"] .copyright-text {
+    direction: ltr;
+  }
+  body[dir="ltr"] .slide-content {
+    text-align: center;
+  }
+  </style>
+    <style>
+     
+  
+      .tabs-container {
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px 8px 0 0;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+  
+      .tabs-header {
+        display: flex;
+        gap: 4px;
+        padding: 6px;
+      }
+  
+      .tab-button {
+        display: flex;
+        align-items: center;
+        background: #e0e0e0;
+        color: #333;
+        border: none;
+        border-radius: 8px 8px 0 0;
+        padding: 6px 12px;
+        font-size: 14px;
+        position: relative;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+  
+      .tab-button.active {
+        background: #ffffff;
+        border-bottom: 2px solid #007bff;
+        font-weight: bold;
+      }
+  
+      .tab-button:hover {
+        background: #d0d0d0;
+      }
+  
+      .tab-icon {
+        margin-left: 6px;
+        color: #007bff;
+      }
+  
+      .tab-close {
+        margin-right: 6px;
+        color: #999;
+        font-size: 16px;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+  
+      .tab-close:hover {
+        color: red;
+      }
+    </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header id="mainHeader">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <!-- شعار يسار -->
+      <img src="assets/img/unhabitat.jfif" alt="Logo 3" class="header-logo"/>
+
+      <!-- زر اللغة -->
+      <div class="language-dropdown">
+        <button class="dots-button" onclick="toggleLanguageMenu()">⋮</button>
+        <div class="language-menu" id="languageMenu">
+          <div onclick="switchLanguage('ar')">العربية</div>
+          <div onclick="switchLanguage('en')">English</div>
+          <div>
+            <a href="#" title="إعدادات الحساب">
+              <i class="material-icons">settings</i>
+              <span id="settingsText">إعدادات الحساب</span>
+            </a>
+          </div>
+          <div>
+            <a href="#" onclick="logout()" title="تسجيل الخروج">
+              <i class="material-icons">logout</i>
+              <span id="logoutText">تسجيل الخروج</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- العنوان في الوسط -->
+    <div class="header-title text-center">
+      <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
+      <div class="title-en">Urban Information Management System - Aleppo City</div>
+    </div>
+
+    <!-- شعاران على اليمين -->
+    <div class="header-logos right-logos">
+      <img src="assets/img/aleppo.jfif" alt="Logo 1" class="header-logo"/>
+      <img src="assets/img/japan.png" alt="Logo 2" class="header-logo"/>
+    </div>
+  </header>
+ 
+  
+  <div class="mainContent">
+    <div class="main-content">
+      <div class="map-container">
+        <div class="tabs-container">
+          <div class="tabs-header">
+            <button class="tab-button active" data-tab="التدخلات_الإنسانية">
+              <i class="fas fa-hands-helping tab-icon"></i>
+              <span>التدخلات الإنسانية</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="الأسواق_الأساسية">
+              <i class="fas fa-shopping-cart tab-icon"></i>
+              <span>الأسواق الأساسية</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="إدارة_النفايات_الصلبة">
+              <i class="fas fa-trash-alt tab-icon"></i>
+              <span>إدارة النفايات الصلبة</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="الحدائق_والمساحات_المعيشية">
+              <i class="fas fa-tree tab-icon"></i>
+              <span>الحدائق والمساحات المعيشية</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="المرافق_التعليمية">
+              <i class="fas fa-school tab-icon"></i>
+              <span>المرافق التعليمية</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="المراكز_الصحية">
+              <i class="fas fa-hospital tab-icon"></i>
+              <span>المراكز الصحية</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="شبكة_الكهرباء">
+              <i class="fas fa-bolt tab-icon"></i>
+              <span>شبكة الكهرباء</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="شبكة_الاتصالات">
+              <i class="fas fa-network-wired tab-icon"></i>
+              <span>شبكة الاتصالات</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="إمدادات_المياه">
+              <i class="fas fa-tint tab-icon"></i>
+              <span>إمدادات المياه</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="شبكة_الصرف_الصحي">
+              <i class="fas fa-water tab-icon"></i>
+              <span>شبكة الصرف الصحي</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="أضرار_الإسكان">
+              <i class="fas fa-home tab-icon"></i>
+              <span>أضرار الإسكان</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="النسيج_الحضري">
+              <i class="fas fa-city tab-icon"></i>
+              <span>النسيج الحضري</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="التغيرات_السكانية">
+              <i class="fas fa-users tab-icon"></i>
+              <span>التغيرات السكانية</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="أعضاء لجنة الحي">
+              <i class="fas fa-user-friends tab-icon"></i>
+              <span>أعضاء لجنة الحي</span>
+              <span class="tab-close">&times;</span>
+            </button>
+            <button class="tab-button" data-tab="معلومات التواصل مع لجنة الحي">
+              <i class="fas fa-address-book tab-icon"></i>
+              <span>معلومات التواصل مع لجنة الحي</span>
+              <span class="tab-close">&times;</span>
+            </button>
+          </div>
+        </div>
+
+        
+        <div id="map"></div>
+        <div class="tab-content">
+          <!-- Tab content will be dynamically added here -->
+        </div>
+        
+        <!-- Info Panel -->
+        <div id="modal-backdrop" class="modal-backdrop"></div>
+        <div id="info-panel" class="info-panel">
+          <button id="close-info-panel" class="close-btn">&times;</button>
+          <h3 id="info-title"></h3>
+          <div id="info-content"></div>
+          <div class="button-group">
+            <button id="cancel-changes">إلغاء التعديلات</button>
+            <button id="save-changes">حفظ التغييرات</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Left Sidebar - Layers Management -->
+    <aside id="leftSidebar" class="sidebar left-sidebar">
+      <div class="sidebar-header">
+        <h3>إدارة الطبقات</h3>
+        <button id="toggleLeftSidebar" class="sidebar-toggle">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <div class="sidebar-content">
+        <!-- Base Layers Section -->
+        <div class="sidebar-section">
+          <h4 class="sidebar-section-title">
+            <i class="fas fa-map sidebar-icon"></i>
+            الخرائط الأساسية
+          </h4>
+          <div id="baseLayers" class="base-layers">
+            <div class="base-layer-option" data-basemap="osm">
+              <input type="radio" name="basemap" id="osm" checked>
+              <label for="osm" class="mr-2">خريطة الشارع المفتوحة</label>
+            </div>
+            <div class="base-layer-option" data-basemap="satellite">
+              <input type="radio" name="basemap" id="satellite">
+              <label for="satellite" class="mr-2">صور الأقمار الصناعية</label>
+            </div>
+            <div class="base-layer-option" data-basemap="terrain">
+              <input type="radio" name="basemap" id="terrain">
+              <label for="terrain" class="mr-2">التضاريس</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h4>الطبقات</h4>
+          <div id="layersList" class="layer-list">
+            <!-- Layers will be populated dynamically -->
+            <div class="layer-item">
+              <div class="layer-toggle">
+                <input type="checkbox" id="layer-neighborhoods" checked>
+                <label for="layer-neighborhoods">الأحياء</label>
+              </div>
+              <div class="layer-actions">
+                <button class="layer-action-btn" data-action="zoom" data-layer="neighborhoods">
+                  <i class="fas fa-search-plus"></i>
+                </button>
+                <button class="layer-action-btn" data-action="info" data-layer="neighborhoods">
+                  <i class="fas fa-info-circle"></i>
+                </button>
+              </div>
+            </div>
+            <div class="layer-item">
+              <div class="layer-toggle">
+                <input type="checkbox" id="layer-service-sectors" checked>
+                <label for="layer-service-sectors">دوائر الخدمات</label>
+              </div>
+              <div class="layer-actions">
+                <button class="layer-action-btn" data-action="zoom" data-layer="service-sectors">
+                  <i class="fas fa-search-plus"></i>
+                </button>
+                <button class="layer-action-btn" data-action="info" data-layer="service-sectors">
+                  <i class="fas fa-info-circle"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="sidebar-section">
+          <h4>تصدير / استيراد</h4>
+          <div class="import-export-controls">
+            <button id="importLayerBtn" class="sidebar-button">
+              <i class="fas fa-file-import"></i> استيراد طبقة
+            </button>
+            <input type="file" id="layerFileInput" accept=".geojson,.kml,.shp,.zip" style="display: none;">
+            
+            <button id="exportLayerBtn" class="sidebar-button">
+              <i class="fas fa-file-export"></i> تصدير طبقة
+            </button>
+            
+            <div class="format-selector">
+              <label for="exportFormat">صيغة التصدير:</label>
+              <select id="exportFormat" class="sidebar-select">
+                <option value="geojson">GeoJSON</option>
+                <option value="kml">KML</option>
+                <option value="shp">Shapefile (ZIP)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="sidebar-section">
+          <h4>الرموز والألوان</h4>
+          <div id="symbolEditor" class="symbol-editor">
+            <select id="layerStyleSelect" class="sidebar-select">
+              <option value="">اختر طبقة...</option>
+              <option value="neighborhoods">الأحياء</option>
+              <option value="service-sectors">دوائر الخدمات</option>
+            </select>
+            
+            <div class="style-options" id="styleOptions">
+              <div class="style-option">
+                <label>اللون:</label>
+                <input type="color" id="layerColor" value="#1e40af">
+              </div>
+              
+              <div class="style-option">
+                <label>الشفافية:</label>
+                <input type="range" id="layerOpacity" min="0" max="1" step="0.1" value="0.8">
+                <span id="opacityValue">0.8</span>
+              </div>
+              
+              <div class="style-option">
+                <label>سمك الخط:</label>
+                <input type="number" id="lineWeight" min="1" max="10" value="2">
+              </div>
+              
+              <button id="applyStyleBtn" class="sidebar-button">
+                <i class="fas fa-check"></i> تطبيق
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right Sidebar - Analysis and Queries -->
+    <aside id="rightSidebar" class="sidebar right-sidebar">
+      <div class="sidebar-header">
+        <button id="toggleRightSidebar" class="sidebar-toggle">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <h3>التحليلات والاستعلامات</h3>
+      </div>
+      <div class="sidebar-content">
+        <div class="sidebar-section">
+          <h4>منشئ الاستعلامات</h4>
+          <div id="queryBuilder" class="query-builder">
+            <div class="query-builder-row">
+              <select id="queryTableSelect" class="sidebar-select">
+                <option value="">اختر طبقة...</option>
+                <option value="neighborhoods">الأحياء</option>
+                <option value="service-sectors">دوائر الخدمات</option>
+              </select>
+            </div>
+            
+            <div class="query-builder-row">
+              <select id="queryFieldSelect" class="sidebar-select">
+                <option value="">اختر حقل...</option>
+              </select>
+            </div>
+            
+            <div class="query-builder-row">
+              <select id="queryOperatorSelect" class="sidebar-select">
+                <option value="">اختر العملية...</option>
+                <option value="=">=</option>
+                <option value="<>">≠</option>
+                <option value=">">></option>
+                <option value="<"><</option>
+                <option value=">=">≥</option>
+                <option value="<=">≤</option>
+                <option value="like">يحتوي</option>
+              </select>
+            </div>
+            
+            <div class="query-builder-row">
+              <div class="value-input-container">
+                <input type="text" id="queryValueInput" class="sidebar-input" placeholder="أدخل القيمة">
+                <button id="valueListBtn" class="sidebar-button small-button">
+                  <i class="fas fa-list"></i>
+                </button>
+              </div>
+            </div>
+            
+            <button id="addConditionBtn" class="sidebar-button">
+              <i class="fas fa-plus"></i> إضافة شرط
+            </button>
+            
+            <div id="queryConditions" class="query-conditions">
+              <!-- Conditions will be added here -->
+            </div>
+            
+            <button id="runQueryBtn" class="sidebar-button primary-button">
+              <i class="fas fa-play"></i> تنفيذ الاستعلام
+            </button>
+          </div>
+        </div>
+        
+        <div class="sidebar-section">
+          <h4>نتائج الاستعلام</h4>
+          <div id="queryResults" class="query-results">
+            <div class="empty-state">قم بإنشاء استعلام وتنفيذه لعرض النتائج</div>
+          </div>
+          
+        </div>
+        <div class="sidebar-section">
+          <h4><i class="fas fa-filter"></i> تصفية الأحياء حسب القطاع</h4>
+          <div class="filter-container">
+            <select id="sectorFilterSelect" class="sidebar-select ">
+              <option value="">كل القطاعات</option>
+              <!-- سيتم تعبئة هذه القائمة تلقائياً -->
+            </select>
+            <button id="applySectorFilterBtn" class="sidebar-button futuristic-button">
+              <i class="fas fa-check"></i> تطبيق
+            </button>
+          </div>
+          <div id="filterResults" class="filter-results">
+            <!-- نتائج التصفية تظهر هنا -->
+          </div>
+          <div class="filter-actions">
+            <button id="exportFilteredBtn" class="sidebar-button futuristic-button">
+              <i class="fas fa-file-export"></i> تصدير النتائج المصفاة
+            </button>
+          </div>
+        </div>
+        
+        <div class="sidebar-section">
+          <h4>تحليل بياني</h4>
+          <div class="visualization-controls">
+            <select id="chartType" class="sidebar-select">
+              <option value="">اختر نوع الرسم البياني...</option>
+              <option value="bar">رسم شريطي</option>
+              <option value="pie">رسم دائري</option>
+              <option value="line">رسم خطي</option>
+              <option value="radar">رسم رادار</option>
+            </select>
+            
+            <select id="chartData" class="sidebar-select">
+              <option value="">اختر البيانات...</option>
+              <option value="area">المساحة</option>
+              <option value="sector">القطاع</option>
+              <option value="population">عدد السكان</option>
+              <option value="damage">نسبة الضرر</option>
+            </select>
+            
+            <button id="generateChartBtn" class="sidebar-button">
+              <i class="fas fa-chart-pie"></i> إنشاء الرسم البياني
+            </button>
+          </div>
+          
+          <div class="chart-container">
+            <canvas id="analysisChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="sidebar-section">
+          <h4>تحليلات متقدمة</h4>
+          <div class="advanced-analysis">
+            <button id="densityAnalysisBtn" class="sidebar-button">
+              <i class="fas fa-users"></i> تحليل الكثافة السكانية
+            </button>
+            
+            <button id="infrastructureAnalysisBtn" class="sidebar-button">
+              <i class="fas fa-road"></i> تحليل البنية التحتية
+            </button>
+            
+            <button id="serviceAccessAnalysisBtn" class="sidebar-button">
+              <i class="fas fa-hospital"></i> تحليل الوصول للخدمات
+            </button>
+            
+            <button id="damageAnalysisBtn" class="sidebar-button">
+              <i class="fas fa-house-damage"></i> تحليل الأضرار
+            </button>
+          </div>
+        </div>
+        
+        
+      </div>
+    </aside>
+  </div>
+ <!-- Footer -->
+ <footer id="mainFooter">
+  <div class="footer-content">
+    <div class="copyright">
+      <span class="copyright-text">
+        © <script>document.write(new Date().getFullYear())</script>, <span id="rightsText">جميع الحقوق محفوظة لصالح</span> 
+        <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank" id="companyName">دار التقنية الحديثة</a>
+      </span>
+      <img alt="Company Logo" src="assets/img/HTH.png" class="footer-logo"/>
+    </div>
+    <div class="social-icons">
+      <a aria-label="Facebook" class="social-icon facebook" href="#"><i class="fab fa-facebook-f"></i></a>
+      <a aria-label="Twitter" class="social-icon twitter" href="#"><i class="fab fa-twitter"></i></a>
+      <a aria-label="Instagram" class="social-icon instagram" href="#"><i class="fab fa-instagram"></i></a>
+      <a aria-label="LinkedIn" class="social-icon linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
+      <a aria-label="WhatsApp" class="social-icon whatsapp" href="https://wa.me/966501234567"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</footer>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <!-- Leaflet Plugins -->
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+  
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Application Data & Scripts -->
+  <script src="main.js"></script>
+  <script src="js/service-sectors.js"></script>
+  <script src="attached_assets/aleppo-data.js"></script>
+  <script src="attached_assets/neighborhoods-data.js"></script>
+  <script src="attached_assets/aleppo-analysis.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/query.js"></script>
+  <script src="js/hydraulic-billing.js"></script>
+  <script src="js/import-export.js"></script>
+  <script src="js/features.js"></script>
+  <script src="js/tabs.js"></script>
+  <script>
+    const translations = {
+      ar: {
+        title: "نظام الإدارة الحضرية لمدينة حلب",
+        settingsText: "إعدادات الحساب",
+        logoutText: "تسجيل الخروج",
+        rightsText: "جميع الحقوق محفوظة لصالح",
+        companyName: "دار التقنية الحديثة"
+      },
+      en: {
+        title: "Urban Management System for Aleppo",
+        settingsText: "Account Settings",
+        logoutText: "Logout",
+        rightsText: "All rights reserved to",
+        companyName: "Hi-Tech House"
+      }
+    };
+
+    function switchLanguage(lang) {
+      // تغيير اتجاه الصفحة
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      
+      // تحديث النصوص
+      const t = translations[lang];
+      document.title = t.title;
+      
+      // تحديث القائمة
+      document.getElementById('settingsText').textContent = t.settingsText;
+      document.getElementById('logoutText').textContent = t.logoutText;
+      
+      // تحديث الفوتر
+      document.getElementById('rightsText').textContent = t.rightsText;
+      document.getElementById('companyName').textContent = t.companyName;
+    }
+    
+    function toggleLanguageMenu() {
+      const menu = document.getElementById("languageMenu");
+      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    document.addEventListener('click', function(event) {
+      const dropdown = document.querySelector('.language-dropdown');
+      if (!dropdown.contains(event.target)) {
+        document.getElementById("languageMenu").style.display = "none";
+      }
+    });
+    
+    function logout() {
+      // إضافة منطق تسجيل الخروج هنا
+      console.log("تم تسجيل الخروج");
+    }
+    
+    // تهيئة اللغة الافتراضية
+    switchLanguage('ar');
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Service Sectors Layer Checkbox
+      const serviceSectorsCheckbox = document.getElementById('layer-service-sectors');
+      if (serviceSectorsCheckbox) {
+        serviceSectorsCheckbox.addEventListener('change', function() {
+          if (window.mapLayerToggle) {
+            window.mapLayerToggle('service-sectors', this.checked);
+          }
+        });
+      }
+
+      // Neighborhoods Layer Checkbox (optional, for consistency)
+      const neighborhoodsCheckbox = document.getElementById('layer-neighborhoods');
+      if (neighborhoodsCheckbox) {
+        neighborhoodsCheckbox.addEventListener('change', function() {
+          if (window.mapLayerToggle) {
+            window.mapLayerToggle('neighborhoods', this.checked);
+          }
+        });
+      }
+    });
+
+    function toggleLayersPanel() {
+      var modal = document.getElementById('customLayersModal');
+      if (modal.classList.contains('open')) {
+        modal.classList.remove('open');
+      } else {
+        modal.classList.add('open');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Service Sectors Layer Checkbox
+      const serviceSectorsCheckbox = document.getElementById('layer-service-sectors');
+      if (serviceSectorsCheckbox) {
+        serviceSectorsCheckbox.addEventListener('change', function() {
+          if (window.mapLayerToggle) {
+            window.mapLayerToggle('service-sectors', this.checked);
+          }
+        });
+      }
+
+      // Neighborhoods Layer Checkbox (optional, for consistency)
+      const neighborhoodsCheckbox = document.getElementById('layer-neighborhoods');
+      if (neighborhoodsCheckbox) {
+        neighborhoodsCheckbox.addEventListener('change', function() {
+          if (window.mapLayerToggle) {
+            window.mapLayerToggle('neighborhoods', this.checked);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

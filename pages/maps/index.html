@@ -804,30 +804,37 @@
 <body>
   <!-- Header -->
   <header id="mainHeader">
-    <div style="display: flex; align-items: center; gap: 10px;">
+    <div style="display: flex; align-items: center; gap: 10px">
       <!-- شعار يسار -->
-      <img src="assets/img/unhabitat.jfif" alt="Logo 3" class="header-logo"/>
+      <img src="assets/img/unhabitat.jfif" alt="Logo 3" class="header-logo" />
 
       <!-- زر اللغة -->
       <div class="language-dropdown">
-        <button class="dots-button" onclick="toggleLanguageMenu()">⋮</button>
-        <div class="language-menu" id="languageMenu">
-          <div onclick="switchLanguage('ar')">العربية</div>
-          <div onclick="switchLanguage('en')">English</div>
-          <div>
-            <a href="#" title="إعدادات الحساب">
-              <i class="material-icons">settings</i>
-              <span id="settingsText">إعدادات الحساب</span>
-            </a>
-          </div>
-          <div>
-            <a href="#" onclick="logout()" title="تسجيل الخروج">
-              <i class="material-icons">logout</i>
-              <span id="logoutText">تسجيل الخروج</span>
-            </a>
-          </div>
+        <button class="language-toggle" id="langToggleBtn" onclick="toggleLanguage()">
+          AR
+        </button>
+      </div>
+      <!-- زر القائمة -->
+      <div class="menu-dropdown">
+        <button class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()">
+          <i class="fas fa-ellipsis-v"></i>
+        </button>
+        <div class="menu-dropdown-content" id="menuDropdown">
+          <a href="#" class="menu-item" id="settingsBtn">
+            <i class="fas fa-cog"></i>
+            <span id="settingsText">الإعدادات</span>
+          </a>
+          <a href="#" class="menu-item" id="logoutBtn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span id="logoutText">تسجيل الخروج</span>
+          </a>
         </div>
       </div>
+      <!-- زر الرجوع -->
+      <button class="header-back-btn" onclick="window.history.back()" title="رجوع">
+      <!-- <button class="header-back-btn" onclick="window.location.href='../user.html'" title="رجوع"> -->
+        <i class="fas fa-arrow-left"></i>
+      </button>
     </div>
 
     <!-- العنوان في الوسط -->

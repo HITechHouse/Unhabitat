@@ -457,17 +457,17 @@ const tableNames = {
     "وصف الاحتياجات",
   ],
   "أعضاء لجنة الحي": [
-      "معرف مميز",
-      "معرف الحي",
-      "اسم المختار",
-      "عدد الأعضاء",
-      "اسم أمين السر",
-      "نسبة الذكور من الأعضاء",
-    ],
+    "معرف مميز",
+    "معرف الحي",
+    "اسم المختار",
+    "عدد الأعضاء",
+    "اسم أمين السر",
+    "نسبة الذكور من الأعضاء",
+  ],
 };
 
 // تهيئة التبويبات عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   initializeTabs();
   setupEventListeners();
   setupDraggablePanel();
@@ -486,7 +486,7 @@ function createWarningMessage() {
 function showWarning() {
   const warningMessage = document.getElementById('warningMessage');
   warningMessage.classList.add('show');
-  
+
   // Hide the message after animation
   setTimeout(() => {
     warningMessage.classList.remove('show');
@@ -512,10 +512,10 @@ function setupDraggablePanel() {
 function startDragging(e) {
   isDragging = true;
   const infoPanel = document.getElementById('info-panel');
-  
+
   // Get current panel position
   const rect = infoPanel.getBoundingClientRect();
-  
+
   // Calculate offset
   if (e.type === 'mousedown') {
     dragOffset.x = e.clientX - rect.left;
@@ -525,35 +525,35 @@ function startDragging(e) {
     dragOffset.x = e.touches[0].clientX - rect.left;
     dragOffset.y = e.touches[0].clientY - rect.top;
   }
-  
+
   infoPanel.classList.add('dragging');
 }
 
 function drag(e) {
   if (!isDragging) return;
-  
+
   e.preventDefault(); // Prevent default scrolling behavior
   const infoPanel = document.getElementById('info-panel');
-  
+
   // Get cursor position
   const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
   const clientY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
-  
+
   // Calculate new position
   let newX = clientX - dragOffset.x;
   let newY = clientY - dragOffset.y;
-  
+
   // Get window dimensions
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
-  
+
   // Get panel dimensions
   const rect = infoPanel.getBoundingClientRect();
-  
+
   // Constrain to window bounds
   newX = Math.max(0, Math.min(newX, windowWidth - rect.width));
   newY = Math.max(0, Math.min(newY, windowHeight - rect.height));
-  
+
   // Apply new position
   infoPanel.style.right = `${windowWidth - newX - rect.width}px`;
   infoPanel.style.top = `${newY}px`;
@@ -571,8 +571,8 @@ function createModalBackdrop() {
   const backdrop = document.createElement('div');
   backdrop.className = 'modal-backdrop';
   document.body.appendChild(backdrop);
-  
-  backdrop.addEventListener('click', function() {
+
+  backdrop.addEventListener('click', function () {
     hideInfoPanel();
   });
 }
@@ -581,9 +581,9 @@ function initializeTabs() {
   document.querySelectorAll(".tab-button").forEach((button) => {
     button.addEventListener("click", function () {
       const tabId = this.getAttribute("data-tab");
-      
+
       // Activate current button and deactivate others
-      document.querySelectorAll(".tab-button").forEach((btn) => 
+      document.querySelectorAll(".tab-button").forEach((btn) =>
         btn.classList.remove("active")
       );
       this.classList.add("active");
@@ -628,7 +628,7 @@ function setupEventListeners() {
       if (changes.length > 0) {
         console.log("التغييرات المحفوظة:", changes);
         alert("تم حفظ التغييرات بنجاح");
-        
+
         // Reset the changed flag
         inputs.forEach(input => input.dataset.changed = 'false');
       } else {
@@ -655,25 +655,100 @@ function renderInfoPanel(tabId, neighborhoodId) {
   const table = tablesData[tabId];
   if (!table) return;
 
+  // Get current language
+  const currentLang = document.documentElement.lang || "ar";
+
+  // Get tab name based on current language
+  let tabName = tabId.replace(/_/g, " ");
+  if (window.translations && window.translations[currentLang] && window.translations[currentLang].tabs && window.translations[currentLang].tabs[tabId]) {
+    tabName = window.translations[currentLang].tabs[tabId];
+  }
+
   // Set the title and clear content
   infoTitle.innerHTML = `
-    <span>${tabId.replace(/_/g, " ")} - ${selectedNeighborhoodName}</span>
+    <span>${tabName} - ${selectedNeighborhoodName}</span>
     <button class="close-button" onclick="hideInfoPanel()">&times;</button>
   `;
   infoContent.innerHTML = "";
 
-  // Create fields
-  table.fields.forEach((field) => {
-    const fieldContainer = document.createElement("div");
-    fieldContainer.className = "field-container";
+  // Create form container
+  const formContainer = document.createElement("form");
+  formContainer.className = "info-form";
 
-    const nameDiv = document.createElement("div");
-    nameDiv.className = "field-name";
-    nameDiv.textContent = field.name;
+  // Create table with border
+  const tableElement = document.createElement("table");
+  tableElement.style.border = "2px solid #ddd";
+  tableElement.style.borderRadius = "8px";
+  tableElement.style.overflow = "hidden";
+  tableElement.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
 
-    const valueDiv = document.createElement("div");
-    valueDiv.className = "field-value";
+  // Create table header
+  const tableHead = document.createElement("thead");
+  const headerRow = document.createElement("tr");
 
+  // Create header cells
+  const identifierHeader = document.createElement("th");
+  identifierHeader.textContent = "المعرف";
+  identifierHeader.style.fontSize = "1.1rem";
+  identifierHeader.style.fontWeight = "bold";
+  identifierHeader.style.padding = "12px 15px";
+  identifierHeader.style.backgroundColor = "#1e40af";
+  identifierHeader.style.color = "white";
+  identifierHeader.style.textAlign = "center";
+
+  const valueHeader = document.createElement("th");
+  valueHeader.textContent = "القيمة";
+  valueHeader.style.fontSize = "1.1rem";
+  valueHeader.style.fontWeight = "bold";
+  valueHeader.style.padding = "12px 15px";
+  valueHeader.style.backgroundColor = "#1e40af";
+  valueHeader.style.color = "white";
+  valueHeader.style.textAlign = "center";
+
+  // Add header cells to header row
+  headerRow.appendChild(identifierHeader);
+  headerRow.appendChild(valueHeader);
+
+  // Add header row to table head
+  tableHead.appendChild(headerRow);
+
+  // Add table head to table
+  tableElement.appendChild(tableHead);
+
+  // Create table body
+  const tableBody = document.createElement("tbody");
+
+  // Create fields as table rows
+  table.fields.forEach((field, index) => {
+    // Create table row
+    const row = document.createElement("tr");
+
+    // Add zebra striping for better readability
+    if (index % 2 === 0) {
+      row.style.backgroundColor = "#f8fafc";
+    }
+
+    // Get current language
+    const currentLang = document.documentElement.lang || "ar";
+
+    // Get field name based on current language
+    let fieldName = field.name;
+    if (window.fieldTranslations && window.fieldTranslations[currentLang] && window.fieldTranslations[currentLang][field.key]) {
+      fieldName = window.fieldTranslations[currentLang][field.key];
+    }
+
+    // Create label cell
+    const labelCell = document.createElement("td");
+    labelCell.textContent = fieldName;
+    labelCell.style.fontWeight = "600";
+    labelCell.style.padding = "12px 15px";
+    labelCell.style.borderRight = "1px solid #ddd";
+
+    // Create value cell
+    const valueCell = document.createElement("td");
+    valueCell.style.padding = "12px 15px";
+
+    // Create input element
     let inputElement;
     const currentValue = table.sampleData[field.key] || '';
 
@@ -681,13 +756,13 @@ function renderInfoPanel(tabId, neighborhoodId) {
       if (field.type === 'select' && Array.isArray(field.options)) {
         inputElement = document.createElement("select");
         inputElement.className = "editable-field";
-        
+
         // Add an empty option first
         const emptyOption = document.createElement("option");
         emptyOption.value = "";
         emptyOption.textContent = "-- اختر --";
         inputElement.appendChild(emptyOption);
-        
+
         // Add all other options
         field.options.forEach(option => {
           const optionElement = document.createElement("option");
@@ -705,7 +780,7 @@ function renderInfoPanel(tabId, neighborhoodId) {
       } else {
         inputElement = document.createElement("input");
         inputElement.className = "editable-field";
-        
+
         switch (field.type) {
           case 'number':
             inputElement.type = "number";
@@ -747,25 +822,104 @@ function renderInfoPanel(tabId, neighborhoodId) {
 
     // Add change event listener for editable fields
     if (field.editable) {
-      inputElement.addEventListener('change', function() {
+      inputElement.addEventListener('change', function () {
         this.dataset.changed = 'true';
       });
     }
 
-    valueDiv.appendChild(inputElement);
-    fieldContainer.appendChild(nameDiv);
-    fieldContainer.appendChild(valueDiv);
-    infoContent.appendChild(fieldContainer);
+    // Add input to value cell
+    valueCell.appendChild(inputElement);
+
+    // Add cells to row
+    row.appendChild(labelCell);
+    row.appendChild(valueCell);
+
+    // Add row to table body
+    tableBody.appendChild(row);
   });
 
-  // Add save button if not already present
-  let saveButton = document.getElementById('save-changes');
-  if (!saveButton) {
-    saveButton = document.createElement('button');
-    saveButton.id = 'save-changes';
-    saveButton.textContent = 'حفظ التغييرات';
-    infoContent.appendChild(saveButton);
-  }
+  // Add table body to table
+  tableElement.appendChild(tableBody);
+
+  // Add table to form container
+  formContainer.appendChild(tableElement);
+
+  // Add form container to info content
+  infoContent.appendChild(formContainer);
+
+  // Add button group
+  const buttonGroup = document.createElement("div");
+  buttonGroup.className = "button-group";
+  buttonGroup.style.marginTop = "20px";
+  buttonGroup.style.padding = "15px";
+  buttonGroup.style.backgroundColor = "#f8fafc";
+  buttonGroup.style.borderTop = "1px solid #ddd";
+  buttonGroup.style.borderRadius = "0 0 8px 8px";
+  buttonGroup.style.display = "flex";
+  buttonGroup.style.justifyContent = "space-between";
+  buttonGroup.style.gap = "15px";
+
+  // Add cancel button
+  const cancelButton = document.createElement("button");
+  cancelButton.id = "cancel-changes";
+  cancelButton.textContent = "إلغاء التعديلات";
+  cancelButton.style.flex = "1";
+  cancelButton.style.padding = "12px 15px";
+  cancelButton.style.fontSize = "1rem";
+  cancelButton.style.fontWeight = "600";
+  cancelButton.style.backgroundColor = "#f1f5f9";
+  cancelButton.style.color = "#4b5563";
+  cancelButton.style.border = "1px solid #ddd";
+  cancelButton.style.borderRadius = "6px";
+  cancelButton.style.cursor = "pointer";
+  cancelButton.style.transition = "all 0.2s ease";
+  cancelButton.addEventListener("click", hideInfoPanel);
+
+  // Add save button
+  const saveButton = document.createElement("button");
+  saveButton.id = "save-changes";
+  saveButton.textContent = "حفظ التغييرات";
+  saveButton.style.flex = "1";
+  saveButton.style.padding = "12px 15px";
+  saveButton.style.fontSize = "1rem";
+  saveButton.style.fontWeight = "600";
+  saveButton.style.backgroundColor = "#1e40af";
+  saveButton.style.color = "white";
+  saveButton.style.border = "none";
+  saveButton.style.borderRadius = "6px";
+  saveButton.style.cursor = "pointer";
+  saveButton.style.transition = "all 0.2s ease";
+  saveButton.addEventListener("click", function () {
+    const inputs = document.querySelectorAll(".editable-field");
+    const changes = [];
+
+    inputs.forEach((input) => {
+      if (input.dataset.changed === 'true') {
+        changes.push({
+          table: input.dataset.table,
+          field: input.dataset.field,
+          value: input.value,
+        });
+      }
+    });
+
+    if (changes.length > 0) {
+      console.log("التغييرات المحفوظة:", changes);
+      alert("تم حفظ التغييرات بنجاح");
+
+      // Reset the changed flag
+      inputs.forEach(input => input.dataset.changed = 'false');
+    } else {
+      alert("لم يتم إجراء أي تغييرات");
+    }
+  });
+
+  // Add buttons to button group
+  buttonGroup.appendChild(cancelButton);
+  buttonGroup.appendChild(saveButton);
+
+  // Add button group to info content
+  infoContent.appendChild(buttonGroup);
 
   // Show the modal and backdrop with a slight delay to ensure smooth animation
   requestAnimationFrame(() => {
@@ -777,11 +931,11 @@ function renderInfoPanel(tabId, neighborhoodId) {
 function hideInfoPanel() {
   const infoPanel = document.getElementById("info-panel");
   const backdrop = document.querySelector(".modal-backdrop");
-  
+
   if (infoPanel) {
     infoPanel.classList.remove("show");
   }
-  
+
   if (backdrop) {
     backdrop.classList.remove("show");
   }
@@ -808,61 +962,61 @@ window.renderInfoPanel = renderInfoPanel;
 window.setSelectedNeighborhood = setSelectedNeighborhood;
 
 function closeInfoPanel() {
-    const infoPanel = document.getElementById('info-panel');
-    const backdrop = document.getElementById('modal-backdrop');
-    
-    // Add the hide class to trigger the animation
-    infoPanel.classList.remove('show');
-    backdrop.style.display = 'none';
-    
-    // Reset any active tabs
-    const activeTabs = document.querySelectorAll('.tab-button.active');
-    activeTabs.forEach(tab => tab.classList.remove('active'));
-    
-    // Clear the content
-    const tabContent = document.querySelector('.tab-content');
-    if (tabContent) {
-        tabContent.innerHTML = '';
-    }
+  const infoPanel = document.getElementById('info-panel');
+  const backdrop = document.getElementById('modal-backdrop');
+
+  // Add the hide class to trigger the animation
+  infoPanel.classList.remove('show');
+  backdrop.style.display = 'none';
+
+  // Reset any active tabs
+  const activeTabs = document.querySelectorAll('.tab-button.active');
+  activeTabs.forEach(tab => tab.classList.remove('active'));
+
+  // Clear the content
+  const tabContent = document.querySelector('.tab-content');
+  if (tabContent) {
+    tabContent.innerHTML = '';
+  }
 }
 
 function updateTabContent(tabId) {
-    if (!selectedNeighborhoodId) {
-        showWarning();
-        return;
+  if (!selectedNeighborhoodId) {
+    showWarning();
+    return;
+  }
+
+  const tabContent = document.querySelector('.tab-content');
+  if (!tabContent) return;
+
+  // Show loading state
+  tabContent.innerHTML = '<div class="loading">جاري التحميل...</div>';
+
+  // Simulate loading data (replace with actual data fetching)
+  setTimeout(() => {
+    let content = '';
+    switch (tabId) {
+      case 'info':
+        content = generateInfoTabContent();
+        break;
+      case 'statistics':
+        content = generateStatisticsTabContent();
+        break;
+      case 'services':
+        content = generateServicesTabContent();
+        break;
+      default:
+        content = '<p>المحتوى غير متوفر</p>';
     }
-    
-    const tabContent = document.querySelector('.tab-content');
-    if (!tabContent) return;
-    
-    // Show loading state
-    tabContent.innerHTML = '<div class="loading">جاري التحميل...</div>';
-    
-    // Simulate loading data (replace with actual data fetching)
-    setTimeout(() => {
-        let content = '';
-        switch(tabId) {
-            case 'info':
-                content = generateInfoTabContent();
-                break;
-            case 'statistics':
-                content = generateStatisticsTabContent();
-                break;
-            case 'services':
-                content = generateServicesTabContent();
-                break;
-            default:
-                content = '<p>المحتوى غير متوفر</p>';
-        }
-        tabContent.innerHTML = content;
-        
-        // Setup editable fields after content is loaded
-        setupEditableFields();
-    }, 500);
+    tabContent.innerHTML = content;
+
+    // Setup editable fields after content is loaded
+    setupEditableFields();
+  }, 500);
 }
 
 function generateInfoTabContent() {
-    return `
+  return `
         <div class="info-section">
             <h3>معلومات الحي</h3>
             <div class="info-field">
@@ -879,7 +1033,7 @@ function generateInfoTabContent() {
 }
 
 function generateStatisticsTabContent() {
-    return `
+  return `
         <div class="statistics-section">
             <h3>إحصائيات</h3>
             <div class="stat-item">
@@ -896,7 +1050,7 @@ function generateStatisticsTabContent() {
 }
 
 function generateServicesTabContent() {
-    return `
+  return `
         <div class="services-section">
             <h3>الخدمات</h3>
             <div class="service-item">
@@ -912,5 +1066,5 @@ function generateServicesTabContent() {
 }
 
 function setupEditableFields() {
-    // Implementation of setupEditableFields function
+  // Implementation of setupEditableFields function
 }

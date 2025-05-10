@@ -9,11 +9,20 @@ let neighborhoodsLayer;
 let serviceSectorsLayer;
 let serviceSectorsGeoJsonLayer;
 let currentAnalysis = null;
+let neighborhoodLabelsLayer = null; // تعريف متغير التسميات هنا
+let layersControl = null; // تعريف متغير لوحة التحكم بالطبقات هنا
 
 // Base layer switching variables
 let currentBaseIndex = 0;
 let baseLayersArr = [];
 let currentBaseLayer = null;
+
+// Global variable for draw control
+let drawControl = null;
+let drawnItems = null;
+let measureControl = null;
+let measureMode = null; // 'distance' or 'area'
+let activeDraw = null;
 
 // Dummy data for dropdowns
 const dummyData = {
@@ -79,6 +88,207 @@ window.addEventListener('DOMContentLoaded', function () {
   initMap();
   // setupMapControls and loadLayers are called inside initMap
   updateStatistics();
+  // Toolbar button event listeners
+  const zoomInBtn = document.getElementById('zoom-in-btn');
+  const zoomOutBtn = document.getElementById('zoom-out-btn');
+  const homeBtn = document.getElementById('home-btn');
+  const layersBtn = document.getElementById('layers-btn');
+  const measureBtn = document.getElementById('measure-btn');
+  const drawBtn = document.getElementById('draw-btn');
+  const basemapGallery = document.getElementById('basemap-gallery');
+
+  // Measurement modal elements
+  const measureTypeModal = document.getElementById('measure-type-modal');
+  const measureDistanceBtn = document.getElementById('measure-distance-btn');
+  const measureAreaBtn = document.getElementById('measure-area-btn');
+  const measureCancelBtn = document.getElementById('measure-cancel-btn');
+
+  // Home view settings
+  const homeView = [36.2021, 37.1343];
+  const homeZoom = 12;
+
+  if (zoomInBtn) zoomInBtn.onclick = () => map && map.zoomIn();
+  if (zoomOutBtn) zoomOutBtn.onclick = () => map && map.zoomOut();
+  if (homeBtn) homeBtn.onclick = () => map && map.setView(homeView, homeZoom);
+
+  // Basemap gallery logic
+  const basemaps = [
+    { name: 'Streets', layer: baseLayers.osm, img: 'https://a.tile.openstreetmap.org/10/563/402.png' },
+    { name: 'Satellite', layer: baseLayers.satellite, img: 'https://mt1.google.com/vt/lyrs=s&x=563&y=402&z=10' },
+    { name: 'Terrain', layer: baseLayers.terrain, img: 'https://a.tile.opentopomap.org/10/563/402.png' }
+  ];
+  basemapGallery.innerHTML = '';
+  basemaps.forEach((bm, idx) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'basemap-thumb' + (map.hasLayer(bm.layer) ? ' selected' : '');
+    thumb.innerHTML = `<img src="${bm.img}" alt="${bm.name}"><div class="basemap-label">${bm.name}</div>`;
+    thumb.addEventListener('click', () => {
+      basemaps.forEach(b => map.removeLayer(b.layer));
+      map.addLayer(bm.layer);
+      document.querySelectorAll('.basemap-thumb').forEach(t => t.classList.remove('selected'));
+      thumb.classList.add('selected');
+    });
+    basemapGallery.appendChild(thumb);
+  });
+  // Show/hide gallery on layers button click
+  if (layersBtn) {
+    layersBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      basemapGallery.classList.toggle('open');
+    });
+  }
+  // Hide basemap gallery when clicking outside
+  document.addEventListener('click', function (e) {
+    if (basemapGallery.classList.contains('open')) {
+      if (!basemapGallery.contains(e.target) && e.target !== layersBtn) {
+        basemapGallery.classList.remove('open');
+      }
+    }
+  });
+
+  // Measurement tool toggle
+  if (measureBtn) measureBtn.onclick = () => {
+    if (measureTypeModal) measureTypeModal.style.display = 'flex';
+  };
+
+  // Drawing tool toggle
+  drawnItems = new L.FeatureGroup();
+  map.addLayer(drawnItems);
+
+  // --- Drawing Modal ---
+  // Create drawing modal if not exists
+  let drawTypeModal = document.getElementById('draw-type-modal');
+  if (!drawTypeModal) {
+    drawTypeModal = document.createElement('div');
+    drawTypeModal.id = 'draw-type-modal';
+    drawTypeModal.style.position = 'fixed';
+    drawTypeModal.style.top = '0';
+    drawTypeModal.style.left = '0';
+    drawTypeModal.style.width = '100vw';
+    drawTypeModal.style.height = '100vh';
+    drawTypeModal.style.background = 'rgba(0,0,0,0.3)';
+    drawTypeModal.style.display = 'none';
+    drawTypeModal.style.alignItems = 'center';
+    drawTypeModal.style.justifyContent = 'center';
+    drawTypeModal.style.zIndex = '2000';
+    drawTypeModal.innerHTML = `
+      <div style="background:#fff;padding:32px 24px;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.18);min-width:320px;text-align:center;direction:rtl;">
+        <div style="font-size:18px;font-weight:600;margin-bottom:18px;">اختر نوع الشكل المراد رسمه</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <button id="draw-polyline-btn" style="padding:10px 0;font-size:15px;border:none;background:#e3f2fd;border-radius:8px;cursor:pointer;">رسم خط</button>
+          <button id="draw-polygon-btn" style="padding:10px 0;font-size:15px;border:none;background:#e3f2fd;border-radius:8px;cursor:pointer;">رسم مضلع</button>
+          <button id="draw-rectangle-btn" style="padding:10px 0;font-size:15px;border:none;background:#e3f2fd;border-radius:8px;cursor:pointer;">رسم مستطيل</button>
+          <button id="draw-circle-btn" style="padding:10px 0;font-size:15px;border:none;background:#e3f2fd;border-radius:8px;cursor:pointer;">رسم دائرة</button>
+          <button id="draw-marker-btn" style="padding:10px 0;font-size:15px;border:none;background:#e3f2fd;border-radius:8px;cursor:pointer;">إضافة نقطة</button>
+          <button id="draw-cancel-btn" style="padding:10px 0;font-size:15px;border:none;background:#eee;border-radius:8px;cursor:pointer;">إلغاء</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(drawTypeModal);
+  }
+
+  // Drawing tool logic
+  let activeDrawShape = null;
+  if (drawBtn) drawBtn.onclick = () => {
+    drawTypeModal.style.display = 'flex';
+  };
+
+  // Modal button handlers
+  drawTypeModal.querySelector('#draw-polyline-btn').onclick = function() {
+    drawTypeModal.style.display = 'none';
+    if (activeDrawShape) activeDrawShape.disable();
+    activeDrawShape = new L.Draw.Polyline(map, { shapeOptions: { color: '#db4a29', weight: 4 } });
+    activeDrawShape.enable();
+  };
+  drawTypeModal.querySelector('#draw-polygon-btn').onclick = function() {
+    drawTypeModal.style.display = 'none';
+    if (activeDrawShape) activeDrawShape.disable();
+    activeDrawShape = new L.Draw.Polygon(map, { shapeOptions: { color: '#2196f3', weight: 3 } });
+    activeDrawShape.enable();
+  };
+  drawTypeModal.querySelector('#draw-rectangle-btn').onclick = function() {
+    drawTypeModal.style.display = 'none';
+    if (activeDrawShape) activeDrawShape.disable();
+    activeDrawShape = new L.Draw.Rectangle(map, { shapeOptions: { color: '#43a047', weight: 3 } });
+    activeDrawShape.enable();
+  };
+  drawTypeModal.querySelector('#draw-circle-btn').onclick = function() {
+    drawTypeModal.style.display = 'none';
+    if (activeDrawShape) activeDrawShape.disable();
+    activeDrawShape = new L.Draw.Circle(map, { shapeOptions: { color: '#fbc02d', weight: 3 } });
+    activeDrawShape.enable();
+  };
+  drawTypeModal.querySelector('#draw-marker-btn').onclick = function() {
+    drawTypeModal.style.display = 'none';
+    if (activeDrawShape) activeDrawShape.disable();
+    activeDrawShape = new L.Draw.Marker(map, {});
+    activeDrawShape.enable();
+  };
+  drawTypeModal.querySelector('#draw-cancel-btn').onclick = function() {
+    drawTypeModal.style.display = 'none';
+    if (activeDrawShape) activeDrawShape.disable();
+  };
+
+  // Draw created event for custom popup with delete
+  map.on('draw:created', function (e) {
+    const layer = e.layer;
+    // Create custom popup content with delete button
+    const popupContent = document.createElement('div');
+    popupContent.className = 'draw-popup';
+    popupContent.style.padding = '10px';
+    popupContent.style.textAlign = 'center';
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'delete-draw-btn';
+    deleteButton.innerHTML = '<i class="fas fa-trash"></i> حذف الشكل';
+    deleteButton.style.backgroundColor = '#dc3545';
+    deleteButton.style.color = 'white';
+    deleteButton.style.border = 'none';
+    deleteButton.style.padding = '5px 10px';
+    deleteButton.style.borderRadius = '4px';
+    deleteButton.style.cursor = 'pointer';
+    deleteButton.style.marginTop = '5px';
+    deleteButton.style.width = '100%';
+    deleteButton.onclick = function() {
+      if (drawnItems) {
+        drawnItems.removeLayer(layer);
+      }
+    };
+    popupContent.appendChild(deleteButton);
+    layer.bindPopup(popupContent);
+    layer.openPopup();
+    if (drawnItems) drawnItems.addLayer(layer);
+    if (activeDrawShape) activeDrawShape.disable();
+  });
+
+  if (measureCancelBtn) measureCancelBtn.onclick = () => {
+    if (measureTypeModal) measureTypeModal.style.display = 'none';
+    if (activeDraw) { activeDraw.disable(); }
+    measureMode = null;
+  };
+  if (measureDistanceBtn) measureDistanceBtn.onclick = () => {
+    if (measureTypeModal) measureTypeModal.style.display = 'none';
+    startMeasureMode('distance');
+  };
+  if (measureAreaBtn) measureAreaBtn.onclick = () => {
+    if (measureTypeModal) measureTypeModal.style.display = 'none';
+    startMeasureMode('area');
+  };
+
+  // أضف مستمع zoomend بعد تهيئة الخريطة
+  if (map) {
+    map.on('zoomend', function() {
+      const zoom = map.getZoom();
+      if (zoom >= 14) {
+        if (neighborhoodsLayer && !map.hasLayer(neighborhoodsLayer)) map.addLayer(neighborhoodsLayer);
+        if (neighborhoodLabelsLayer && !map.hasLayer(neighborhoodLabelsLayer)) map.addLayer(neighborhoodLabelsLayer);
+        if (serviceSectorsLayer && map.hasLayer(serviceSectorsLayer)) map.removeLayer(serviceSectorsLayer);
+      } else {
+        if (serviceSectorsLayer && !map.hasLayer(serviceSectorsLayer)) map.addLayer(serviceSectorsLayer);
+        if (neighborhoodsLayer && map.hasLayer(neighborhoodsLayer)) map.removeLayer(neighborhoodsLayer);
+        if (neighborhoodLabelsLayer && map.hasLayer(neighborhoodLabelsLayer)) map.removeLayer(neighborhoodLabelsLayer);
+      }
+    });
+  }
 });
 
 // Fix for white space issue - force map resize when window is resized
@@ -155,6 +365,10 @@ function initMap() {
   currentBaseLayer = baseLayersArr[0].layer;
   currentBaseIndex = 0;
 
+  // --- إضافة طبقات إضافية (Overlays) ---
+  // سنضيف طبقة التسميات لاحقاً بعد تحميل الأحياء
+  const overlays = {};
+
   // وظيفة تبديل طبقة الأساس
   function setBaseLayer(index) {
     baseLayersArr.forEach(function (obj) {
@@ -167,29 +381,6 @@ function initMap() {
   // طبقة الأساس الافتراضية
   setBaseLayer(0);
 
-  // زر تبديل طبقة الأساس (الدائري)
-  const baseLayerBtn = document.getElementById('baseLayerBtn');
-  if (baseLayerBtn) {
-    baseLayerBtn.onclick = function () {
-      var nextIndex = (currentBaseIndex + 1) % baseLayersArr.length;
-      setBaseLayer(nextIndex);
-    };
-  }
-
-  // راديو اختيار طبقة الأساس في المودال
-  const baseLayerForm = document.getElementById('baseLayerForm');
-  if (baseLayerForm) {
-    baseLayerForm.addEventListener('change', function (e) {
-      if (e.target.name === 'baseLayer') {
-        let idx = 0;
-        if (e.target.value === 'satellite') idx = 1;
-        else if (e.target.value === 'terrain') idx = 2;
-        setBaseLayer(idx);
-        if (typeof toggleLayersPanel === 'function') toggleLayersPanel();
-      }
-    });
-  }
-
   // إضافة متحكم الطبقات إلى الخريطة
   L.control.layers(baseLayers, null, {
     position: 'topleft',
@@ -201,11 +392,89 @@ function initMap() {
     position: 'topleft'
   }).addTo(map);
 
-  // إضافة مقياس للخريطة
+  // إضافة مقياس للخريطة (دائماً)
   L.control.scale({
     position: 'bottomleft',
     imperial: false
   }).addTo(map);
+
+  // إضافة أدوات الرسم دائماً
+  drawnItems = new L.FeatureGroup();
+  map.addLayer(drawnItems);
+  drawControl = new L.Control.Draw({
+    edit: {
+      featureGroup: drawnItems
+    }
+  });
+  map.addControl(drawControl);
+
+  // Add draw:created event listener
+  map.on('draw:created', function (e) {
+    const layer = e.layer;
+    let result = '';
+    if (e.layerType === 'polyline') {
+      // Calculate distance
+      const latlngs = layer.getLatLngs();
+      let distance = 0;
+      for (let i = 1; i < latlngs.length; i++) {
+        distance += latlngs[i - 1].distanceTo(latlngs[i]);
+      }
+      result = `المسافة: ${(distance / 1000).toFixed(2)} كم`;
+    } else if (e.layerType === 'polygon') {
+      // Calculate area
+      const latlngs = layer.getLatLngs()[0];
+      const area = L.GeometryUtil ? L.GeometryUtil.geodesicArea(latlngs) : 0;
+      result = `المساحة: ${(area / 1000000).toFixed(2)} كم²`;
+    }
+
+    // Create custom popup content with buttons
+    const popupContent = document.createElement('div');
+    popupContent.className = 'measurement-popup';
+    popupContent.style.padding = '10px';
+    popupContent.style.textAlign = 'center';
+    
+    // Add measurement result
+    const resultDiv = document.createElement('div');
+    resultDiv.style.marginBottom = '10px';
+    resultDiv.style.fontWeight = 'bold';
+    resultDiv.textContent = result;
+    popupContent.appendChild(resultDiv);
+
+    // Add delete button
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'delete-measurement-btn';
+    deleteButton.innerHTML = '<i class="fas fa-trash"></i> حذف القياس';
+    deleteButton.style.backgroundColor = '#dc3545';
+    deleteButton.style.color = 'white';
+    deleteButton.style.border = 'none';
+    deleteButton.style.padding = '5px 10px';
+    deleteButton.style.borderRadius = '4px';
+    deleteButton.style.cursor = 'pointer';
+    deleteButton.style.marginTop = '5px';
+    deleteButton.style.width = '100%';
+    
+    deleteButton.onclick = function() {
+      if (drawnItems) {
+        drawnItems.removeLayer(layer);
+      }
+    };
+    
+    popupContent.appendChild(deleteButton);
+
+    // Bind the custom popup to the layer
+    layer.bindPopup(popupContent);
+    layer.openPopup();
+
+    // Add the layer to drawnItems
+    if (drawnItems) drawnItems.addLayer(layer);
+    
+    // Disable the draw control
+    if (activeDraw) { activeDraw.disable(); }
+    measureMode = null;
+    
+    // Show result in floating box
+    showMeasureResultBox(result);
+  });
 
   // إعداد عناصر التحكم في الخريطة
   setupMapControls();
@@ -218,6 +487,299 @@ function initMap() {
 
   // Add default base layer
   currentBaseLayer.addTo(map);
+
+  // Add scale bar (always visible)
+  L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
+
+  // Basemap gallery logic
+  const basemapGallery = document.getElementById('basemap-gallery');
+  const basemaps = [
+    { name: 'Streets', layer: streetsLayer, img: 'https://a.tile.openstreetmap.org/10/563/402.png' },
+    { name: 'Satellite', layer: satelliteLayer, img: 'https://mt1.google.com/vt/lyrs=s&x=563&y=402&z=10' },
+    { name: 'Terrain', layer: terrainLayer, img: 'https://a.tile.opentopomap.org/10/563/402.png' }
+  ];
+  basemapGallery.innerHTML = '';
+  basemaps.forEach((bm, idx) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'basemap-thumb' + (map.hasLayer(bm.layer) ? ' selected' : '');
+    thumb.innerHTML = `<img src="${bm.img}" alt="${bm.name}"><div class="basemap-label">${bm.name}</div>`;
+    thumb.addEventListener('click', () => {
+      basemaps.forEach(b => map.removeLayer(b.layer));
+      map.addLayer(bm.layer);
+      document.querySelectorAll('.basemap-thumb').forEach(t => t.classList.remove('selected'));
+      thumb.classList.add('selected');
+    });
+    basemapGallery.appendChild(thumb);
+  });
+  // Show/hide gallery on layers button click
+  const layersBtn = document.getElementById('layers-btn');
+  if (layersBtn) {
+    layersBtn.addEventListener('click', () => {
+      basemapGallery.classList.toggle('open');
+    });
+  }
+
+  // Add clear measurements button
+  addClearMeasurementsButton();
+
+  // At the end of initMap, set window.map = map
+  window.map = map;
+
+  // Modify layers button position and style
+  if (layersBtn) {
+    // Update button position and style
+    layersBtn.style.position = 'fixed';
+    layersBtn.style.left = '20px';
+    layersBtn.style.bottom = '80px'; // Position above footer
+    layersBtn.style.zIndex = '1000';
+    layersBtn.style.backgroundColor = '#fff';
+    layersBtn.style.border = 'none';
+    layersBtn.style.borderRadius = '50%'; // Make it circular
+    layersBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+    layersBtn.style.padding = '12px';
+    layersBtn.style.cursor = 'pointer';
+    layersBtn.style.display = 'flex';
+    layersBtn.style.alignItems = 'center';
+    layersBtn.style.justifyContent = 'center';
+    layersBtn.style.transition = 'all 0.3s ease';
+    layersBtn.style.width = '48px';
+    layersBtn.style.height = '48px';
+    
+    // Add hover effect
+    layersBtn.onmouseover = function() {
+      this.style.transform = 'scale(1.1)';
+      this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.4)';
+    };
+    layersBtn.onmouseout = function() {
+      this.style.transform = 'scale(1)';
+      this.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+    };
+    
+    // Add image to button
+    const layersIcon = document.createElement('img');
+    layersIcon.src = '../maps/assets/img/images.jpg';
+    layersIcon.alt = 'Layers';
+    layersIcon.style.width = '24px';
+    layersIcon.style.height = '24px';
+    
+    // Clear existing content and add new content
+    layersBtn.innerHTML = '';
+    layersBtn.appendChild(layersIcon);
+    
+    // Update basemap gallery position and style
+    const basemapGallery = document.getElementById('basemap-gallery');
+    if (basemapGallery) {
+      // Reset any existing styles
+      basemapGallery.style.cssText = '';
+      
+      // Apply new styles
+      Object.assign(basemapGallery.style, {
+        position: 'fixed',
+        left: '20px',
+        bottom: '140px',
+        zIndex: '999',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderRadius: '16px',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+        padding: '20px',
+        display: 'none',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        opacity: '0',
+        transform: 'translateY(20px)',
+        maxWidth: '320px',
+        width: '100%',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255,255,255,0.2)',
+        direction: 'rtl'
+      });
+
+      // Clear existing content
+      basemapGallery.innerHTML = '';
+
+      // Add title to gallery
+      const galleryTitle = document.createElement('div');
+      Object.assign(galleryTitle.style, {
+        fontSize: '16px',
+        fontWeight: '600',
+        marginBottom: '15px',
+        color: '#333',
+        textAlign: 'center',
+        paddingBottom: '10px',
+        borderBottom: '1px solid rgba(0,0,0,0.1)',
+        fontFamily: 'Cairo, sans-serif'
+      });
+      galleryTitle.textContent = 'اختر نوع الخريطة';
+      basemapGallery.appendChild(galleryTitle);
+
+      // Create container for basemap options
+      const optionsContainer = document.createElement('div');
+      Object.assign(optionsContainer.style, {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px'
+      });
+
+      // Add basemap options
+      const basemaps = [
+        { name: 'خريطة الشوارع', layer: baseLayers.osm, img: 'https://a.tile.openstreetmap.org/10/563/402.png' },
+        { name: 'صور الأقمار الصناعية', layer: baseLayers.satellite, img: 'https://mt1.google.com/vt/lyrs=s&x=563&y=402&z=10' },
+        { name: 'الخريطة الطبوغرافية', layer: baseLayers.terrain, img: 'https://a.tile.opentopomap.org/10/563/402.png' }
+      ];
+
+      basemaps.forEach((bm, idx) => {
+        const option = document.createElement('div');
+        Object.assign(option.style, {
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          padding: '10px',
+          borderRadius: '12px',
+          backgroundColor: '#f8f9fa',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          border: '1px solid rgba(0,0,0,0.05)'
+        });
+
+        const img = document.createElement('img');
+        Object.assign(img.style, {
+          width: '60px',
+          height: '60px',
+          borderRadius: '8px',
+          objectFit: 'cover'
+        });
+        img.src = bm.img;
+        img.alt = bm.name;
+
+        const label = document.createElement('div');
+        Object.assign(label.style, {
+          fontSize: '14px',
+          fontWeight: '500',
+          color: '#333',
+          fontFamily: 'Cairo, sans-serif'
+        });
+        label.textContent = bm.name;
+
+        option.appendChild(img);
+        option.appendChild(label);
+
+        // Add hover effect
+        option.onmouseover = function() {
+          this.style.transform = 'translateY(-2px)';
+          this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+          this.style.backgroundColor = '#f1f3f5';
+        };
+        option.onmouseout = function() {
+          this.style.transform = 'translateY(0)';
+          this.style.boxShadow = 'none';
+          if (!this.classList.contains('selected')) {
+            this.style.backgroundColor = '#f8f9fa';
+          }
+        };
+
+        // Add click handler
+        option.onclick = function() {
+          // Remove selected class from all options
+          optionsContainer.querySelectorAll('div').forEach(opt => {
+            opt.classList.remove('selected');
+            opt.style.backgroundColor = '#f8f9fa';
+            opt.style.boxShadow = 'none';
+          });
+
+          // Add selected class to clicked option
+          this.classList.add('selected');
+          this.style.backgroundColor = '#e3f2fd';
+          this.style.boxShadow = '0 2px 8px rgba(33,150,243,0.15)';
+
+          // Switch basemap
+          basemaps.forEach(b => map.removeLayer(b.layer));
+          map.addLayer(bm.layer);
+        };
+
+        optionsContainer.appendChild(option);
+      });
+
+      basemapGallery.appendChild(optionsContainer);
+
+      // Add close button
+      const closeButton = document.createElement('button');
+      closeButton.innerHTML = '×';
+      Object.assign(closeButton.style, {
+        position: 'absolute',
+        top: '10px',
+        right: '10px',
+        background: 'none',
+        border: 'none',
+        fontSize: '24px',
+        color: '#666',
+        cursor: 'pointer',
+        padding: '5px',
+        lineHeight: '1',
+        transition: 'color 0.2s ease',
+        fontFamily: 'Cairo, sans-serif'
+      });
+
+      closeButton.onmouseover = function() {
+        this.style.color = '#333';
+      };
+      closeButton.onmouseout = function() {
+        this.style.color = '#666';
+      };
+
+      closeButton.onclick = function(e) {
+        e.stopPropagation();
+        basemapGallery.style.opacity = '0';
+        basemapGallery.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          basemapGallery.style.display = 'none';
+        }, 300);
+      };
+
+      basemapGallery.appendChild(closeButton);
+
+      // Add click handler for layers button (show/hide gallery with animation)
+      if (layersBtn) {
+        layersBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const isOpen = basemapGallery.style.display === 'block';
+          if (isOpen) {
+            basemapGallery.style.opacity = '0';
+            basemapGallery.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              basemapGallery.style.display = 'none';
+            }, 300);
+          } else {
+            basemapGallery.style.display = 'block';
+            setTimeout(() => {
+              basemapGallery.style.opacity = '1';
+              basemapGallery.style.transform = 'translateY(0)';
+            }, 10);
+          }
+        });
+      }
+      // Close gallery when clicking outside
+      document.addEventListener('click', function(e) {
+        if (basemapGallery && !basemapGallery.contains(e.target) && e.target !== layersBtn) {
+          basemapGallery.style.opacity = '0';
+          basemapGallery.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            basemapGallery.style.display = 'none';
+          }, 300);
+        }
+      });
+    }
+  }
+
+  // بعد تحميل طبقة الأحياء وطبقة التسميات، أضفهم إلى لوحة التحكم
+  setTimeout(function() {
+    if (neighborhoodsLayer) overlays["طبقة الأحياء"] = neighborhoodsLayer;
+    if (neighborhoodLabelsLayer) overlays["مسميات الأحياء"] = neighborhoodLabelsLayer;
+    if (serviceSectorsLayer) overlays["دوائر الخدمات"] = serviceSectorsLayer;
+    // إعادة إنشاء لوحة التحكم بالطبقات
+    L.control.layers(baseLayers, overlays, {
+      position: 'topleft',
+      collapsed: false
+    }).addTo(map);
+  }, 800);
 }
 
 /**
@@ -280,12 +842,52 @@ function loadLayers() {
 }
 
 /**
+ * معالجة كل حي عند تحميل طبقة الأحياء
+ * @param {Object} feature - بيانات الحي من GeoJSON
+ * @param {L.Layer} layer - طبقة Leaflet للحي
+ */
+function onEachNeighborhood(feature, layer) {
+  // إنشاء محتوى النافذة المنبثقة
+  createNeighborhoodPopup(feature, layer);
+
+  // إضافة مستمع حدث النقر
+  layer.on('click', function() {
+    // تحديث العنوان في لوحة المعلومات
+    const infoTitle = document.getElementById('info-title');
+    if (infoTitle) {
+      infoTitle.textContent = feature.properties.Names || feature.properties.name || 'غير معروف';
+    }
+
+    // تحديث محتوى لوحة المعلومات
+    handleNeighborhoodSelect(feature.properties.ID, feature.properties.Names || feature.properties.name);
+  });
+
+  // إضافة تأثيرات حركية عند التحويم
+  layer.on('mouseover', function() {
+    this.setStyle({
+      fillOpacity: 0.7,
+      weight: 2
+    });
+  });
+
+  layer.on('mouseout', function() {
+    this.setStyle({
+      fillOpacity: 0.5,
+      weight: 1
+    });
+  });
+}
+
+/**
  * تحميل طبقة أحياء حلب
  */
 function loadNeighborhoodsLayer() {
   // Remove existing layer if it exists
   if (neighborhoodsLayer) {
     map.removeLayer(neighborhoodsLayer);
+  }
+  if (neighborhoodLabelsLayer) {
+    map.removeLayer(neighborhoodLabelsLayer);
   }
 
   neighborhoodsLayer = L.geoJSON(neighborhoodsData, {
@@ -297,6 +899,50 @@ function loadNeighborhoodsLayer() {
       fillOpacity: 0.5
     },
     onEachFeature: onEachNeighborhood
+  });
+
+  // Add labels for each neighborhood
+  neighborhoodLabelsLayer = L.layerGroup();
+  neighborhoodsData.features.forEach(feature => {
+    try {
+      let coords = feature.geometry.coordinates[0];
+      let sumLat = 0, sumLng = 0;
+      coords.forEach(coord => {
+        sumLat += coord[1];
+        sumLng += coord[0];
+      });
+      let centerLat = sumLat / coords.length;
+      let centerLng = sumLng / coords.length;
+      let name = feature.properties.Names || feature.properties.name || 'غير معروف';
+      let label = L.marker([centerLat, centerLng], {
+        icon: L.divIcon({
+          className: 'neighborhood-label',
+          html: `<div style="background:rgba(255,255,255,0.85);border-radius:8px;padding:2px 10px;font-size:13px;font-weight:600;color:#3066ff;box-shadow:0 2px 8px rgba(0,0,0,0.08);font-family:'Cairo',sans-serif;">${name}</div>`,
+          iconSize: [100, 24],
+          iconAnchor: [50, 12]
+        })
+      });
+      neighborhoodLabelsLayer.addLayer(label);
+    } catch (e) {}
+  });
+
+  // إعادة إنشاء لوحة التحكم بالطبقات بعد إنشاء طبقة المسميات
+  if (layersControl) {
+    map.removeControl(layersControl);
+  }
+  const baseLayers = {
+    "خريطة الشوارع": baseLayersArr[0].layer,
+    "صور الأقمار الصناعية": baseLayersArr[1].layer,
+    "الخريطة الطبوغرافية": baseLayersArr[2].layer
+  };
+  const overlays = {
+    "طبقة الأحياء": neighborhoodsLayer,
+    "مسميات الأحياء": neighborhoodLabelsLayer
+  };
+  if (serviceSectorsLayer) overlays["دوائر الخدمات"] = serviceSectorsLayer;
+  layersControl = L.control.layers(baseLayers, overlays, {
+    position: 'topleft',
+    collapsed: false
   }).addTo(map);
 
   // Fit map bounds to show all neighborhoods
@@ -308,7 +954,7 @@ function createNeighborhoodPopup(feature, layer) {
   const properties = feature.properties;
   const name = properties.Names || properties.name || 'غير معروف';
   const area = calculateArea(feature.geometry);
-  const areaInKm = (area / 1000000).toFixed(2); // Convert to square kilometers
+  const areaInHectares = (area / 10000).toFixed(2); // Convert to hectares
   const sector = properties.Sector || 'غير محدد';
 
   const popupContent = document.createElement('div');
@@ -452,7 +1098,7 @@ function createNeighborhoodPopup(feature, layer) {
   areaStrong.appendChild(document.createTextNode(' المساحة:'));
 
   const areaSpan = document.createElement('span');
-  areaSpan.textContent = `${areaInKm} كم²`;
+  areaSpan.textContent = `${areaInHectares} هكتار`;
   areaSpan.style.fontWeight = '500';
   areaSpan.style.background = 'rgba(237, 242, 247, 0.5)';
   areaSpan.style.padding = '3px 8px';
@@ -469,7 +1115,15 @@ function createNeighborhoodPopup(feature, layer) {
   // Create button
   const button = document.createElement('button');
   button.className = 'view-details-btn';
-  button.onclick = function () { handleNeighborhoodSelect(properties.ID, name); };
+  button.onclick = function () {
+    const firstTab = Object.keys(window.tablesData)[0];
+    if (firstTab) {
+      window.setSelectedNeighborhood(properties.ID, name); // تحديث اسم ومعرف الحي
+      window.renderInfoPanel(firstTab, properties.ID);
+    } else {
+      alert('لا توجد بيانات جداول متاحة');
+    }
+  };
   button.style.width = '100%';
   button.style.padding = '12px 15px';
   button.style.background = 'linear-gradient(to right, #3066ff, #007bff)';
@@ -504,169 +1158,65 @@ function createNeighborhoodPopup(feature, layer) {
 }
 
 // Function to handle neighborhood selection
-function handleNeighborhoodSelect(id, name) {
-  const infoPanel = document.getElementById('info-panel');
-  const backdrop = document.getElementById('modal-backdrop');
-  const infoTitle = document.getElementById('info-title');
+function handleNeighborhoodSelect(id, name, tabName) {
   const infoContent = document.getElementById('info-content');
+  const infoTitle = document.getElementById('info-title');
 
-  // Show the panel and backdrop
-  infoPanel.classList.add('show');
-  backdrop.style.display = 'block';
-
-  // Set the title
-  infoTitle.textContent = name || 'تفاصيل الحي';
-
-  // Clear previous content
-  infoContent.innerHTML = '';
-
-  // Get the active tab
-  const activeTab = document.querySelector('.tab-button.active');
-  const tabId = activeTab ? activeTab.getAttribute('data-tab') : null;
-
-  // Store the selected neighborhood data for later use
-  const selectedNeighborhood = {
-    id: id,
-    name: name
-  };
-
-  // Create a form to hold the fields
-  const form = document.createElement('form');
-  form.className = 'info-form';
-
-  if (tabId && tablesData[tabId]) {
-    const tableData = tablesData[tabId];
-
-    // Add each field from the table definition
-    tableData.fields.forEach(field => {
-      const fieldContainer = document.createElement('div');
-      fieldContainer.className = 'field-container';
-
-      const label = document.createElement('label');
-      label.textContent = field.name;
-      label.className = 'field-label';
-
-      let input;
-      if (field.key === 'neighborhood_id') {
-        // Set the neighborhood ID
-        input = document.createElement('input');
-        input.type = 'text';
-        input.value = id || '';
-        input.readOnly = true;
-      } else {
-        // Create appropriate input based on field type
-        input = document.createElement('input');
-        input.type = 'text';
-        input.value = tableData.sampleData[field.key] || '';
-        input.readOnly = !field.editable;
-      }
-
-      input.className = 'editable-field';
-      input.setAttribute('data-field', field.key);
-      input.setAttribute('data-original-value', input.value);
-
-      fieldContainer.appendChild(label);
-      fieldContainer.appendChild(input);
-      form.appendChild(fieldContainer);
-    });
-
-    infoContent.appendChild(form);
-  } else {
-    // Fallback to basic properties display if no tab is selected
-    const section = document.createElement('div');
-    section.className = 'info-section';
-
-    const idLabel = document.createElement('div');
-    idLabel.className = 'info-label';
-    idLabel.textContent = 'معرف الحي';
-
-    const idField = document.createElement('input');
-    idField.className = 'editable-field';
-    idField.type = 'text';
-    idField.value = id;
-    idField.readOnly = true;
-
-    section.appendChild(idLabel);
-    section.appendChild(idField);
-    infoContent.appendChild(section);
+  // تحديث العنوان ليشمل اسم التاب
+  if (infoTitle) {
+    infoTitle.textContent = tabName ? `${name} - ${tabName}` : name;
   }
 
-  // Add event listener for tab changes
-  const tabButtons = document.querySelectorAll('.tab-button');
-  tabButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      const newTabId = this.getAttribute('data-tab');
-      if (newTabId && tablesData[newTabId]) {
-        // Clear previous content
-        infoContent.innerHTML = '';
+  // جلب بيانات الجدول الافتراضية من tablesData
+  let fields = [];
+  let sampleData = {};
+  if (typeof tablesData !== 'undefined' && tabName && tablesData[tabName]) {
+    fields = tablesData[tabName].fields || [];
+    sampleData = tablesData[tabName].sampleData || {};
+  }
 
-        // Create new form for the selected tab
-        const newForm = document.createElement('form');
-        newForm.className = 'info-form';
+  // إذا لم تتوفر بيانات افتراضية، أظهر رسالة
+  if (!fields.length) {
+    infoContent.innerHTML = '<div style="color:red">لا توجد بيانات افتراضية لهذا التاب.</div>';
+    return;
+  }
 
-        const tableData = tablesData[newTabId];
+  // إنشاء جدول منسق
+  const table = document.createElement('table');
+  table.className = 'info-table';
 
-        // Add each field from the table definition
-        tableData.fields.forEach(field => {
-          const fieldContainer = document.createElement('div');
-          fieldContainer.className = 'field-container';
-
-          const label = document.createElement('label');
-          label.textContent = field.name;
-          label.className = 'field-label';
-
-          let input;
-          if (field.key === 'neighborhood_id') {
-            // Set the neighborhood ID
-            input = document.createElement('input');
-            input.type = 'text';
-            input.value = selectedNeighborhood.id || '';
-            input.readOnly = true;
-          } else {
-            // Create appropriate input based on field type
-            input = document.createElement('input');
-            input.type = 'text';
-            input.value = tableData.sampleData[field.key] || '';
-            input.readOnly = !field.editable;
-          }
-
-          input.className = 'editable-field';
-          input.setAttribute('data-field', field.key);
-          input.setAttribute('data-original-value', input.value);
-
-          fieldContainer.appendChild(label);
-          fieldContainer.appendChild(input);
-          newForm.appendChild(fieldContainer);
-        });
-
-        infoContent.appendChild(newForm);
-      }
-    });
+  // رأس الجدول
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  ['الحقل', 'القيمة'].forEach(headerText => {
+    const th = document.createElement('th');
+    th.textContent = headerText;
+    headerRow.appendChild(th);
   });
-}
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
 
-// Add event handlers for neighborhood layer
-function onEachNeighborhood(feature, layer) {
-  // Popup
-  createNeighborhoodPopup(feature, layer);
-
-  // Highlight on hover
-  layer.on({
-    mouseover: function (e) {
-      const layer = e.target;
-      layer.setStyle({
-        weight: 2,
-        fillOpacity: 0.7
-      });
-    },
-    mouseout: function (e) {
-      const layer = e.target;
-      layer.setStyle({
-        weight: 1,
-        fillOpacity: 0.5
-      });
-    }
+  // جسم الجدول
+  const tbody = document.createElement('tbody');
+  fields.forEach(field => {
+    const row = document.createElement('tr');
+    const labelCell = document.createElement('td');
+    labelCell.textContent = field.name;
+    row.appendChild(labelCell);
+    const valueCell = document.createElement('td');
+    valueCell.textContent = sampleData[field.key] || '-';
+    row.appendChild(valueCell);
+    tbody.appendChild(row);
   });
+  table.appendChild(tbody);
+
+  // عرض الجدول
+  infoContent.innerHTML = '';
+  infoContent.appendChild(table);
+
+  // إظهار لوحة المعلومات
+  const infoPanel = document.getElementById('info-panel');
+  infoPanel.classList.add('show');
 }
 
 /**
@@ -866,7 +1416,81 @@ function showAnalysisPanel() {
  * تبديل أداة القياس
  */
 function toggleMeasureTool() {
-  console.log('تشغيل أداة القياس - سيتم تنفيذها لاحق');
+  // Toggle between distance and area mode
+  if (!measureMode || measureMode === 'area') {
+    // Start distance measurement
+    measureMode = 'distance';
+    if (activeDraw) { activeDraw.disable(); }
+    activeDraw = new L.Draw.Polyline(map, {
+      shapeOptions: { color: '#db4a29', weight: 4 },
+      metric: true
+    });
+    activeDraw.enable();
+    alert('انقر على الخريطة لرسم خط لقياس المسافة. عند الانتهاء، انقر مرتين.');
+  } else if (measureMode === 'distance') {
+    // Start area measurement
+    measureMode = 'area';
+    if (activeDraw) { activeDraw.disable(); }
+    activeDraw = new L.Draw.Polygon(map, {
+      shapeOptions: { color: '#2196f3', weight: 3 },
+      showArea: true,
+      metric: true
+    });
+    activeDraw.enable();
+    alert('انقر على الخريطة لرسم مضلع لقياس المساحة. عند الانتهاء، انقر على النقطة الأولى لإغلاق المضلع.');
+  }
+}
+
+function startMeasureMode(type) {
+  measureMode = type;
+  if (activeDraw) { activeDraw.disable(); }
+  if (type === 'distance') {
+    activeDraw = new L.Draw.Polyline(map, {
+      shapeOptions: { color: '#db4a29', weight: 4 },
+      metric: true
+    });
+    activeDraw.enable();
+  } else if (type === 'area') {
+    activeDraw = new L.Draw.Polygon(map, {
+      shapeOptions: { color: '#2196f3', weight: 3 },
+      showArea: true,
+      metric: true
+    });
+    activeDraw.enable();
+  }
+}
+
+function showMeasureResultBox(result) {
+  const box = document.getElementById('measure-result-box');
+  if (!box) return;
+  box.textContent = result;
+  box.style.display = 'block';
+  box.style.opacity = '1';
+}
+
+// Add clear measurements button to the map
+function addClearMeasurementsButton() {
+  const clearButton = L.control({ position: 'topright' });
+  
+  clearButton.onAdd = function(map) {
+    const div = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+    div.innerHTML = `
+      <a href="#" title="مسح جميع القياسات" style="background-color: #fff; color: #333; padding: 6px 10px; display: block; text-decoration: none; font-size: 14px;">
+        <i class="fas fa-trash"></i> مسح القياسات
+      </a>
+    `;
+    
+    div.onclick = function(e) {
+      e.preventDefault();
+      if (drawnItems) {
+        drawnItems.clearLayers();
+      }
+    };
+    
+    return div;
+  };
+  
+  clearButton.addTo(map);
 }
 
 /**
@@ -937,36 +1561,31 @@ function highlightServiceSector(sectorId) {
     // الانتقال إلى موقع القطاع
     map.setView([36.2021, 37.1343], 13);
 
-    // إضافة نمط مميز (يمكن تحسين هذا عندما تكون طبقة دوائر الخدمات متاحة)
+    // إضافة طبقة وهمية لتمثيل تغطية المياه (كمثال)
+    const waterCoverageLayer = L.circle([36.2021, 37.1343], {
+      radius: 2000,
+      color: '#3b82f6',
+      fillColor: '#3b82f6',
+      fillOpacity: 0.3,
+      weight: 2,
+      className: 'highlighted-sector water-coverage-layer'
+    }).addTo(map);
+
+    // إضافة تسمية
+    const marker = L.marker([36.2021, 37.1343], {
+      icon: L.divIcon({
+        className: 'highlighted-sector',
+        html: `<div class="sector-marker" style="background-color: #3b82f6;">تغطية المياه - ${sector.name}</div>`,
+        iconSize: [150, 40],
+        iconAnchor: [75, 20]
+      })
+    }).addTo(map);
+
+    // إزالة الطبقة بعد 10 ثوانٍ
     setTimeout(() => {
-      alert(`تم تفعيل طبقة تغطية المياه لدائرة خدمات ${sector.name}`);
-
-      // إضافة طبقة وهمية لتمثيل تغطية المياه (كمثال)
-      const waterCoverageLayer = L.circle([36.2021, 37.1343], {
-        radius: 2000,
-        color: '#3b82f6',
-        fillColor: '#3b82f6',
-        fillOpacity: 0.3,
-        weight: 2,
-        className: 'highlighted-sector water-coverage-layer'
-      }).addTo(map);
-
-      // إضافة تسمية
-      const marker = L.marker([36.2021, 37.1343], {
-        icon: L.divIcon({
-          className: 'highlighted-sector',
-          html: `<div class="sector-marker" style="background-color: #3b82f6;">تغطية المياه - ${sector.name}</div>`,
-          iconSize: [150, 40],
-          iconAnchor: [75, 20]
-        })
-      }).addTo(map);
-
-      // إزالة الطبقة بعد 10 ثوانٍ
-      setTimeout(() => {
-        map.removeLayer(waterCoverageLayer);
-        map.removeLayer(marker);
-      }, 10000);
-    }, 500);
+      map.removeLayer(waterCoverageLayer);
+      map.removeLayer(marker);
+    }, 10000);
   }
 }
 
@@ -1030,7 +1649,7 @@ function loadServiceSectorsLayer() {
           </div>
           <div class="popup-stat">
             <span>المساحة:</span>
-            <strong>${(properties.Shape_Area / 1000000).toFixed(2)} كم²</strong>
+            <strong>${(properties.Shape_Area / 10000).toFixed(2)} هكتار</strong>
           </div>
         </div>
       `;
@@ -1155,7 +1774,7 @@ function showServiceSectorInfo(properties) {
         <p><strong>المعرّف:</strong> ${properties.OBJECTID}</p>
         <p><strong>الاسم بالإنجليزية:</strong> ${properties.Name_En || 'غير متاح'}</p>
         <p><strong>عدد السكان:</strong> ${properties.Pop ? properties.Pop.toLocaleString('ar-SY') : 'غير متاح'}</p>
-        <p><strong>المساحة:</strong> ${(properties.Shape_Area / 1000000).toFixed(2)} كم²</p>
+        <p><strong>المساحة:</strong> ${(properties.Shape_Area / 10000).toFixed(2)} هكتار</p>
       </div>
     `;
 

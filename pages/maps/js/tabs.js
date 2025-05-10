@@ -328,6 +328,8 @@ const tablesData = {
   },
 };
 
+window.tablesData = tablesData;
+
 // تحديث أسماء الجداول بالعربي
 const tableNames = {
   التدخلات_الإنسانية: [
@@ -473,6 +475,7 @@ document.addEventListener('DOMContentLoaded', function () {
   setupDraggablePanel();
   createModalBackdrop();
   createWarningMessage();
+  createTabsToggleButton();
 });
 
 function createWarningMessage() {
@@ -568,9 +571,12 @@ function stopDragging() {
 }
 
 function createModalBackdrop() {
-  const backdrop = document.createElement('div');
-  backdrop.className = 'modal-backdrop';
+  const backdrop = document.createElement("div");
+  backdrop.className = "modal-backdrop fade";
   document.body.appendChild(backdrop);
+  // إخفاء الـ backdrop تلقائيًا عند فتح info-panel
+  backdrop.style.display = "none";
+  // backdrop.classList.add("show");
 
   backdrop.addEventListener('click', function () {
     hideInfoPanel();
@@ -955,11 +961,90 @@ function setSelectedNeighborhood(id, name) {
   }
 }
 
+/**
+ * إنشاء زر التبديل للتبويبات
+ * يضيف زر دائري في أعلى حاوية التبويبات للطي والتوسيع
+ */
+function createTabsToggleButton() {
+  // Find the footer
+  const footer = document.getElementById('mainFooter');
+  // إنشاء زر التبديل
+  const toggleButton = document.createElement('div');
+  toggleButton.className = 'tabs-toggle-btn collapsed'; // إضافة فئة collapsed بشكل افتراضي
+  toggleButton.innerHTML = '<i class="fas fa-chevron-up"></i>'; // سهم لأعلى للإشارة إلى إمكانية التوسيع
+  toggleButton.title = 'طي/توسيع التبويبات';
+
+  // إضافة مستمع حدث النقر
+  toggleButton.addEventListener('click', function() {
+    toggleTabsContainer();
+  });
+
+  // إنشاء حاوية للزر إذا لم تكن موجودة
+  let toggleBtnContainer = document.querySelector('.tabs-toggle-btn-container');
+  if (!toggleBtnContainer) {
+    toggleBtnContainer = document.createElement('div');
+    toggleBtnContainer.className = 'tabs-toggle-btn-container';
+    // ضع الحاوية قبل الفوتر مباشرة
+    if (footer && footer.parentNode) {
+      footer.parentNode.insertBefore(toggleBtnContainer, footer);
+    } else {
+      document.body.appendChild(toggleBtnContainer);
+    }
+  }
+  // أضف الزر إلى الحاوية
+  toggleBtnContainer.appendChild(toggleButton);
+
+  // جعل tabs-container مطوياً بشكل افتراضي
+  const tabsContainer = document.querySelector('.tabs-container');
+  if (tabsContainer) {
+    tabsContainer.classList.add('collapsed');
+  }
+}
+
+/**
+ * تبديل حالة حاوية التبويبات (مطوية/موسعة)
+ */
+function toggleTabsContainer() {
+  const tabsContainer = document.querySelector('.tabs-container');
+  const toggleButton = document.querySelector('.tabs-toggle-btn');
+
+  if (!tabsContainer || !toggleButton) return;
+
+  // تبديل الفئة المطوية
+  const isCollapsing = !tabsContainer.classList.contains('collapsed');
+  tabsContainer.classList.toggle('collapsed');
+  toggleButton.classList.toggle('collapsed');
+
+  // تغيير أيقونة الزر بناءً على الحالة
+  const icon = toggleButton.querySelector('i');
+  if (icon) {
+    if (isCollapsing) {
+      // عند الطي، تغيير الأيقونة إلى سهم لأعلى
+      icon.className = 'fas fa-chevron-up';
+    } else {
+      // عند التوسيع، تغيير الأيقونة إلى سهم لأسفل
+      icon.className = 'fas fa-chevron-down';
+    }
+  }
+
+  // تحديث الخريطة لتجنب مشاكل العرض
+  try {
+    if (window.map && typeof window.map.invalidateSize === 'function') {
+      setTimeout(function() {
+        window.map.invalidateSize();
+      }, 300);
+    }
+  } catch (e) {
+    console.log('Error updating map size:', e);
+  }
+}
+
 // Export functions for use in other files
 window.selectedNeighborhoodId = selectedNeighborhoodId;
 window.selectedNeighborhoodName = selectedNeighborhoodName;
 window.renderInfoPanel = renderInfoPanel;
 window.setSelectedNeighborhood = setSelectedNeighborhood;
+window.toggleTabsContainer = toggleTabsContainer;
 
 function closeInfoPanel() {
   const infoPanel = document.getElementById('info-panel');

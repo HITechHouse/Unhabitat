@@ -1,0 +1,215 @@
+/* Neighborhood Popup Styles - Updated 2024-05-04 */
+.neighborhood-popup {
+  padding: 0 !important;
+  max-width: 320px !important;
+  direction: rtl !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  background: #fff !important;
+  font-family: "Cairo", sans-serif !important;
+}
+
+.neighborhood-popup h3 {
+  margin: 0 !important;
+  font-size: 18px !important;
+  color: #fff !important;
+  padding: 14px 15px !important;
+  background: linear-gradient(135deg, #007bff, #3066ff) !important;
+  text-align: center !important;
+  font-weight: 600 !important;
+  position: relative !important;
+  overflow: hidden !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  letter-spacing: 0.5px !important;
+}
+
+.neighborhood-popup h3::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+  pointer-events: none;
+}
+
+.neighborhood-popup h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.7), transparent);
+}
+
+.popup-info {
+  margin: 0;
+  padding: 15px;
+  background: rgba(248, 250, 252, 0.8);
+  border-bottom: 1px solid #eef2f7;
+}
+
+.popup-info p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(203, 213, 224, 0.5);
+  transition: all 0.2s ease;
+}
+
+.popup-info p:hover {
+  background-color: rgba(237, 242, 247, 0.7);
+  padding-right: 5px;
+}
+
+.popup-info p:last-child {
+  border-bottom: none;
+}
+
+.popup-info strong {
+  color: #2d3748;
+  font-weight: 600;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.popup-info strong i {
+  color: #3066ff;
+  font-size: 14px;
+  width: 16px;
+  text-align: center;
+}
+
+.popup-info span {
+  font-weight: 500;
+  background: rgba(237, 242, 247, 0.5);
+  padding: 3px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.popup-info p:hover span {
+  background: rgba(226, 232, 240, 0.8);
+}
+
+.view-details-btn {
+  width: 100% !important;
+  padding: 12px 15px !important;
+  background: linear-gradient(to right, #3066ff, #007bff) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0 !important;
+  cursor: pointer !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.view-details-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.view-details-btn:hover {
+  background: linear-gradient(to right, #2857e2, #0069d9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.view-details-btn:hover::before {
+  left: 100%;
+}
+
+.view-details-btn:active {
+  transform: translateY(0);
+}
+
+.view-details-btn i {
+  font-size: 16px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Override Leaflet's default popup styles */
+.leaflet-popup-content-wrapper {
+  border-radius: 10px !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  width:250px;
+
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-tip {
+  background: #3066ff !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2) !important;
+}
+
+.leaflet-popup-tip-container {
+  margin-top: -1px;
+}
+
+.leaflet-popup-close-button {
+  padding: 8px !important;
+  color: rgba(255,255,255,0.8) !important;
+  font-size: 20px !important;
+  font-weight: normal !important;
+  top: 8px !important;
+  right: 8px !important;
+  z-index: 10;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #ffffff !important;
+}
+
+/* Info panel show/hide animation */
+#info-panel {
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+#info-panel.show {
+  transform: translateX(0);
+}

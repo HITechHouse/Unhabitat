@@ -16,7 +16,7 @@
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
 
     <!-- Leaflet CSS -->
@@ -57,6 +57,8 @@
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/tabs.css" />
     <link rel="stylesheet" href="css/map_v2.css" />
+    <link rel="stylesheet" href="css/auto-close.css" />
+    <link rel="stylesheet" href="css/tabs-toggle.css" />
     <style>
       html,
       body {
@@ -68,11 +70,115 @@
         overflow: hidden;
       }
 
+      /* Fixed positioning for header and footer regardless of language direction */
+      .no-translate {
+        position: fixed !important;
+        width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+      }
+
+      /* Ensure elements inside no-translate containers maintain their position */
+      .no-translate * {
+        direction: inherit !important;
+      }
+
+      /* Override direction for specific elements that need to be translated */
+      .no-translate .language-dropdown,
+      .no-translate .menu-dropdown-content {
+        direction: auto;
+      }
+
+      /* Ensure header elements maintain their positions - reversed order */
+      #mainHeader .header-logos.right-logos {
+        position: absolute !important;
+        left: 20px !important;
+        right: auto !important;
+      }
+
+      #mainHeader > div:first-child {
+        position: absolute !important;
+        right: 20px !important;
+        left: auto !important;
+      }
+
+      #mainHeader .header-title {
+        position: absolute !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        width: auto !important;
+        text-align: center !important;
+      }
+
+      /* Make both titles visible in the header */
+      #mainHeader .title-ar,
+      #mainHeader .title-en {
+        display: block !important;
+      }
+
+      /* Improve appearance of titles in header */
+      #mainHeader .header-title {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      #mainHeader .title-ar {
+        font-size: 1.1rem !important;
+        margin-bottom: 2px !important;
+      }
+
+      #mainHeader .title-en {
+        font-size: 0.9rem !important;
+        opacity: 0.9 !important;
+      }
+
+      /* Ensure footer elements maintain their positions - reversed order */
+      #mainFooter .copyright {
+        position: absolute !important;
+        right: 20px !important;
+        left: auto !important;
+      }
+
+      #mainFooter .social-icons {
+        position: absolute !important;
+        left: 20px !important;
+        right: auto !important;
+      }
+
+      /* Fix for RTL/LTR switching */
+      body[dir="ltr"] #mainHeader .header-logos.right-logos,
+      body[dir="ltr"] #mainFooter .social-icons {
+        right: 20px !important;
+        left: auto !important;
+      }
+
+      body[dir="ltr"] #mainHeader > div:first-child,
+      body[dir="ltr"] #mainFooter .copyright {
+        left: 20px !important;
+        right: auto !important;
+      }
+
+      body[dir="rtl"] #mainHeader .header-logos.right-logos,
+      body[dir="rtl"] #mainFooter .social-icons {
+        left: 20px !important;
+        right: auto !important;
+      }
+
+      body[dir="rtl"] #mainHeader > div:first-child,
+      body[dir="rtl"] #mainFooter .copyright {
+        right: 20px !important;
+        left: auto !important;
+      }
+
       #mainHeader {
         position: fixed;
         top: 0;
         width: 100%;
-        height: 70px; /* Adjust as needed */
+        height: 50px;
+        /* Adjust as needed */
         background: #007bff;
         color: white;
         z-index: 1000;
@@ -84,7 +190,8 @@
         position: fixed;
         bottom: 0;
         width: 100%;
-        height: 70px; /* Adjust as needed */
+        height: 50px;
+        /* Adjust as needed */
         background: #3066ff;
         color: white;
         z-index: 1000;
@@ -144,6 +251,7 @@
           height: 56px;
           font-size: 1rem;
         }
+
         .mainContent {
           top: 56px;
           height: calc(100vh - 112px);
@@ -182,14 +290,14 @@
       }
 
       .title-ar {
-        font-size: 1.8rem;
+        font-size: 1.2rem;
         line-height: 1.4;
         font-weight: bold;
         white-space: normal;
       }
 
       .title-en {
-        font-size: 1.44rem;
+        font-size: 1.22rem;
         line-height: 1.4;
         font-weight: bold;
         white-space: normal;
@@ -312,12 +420,14 @@
         gap: 0.7rem;
         overflow: auto;
         transition: all 0.2s;
-        display: none; /* Hide by default */
+        display: none;
+        /* Hide by default */
       }
 
       .info-panel.open,
       .info-panel.show {
-        display: flex; /* Show when .open or .show is added */
+        display: flex;
+        /* Show when .open or .show is added */
       }
 
       .info-panel .close-btn {
@@ -417,7 +527,7 @@
       .info-panel #cancel-changes {
         background-color: #f3f4f6;
         color: #4b5563;
-        margin-top:20px !important;
+        margin-top: 20px !important;
       }
 
       .info-panel #save-changes {
@@ -444,9 +554,11 @@
           padding: 0.7rem 0.7rem 0.7rem 0.7rem;
           font-size: 0.95rem;
         }
+
         .info-panel h3 {
           font-size: 1rem;
         }
+
         .info-panel .button-group button {
           padding: 0.5rem 0.7rem;
           font-size: 0.8rem;
@@ -456,7 +568,8 @@
       /* Custom Google Maps-like layers button in bottom left */
       .leaflet-bottom.leaflet-left .leaflet-control-layers {
         margin-left: 20px;
-        margin-bottom: 80px; /* adjust as needed for your footer */
+        margin-bottom: 80px;
+        /* adjust as needed for your footer */
       }
 
       .leaflet-control-layers {
@@ -614,10 +727,12 @@
         transition: box-shadow 0.2s, background 0.2s;
         outline: none;
       }
+
       .gmaps-base-btn:hover {
         background: #f5f5f5;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
       }
+
       .gmaps-base-icon {
         pointer-events: none;
       }
@@ -709,6 +824,7 @@
         margin: 0;
         font-size: 1rem;
       }
+
       .hero-carousel {
         position: relative;
         height: 100vh;
@@ -829,7 +945,8 @@
       #mainContent {
         flex: 1;
         width: 100%;
-        height: calc(100vh - 120px); /* 120px = ارتفاع الهيدر + الفوتر */
+        height: calc(100vh - 120px);
+        /* 120px = ارتفاع الهيدر + الفوتر */
         margin: 0;
         padding: 0;
         position: relative;
@@ -864,27 +981,34 @@
       body[dir="ltr"] .header-title {
         text-align: center;
       }
+
       body[dir="ltr"] .header-logos.right-logos {
         margin-left: auto;
       }
+
       body[dir="ltr"] .language-menu {
         left: auto;
         right: 0;
       }
+
       body[dir="ltr"] .social-icon {
         margin-left: 0;
         margin-right: 1rem;
       }
+
       body[dir="ltr"] .footer-content {
         direction: ltr;
       }
+
       body[dir="ltr"] .footer-logo {
         margin-right: 0;
         margin-left: 8px;
       }
+
       body[dir="ltr"] .copyright-text {
         direction: ltr;
       }
+
       body[dir="ltr"] .slide-content {
         text-align: center;
       }
@@ -892,7 +1016,6 @@
     <style>
       .tabs-container {
         background: #fff;
-        margin-top: 10px;
         border: 1px solid #ccc;
         border-radius: 8px 8px 0 0;
         overflow-x: auto;
@@ -932,14 +1055,6 @@
       .tab-icon {
         margin-left: 6px;
         color: #007bff;
-      }
-
-      .tab-close {
-        margin-right: 6px;
-        color: #999;
-        font-size: 16px;
-        cursor: pointer;
-        transition: color 0.3s;
       }
 
       .tab-close:hover {
@@ -1056,7 +1171,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 10px 20px;
-        height: 70px;
+        height: 50px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
@@ -1090,6 +1205,7 @@
         border-radius: 50%;
         border: 2px solid rgba(255, 255, 255, 0.7);
       }
+
       .header-back-btn {
         width: 40px;
         height: 40px;
@@ -1117,11 +1233,268 @@
         font-size: 1.3rem;
       }
     </style>
+    <!-- Map Toolbar CSS -->
+    <style>
+      .map-toolbar {
+        position: absolute;
+        top: 80px;
+        right: 20px;
+        z-index: 1202;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .map-toolbar button {
+        background: #2196f3;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        transition: background 0.2s;
+      }
+      .map-toolbar button:hover {
+        background: #1769aa;
+      }
+      .basemap-gallery-modal {
+        display: none;
+        position: absolute;
+        top: 80px;
+        right: 70px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        z-index: 1300;
+        padding: 16px;
+        width: 350px;
+      }
+      .basemap-gallery-modal.open {
+        display: block;
+      }
+      .basemap-gallery-modal .basemap-thumb {
+        display: inline-block;
+        width: 100px;
+        height: 80px;
+        margin: 6px;
+        border: 2px solid #eee;
+        border-radius: 6px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: border 0.2s;
+      }
+      .basemap-gallery-modal .basemap-thumb.selected,
+      .basemap-gallery-modal .basemap-thumb:hover {
+        border: 2px solid #2196f3;
+      }
+      .basemap-gallery-modal img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .basemap-gallery-modal .basemap-label {
+        text-align: center;
+        font-size: 0.9rem;
+        margin-top: 2px;
+      }
+      body[dir="rtl"] .map-toolbar {
+        right: auto;
+        left: 20px;
+      }
+      body[dir="rtl"] .basemap-gallery-modal {
+        right: auto;
+        left: 70px;
+      }
+    </style>
+    <!-- Leaflet Measure CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css" />
+    <style>
+      .tabs-toggle-btn-container {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 50px; /* Match your footer height exactly */
+        display: flex;
+        justify-content: center;
+        z-index: 2002;
+        pointer-events: none;
+      }
+      .tabs-toggle-btn {
+        pointer-events: auto;
+        background: #3066ff;
+        color: #fff;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        font-size: 1.6rem;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .tabs-toggle-btn:hover {
+        background: #ff4f30;
+      }
+    </style>
+    <!-- Basemap Gallery Modal (bottom left, horizontal) -->
+    <div id="basemap-gallery" class="basemap-gallery-modal"></div>
+    <!-- Compass (bottom right) -->
+    <div class="map-compass" title="الشمال">
+      <img src="assets/img/map-compass.jpg" alt="Compass North" />
+    </div>
+    <style>
+      .basemap-gallery-modal {
+        display: none;
+        flex-direction: row;
+        position: fixed;
+        left: 20px;
+        bottom: 60px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        z-index: 1300;
+        padding: 8px 12px;
+        gap: 10px;
+        align-items: center;
+        min-width: 180px;
+        min-height: 60px;
+      }
+      .basemap-gallery-modal.open {
+        display: flex;
+      }
+      .basemap-thumb img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid #eee;
+        background: #f8f8f8;
+      }
+      .basemap-thumb.selected img {
+        border: 2px solid #3066ff;
+      }
+      .basemap-label {
+        text-align: center;
+        font-size: 12px;
+        margin-top: 4px;
+        color: #222;
+      }
+      .map-compass {
+        position: fixed;
+        right: 20px;
+        bottom: 60px;
+        width: 48px;
+        height: 48px;
+        z-index: 2003;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+      }
+      .map-compass img {
+        width: 36px;
+        height: 36px;
+      }
+    </style>
+    <!-- Measurement Type Modal -->
+    <div id="measure-type-modal" class="measure-type-modal" style="display:none;">
+      <div class="measure-type-content">
+        <h3>اختر نوع القياس</h3>
+        <button id="measure-distance-btn" class="measure-type-btn">قياس مسافة</button>
+        <button id="measure-area-btn" class="measure-type-btn">قياس مساحة</button>
+        <button id="measure-cancel-btn" class="measure-type-cancel">إلغاء</button>
+      </div>
+    </div>
+    <style>
+    .measure-type-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.25);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .measure-type-content {
+      background: #fff;
+      border-radius: 12px;
+      padding: 2rem 2.5rem 1.5rem 2.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      text-align: center;
+      min-width: 220px;
+    }
+    .measure-type-content h3 {
+      margin-bottom: 1.2rem;
+      color: #1e40af;
+      font-size: 1.2rem;
+    }
+    .measure-type-btn {
+      background: #2196f3;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7rem 1.5rem;
+      margin: 0 0.5rem 0.5rem 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+    .measure-type-btn:hover {
+      background: #1769aa;
+    }
+    .measure-type-cancel {
+      background: #eee;
+      color: #333;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .measure-type-cancel:hover {
+      background: #ddd;
+    }
+    </style>
+    <!-- Measurement Result Floating Box -->
+    <div id="measure-result-box" class="measure-result-box" style="display:none;"></div>
+    <style>
+    .measure-result-box {
+      position: fixed;
+      top: 80px;
+      right: 30px;
+      background: #fff;
+      color: #1e40af;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      padding: 1rem 1.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      z-index: 3001;
+      min-width: 120px;
+      text-align: center;
+      border: 2px solid #2196f3;
+      transition: opacity 0.3s;
+    }
+    </style>
+    <!-- html2canvas for screenshot -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   </head>
 
   <body>
     <!-- Header -->
-    <header id="mainHeader">
+    <header id="mainHeader" class="no-translate">
       <div style="display: flex; align-items: center; gap: 10px">
         <!-- شعار يسار -->
         <img
@@ -1195,72 +1568,58 @@
               <button class="tab-button active" data-tab="التدخلات_الإنسانية">
                 <i class="fas fa-hands-helping tab-icon"></i>
                 <span>التدخلات الإنسانية</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="الأسواق_الأساسية">
                 <i class="fas fa-shopping-cart tab-icon"></i>
                 <span>الأسواق الأساسية</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="إدارة_النفايات_الصلبة">
                 <i class="fas fa-trash-alt tab-icon"></i>
                 <span>إدارة النفايات الصلبة</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="الحدائق_والمساحات_المعيشية">
                 <i class="fas fa-tree tab-icon"></i>
                 <span>الحدائق والمساحات المعيشية</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="المرافق_التعليمية">
                 <i class="fas fa-school tab-icon"></i>
                 <span>المرافق التعليمية</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="المراكز_الصحية">
                 <i class="fas fa-hospital tab-icon"></i>
                 <span>المراكز الصحية</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="شبكة_الكهرباء">
                 <i class="fas fa-bolt tab-icon"></i>
                 <span>شبكة الكهرباء</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="شبكة_الاتصالات">
                 <i class="fas fa-network-wired tab-icon"></i>
                 <span>شبكة الاتصالات</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="إمدادات_المياه">
                 <i class="fas fa-tint tab-icon"></i>
                 <span>إمدادات المياه</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="شبكة_الصرف_الصحي">
                 <i class="fas fa-water tab-icon"></i>
                 <span>شبكة الصرف الصحي</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="أضرار_الإسكان">
                 <i class="fas fa-home tab-icon"></i>
                 <span>أضرار الإسكان</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="النسيج_الحضري">
                 <i class="fas fa-city tab-icon"></i>
                 <span>النسيج الحضري</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="التغيرات_السكانية">
                 <i class="fas fa-users tab-icon"></i>
                 <span>التغيرات السكانية</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button class="tab-button" data-tab="أعضاء لجنة الحي">
                 <i class="fas fa-user-friends tab-icon"></i>
                 <span>أعضاء لجنة الحي</span>
-                <span class="tab-close">&times;</span>
               </button>
               <button
                 class="tab-button"
@@ -1268,11 +1627,101 @@
               >
                 <i class="fas fa-address-book tab-icon"></i>
                 <span>معلومات التواصل مع لجنة الحي</span>
-                <span class="tab-close">&times;</span>
               </button>
             </div>
           </div>
 
+          <!-- Map Toolbar -->
+          <div class="map-toolbar">
+            <button id="zoom-in-btn" title="Zoom In"><i class="fas fa-search-plus"></i></button>
+            <button id="zoom-out-btn" title="Zoom Out"><i class="fas fa-search-minus"></i></button>
+            <button id="home-btn" title="Home"><i class="fas fa-home"></i></button>
+            <button id="layers-btn" title="Basemap Gallery"><i class="fas fa-layer-group"></i></button>
+            <button id="measure-btn" title="Measure"><i class="fas fa-ruler"></i></button>
+            <button id="draw-btn" title="Draw"><i class="fas fa-pencil-alt"></i></button>
+            <button id="printMapBtn" title="Print Map"><i class="fas fa-print"></i></button>
+          </div>
+          <!-- Basemap Gallery Modal -->
+          <div id="basemap-gallery" class="basemap-gallery-modal"></div>
+          <!-- Compass (bottom right) -->
+          <div class="map-compass" title="الشمال">
+            <img src="assets/img/Compass_rose_simple.svg" alt="Compass North" />
+          </div>
+          <!-- Map Toolbar CSS -->
+          <style>
+            .map-toolbar {
+              position: absolute;
+              top: 80px;
+              right: 20px;
+              z-index: 1202;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+            }
+            .map-toolbar button {
+              background: #2196f3;
+              color: #fff;
+              border: none;
+              border-radius: 6px;
+              width: 44px;
+              height: 44px;
+              font-size: 1.3rem;
+              cursor: pointer;
+              box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+              transition: background 0.2s;
+            }
+            .map-toolbar button:hover {
+              background: #1769aa;
+            }
+            .basemap-gallery-modal {
+              display: none;
+              position: absolute;
+              top: 80px;
+              right: 70px;
+              background: #fff;
+              border-radius: 10px;
+              box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+              z-index: 1300;
+              padding: 16px;
+              width: 350px;
+            }
+            .basemap-gallery-modal.open {
+              display: block;
+            }
+            .basemap-gallery-modal .basemap-thumb {
+              display: inline-block;
+              width: 100px;
+              height: 80px;
+              margin: 6px;
+              border: 2px solid #eee;
+              border-radius: 6px;
+              overflow: hidden;
+              cursor: pointer;
+              transition: border 0.2s;
+            }
+            .basemap-gallery-modal .basemap-thumb.selected,
+            .basemap-gallery-modal .basemap-thumb:hover {
+              border: 2px solid #2196f3;
+            }
+            .basemap-gallery-modal img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+            .basemap-gallery-modal .basemap-label {
+              text-align: center;
+              font-size: 0.9rem;
+              margin-top: 2px;
+            }
+            body[dir="rtl"] .map-toolbar {
+              right: auto;
+              left: 20px;
+            }
+            body[dir="rtl"] .basemap-gallery-modal {
+              right: auto;
+              left: 70px;
+            }
+          </style>
           <div id="map"></div>
           <div class="tab-content">
             <!-- Tab content will be dynamically added here -->
@@ -1284,48 +1733,27 @@
             <button id="close-info-panel" class="close-btn">&times;</button>
             <h3 id="info-title"></h3>
             <div id="info-content"></div>
-            <div class="button-group">
-              <button id="cancel-changes">إلغاء التعديلات</button>
-              <button id="save-changes">حفظ التغييرات</button>
-            </div>
+            
           </div>
         </div>
       </div>
 
       <!-- Left Sidebar - Layers Management -->
-      <aside
-        id="leftSidebar"
-        class="sidebar left-sidebar"
-        style="margin-top: 60px"
-      >
+      <aside id="leftSidebar" class="sidebar left-sidebar">
         <div class="sidebar-header">
           <h3>إدارة الطبقات</h3>
           <button id="toggleLeftSidebar" class="sidebar-toggle">
             <i class="fas fa-chevron-right"></i>
           </button>
         </div>
-        <div class="sidebar-content" style="margin-bottom: 190px">
+        <!-- Indicador de cierre automático -->
+        <div id="leftSidebarAutoCloseIndicator" class="auto-close-indicator">
+          <span class="auto-close-countdown"></span>
+          <span>سيتم الإغلاق تلقائيًا</span>
+        </div>
+        <div class="sidebar-content" style="margin-bottom: 110px">
           <!-- Base Layers Section -->
-          <div class="sidebar-section">
-            <h4 class="sidebar-section-title">
-              <i class="fas fa-map sidebar-icon"></i>
-              الخرائط الأساسية
-            </h4>
-            <div id="baseLayers" class="base-layers">
-              <div class="base-layer-option" data-basemap="osm">
-                <input type="radio" name="basemap" id="osm" checked />
-                <label for="osm" class="mr-2">خريطة الشارع المفتوحة</label>
-              </div>
-              <div class="base-layer-option" data-basemap="satellite">
-                <input type="radio" name="basemap" id="satellite" />
-                <label for="satellite" class="mr-2">صور الأقمار الصناعية</label>
-              </div>
-              <div class="base-layer-option" data-basemap="terrain">
-                <input type="radio" name="basemap" id="terrain" />
-                <label for="terrain" class="mr-2">التضاريس</label>
-              </div>
-            </div>
-          </div>
+      
 
           <div class="sidebar-section">
             <h4>الطبقات</h4>
@@ -1377,7 +1805,26 @@
               </div>
             </div>
           </div>
-
+          <div class="sidebar-section">
+            <h4 class="sidebar-section-title">
+              <i class="fas fa-map sidebar-icon"></i>
+              الخرائط الأساسية
+            </h4>
+            <div id="baseLayers" class="base-layers">
+              <div class="base-layer-option" data-basemap="osm">
+                <input type="radio" name="basemap" id="osm" checked />
+                <label for="osm" class="mr-2">خريطة الشارع المفتوحة</label>
+              </div>
+              <div class="base-layer-option" data-basemap="satellite">
+                <input type="radio" name="basemap" id="satellite" />
+                <label for="satellite" class="mr-2">صور الأقمار الصناعية</label>
+              </div>
+              <div class="base-layer-option" data-basemap="terrain">
+                <input type="radio" name="basemap" id="terrain" />
+                <label for="terrain" class="mr-2">التضاريس</label>
+              </div>
+            </div>
+          </div>
           <div class="sidebar-section">
             <h4>تصدير / استيراد</h4>
             <div class="import-export-controls">
@@ -1395,12 +1842,26 @@
                 <i class="fas fa-file-export"></i> تصدير طبقة
               </button>
 
+              <button id="printMapBtn" class="sidebar-button">
+                <i class="fas fa-print"></i> طباعة الخريطة
+              </button>
+
+              <div class="layer-selector">
+                <label for="exportLayerSelect">اختر الطبقة:</label>
+                <select id="exportLayerSelect" class="sidebar-select">
+                  <option value="neighborhoods">الأحياء</option>
+                  <option value="service-sectors">القطاعات الخدمية</option>
+                  <option value="neighborhood-labels">مسميات الأحياء</option>
+                </select>
+              </div>
+
               <div class="format-selector">
                 <label for="exportFormat">صيغة التصدير:</label>
                 <select id="exportFormat" class="sidebar-select">
                   <option value="geojson">GeoJSON</option>
                   <option value="kml">KML</option>
                   <option value="shp">Shapefile (ZIP)</option>
+                  <option value="csv">CSV</option>
                 </select>
               </div>
             </div>
@@ -1455,18 +1916,19 @@
       </aside>
 
       <!-- Right Sidebar - Analysis and Queries -->
-      <aside
-        id="rightSidebar"
-        class="sidebar right-sidebar"
-        style="margin-top: 60px"
-      >
+      <aside id="rightSidebar" class="sidebar right-sidebar">
         <div class="sidebar-header">
           <button id="toggleRightSidebar" class="sidebar-toggle">
             <i class="fas fa-chevron-left"></i>
           </button>
           <h3>التحليلات والاستعلامات</h3>
         </div>
-        <div class="sidebar-content" style="margin-bottom: 175px">
+        <!-- Indicador de cierre automático -->
+        <div id="rightSidebarAutoCloseIndicator" class="auto-close-indicator">
+          <span class="auto-close-countdown"></span>
+          <span>سيتم الإغلاق تلقائيًا</span>
+        </div>
+        <div class="sidebar-content" style="margin-bottom: 95px">
           <div class="sidebar-section">
             <h4>منشئ الاستعلامات</h4>
             <div id="queryBuilder" class="query-builder">
@@ -1490,7 +1952,8 @@
                   <option value="=">=</option>
                   <option value="<>">≠</option>
                   <option value=">">></option>
-                  <option value="<"><</option>
+                  <option value="<"><< /option></option>
+
                   <option value=">=">≥</option>
                   <option value="<=">≤</option>
                   <option value="like">يحتوي</option>
@@ -1613,7 +2076,7 @@
       </aside>
     </div>
     <!-- Footer -->
-    <footer id="mainFooter">
+    <footer id="mainFooter" class="no-translate">
       <div class="footer-content">
         <div class="copyright">
           <span class="copyright-text">
@@ -1621,13 +2084,13 @@
             <script>
               document.write(new Date().getFullYear());
             </script>
-            , <span id="rightsText">جميع الحقوق محفوظة لصالح</span>
+            , <span id="rightsText">Powerd by</span>
             <a
               class="companyHITech"
               href="https://www.hi-techhouse.com"
               target="_blank"
               id="companyName"
-              >دار التقنية الحديثة</a
+              >HI-Tech House</a
             >
           </span>
           <img
@@ -1641,7 +2104,7 @@
             ><i class="fab fa-facebook-f"></i
           ></a>
           <a aria-label="Twitter" class="social-icon twitter" href="#"
-            ><i class="fab fa-twitter"></i
+            ><i class="fab fa-x-twitter"></i
           ></a>
           <a aria-label="Instagram" class="social-icon instagram" href="#"
             ><i class="fab fa-instagram"></i
@@ -1660,10 +2123,15 @@
     </footer>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- shpjs for Shapefile import -->
+    <script src="https://unpkg.com/shpjs@latest/dist/shp.min.js"></script>
 
     <!-- Leaflet Plugins -->
     <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <!-- Leaflet Draw JS -->
     <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <!-- Leaflet Measure JS -->
+    <script src="https://unpkg.com/leaflet-measure/dist/leaflet-measure.js"></script>
 
     <!-- Chart.js for data visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1684,28 +2152,11 @@
     <script src="js/tabs.js"></script>
     <script src="js/info-panel-formatter.js"></script>
     <script>
-      // Fix for white space issue
-      window.addEventListener("load", function () {
-        // Force map resize after page is fully loaded
-        setTimeout(function () {
-          if (window.map) {
-            window.map.invalidateSize(true);
-
-            // Force another resize after a longer delay
-            setTimeout(function () {
-              if (window.map) {
-                window.map.invalidateSize(true);
-              }
-            }, 1000);
-          }
-        }, 100);
-      });
-
       // Fix for white space issue when clicking on the map
       document.addEventListener("click", function (e) {
         if (e.target && (e.target.id === "map" || e.target.closest("#map"))) {
           setTimeout(function () {
-            if (window.map) {
+            if (window.map && typeof window.map.invalidateSize === 'function') {
               window.map.invalidateSize(true);
             }
           }, 100);
@@ -1717,8 +2168,8 @@
           title: "نظام الإدارة الحضرية لمدينة حلب",
           settingsText: "إعدادات الحساب",
           logoutText: "تسجيل الخروج",
-          rightsText: "جميع الحقوق محفوظة لصالح",
-          companyName: "دار التقنية الحديثة",
+          rightsText: "Powerd by",
+          companyName: "HI-Tech House",
           // Info panel buttons
           cancelChanges: "إلغاء التعديلات",
           saveChanges: "حفظ التغييرات",
@@ -1804,7 +2255,7 @@
           title: "Urban Management System for Aleppo",
           settingsText: "Account Settings",
           logoutText: "Logout",
-          rightsText: "All rights reserved to",
+          rightsText: "Powerd by",
           companyName: "Hi-Tech House",
           // Info panel buttons
           cancelChanges: "Cancel Changes",
@@ -1914,29 +2365,77 @@
         document.documentElement.lang = lang;
         document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
 
+        // Apply fixed direction to no-translate elements
+        document.querySelectorAll('.no-translate').forEach(element => {
+          // Keep header and footer with fixed direction regardless of language
+          element.style.direction = "rtl"; // Always keep RTL for header and footer
+
+          // Ensure the layout doesn't change when switching languages
+          if (element.id === 'mainHeader') {
+            // Fix header elements
+            const rightLogos = element.querySelector('.header-logos.right-logos');
+            const leftControls = element.querySelector('div:first-child');
+            const title = element.querySelector('.header-title');
+
+            if (rightLogos) rightLogos.style.right = '20px';
+            if (leftControls) leftControls.style.left = '20px';
+            if (title) {
+              title.style.left = '50%';
+              title.style.transform = 'translateX(-50%)';
+            }
+          } else if (element.id === 'mainFooter') {
+            // Fix footer elements
+            const copyright = element.querySelector('.copyright');
+            const socialIcons = element.querySelector('.social-icons');
+
+            if (copyright) copyright.style.left = '20px';
+            if (socialIcons) socialIcons.style.right = '20px';
+          }
+        });
+
         // تحديث النصوص
         const t = translations[lang];
         document.title = t.title;
 
-        // تحديث القائمة
+        // Skip translation for elements with no-translate class
+        const noTranslateElements = document.querySelectorAll('.no-translate');
+
+        // تحديث القائمة - only if not in a no-translate container
         const settingsText = document.getElementById("settingsText");
         const logoutText = document.getElementById("logoutText");
-        if (settingsText) settingsText.textContent = t.settingsText;
-        if (logoutText) logoutText.textContent = t.logoutText;
+        // We'll skip translating these elements since they're in the header
+        // if (settingsText && !isInNoTranslateContainer(settingsText))
+        //   settingsText.textContent = t.settingsText;
+        // if (logoutText && !isInNoTranslateContainer(logoutText))
+        //   logoutText.textContent = t.logoutText;
 
-        // تحديث الفوتر
+        // تحديث الفوتر - only if not in a no-translate container
         const rightsText = document.getElementById("rightsText");
         const companyName = document.getElementById("companyName");
-        if (rightsText) rightsText.textContent = t.rightsText;
-        if (companyName) companyName.textContent = t.companyName;
+        // We'll skip translating these elements since they're in the footer
+        // if (rightsText && !isInNoTranslateContainer(rightsText))
+        //   rightsText.textContent = t.rightsText;
+        // if (companyName && !isInNoTranslateContainer(companyName))
+        //   companyName.textContent = t.companyName;
 
-        // تحديث العناوين
+        // تحديث العناوين - only if not in a no-translate container
         const titleAr = document.querySelector(".title-ar");
         const titleEn = document.querySelector(".title-en");
+
+        // We'll skip changing the visibility of these elements since they're in the header
+        // if (titleAr && !isInNoTranslateContainer(titleAr)) {
+        //   titleAr.style.display = lang === "ar" ? "block" : "none";
+        // }
+
+        // if (titleEn && !isInNoTranslateContainer(titleEn)) {
+        //   titleEn.style.display = lang === "en" ? "block" : "none";
+        // }
 
         // تحديث أسماء التبويبات
         if (t.tabs) {
           document.querySelectorAll(".tab-button").forEach((button) => {
+            if (isInNoTranslateContainer(button)) return;
+
             const tabId = button.getAttribute("data-tab");
             const tabSpan = button.querySelector("span:not(.tab-close)");
             if (tabSpan && tabId && t.tabs[tabId]) {
@@ -1949,7 +2448,8 @@
         const layersToggleAfter = document.querySelector(
           ".leaflet-control-layers-toggle::after"
         );
-        if (layersToggleAfter && t.mapControls && t.mapControls.layers) {
+        if (layersToggleAfter && t.mapControls && t.mapControls.layers &&
+            !isInNoTranslateContainer(layersToggleAfter)) {
           document.documentElement.style.setProperty(
             "--layers-text",
             `"${t.mapControls.layers}"`
@@ -1962,7 +2462,7 @@
           const layersManagementTitle = document.querySelector(
             "#leftSidebar .sidebar-header h3"
           );
-          if (layersManagementTitle) {
+          if (layersManagementTitle && !isInNoTranslateContainer(layersManagementTitle)) {
             layersManagementTitle.textContent = t.sidebar.layersManagement;
           }
 
@@ -2348,6 +2848,18 @@
         }
       }
 
+      // Helper function to check if an element is inside a no-translate container
+      function isInNoTranslateContainer(element) {
+        let parent = element.parentElement;
+        while (parent) {
+          if (parent.classList && parent.classList.contains('no-translate')) {
+            return true;
+          }
+          parent = parent.parentElement;
+        }
+        return false;
+      }
+
       function toggleMenu() {
         const menu = document.getElementById("menuDropdown");
         menu.style.display = menu.style.display === "block" ? "none" : "block";
@@ -2371,6 +2883,20 @@
         localStorage.removeItem("selectedLanguage");
         // تعيين اللغة العربية كافتراضية
         localStorage.setItem("selectedLanguage", "ar");
+
+        // Apply fixed styles to header and footer to prevent layout shifts
+        document.querySelectorAll('.no-translate').forEach(element => {
+          element.style.direction = "rtl";
+
+          // Make sure both titles are visible in the header
+          if (element.id === 'mainHeader') {
+            const titleAr = element.querySelector('.title-ar');
+            const titleEn = element.querySelector('.title-en');
+
+            if (titleAr) titleAr.style.display = 'block';
+            if (titleEn) titleEn.style.display = 'block';
+          }
+        });
 
         // تطبيق اللغة العربية
         switchLanguage("ar");

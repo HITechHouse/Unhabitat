@@ -1,939 +1,1298 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="76x76"
-      href="../assets/img/images.png"
-    />
-    <link rel="icon" type="image/png" href="../assets/img/images.png" />
-    <title>Tables</title>
-    <!--     Fonts and icons     -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800"
-      rel="stylesheet"
-    />
-    <!-- Nucleo Icons -->
-    <link
-      href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome Icons -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <script
-      src="https://kit.fontawesome.com/42d5adcbca.js"
-      crossorigin="anonymous"
-    ></script>
-    <!-- CSS Files -->
-    <link
-      id="pagestyle"
-      href="../assets/css/soft-ui-dashboard.css?v=1.1.0"
-      rel="stylesheet"
-    />
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-    <script
-      defer
-      data-site="YOUR_DOMAIN_HERE"
-      src="https://api.nepcha.com/js/nepcha-analytics.js"
-    ></script>
-    link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    rel="stylesheet">
 
-    <style>
-      /* تنسيق المربعات */
-      .grid-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-        height: calc(100vh - 200px); /* Adjust height to fit viewport */
-        overflow-y: auto; /* Enable scrolling only if needed */
-        padding: 20px;
-      }
-
-      .grid-item {
-        background-color: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-        overflow: hidden;
-        height: 150px; /* Fixed height for each grid item */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .grid-item::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #0d6efd20, #6c757d20);
-        z-index: -1;
-        transition: opacity 0.3s ease;
-        opacity: 0;
-      }
-
-      .grid-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .grid-item:hover::before {
-        opacity: 1;
-      }
-
-      .grid-item h3 {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 10px;
-      }
-
-      .grid-item i {
-        font-size: 2.5rem;
-        /* حجم الأيقونة */
-        color: #0d6efd;
-        /* لون الأيقونة */
-        margin-bottom: 10px;
-        /* المسافة بين الأيقونة والنص */
-        display: block;
-        /* لجعل الأيقونة في السطر الخاص بها */
-      }
-
-      .grid-item h3 {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #333;
-      }
-
-      .table-container {
-        max-height: 400px;
-        overflow-y: auto;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin-top: 20px;
-      }
-
-      .table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .table thead {
-        background-color: #f8f9fa;
-        position: sticky;
-        top: 0;
-        z-index: 1;
-      }
-
-      .table th,
-      .table td {
-        padding: 12px;
-        text-align: center;
-        border: 1px solid #ddd;
-      }
-
-      .table tbody tr:hover {
-        background-color: #f1f1f1;
-      }
-
-      .btn-add {
-        margin-bottom: 20px;
-      }
-
-      .btn-edit {
-        background-color: #ffc107;
-        border-color: #ffc107;
-      }
-
-      .btn-delete {
-        background-color: #dc3545;
-        border-color: #dc3545;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      /* تحسين شكل النافذة المنبثقة */
-      .modal {
-        padding-right: 0 !important;
-        overflow-y: auto;
-      }
-
-      .modal-dialog {
-        margin: 20px auto;
-        max-width: 95%;
-        width: auto;
-        min-width: 300px;
-      }
-
-      .modal-content {
-        border-radius: 16px;
-        border: none;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        animation: fadeIn 0.3s ease-in-out;
-        background: linear-gradient(135deg, #ffffff, #f8f9fa);
-        margin-top: 60px; /* إضافة هامش علوي لتجنب التداخل مع الـ header */
-        margin-bottom: 60px; /* إضافة هامش سفلي لتجنب التداخل مع الـ footer */
-      }
-
-      .modal-header {
-        background: linear-gradient(135deg, #0d6efd, #1a73e8);
-        color: #fff;
-        border-radius: 16px 16px 0 0;
-        padding: 20px 25px;
-        border-bottom: none;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .modal-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin: 0;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        color: #ffffff;
-      }
-
-      .modal-body {
-        padding: 25px;
-      }
-
-      .modal-footer {
-        border-top: 1px solid #e0e0e0;
-        padding: 15px 25px;
-        border-radius: 0 0 16px 16px;
-        background: #f8f9fa;
-      }
-
-      /* زر الإغلاق */
-      .btn-close {
-        position: relative;
-        width: 32px;
-        height: 32px;
-        padding: 0;
-        margin: 0;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-      }
-
-      .btn-close::before,
-      .btn-close::after {
-        content: "";
-        position: absolute;
-        width: 20px;
-        height: 2px;
-        background-color: #ffffff;
-        top: 50%;
-        left: 50%;
-      }
-
-      .btn-close::before {
-        transform: translate(-50%, -50%) rotate(45deg);
-      }
-
-      .btn-close::after {
-        transform: translate(-50%, -50%) rotate(-45deg);
-      }
-
-      .btn-close:hover::before,
-      .btn-close:hover::after {
-        background-color: rgba(255, 255, 255, 0.8);
-      }
-
-      .btn-close:hover {
-        transform: scale(1.1);
-      }
-
-      .btn-close:focus {
-        outline: none;
-        box-shadow: none;
-      }
-
-      /* تحسين شكل الجداول */
-      .table-container {
-        max-height: 500px;
-        overflow-y: auto;
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        margin-top: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      }
-
-      .table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        margin: 0;
-      }
-
-      .table thead {
-        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        position: sticky;
-        top: 0;
-        z-index: 1;
-      }
-
-      .table th {
-        padding: 15px;
-        text-align: center;
-        font-weight: 600;
-        color: #495057;
-        border-bottom: 2px solid #dee2e6;
-        white-space: nowrap;
-      }
-
-      .table td {
-        padding: 12px 15px;
-        text-align: center;
-        vertical-align: middle;
-        border-bottom: 1px solid #e9ecef;
-        color: #495057;
-      }
-
-      .table tbody tr {
-        transition: all 0.2s ease;
-      }
-
-      .table tbody tr:hover {
-        background-color: #f8f9fa;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      }
-
-      /* تحسين أزرار الإجراءات */
-      .btn-add {
-        background: linear-gradient(135deg, #0d6efd, #1a73e8);
-        border: none;
-        border-radius: 8px;
-        padding: 10px 20px;
-        color: white;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
-        margin-bottom: 20px;
-      }
-
-      .btn-add:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(13, 110, 253, 0.3);
-      }
-
-      .btn-edit {
-        background: linear-gradient(135deg, #ffc107, #ffb007);
-        border: none;
-        border-radius: 6px;
-        padding: 6px 12px;
-        color: #212529;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        margin-right: 5px;
-      }
-
-      .btn-edit:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(255, 193, 7, 0.2);
-      }
-
-      .btn-delete {
-        background: linear-gradient(135deg, #dc3545, #c82333);
-        border: none;
-        border-radius: 6px;
-        padding: 6px 12px;
-        color: white;
-        font-weight: 500;
-        transition: all 0.3s ease;
-      }
-
-      .btn-delete:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
-      }
-
-      /* تأثيرات تحريك */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* تخصيص شريط التمرير */
-      .table-container::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      .table-container::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 4px;
-      }
-
-      .table-container::-webkit-scrollbar-thumb {
-        background: #c1c1c1;
-        border-radius: 4px;
-      }
-
-      .table-container::-webkit-scrollbar-thumb:hover {
-        background: #a8a8a8;
-      }
-
-      .grid-item {
-        background: linear-gradient(135deg, #e3f2fd, #ffffff);
-        /* تدرج أبيض وأزرق فاتح */
-        border: none;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .grid-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .grid-item i {
-        font-size: 2.5rem;
-        /* حجم الأيقونة */
-        margin-bottom: 10px;
-        /* المسافة بين الأيقونة والنص */
-        transition: transform 0.3s ease;
-      }
-
-      .grid-item span {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #333;
-      }
-
-      .grid-item:hover i {
-        transform: scale(1.1);
-        /* تكبير الأيقونة عند التحويم */
-      }
-
-      /* ألوان ديناميكية لكل مربع */
-      .grid-item:nth-child(1) {
-        background-color: #e8f5e9;
-      }
-
-      /* أخضر فاتح */
-      .grid-item:nth-child(2) {
-        background-color: #fff3e0;
-      }
-
-      /* برتقالي فاتح */
-      .grid-item:nth-child(3) {
-        background-color: #e3f2fd;
-      }
-
-      /* أزرق فاتح */
-      .grid-item:nth-child(4) {
-        background-color: #ffebee;
-      }
-
-      /* أحمر فاتح */
-      .grid-item:nth-child(5) {
-        background-color: #f3e5f5;
-      }
-
-      /* بنفسجي فاتح */
-      .grid-item:nth-child(6) {
-        background-color: #e0f7fa;
-      }
-
-      /* سماوي فاتح */
-      .grid-item:nth-child(7) {
-        background-color: #ede7f6;
-      }
-
-      /* بنفسجي فاتح آخر */
-      .grid-item:nth-child(8) {
-        background-color: #fffde7;
-      }
-
-      /* أصفر فاتح */
-      .grid-item:nth-child(9) {
-        background-color: #e8eaf6;
-      }
-
-      /* أزرق غامق قليلاً */
-      .grid-item:nth-child(10) {
-        background-color: #d1c4e9;
-      }
-
-      /* بنفسجي متوسط */
-      .grid-item:nth-child(11) {
-        background-color: #b2ebf2;
-      }
-
-      /* أزرق ماء */
-      .grid-item:nth-child(12) {
-        background-color: #ffecb3;
-      }
-
-      /* ذهبي فاتح */
-      .grid-item:nth-child(13) {
-        background-color: #c8e6c9;
-      }
-
-      /* أخضر متوسط */
-      .grid-item:nth-child(14) {
-        background-color: #bbdefb;
-      }
-
-      /* أزرق سماوي */
-
-      #mainHeader {
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/images.png" />
+  <link rel="icon" type="image/png" href="../assets/img/images.png" />
+  <title>Tables</title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
+  <!-- Nucleo Icons -->
+  <link href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
+  <!-- Nepcha Analytics (nepcha.com) -->
+  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet">
+
+  <style>
+    /* تنسيق المربعات */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+      height: calc(100vh - 180px);
+      padding: 10px;
+      overflow: hidden;
+    }
+
+    /* Responsive styles for sidebar and main content */
+    @media (max-width: 991.98px) {
+      .sidenav {
         position: fixed;
         top: 0;
-        width: 100%;
-        z-index: 1030;
-        /* Increased z-index to be above sidebar */
-        background-color: #007bff;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
-        box-sizing: border-box;
+        left: -17.125rem;
+        width: 17.125rem;
+        height: 100vh;
+        z-index: 1031;
+        transition: all 0.3s ease;
       }
 
-      .header-logo {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        object-fit: contain;
+      .g-sidenav-show .sidenav {
+        left: 0;
+      }
+
+      .main-content {
+        margin-left: 0 !important;
+        width: 100%;
+      }
+
+      body[dir="rtl"] .sidenav {
+        left: auto;
+        right: -17.125rem;
+      }
+
+      body[dir="rtl"] .g-sidenav-show .sidenav {
+        right: 0;
+      }
+
+      /* Adjust header for mobile */
+      #mainHeader {
+        padding: 0.5rem;
       }
 
       .header-title {
-        flex: 1;
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.4rem;
-        line-height: 1.4;
+        font-size: 1rem;
       }
 
-      .header-logos {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 5px;
+      .title-ar, .title-en {
+        font-size: 0.9rem !important;
       }
 
-      .title-ar {
-        font-size: 1.3rem;
-        line-height: 1.2;
-        font-weight: bold;
-        white-space: normal;
+      .header-logo {
+        height: 30px;
+        width: 30px;
       }
 
-      .title-en {
-        font-size: 0.95rem;
-        line-height: 1.2;
-        font-weight: bold;
-        white-space: normal;
+      /* Adjust grid items for mobile */
+      .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 8px;
+        padding: 8px;
       }
 
-      .language-dropdown {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        z-index: 1031;
-        /* Higher than header to ensure dropdown works */
+      .grid-item {
+        height: 100px !important;
       }
 
-      .language-toggle {
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.18);
-        color: #fff;
-        font-weight: bold;
-        font-size: 1.1rem;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        outline: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        transition: background 0.2s, border 0.2s, box-shadow 0.2s;
-        position: relative;
-        z-index: 5000;
-        /* Higher than header to ensure button works */
+      .grid-item h3 {
+        font-size: 0.8rem;
       }
 
-      .language-toggle:hover {
-        background: rgba(255, 255, 255, 0.3);
+      .grid-item i {
+        font-size: 1.5rem;
       }
 
-      .language-toggle:active {
-        background: rgba(255, 255, 255, 0.4);
+      /* Adjust modal for mobile */
+      .modal-dialog {
+        margin: 0.5rem;
+        max-width: 95%;
       }
 
+      .table-container {
+        max-height: 60vh;
+      }
+
+      /* Adjust footer for mobile */
       #mainFooter {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100vw;
-        z-index: 1000;
-        background-color: #3066ff;
-        padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
+        padding: 0.5rem;
       }
 
       .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 1rem;
-        color: white;
-      }
-
-      .social-icon {
-        color: #fff;
-        font-size: 1.2rem;
-        margin-left: 1rem;
-        transition: color 0.3s ease;
-      }
-
-      .social-icon:hover {
-        color: #3498db;
-      }
-
-      footer .copyright img {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        background-color: white;
-        padding: 2px;
-        object-fit: contain;
-        background-clip: content-box;
-        vertical-align: middle;
-        margin-right: 8px;
-      }
-
-      .footer-logo {
-        height: 24px;
-        margin-right: 8px;
-        vertical-align: middle;
-        display: inline-block !important;
-      }
-
-      .companyHITech {
-        color: white !important;
-        text-decoration: none;
-        transition: color 0.3s ease;
-      }
-
-      .companyHITech:hover {
-        color: #f0f0f0 !important;
-        text-decoration: underline;
-      }
-
-      /* Add RTL/LTR specific styles for footer */
-      body[dir="rtl"] .footer-content {
-        flex-direction: row;
-      }
-
-      body[dir="ltr"] .footer-content {
-        flex-direction: row;
-      }
-
-      body[dir="rtl"] .footer-logo {
-        margin-right: 8px;
-        margin-left: 0;
-      }
-
-      body[dir="ltr"] .footer-logo {
-        margin-left: 8px;
-        margin-right: 0;
-      }
-
-      body[dir="rtl"] .social-icon {
-        margin-left: 1rem;
-        margin-right: 0;
-      }
-
-      body[dir="ltr"] .social-icon {
-        margin-right: 1rem;
-        margin-left: 0;
-      }
-
-      /* Existing styles remain unchanged */
-      body {
-        background-color: #f8f9fa;
-        font-family: "Cairo", sans-serif;
-      }
-
-      .card {
-        border-radius: 1rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        background-color: linear-gradient(135deg, #e3f2fd, #ffffff);
-      }
-
-      .chart-container {
-        padding: 1rem;
-        background: white;
-        border-radius: 1rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-      }
-
-      /* Add styles for the sidebar logo */
-      .sidenav-header {
-        padding-top: 20px;
-        /* Add padding to move logo down */
-        margin-bottom: 10px;
-      }
-
-      .navbar-brand {
-        margin-top: 20px !important;
-        /* Force margin to move logo down */
-        display: block;
-        padding: 10px 0;
-      }
-
-      .navbar-brand-img {
-        max-height: 35px;
-        /* Control logo size */
-        width: auto;
-      }
-
-      /* Ensure header stays on top */
-      #mainHeader {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 5000;
-        background-color: #007bff;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
-        box-sizing: border-box;
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
       }
 
       .copyright-text {
-        color: white;
-        display: inline-block;
-        margin-right: 8px;
-        font-size: 14px;
+        font-size: 0.8rem;
       }
 
-      .footer-logo {
-        height: 24px;
-        margin-right: 8px;
-        vertical-align: middle;
-        display: inline-block !important;
+      .social-icon {
+        font-size: 1rem;
+        margin: 0 0.5rem;
+      }
+    }
+
+    /* Additional responsive adjustments */
+    @media (max-width: 767.98px) {
+      .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       }
 
-      .companyHITech {
-        color: white !important;
-        text-decoration: none;
-        transition: color 0.3s ease;
-        display: inline-block;
-        margin: 0 8px;
+      .grid-item {
+        height: 90px !important;
       }
 
-      .companyHITech:hover {
-        color: #f0f0f0 !important;
-        text-decoration: underline;
+      .grid-item h3 {
+        font-size: 0.7rem;
       }
 
-      /* Add RTL/LTR specific styles for footer */
-      body[dir="rtl"] .footer-content {
-        flex-direction: row;
+      .grid-item i {
+        font-size: 1.2rem;
       }
 
-      body[dir="ltr"] .footer-content {
-        flex-direction: row;
+      .table th, .table td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
       }
 
-      body[dir="rtl"] .footer-logo {
-        margin-right: 8px;
-        margin-left: 0;
+      .btn-sm {
+        padding: 0.2rem 0.4rem;
       }
+    }
 
-      body[dir="ltr"] .footer-logo {
-        margin-left: 8px;
+    /* Fix for RTL layout */
+    body[dir="rtl"] .sidenav {
+      right: 0;
+      left: auto;
+    }
+
+    body[dir="rtl"] .main-content {
+      margin-right: 17.125rem;
+      margin-left: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      body[dir="rtl"] .main-content {
         margin-right: 0;
       }
+    }
 
-      body[dir="rtl"] .social-icon {
-        margin-left: 1rem;
-        margin-right: 0;
+    .grid-item {
+      height: 130px !important;
+      background: linear-gradient(135deg, #e3f2fd, #ffffff);
+      border: none;
+      border-radius: 10px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+      height: 80px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .grid-item::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0d6efd20, #6c757d20);
+      z-index: -1;
+      transition: opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .grid-item:hover::before {
+      opacity: 1;
+    }
+
+    .grid-item h3 {
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #333;
+      margin: 0;
+      line-height: 1.1;
+      word-break: break-word;
+    }
+
+    .grid-item i {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+      transition: transform 0.3s ease;
+    }
+
+    .grid-item h3 {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table thead {
+      background-color: #f8f9fa;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .table th,
+    .table td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .btn-add {
+      margin-bottom: 20px;
+    }
+
+    .btn-edit {
+      background-color: #ffc107;
+      border-color: #ffc107;
+    }
+
+    .btn-delete {
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* تحسين شكل النافذة المنبثقة */
+    .modal {
+      padding: 0 !important;
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1050;
+      overflow: hidden;
+    }
+
+    .modal-dialog {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      margin: 2rem auto;
+      margin-top: 100px;
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      margin: 0 auto;
+      max-height: 85vh;
+      width: 100%;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: linear-gradient(135deg, #0d6efd, #1a73e8);
+      color: #fff;
+      border-radius: 12px 12px 0 0;
+      border-bottom: none;
+      flex-shrink: 0;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .modal-body {
+      position: relative;
+      flex: 1 1 auto;
+      padding: 0.75rem;
+      overflow: auto;
+      max-height: calc(85vh - 120px);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0.75rem;
+      border-top: 1px solid #dee2e6;
+      border-radius: 0 0 12px 12px;
+    }
+
+    /* تحسين زر الإغلاق */
+    .btn-close {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+      z-index: 1060;
+    }
+
+    .btn-close:hover {
+      opacity: 1;
+    }
+
+    .btn-close::before,
+    .btn-close::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 1rem;
+      background-color: currentColor;
+    }
+
+    .btn-close::before {
+      transform: rotate(45deg);
+    }
+
+    .btn-close::after {
+      transform: rotate(-45deg);
+    }
+
+    /* RTL Support for Modal */
+    [dir="rtl"] .modal-header .btn-close {
+      margin: -0.5rem auto -0.5rem -0.5rem;
+    }
+
+    [dir="rtl"] .btn-close {
+      right: auto;
+      left: 1rem;
+    }
+
+    /* تحسين المظهر على الشاشات الصغيرة */
+    @media (max-width: 768px) {
+      .modal-dialog {
+        margin: 1rem;
+        width: auto;
       }
 
-      body[dir="ltr"] .social-icon {
-        margin-right: 1rem;
-        margin-left: 0;
+      .modal-content {
+        margin: 0;
       }
-    </style>
-  </head>
 
-  <body class="g-sidenav-show bg-gray-100">
-    <!-- New Header -->
-    <header id="mainHeader">
-      <div style="display: flex; align-items: center; gap: 10px">
-        <img
-          src="../assets/img/unhabitat.jfif"
-          alt="Logo 3"
-          class="header-logo"
-        />
-        <div class="language-dropdown">
-          <button class="language-toggle" id="langToggleBtn">AR</button>
+      .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    /* تحسين شكل الجداول */
+    .table-container {
+      max-height: none;
+      overflow: visible;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    .table thead {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .table th {
+      padding: 0.5rem;
+      text-align: center;
+      font-weight: 600;
+      color: #495057;
+      border-bottom: 2px solid #dee2e6;
+      white-space: nowrap;
+    }
+
+    .table td {
+      padding: 0.5rem;
+      text-align: center;
+      vertical-align: middle;
+      border-bottom: 1px solid #e9ecef;
+      color: #495057;
+    }
+
+    .table tbody tr {
+      transition: all 0.2s ease;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f8f9fa;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    /* تحسين أزرار الإجراءات */
+    .btn-add {
+      background: linear-gradient(135deg, #0d6efd, #1a73e8);
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      color: white;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(13, 110, 253, 0.2);
+      margin-bottom: 0.75rem;
+    }
+
+    .btn-add:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(13, 110, 253, 0.3);
+    }
+
+    .btn-edit {
+      background: linear-gradient(135deg, #ffc107, #ffb007);
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      color: #212529;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin-right: 5px;
+    }
+
+    .btn-edit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(255, 193, 7, 0.2);
+    }
+
+    .btn-delete {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      color: white;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-delete:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+    }
+
+    /* تنسيق أزرار الأيقونات */
+    .btn-sm i {
+      font-size: 1.2rem;
+    }
+
+    .btn-sm {
+      width: 32px;
+      height: 32px;
+      padding: 0.25rem;
+      margin: 0 2px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-warning i {
+      color: white;
+    }
+
+    .btn-danger i {
+      color: white;
+    }
+
+    /* تأثيرات تحريك */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* تخصيص شريط التمرير */
+    .table-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
+    }
+
+    .grid-item {
+      background: linear-gradient(135deg, #e3f2fd, #ffffff);
+      /* تدرج أبيض وأزرق فاتح */
+      border: none;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .grid-item i {
+      font-size: 2.5rem;
+      /* حجم الأيقونة */
+      margin-bottom: 10px;
+      /* المسافة بين الأيقونة والنص */
+      transition: transform 0.3s ease;
+    }
+
+    .grid-item span {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .grid-item:hover i {
+      transform: scale(1.1);
+      /* تكبير الأيقونة عند التحويم */
+    }
+
+    /* ألوان ديناميكية لكل مربع */
+    .grid-item:nth-child(1) {
+      background-color: #e8f5e9;
+    }
+
+    /* أخضر فاتح */
+    .grid-item:nth-child(2) {
+      background-color: #fff3e0;
+    }
+
+    /* برتقالي فاتح */
+    .grid-item:nth-child(3) {
+      background-color: #e3f2fd;
+    }
+
+    /* أزرق فاتح */
+    .grid-item:nth-child(4) {
+      background-color: #ffebee;
+    }
+
+    /* أحمر فاتح */
+    .grid-item:nth-child(5) {
+      background-color: #f3e5f5;
+    }
+
+    /* بنفسجي فاتح */
+    .grid-item:nth-child(6) {
+      background-color: #e0f7fa;
+    }
+
+    /* سماوي فاتح */
+    .grid-item:nth-child(7) {
+      background-color: #ede7f6;
+    }
+
+    /* بنفسجي فاتح آخر */
+    .grid-item:nth-child(8) {
+      background-color: #fffde7;
+    }
+
+    /* أصفر فاتح */
+    .grid-item:nth-child(9) {
+      background-color: #e8eaf6;
+    }
+
+    /* أزرق غامق قليلاً */
+    .grid-item:nth-child(10) {
+      background-color: #d1c4e9;
+    }
+
+    /* بنفسجي متوسط */
+    .grid-item:nth-child(11) {
+      background-color: #b2ebf2;
+    }
+
+    /* أزرق ماء */
+    .grid-item:nth-child(12) {
+      background-color: #ffecb3;
+    }
+
+    /* ذهبي فاتح */
+    .grid-item:nth-child(13) {
+      background-color: #c8e6c9;
+    }
+
+    /* أخضر متوسط */
+    .grid-item:nth-child(14) {
+      background-color: #bbdefb;
+    }
+
+    /* أزرق سماوي */
+
+    #mainHeader {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1030;
+      background-color: #007bff;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 16px;
+      height: 56px;
+      min-height: 56px;
+      box-sizing: border-box;
+    }
+
+    .header-logo {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      object-fit: contain;
+    }
+
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.4rem;
+      line-height: 1.4;
+    }
+
+    .header-logos {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 5px;
+    }
+
+    .title-ar {
+      font-size: 1.2rem;
+      line-height: 1.4;
+      font-weight: bold;
+      white-space: normal;
+    }
+
+    .title-en {
+      font-size: 1.22rem !important;
+      line-height: 1.2;
+      font-weight: bold;
+      white-space: normal;
+    }
+
+    .language-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1031;
+    }
+
+    .language-toggle {
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      outline: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+      position: relative;
+      z-index: 5000;
+    }
+
+    .language-toggle:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .language-toggle:active {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    #mainFooter {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      z-index: 1000;
+      background-color: #3066ff;
+      padding: 4px 16px;
+      height: 56px;
+      min-height: 56px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+      color: white;
+    }
+
+    .social-icon {
+      color: #fff;
+      font-size: 1.2rem;
+      margin-left: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .social-icon:hover {
+      color: #3498db;
+    }
+
+    footer .copyright img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      background-color: white;
+      padding: 2px;
+      object-fit: contain;
+      background-clip: content-box;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    .footer-logo {
+      height: 24px;
+      margin-right: 8px;
+      vertical-align: middle;
+      display: inline-block !important;
+    }
+
+    .companyHITech {
+      color: white !important;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .companyHITech:hover {
+      color: #f0f0f0 !important;
+      text-decoration: underline;
+    }
+
+    /* Add RTL/LTR specific styles for footer */
+    body[dir="rtl"] .footer-content {
+      flex-direction: row;
+    }
+
+    body[dir="ltr"] .footer-content {
+      flex-direction: row;
+    }
+
+    body[dir="rtl"] .footer-logo {
+      margin-right: 8px;
+      margin-left: 0;
+    }
+
+    body[dir="ltr"] .footer-logo {
+      margin-left: 8px;
+      margin-right: 0;
+    }
+
+    body[dir="rtl"] .social-icon {
+      margin-left: 1rem;
+      margin-right: 0;
+    }
+
+    body[dir="ltr"] .social-icon {
+      margin-right: 1rem;
+      margin-left: 0;
+    }
+
+    /* Existing styles remain unchanged */
+    body {
+      background-color: #f8f9fa;
+      font-family: "Cairo", sans-serif;
+    }
+
+    body[dir="rtl"] {
+      text-align: right;
+      /* تعيين محاذاة النص الافتراضية لليمين في وضع RTL */
+    }
+
+    /* body[dir="rtl"] #sidenav-main {
+        right: auto !important;
+        left: 0 !important;
+        margin-left: 1rem !important;
+        margin-right: 0 !important;  
+      }
+
+      body[dir="rtl"] .main-content {
+        margin-left: 17.125rem !important; 
+        margin-right: 0 !important;      
+      } */
+
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      background-color: linear-gradient(135deg, #e3f2fd, #ffffff);
+    }
+
+    .chart-container {
+      padding: 1rem;
+      background: white;
+      border-radius: 1rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Add styles for the sidebar logo */
+    .sidenav-header {
+      padding-top: 20px;
+      /* Add padding to move logo down */
+      margin-bottom: 10px;
+    }
+
+    .navbar-brand {
+      margin-top: 20px !important;
+      /* Force margin to move logo down */
+      display: block;
+      padding: 10px 0;
+    }
+
+    .navbar-brand-img {
+      max-height: 35px;
+      /* Control logo size */
+      width: auto;
+    }
+
+    /* Ensure header stays on top */
+    #mainHeader {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 5000;
+      background-color: #007bff;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 16px;
+      height: 56px;
+      min-height: 56px;
+      box-sizing: border-box;
+    }
+
+    .copyright-text {
+      color: white;
+      display: inline-block;
+      margin-right: 8px;
+      font-size: 14px;
+    }
+
+    .footer-logo {
+      height: 24px;
+      margin-right: 8px;
+      vertical-align: middle;
+      display: inline-block !important;
+    }
+
+    .companyHITech {
+      color: white !important;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      display: inline-block;
+      margin: 0 8px;
+    }
+
+    .companyHITech:hover {
+      color: #f0f0f0 !important;
+      text-decoration: underline;
+    }
+
+    /* Add RTL/LTR specific styles for footer */
+    body[dir="rtl"] .footer-content {
+      flex-direction: row;
+    }
+
+    body[dir="ltr"] .footer-content {
+      flex-direction: row;
+    }
+
+    body[dir="rtl"] .footer-logo {
+      margin-right: 8px;
+      margin-left: 0;
+    }
+
+    body[dir="ltr"] .footer-logo {
+      margin-left: 8px;
+      margin-right: 0;
+    }
+
+    body[dir="rtl"] .social-icon {
+      margin-left: 1rem;
+      margin-right: 0;
+    }
+
+    body[dir="ltr"] .social-icon {
+      margin-right: 1rem;
+      margin-left: 0;
+    }
+
+    /* Menu Dropdown Styles */
+    .menu-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .menu-toggle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255, 255, 255, 0.32);
+      transform: scale(1.05);
+    }
+
+    .menu-dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      z-index: 1000;
+      margin-top: 5px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu-item i {
+      margin-left: 8px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .menu-item:hover {
+      background-color: #f5f5f5;
+    }
+
+    /* RTL/LTR Support */
+    body[dir="ltr"] .menu-dropdown-content {
+      right: auto;
+      left: 0;
+    }
+
+    body[dir="ltr"] .menu-item i {
+      margin-left: 0;
+      margin-right: 8px;
+    }
+
+
+    /* إضافة أنماط للشريط الجانبي حسب اتجاه اللغة */
+    body[dir="rtl"] .sidenav {
+      right: 0 !important;
+      left: auto !important;
+      margin-right: 1rem !important;
+      margin-left: 0 !important;
+    }
+
+    body[dir="ltr"] .sidenav {
+      left: 0 !important;
+      right: auto !important;
+      margin-left: 1rem !important;
+      margin-right: 0 !important;
+    }
+
+    /* أنماط للمحتوى الرئيسي */
+    body[dir="rtl"] .main-content {
+      margin-right: 17.125rem !important;
+      margin-left: 0 !important;
+    }
+
+    body[dir="ltr"] .main-content {
+      margin-left: 17.125rem !important;
+      margin-right: 0 !important;
+    }
+
+    /* أنماط للأيقونات في الشريط الجانبي */
+    body[dir="rtl"] .icon {
+      margin-left: 0.5rem !important;
+      margin-right: 0 !important;
+    }
+
+    body[dir="ltr"] .icon {
+      margin-right: 0.5rem !important;
+      margin-left: 0 !important;
+    }
+
+    /* تعديل الأنماط الخاصة بالشريط الجانبي عند الضغط على زر القائمة */
+    body[dir="rtl"] .g-sidenav-hidden .sidenav {
+      transform: translateX(17.125rem) !important;
+    }
+
+    body[dir="ltr"] .g-sidenav-hidden .sidenav {
+      transform: translateX(-17.125rem) !important;
+    }
+
+    /* تعديل الأنماط الخاصة بالمحتوى الرئيسي عند الضغط على زر القائمة */
+    body[dir="rtl"] .g-sidenav-hidden .main-content {
+      margin-right: 0 !important;
+    }
+
+    body[dir="ltr"] .g-sidenav-hidden .main-content {
+      margin-left: 0 !important;
+    }
+
+    /* تعديل أنماط النصوص في القائمة الجانبية */
+    body[dir="rtl"] .nav-link-text {
+      margin-right: 0.5rem !important;
+      margin-left: 0 !important;
+    }
+
+    body[dir="ltr"] .nav-link-text {
+      margin-left: 0.5rem !important;
+      margin-right: 0 !important;
+    }
+
+    /* تعديل أنماط البطاقات في الصفحة */
+    body[dir="rtl"] .profile-card,
+    body[dir="rtl"] .stats-card,
+    body[dir="rtl"] .settings-card {
+      text-align: right;
+    }
+
+    body[dir="ltr"] .profile-card,
+    body[dir="ltr"] .stats-card,
+    body[dir="ltr"] .settings-card {
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body dir="ltr" class="g-sidenav-show bg-gray-300">
+  <!-- New Header -->
+  <header id="mainHeader">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <img src="../assets/img/unhabitat.jfif" alt="Logo 3" class="header-logo" />
+      <div class="language-dropdown">
+        <button class="language-toggle" id="langToggleBtn">AR</button>
+      </div>
+      <!-- Add menu dropdown button -->
+      <div class="menu-dropdown">
+        <button class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()">
+          <i class="fas fa-ellipsis-v"></i>
+        </button>
+        <div class="menu-dropdown-content" id="menuDropdown">
+          <a href="#" class="menu-item" id="settingsBtn">
+            <i class="fas fa-cog"></i>
+            <span id="settingsText">الإعدادات</span>
+          </a>
+          <a href="#" class="menu-item" id="logoutBtn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span id="logoutText">تسجيل الخروج</span>
+          </a>
         </div>
       </div>
+    </div>
 
-      <div class="header-title text-center">
-        <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
+    <div class="header-title text-center">
+      <!-- <div class="title-ar">نظام  المعلومات الحضرية _ مدينة حلب</div>
         <div class="title-en">
-          Urban Information Management System - Aleppo City
-        </div>
-      </div>
+          Urban Information  System - Aleppo City
+        </div> -->
+      <div class="title-ar">نظام  المعلومات الحضرية _ مدينة حلب</div>
+      <div class="title-ar"> Urban Information  System - Aleppo City</div>
+    </div>
 
-      <div class="header-logos right-logos">
-        <img src="../assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
-        <img src="../assets/img/japan.png" alt="Logo 2" class="header-logo" />
-      </div>
-    </header>
-    <aside
-      class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
-      id="sidenav-main"
-      style="max-height: calc(100vh - 60px); overflow-y: visible"
-    >
-      <div class="sidenav-header">
-        <i
-          class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-          aria-hidden="true"
-          id="iconSidenav"
-        ></i>
-        <a class="navbar-brand m-0" href="#" target="_blank">
+    <div class="header-logos right-logos">
+      <img src="../assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
+      <img src="../assets/img/japan.png" alt="Logo 2" class="header-logo" />
+    </div>
+  </header>
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
+    id="sidenav-main" style="max-height: calc(100vh - 60px); overflow-y: visible">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+        aria-hidden="true" id="iconSidenav"></i>
+      <!-- <a class="navbar-brand m-0" href="#" target="_blank">
           <img
             src="../assets/img/UN_Habitat_Logo.svg"
             class="navbar-brand-img h-100"
             alt="main_logo"
           />
-        </a>
-      </div>
-      <hr class="horizontal dark mt-0" />
-      <div
-        class="collapse navbar-collapse w-auto"
-        id="sidenav-collapse-main"
-        style="height: auto !important"
-      >
-        <ul class="navbar-nav" style="padding-bottom: 60px">
-          <li class="nav-item">
-            <a class="nav-link" href="../pages/dashboard.html">
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 45 40"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title></title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-1716.000000, -439.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(0.000000, 148.000000)">
-                          <path
-                            class="color-background opacity-6"
-                            d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z"
-                          ></path>
-                        </g>
+        </a> -->
+    </div>
+    <!-- <hr class="horizontal dark mt-0" /> -->
+    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main" style="height: auto !important">
+      <ul class="navbar-nav" style="padding-bottom: 60px;padding-top:20px;">
+        <li class="nav-item">
+          <a class="nav-link" href="../pages/dashboard.html">
+            <div
+              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title></title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g transform="translate(0.000000, 148.000000)">
+                        <path class="color-background opacity-6"
+                          d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z">
+                        </path>
+                        <path class="color-background"
+                          d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z">
+                        </path>
                       </g>
                     </g>
                   </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Dashboard</span>
-            </a>
-          </li>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
 
-          <li class="nav-item">
-            <a class="nav-link active" href="../pages/tables.html">
+        <li class="nav-item">
+          <a class="nav-link active" href="../pages/tables.html">
+            <div
+              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>office</title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g id="office" transform="translate(153.000000, 2.000000)">
+                        <path class="color-background opacity-6"
+                          d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z">
+                        </path>
+                        <path class="color-background"
+                          d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z">
+                        </path>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">configuration Tables </span>
+          </a>
+        </li>
+        <!-- <li class="nav-item">
+            <a class="nav-link" href="../pages/maps/index.html">
               <div
                 class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
               >
                 <svg
                   width="12px"
                   height="12px"
-                  viewBox="0 0 42 42"
+                  viewBox="0 0 43 36"
                   version="1.1"
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                 >
-                  <title>office</title>
+                  <title>credit-card</title>
                   <g
                     stroke="none"
                     stroke-width="1"
@@ -941,22 +1300,19 @@
                     fill-rule="evenodd"
                   >
                     <g
-                      transform="translate(-1869.000000, -293.000000)"
+                      transform="translate(-2169.000000, -745.000000)"
                       fill="#FFFFFF"
                       fill-rule="nonzero"
                     >
                       <g transform="translate(1716.000000, 291.000000)">
-                        <g
-                          id="office"
-                          transform="translate(153.000000, 2.000000)"
-                        >
+                        <g transform="translate(453.000000, 454.000000)">
                           <path
                             class="color-background opacity-6"
-                            d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z"
+                            d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
                           ></path>
                           <path
                             class="color-background"
-                            d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z"
+                            d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"
                           ></path>
                         </g>
                       </g>
@@ -964,1941 +1320,1587 @@
                   </g>
                 </svg>
               </div>
-              <span class="nav-link-text ms-1">configuration Tables </span>
+              <span class="nav-link-text ms-1">Maps</span>
             </a>
-          </li>
-         
-          <li class="nav-item">
-            <a class="nav-link" href="../pages/ManageUsers.html">
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 42 42"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title>box-3d-50</title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-2319.000000, -291.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(603.000000, 0.000000)">
-                          <path
-                            class="color-background"
-                            d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z"
-                          ></path>
-                          <path
-                            class="color-background opacity-6"
-                            d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z"
-                          ></path>
-                          <path
-                            class="color-background opacity-6"
-                            d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z"
-                          ></path>
-                        </g>
+          </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="../pages/ManageUsers.html">
+            <div
+              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>box-3d-50</title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g transform="translate(603.000000, 0.000000)">
+                        <path class="color-background"
+                          d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z">
+                        </path>
+                        <path class="color-background opacity-6"
+                          d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z">
+                        </path>
+                        <path class="color-background opacity-6"
+                          d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z">
+                        </path>
                       </g>
                     </g>
                   </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Manage users</span>
-            </a>
-          </li>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Manage users</span>
+          </a>
+        </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="../pages/profile.html">
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 46 42"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title>customer-support</title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-1717.000000, -291.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(1.000000, 0.000000)">
-                          <path
-                            class="color-background opacity-6"
-                            d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z"
-                          ></path>
-                        </g>
+        <li class="nav-item">
+          <a class="nav-link" href="../pages/profile.html">
+            <div
+              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>customer-support</title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g transform="translate(1.000000, 0.000000)">
+                        <path class="color-background opacity-6"
+                          d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z">
+                        </path>
+                        <path class="color-background"
+                          d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z">
+                        </path>
+                        <path class="color-background"
+                          d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z">
+                        </path>
                       </g>
                     </g>
                   </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Profile</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="sidenav-footer mx-3"></div>
-    </aside>
-    <main
-      class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
-    >
-      <!-- Navbar -->
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Profile</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidenav-footer mx-3"></div>
+  </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+    <!-- Navbar -->
 
+    <div class="container-fluid py-4">
+      <!-- مربعات الجداول -->
       <div class="container-fluid py-4">
-        <!-- مربعات الجداول -->
-        <div class="container-fluid py-4">
-          <div class="grid-container">
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#operationalStatusesModal"
-            >
-              <i class="fas fa-cogs fa-2x"></i>
-              <h3>إدارة الحالات التشغيلية</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#interventionPrioritiesModal"
-            >
-              <i class="fas fa-list-ol fa-2x"></i>
-              <h3>إدارة أولويات التدخل</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#infrastructureStatusesModal"
-            >
-              <i class="fas fa-building fa-2x"></i>
-              <!-- أيقونة لتمثيل البنية التحتية -->
-              <h3>إدارة حالات البنية التحتية</h3>
-            </div>
+        <div class="grid-container">
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#operationalStatusesModal">
+            <i class="fas fa-cogs fa-2x"></i>
+            <h3> الحالات التشغيلية</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#interventionPrioritiesModal">
+            <i class="fas fa-list-ol fa-2x"></i>
+            <h3> أولويات التدخل</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#infrastructureStatusesModal">
+            <i class="fas fa-building fa-2x"></i>
+            <!-- أيقونة لتمثيل البنية التحتية -->
+            <h3> حالات البنية التحتية</h3>
+          </div>
 
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#staffStatusesModal"
-            >
-              <i class="fas fa-users fa-2x"></i>
-              <h3>إدارة حالات الموظفين</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#consumablesStatusesModal"
-            >
-              <i class="fas fa-boxes fa-2x"></i>
-              <h3>إدارة حالات المستهلكات</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#damageLevelsModal"
-            >
-              <i class="fas fa-exclamation-triangle fa-2x"></i>
-              <h3>إدارة مستويات الضرر</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#networkStatusesModal"
-            >
-              <i class="fas fa-network-wired fa-2x"></i>
-              <h3>إدارة حالات الشبكة</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#supplyOperationLevelModal"
-            >
-              <i class="fas fa-truck fa-2x"></i>
-              <h3>إدارة مستويات تشغيل خطوط الإمداد</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#ownershipDocumentationTypesModal"
-            >
-              <i class="fas fa-file-contract fa-2x"></i>
-              <h3>إدارة أنواع توثيق الملكية</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#damageDescriptionsModal"
-            >
-              <i class="fas fa-clipboard-list fa-2x"></i>
-              <h3>إدارة أوصاف الضرر</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#ownershipTypesModal"
-            >
-              <i class="fas fa-house-user fa-2x"></i>
-              <h3>إدارة أنواع الملكية</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#urbanConditionsModal"
-            >
-              <i class="fas fa-city fa-2x"></i>
-              <h3>إدارة الحالات الحضرية</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#dominantLandUsesModal"
-            >
-              <i class="fas fa-globe fa-2x"></i>
-              <h3>إدارة الاستخدام السائد للأرض</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#humanNeedsTypesModal"
-            >
-              <i class="fas fa-hands-helping fa-2x"></i>
-              <h3>إدارة أنواع الاحتياجات الإنسانية</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#neighborhoodsModal"
-            >
-              <i class="fas fa-home fa-2x"></i>
-              <h3>إدارة الأحياء</h3>
-            </div>
-            <div
-              class="grid-item"
-              data-bs-toggle="modal"
-              data-bs-target="#humanitarianInterventionsTypesModal"
-            >
-              <i class="fas fa-hand-holding-medical fa-2x"></i>
-              <h3>إدارة أنواع التدخلات الإنسانية</h3>
-            </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#staffStatusesModal">
+            <i class="fas fa-users fa-2x"></i>
+            <h3> حالات الموظفين</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#consumablesStatusesModal">
+            <i class="fas fa-boxes fa-2x"></i>
+            <h3> حالات المستهلكات</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#damageLevelsModal">
+            <i class="fas fa-exclamation-triangle fa-2x"></i>
+            <h3> مستويات الضرر</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#networkStatusesModal">
+            <i class="fas fa-network-wired fa-2x"></i>
+            <h3> حالات الشبكة</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#supplyOperationLevelModal">
+            <i class="fas fa-truck fa-2x"></i>
+            <h3> مستويات تشغيل خطوط الإمداد</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#ownershipDocumentationTypesModal">
+            <i class="fas fa-file-contract fa-2x"></i>
+            <h3> أنواع توثيق الملكية</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#damageDescriptionsModal">
+            <i class="fas fa-clipboard-list fa-2x"></i>
+            <h3> أوصاف الضرر</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#ownershipTypesModal">
+            <i class="fas fa-house-user fa-2x"></i>
+            <h3> أنواع الملكية</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#urbanConditionsModal">
+            <i class="fas fa-city fa-2x"></i>
+            <h3> الحالات الحضرية</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#dominantLandUsesModal">
+            <i class="fas fa-globe fa-2x"></i>
+            <h3> الاستخدام السائد للأرض</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#humanNeedsTypesModal">
+            <i class="fas fa-hands-helping fa-2x"></i>
+            <h3> أنواع الاحتياجات الإنسانية</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#neighborhoodsModal">
+            <i class="fas fa-home fa-2x"></i>
+            <h3> الأحياء</h3>
+          </div>
+          <div class="grid-item" data-bs-toggle="modal" data-bs-target="#humanitarianInterventionsTypesModal">
+            <i class="fas fa-hand-holding-medical fa-2x"></i>
+            <h3> أنواع التدخلات الإنسانية</h3>
           </div>
         </div>
+      </div>
 
-        <!-- OperationalStatuses Modal -->
-        <div
-          class="modal fade"
-          id="operationalStatusesModal"
-          tabindex="-1"
-          aria-labelledby="operationalStatusesModalLabel"
-          aria-hidden="true"
-          data-table="operationalStatuses"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="operationalStatusesModalLabel">
-                  إدارة الحالات التشغيلية
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('operationalStatuses')"
-                >
-                  إضافة حالة جديدة
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف الحالة التشغيلية</th>
-                        <th>اسم الحالة التشغيلية</th>
-                        <th>اسم الحالة التشغيلية بالعربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="operationalStatusesTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
+      <!-- OperationalStatuses Modal -->
+      <div class="modal fade" id="operationalStatusesModal" tabindex="-1"
+        aria-labelledby="operationalStatusesModalLabel" aria-hidden="true" data-table="operationalStatuses"
+        data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="operationalStatusesModalLabel">
+                 الحالات التشغيلية
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          </div>
-        </div>
-
-        <!-- InterventionPriorities Modal -->
-        <div
-          class="modal fade"
-          id="interventionPrioritiesModal"
-          tabindex="-1"
-          aria-labelledby="interventionPrioritiesModalLabel"
-          aria-hidden="true"
-          data-table="interventionPriorities"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="interventionPrioritiesModalLabel">
-                  إدارة أولويات التدخل
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('interventionPriorities')"
-                >
-                  إضافة أولوية جديدة
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف أولوية التدخل</th>
-                        <th>اسم أولوية التدخل</th>
-                        <th>اسم أولوية التدخل باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="interventionPrioritiesTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- InfrastructureStatuses Modal -->
-        <div
-          class="modal fade"
-          id="infrastructureStatusesModal"
-          tabindex="-1"
-          aria-labelledby="infrastructureStatusesModalLabel"
-          aria-hidden="true"
-          data-table="InfrastructureStatuses"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="infrastructureStatusesModalLabel">
-                  إدارة حالات البنية التحتية
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('infrastructureStatuses')"
-                >
-                  إضافة حالة جديدة
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف حالة البنية التحتية</th>
-                        <th>اسم حالة البنية التحتية</th>
-                        <th>اسم حالة البنية التحتية باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="infrastructureStatusesTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- StaffStatuses Modal -->
-        <div
-          class="modal fade"
-          id="staffStatusesModal"
-          tabindex="-1"
-          aria-labelledby="staffStatusesModalLabel"
-          aria-hidden="true"
-          data-table="StaffStatuses"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="staffStatusesModalLabel">
-                  إدارة حالات الموظفين
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('staffStatuses')"
-                >
-                  إضافة حالة جديدة
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف حالة الموظفين</th>
-                        <th>اسم حالة الموظفين</th>
-                        <th>اسم حالة الموظفين باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="staffStatusesTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ConsumablesStatuses Modal -->
-        <div
-          class="modal fade"
-          id="consumablesStatusesModal"
-          tabindex="-1"
-          aria-labelledby="consumablesStatusesModalLabel"
-          aria-hidden="true"
-          data-table="ConsumablesStatuses"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="consumablesStatusesModalLabel">
-                  إدارة حالات المستهلكات
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('consumablesStatuses')"
-                >
-                  إضافة حالة جديدة
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف حالة المستهلكات</th>
-                        <th>اسم حالة المستهلكات</th>
-                        <th>اسم حالة المستهلكات باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="consumablesStatusesTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- DamageLevels Modal -->
-        <div
-          class="modal fade"
-          id="damageLevelsModal"
-          tabindex="-1"
-          aria-labelledby="damageLevelsModalLabel"
-          aria-hidden="true"
-          data-table="DamageLevels"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="damageLevelsModalLabel">
-                  إدارة مستويات الضرر
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('damageLevels')"
-                >
-                  إضافة مستوى جديد
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف مستوى الضرر</th>
-                        <th>اسم مستوى الضرر</th>
-                        <th>اسم مستوى الضرر باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="damageLevelsTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- NetworkStatuses Modal -->
-        <div
-          class="modal fade"
-          id="networkStatusesModal"
-          tabindex="-1"
-          aria-labelledby="networkStatusesModalLabel"
-          aria-hidden="true"
-          data-table="NetworkStatuses"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="networkStatusesModalLabel">
-                  إدارة حالات الشبكة
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('networkStatuses')"
-                >
-                  إضافة حالة جديدة
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف حالة الشبكة</th>
-                        <th>اسم حالة الشبكة</th>
-                        <th>اسم حالة الشبكة باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="networkStatusesTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- SupplyOperationLevel Modal -->
-        <div
-          class="modal fade"
-          id="supplyOperationLevelModal"
-          tabindex="-1"
-          aria-labelledby="supplyOperationLevelModalLabel"
-          aria-hidden="true"
-          data-table="SupplyOperationLevel"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="supplyOperationLevelModalLabel">
-                  إدارة مستويات تشغيل خطوط الإمداد
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('supplyOperationLevel')"
-                >
-                  إضافة مستوى جديد
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف مستوى تشغيل خطوط الإمداد</th>
-                        <th>اسم مستوى تشغيل خطوط الإمداد</th>
-                        <th>اسم مستوى تشغيل خطوط الإمداد باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="supplyOperationLevelTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- OwnershipDocumentationTypes Modal -->
-        <div
-          class="modal fade"
-          id="ownershipDocumentationTypesModal"
-          tabindex="-1"
-          aria-labelledby="ownershipDocumentationTypesModalLabel"
-          aria-hidden="true"
-          data-table="OwnershipDocumentationTypes"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5
-                  class="modal-title"
-                  id="ownershipDocumentationTypesModalLabel"
-                >
-                  إدارة أنواع توثيق الملكية
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('ownershipDocumentationTypes')"
-                >
-                  إضافة نوع جديد
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف نوع توثيق الملكية</th>
-                        <th>اسم نوع توثيق الملكية</th>
-                        <th>اسم نوع توثيق الملكية باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="ownershipDocumentationTypesTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- DamageDescriptions Modal -->
-        <div
-          class="modal fade"
-          id="damageDescriptionsModal"
-          tabindex="-1"
-          aria-labelledby="damageDescriptionsModalLabel"
-          aria-hidden="true"
-          data-table="DamageDescriptions"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="damageDescriptionsModalLabel">
-                  إدارة أوصاف الضرر
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('damageDescriptions')"
-                >
-                  إضافة وصف جديد
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف وصف الضرر</th>
-                        <th>اسم وصف الضرر</th>
-                        <th>اسم وصف الضرر باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="damageDescriptionsTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- OwnershipTypes Modal -->
-        <div
-          class="modal fade"
-          id="ownershipTypesModal"
-          tabindex="-1"
-          aria-labelledby="ownershipTypesModalLabel"
-          aria-hidden="true"
-          data-table="OwnershipTypes"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="ownershipTypesModalLabel">
-                  إدارة أنواع الملكية
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('ownershipTypes')"
-                >
-                  إضافة نوع جديد
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف نوع الملكية</th>
-                        <th>اسم نوع الملكية</th>
-                        <th>اسم نوع الملكية باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="ownershipTypesTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- UrbanConditions Modal -->
-        <div
-          class="modal fade"
-          id="urbanConditionsModal"
-          tabindex="-1"
-          aria-labelledby="urbanConditionsModalLabel"
-          aria-hidden="true"
-          data-table="UrbanConditions"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="urbanConditionsModalLabel">
-                  إدارة الحالات الحضرية
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('urbanConditions')"
-                >
-                  إضافة حالة جديدة
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف الحالة الحضرية</th>
-                        <th>اسم الحالة الحضرية</th>
-                        <th>اسم الحالة الحضرية باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="urbanConditionsTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- DominantLandUses Modal -->
-        <div
-          class="modal fade"
-          id="dominantLandUsesModal"
-          tabindex="-1"
-          aria-labelledby="dominantLandUsesModalLabel"
-          aria-hidden="true"
-          data-table="DominantLandUses"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="dominantLandUsesModalLabel">
-                  إدارة الاستخدام السائد للأرض
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('dominantLandUses')"
-                >
-                  إضافة استخدام جديد
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف الاستخدام السائد للأرض</th>
-                        <th>الاستخدام السائد للأرض</th>
-                        <th>الاستخدام السائد للأرض باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="dominantLandUsesTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- HumanNeedsTypes Modal -->
-        <div
-          class="modal fade"
-          id="humanNeedsTypesModal"
-          tabindex="-1"
-          aria-labelledby="humanNeedsTypesModalLabel"
-          aria-hidden="true"
-          data-table="HumanNeedsTypes"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="humanNeedsTypesModalLabel">
-                  إدارة أنواع الاحتياجات الإنسانية
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('humanNeedsTypes')"
-                >
-                  إضافة نوع جديد
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف نوع الاحتياجات الإنسانية</th>
-                        <th>اسم نوع الاحتياجات الإنسانية</th>
-                        <th>اسم نوع الاحتياجات الإنسانية باللغة العربية</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="humanNeedsTypesTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Neighborhoods Modal -->
-        <div
-          class="modal fade"
-          id="neighborhoodsModal"
-          tabindex="-1"
-          aria-labelledby="neighborhoodsModalLabel"
-          aria-hidden="true"
-          data-table="Neighborhoods"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="neighborhoodsModalLabel">
-                  إدارة الأحياء
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('neighborhoods')"
-                >
-                  إضافة حي جديد
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف الحي</th>
-                        <th>اسم الحي</th>
-                        <th>اسم الحي باللغة العربية</th>
-                        <th>رمز الحي</th>
-                        <th>معرف المدينة</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="neighborhoodsTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- HumanitarianInterventionsTypes Modal -->
-        <div
-          class="modal fade"
-          id="humanitarianInterventionsTypesModal"
-          tabindex="-1"
-          aria-labelledby="humanitarianInterventionsTypesModalLabel"
-          aria-hidden="true"
-          data-table="humanitarianInterventionsTypes"
-          data-bs-backdrop="false"
-        >
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5
-                  class="modal-title"
-                  id="humanitarianInterventionsTypesModalLabel"
-                >
-                  إدارة أنواع التدخلات الإنسانية
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <button
-                  class="btn btn-primary btn-add"
-                  onclick="addRow('humanitarianInterventionsTypes')"
-                >
-                  إضافة نوع جديد
-                </button>
-                <div class="table-container">
-                  <table class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>معرف نوع التدخل الإنساني</th>
-                        <th>اسم نوع التدخل الإنساني</th>
-                        <th>تاريخ التوزيع</th>
-                        <th>إجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody id="humanitarianInterventionsTypesTableBody"></tbody>
-                  </table>
-                </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('operationalStatuses')">
+                إضافة حالة جديدة
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف الحالة التشغيلية</th>
+                      <th>اسم الحالة التشغيلية</th>
+                      <th>اسم الحالة التشغيلية بالعربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="operationalStatusesTableBody"></tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <footer id="mainFooter">
-        <div class="footer-content">
-          <div class="copyright">
-            <span class="copyright-text"></span>
-          </div>
-          <div class="social-icons">
-            <a aria-label="Facebook" class="social-icon facebook" href="#"
-              ><i class="fab fa-facebook-f"></i
-            ></a>
-            <a aria-label="Twitter" class="social-icon twitter" href="#"
-              ><i class="fab fa-x-twitter"></i
-            ></a>
-            <a aria-label="Instagram" class="social-icon instagram" href="#"
-              ><i class="fab fa-instagram"></i
-            ></a>
-            <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
-              ><i class="fab fa-linkedin-in"></i
-            ></a>
-            <a
-              aria-label="WhatsApp"
-              class="social-icon whatsapp"
-              href="https://wa.me/966501234567"
-              ><i class="fab fa-whatsapp"></i
-            ></a>
-          </div>
-        </div>
-      </footer>
-    </main>
 
-    <div class="fixed-plugin">
-      <a
-        class="fixed-plugin-button text-dark position-fixed px-3 py-2"
-        style="bottom: 80px"
-      >
-        <i class="fa fa-question-circle py-2"> </i>
-      </a>
-      <div class="card shadow-lg">
-        <div class="card-header pb-0 pt-3">
-          <div class="float-start">
-            <h5 class="mt-3 mb-0">إرشادات لكيفية الاستخدام</h5>
-            <p>See our dashboard options.</p>
-          </div>
-          <div class="float-end mt-4">
-            <button
-              class="btn btn-link text-dark p-0 fixed-plugin-close-button"
-            >
-              <i class="fa fa-close"></i>
-            </button>
-          </div>
-          <!-- End Toggle Button -->
-        </div>
-        <hr class="horizontal dark my-1" />
-        <div class="card-body pt-sm-3 pt-0">
-          <!-- Sidebar Backgrounds -->
-          <div>
-            <h6 class="mb-0">تعديل الإظهارات</h6>
-          </div>
-          <a href="javascript:void(0)" class="switch-trigger background-color">
-            <div class="badge-colors my-2 text-start">
-              <span
-                class="badge filter bg-primary active"
-                data-color="primary"
-                onclick="sidebarColor(this)"
-              ></span>
-              <span
-                class="badge filter bg-gradient-dark"
-                data-color="dark"
-                onclick="sidebarColor(this)"
-              ></span>
-              <span
-                class="badge filter bg-gradient-info"
-                data-color="info"
-                onclick="sidebarColor(this)"
-              ></span>
-              <span
-                class="badge filter bg-gradient-success"
-                data-color="success"
-                onclick="sidebarColor(this)"
-              ></span>
-              <span
-                class="badge filter bg-gradient-warning"
-                data-color="warning"
-                onclick="sidebarColor(this)"
-              ></span>
-              <span
-                class="badge filter bg-gradient-danger"
-                data-color="danger"
-                onclick="sidebarColor(this)"
-              ></span>
+      <!-- InterventionPriorities Modal -->
+      <div class="modal fade" id="interventionPrioritiesModal" tabindex="-1"
+        aria-labelledby="interventionPrioritiesModalLabel" aria-hidden="true" data-table="interventionPriorities"
+        data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="interventionPrioritiesModalLabel">
+                 أولويات التدخل
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          </a>
-          <!-- Sidenav Type -->
-          <div class="mt-3">
-            <h6 class="mb-0">Sidenav Type</h6>
-            <p class="text-sm">Choose between 2 different sidenav types.</p>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('interventionPriorities')">
+                إضافة أولوية جديدة
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف أولوية التدخل</th>
+                      <th>اسم أولوية التدخل</th>
+                      <th>اسم أولوية التدخل باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="interventionPrioritiesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          <div class="d-flex">
-            <button
-              class="btn btn-primary w-100 px-3 mb-2 active"
-              data-class="bg-transparent"
-              onclick="sidebarType(this)"
-            >
-              Transparent
-            </button>
-            <button
-              class="btn btn-primary w-100 px-3 mb-2 ms-2"
-              data-class="bg-white"
-              onclick="sidebarType(this)"
-            >
-              White
-            </button>
+        </div>
+      </div>
+      <!-- InfrastructureStatuses Modal -->
+      <div class="modal fade" id="infrastructureStatusesModal" tabindex="-1"
+        aria-labelledby="infrastructureStatusesModalLabel" aria-hidden="true" data-table="InfrastructureStatuses"
+        data-bs-backdrop="false">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="infrastructureStatusesModalLabel"> حالات البنية التحتية</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Modal content here -->
+            </div>
           </div>
-          <p class="text-sm d-xl-none d-block mt-2">
-            You can change the sidenav type just on desktop view.
-          </p>
-          <!-- Navbar Fixed -->
-          <div class="mt-3">
-            <h6 class="mb-0">Navbar Fixed</h6>
+        </div>
+      </div>
+
+      <!-- StaffStatuses Modal -->
+      <div class="modal fade" id="staffStatusesModal" tabindex="-1" aria-labelledby="staffStatusesModalLabel"
+        aria-hidden="true" data-table="StaffStatuses" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staffStatusesModalLabel">
+                 حالات الموظفين
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('staffStatuses')">
+                إضافة حالة جديدة
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف حالة الموظفين</th>
+                      <th>اسم حالة الموظفين</th>
+                      <th>اسم حالة الموظفين باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="staffStatusesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          <div class="form-check form-switch ps-0">
-            <input
-              class="form-check-input mt-1 ms-auto"
-              type="checkbox"
-              id="navbarFixed"
-              onclick="navbarFixed(this)"
-            />
+        </div>
+      </div>
+
+      <!-- ConsumablesStatuses Modal -->
+      <div class="modal fade" id="consumablesStatusesModal" tabindex="-1"
+        aria-labelledby="consumablesStatusesModalLabel" aria-hidden="true" data-table="ConsumablesStatuses"
+        data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="consumablesStatusesModalLabel">
+                 حالات المستهلكات
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('consumablesStatuses')">
+                إضافة حالة جديدة
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف حالة المستهلكات</th>
+                      <th>اسم حالة المستهلكات</th>
+                      <th>اسم حالة المستهلكات باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="consumablesStatusesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          <hr class="horizontal dark my-sm-4" />
-          <a
-            class="btn bg-gradient-dark w-100"
-            href="https://www. HI-TECH HOUSE "
-          >
-            HI-TECH HOUSE
-          </a>
-          <a
-            class="btn btn-outline-dark w-100"
-            href="https://www. HI-TECH HOUSE"
-            >View documentation</a
-          >
+        </div>
+      </div>
+
+      <!-- DamageLevels Modal -->
+      <div class="modal fade" id="damageLevelsModal" tabindex="-1" aria-labelledby="damageLevelsModalLabel"
+        aria-hidden="true" data-table="DamageLevels" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="damageLevelsModalLabel">
+                 مستويات الضرر
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('damageLevels')">
+                إضافة مستوى جديد
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف مستوى الضرر</th>
+                      <th>اسم مستوى الضرر</th>
+                      <th>اسم مستوى الضرر باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="damageLevelsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NetworkStatuses Modal -->
+      <div class="modal fade" id="networkStatusesModal" tabindex="-1" aria-labelledby="networkStatusesModalLabel"
+        aria-hidden="true" data-table="NetworkStatuses" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="networkStatusesModalLabel">
+                 حالات الشبكة
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('networkStatuses')">
+                إضافة حالة جديدة
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف حالة الشبكة</th>
+                      <th>اسم حالة الشبكة</th>
+                      <th>اسم حالة الشبكة باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="networkStatusesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SupplyOperationLevel Modal -->
+      <div class="modal fade" id="supplyOperationLevelModal" tabindex="-1"
+        aria-labelledby="supplyOperationLevelModalLabel" aria-hidden="true" data-table="SupplyOperationLevel"
+        data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="supplyOperationLevelModalLabel">
+                 مستويات تشغيل خطوط الإمداد
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('supplyOperationLevel')">
+                إضافة مستوى جديد
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف مستوى تشغيل خطوط الإمداد</th>
+                      <th>اسم مستوى تشغيل خطوط الإمداد</th>
+                      <th>اسم مستوى تشغيل خطوط الإمداد باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="supplyOperationLevelTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OwnershipDocumentationTypes Modal -->
+      <div class="modal fade" id="ownershipDocumentationTypesModal" tabindex="-1"
+        aria-labelledby="ownershipDocumentationTypesModalLabel" aria-hidden="true"
+        data-table="OwnershipDocumentationTypes" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ownershipDocumentationTypesModalLabel">
+                 أنواع توثيق الملكية
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('ownershipDocumentationTypes')">
+                إضافة نوع جديد
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف نوع توثيق الملكية</th>
+                      <th>اسم نوع توثيق الملكية</th>
+                      <th>اسم نوع توثيق الملكية باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ownershipDocumentationTypesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DamageDescriptions Modal -->
+      <div class="modal fade" id="damageDescriptionsModal" tabindex="-1" aria-labelledby="damageDescriptionsModalLabel"
+        aria-hidden="true" data-table="DamageDescriptions" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="damageDescriptionsModalLabel">
+                 أوصاف الضرر
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('damageDescriptions')">
+                إضافة وصف جديد
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف وصف الضرر</th>
+                      <th>اسم وصف الضرر</th>
+                      <th>اسم وصف الضرر باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="damageDescriptionsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OwnershipTypes Modal -->
+      <div class="modal fade" id="ownershipTypesModal" tabindex="-1" aria-labelledby="ownershipTypesModalLabel"
+        aria-hidden="true" data-table="OwnershipTypes" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ownershipTypesModalLabel">
+                 أنواع الملكية
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('ownershipTypes')">
+                إضافة نوع جديد
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف نوع الملكية</th>
+                      <th>اسم نوع الملكية</th>
+                      <th>اسم نوع الملكية باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ownershipTypesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UrbanConditions Modal -->
+      <div class="modal fade" id="urbanConditionsModal" tabindex="-1" aria-labelledby="urbanConditionsModalLabel"
+        aria-hidden="true" data-table="UrbanConditions" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="urbanConditionsModalLabel">
+                 الحالات الحضرية
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('urbanConditions')">
+                إضافة حالة جديدة
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف الحالة الحضرية</th>
+                      <th>اسم الحالة الحضرية</th>
+                      <th>اسم الحالة الحضرية باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="urbanConditionsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DominantLandUses Modal -->
+      <div class="modal fade" id="dominantLandUsesModal" tabindex="-1" aria-labelledby="dominantLandUsesModalLabel"
+        aria-hidden="true" data-table="DominantLandUses" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="dominantLandUsesModalLabel">
+                 الاستخدام السائد للأرض
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('dominantLandUses')">
+                إضافة استخدام جديد
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف الاستخدام السائد للأرض</th>
+                      <th>الاستخدام السائد للأرض</th>
+                      <th>الاستخدام السائد للأرض باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dominantLandUsesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HumanNeedsTypes Modal -->
+      <div class="modal fade" id="humanNeedsTypesModal" tabindex="-1" aria-labelledby="humanNeedsTypesModalLabel"
+        aria-hidden="true" data-table="HumanNeedsTypes" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="humanNeedsTypesModalLabel">
+                 أنواع الاحتياجات الإنسانية
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('humanNeedsTypes')">
+                إضافة نوع جديد
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف نوع الاحتياجات الإنسانية</th>
+                      <th>اسم نوع الاحتياجات الإنسانية</th>
+                      <th>اسم نوع الاحتياجات الإنسانية باللغة العربية</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="humanNeedsTypesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neighborhoods Modal -->
+      <div class="modal fade" id="neighborhoodsModal" tabindex="-1" aria-labelledby="neighborhoodsModalLabel"
+        aria-hidden="true" data-table="Neighborhoods" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="neighborhoodsModalLabel">
+                 الأحياء
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('neighborhoods')">
+                إضافة حي جديد
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف الحي</th>
+                      <th>اسم الحي</th>
+                      <th>اسم الحي باللغة العربية</th>
+                      <!-- <th>رمز الحي</th>
+                      <th>معرف المدينة</th> -->
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="neighborhoodsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HumanitarianInterventionsTypes Modal -->
+      <div class="modal fade" id="humanitarianInterventionsTypesModal" tabindex="-1"
+        aria-labelledby="humanitarianInterventionsTypesModalLabel" aria-hidden="true"
+        data-table="humanitarianInterventionsTypes" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="humanitarianInterventionsTypesModalLabel">
+                 أنواع التدخلات الإنسانية
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary btn-add" onclick="addRow('humanitarianInterventionsTypes')">
+                إضافة نوع جديد
+              </button>
+              <div class="table-container">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>معرف نوع التدخل الإنساني</th>
+                      <th>اسم نوع التدخل الإنساني</th>
+                      <th>تاريخ التوزيع</th>
+                      <th>إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="humanitarianInterventionsTypesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <!-- Bootstrap JS and dependencies -->
+    <footer id="mainFooter">
+      <div class="footer-content">
+        <div class="copyright">
+          <!--           <span >
+            2025
+            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
+            ,Powered by
+           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+          </span> -->
+          <span >
+            2025
+            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
+            ,Powered by
+           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+          </span>
+        </div>
+        <div class="social-icons">
+          <a aria-label="Facebook" class="social-icon facebook" href="#"><i class="fab fa-facebook-f"></i></a>
+          <a aria-label="Twitter" class="social-icon twitter" href="#"><i class="fab fa-x-twitter"></i></a>
+          <a aria-label="Instagram" class="social-icon instagram" href="#"><i class="fab fa-instagram"></i></a>
+          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a aria-label="WhatsApp" class="social-icon whatsapp" href="https://wa.me/966501234567"><i
+              class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </footer>
+  </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      // بيانات افتراضية للجداول
-      const operationalStatusesData = [
-        { id: 1, statusName: "Operational", statusNameArabic: "تشغيلي" },
-        {
-          id: 2,
-          statusName: "Non-Operational",
-          statusNameArabic: "غير تشغيلي",
-        },
-      ];
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2" style="bottom: 80px">
+      <i class="fa fa-question-circle py-2"> </i>
+    </a>
+    <div class="card shadow-lg">
+      <div class="card-header pb-0 pt-3">
+        <div class="float-start">
+          <h5 class="mt-3 mb-0">إرشادات لكيفية الاستخدام</h5>
+          <p>See our dashboard options.</p>
+        </div>
+        <div class="float-end mt-4">
+          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <!-- End Toggle Button -->
+      </div>
+      <hr class="horizontal dark my-1" />
+      <div class="card-body pt-sm-3 pt-0">
+        <!-- Sidebar Backgrounds -->
+        <div>
+          <h6 class="mb-0">تعديل الإظهارات</h6>
+        </div>
+        <a href="javascript:void(0)" class="switch-trigger background-color">
+          <div class="badge-colors my-2 text-start">
+            <span class="badge filter bg-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+          </div>
+        </a>
+        <!-- Sidenav Type -->
+        <div class="mt-3">
+          <h6 class="mb-0">Sidenav Type</h6>
+          <p class="text-sm">Choose between 2 different sidenav types.</p>
+        </div>
+        <div class="d-flex">
+          <button class="btn btn-primary w-100 px-3 mb-2 active" data-class="bg-transparent"
+            onclick="sidebarType(this)">
+            Transparent
+          </button>
+          <button class="btn btn-primary w-100 px-3 mb-2 ms-2" data-class="bg-white" onclick="sidebarType(this)">
+            White
+          </button>
+        </div>
+        <p class="text-sm d-xl-none d-block mt-2">
+          You can change the sidenav type just on desktop view.
+        </p>
+        <!-- Navbar Fixed -->
+        <div class="mt-3">
+          <h6 class="mb-0">Navbar Fixed</h6>
+        </div>
+        <div class="form-check form-switch ps-0">
+          <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)" />
+        </div>
+        <hr class="horizontal dark my-sm-4" />
+        <a class="btn bg-gradient-dark w-100" href="https://www. HI-TECH HOUSE ">
+          HI-TECH HOUSE
+        </a>
+        <a class="btn btn-outline-dark w-100" href="https://www. HI-TECH HOUSE">View documentation</a>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap JS and dependencies -->
 
-      const interventionPrioritiesData = [
-        { id: 1, priorityName: "High", priorityNameArabic: "عالي" },
-        { id: 2, priorityName: "Medium", priorityNameArabic: "متوسط" },
-        { id: 3, priorityName: "Low", priorityNameArabic: "منخفض" },
-      ];
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // بيانات افتراضية للجداول
+    const operationalStatusesData = [
+      { id: 1, statusName: "Operational", statusNameArabic: "تشغيلي" },
+      {
+        id: 2,
+        statusName: "Non-Operational",
+        statusNameArabic: "غير تشغيلي",
+      },
+    ];
 
-      const infrastructureStatusesData = [
-        { id: 1, statusName: "Good", statusNameArabic: "جيد" },
-        { id: 2, statusName: "Damaged", statusNameArabic: "تالف" },
-      ];
+    const interventionPrioritiesData = [
+      { id: 1, priorityName: "High", priorityNameArabic: "عالي" },
+      { id: 2, priorityName: "Medium", priorityNameArabic: "متوسط" },
+      { id: 3, priorityName: "Low", priorityNameArabic: "منخفض" },
+    ];
 
-      const staffStatusesData = [
-        { id: 1, statusName: "Active", statusNameArabic: "نشط" },
-        { id: 2, statusName: "Inactive", statusNameArabic: "غير نشط" },
-      ];
+    const infrastructureStatusesData = [
+      { id: 1, statusName: "Good", statusNameArabic: "جيد" },
+      { id: 2, statusName: "Damaged", statusNameArabic: "تالف" },
+    ];
 
-      const consumablesStatusesData = [
-        { id: 1, statusName: "Available", statusNameArabic: "متاح" },
-        { id: 2, statusName: "Unavailable", statusNameArabic: "غير متاح" },
-      ];
+    const staffStatusesData = [
+      { id: 1, statusName: "Active", statusNameArabic: "نشط" },
+      { id: 2, statusName: "Inactive", statusNameArabic: "غير نشط" },
+    ];
 
-      const damageLevelsData = [
-        { id: 1, levelName: "Minor", levelNameArabic: "طفيف" },
-        { id: 2, levelName: "Moderate", levelNameArabic: "متوسط" },
-        { id: 3, levelName: "Severe", levelNameArabic: "شديد" },
-      ];
+    const consumablesStatusesData = [
+      { id: 1, statusName: "Available", statusNameArabic: "متاح" },
+      { id: 2, statusName: "Unavailable", statusNameArabic: "غير متاح" },
+    ];
 
-      const networkStatusesData = [
-        { id: 1, statusName: "Online", statusNameArabic: "متصل" },
-        { id: 2, statusName: "Offline", statusNameArabic: "غير متصل" },
-      ];
+    const damageLevelsData = [
+      { id: 1, levelName: "Minor", levelNameArabic: "طفيف" },
+      { id: 2, levelName: "Moderate", levelNameArabic: "متوسط" },
+      { id: 3, levelName: "Severe", levelNameArabic: "شديد" },
+    ];
 
-      const supplyOperationLevelData = [
-        { id: 1, levelName: "Full", levelNameArabic: "كامل" },
-        { id: 2, levelName: "Partial", levelNameArabic: "جزئي" },
-      ];
+    const networkStatusesData = [
+      { id: 1, statusName: "Online", statusNameArabic: "متصل" },
+      { id: 2, statusName: "Offline", statusNameArabic: "غير متصل" },
+    ];
 
-      const ownershipDocumentationTypesData = [
-        { id: 1, typeName: "Deed", typeNameArabic: "سند الملكية" },
-        { id: 2, typeName: "Lease", typeNameArabic: "عقد إيجار" },
-      ];
+    const supplyOperationLevelData = [
+      { id: 1, levelName: "Full", levelNameArabic: "كامل" },
+      { id: 2, levelName: "Partial", levelNameArabic: "جزئي" },
+    ];
 
-      const damageDescriptionsData = [
-        {
-          id: 1,
-          descriptionType: "Structural",
-          descriptionTypeArabic: "هيكلية",
-        },
-        {
-          id: 2,
-          descriptionType: "Cosmetic",
-          descriptionTypeArabic: "تجميلية",
-        },
-      ];
+    const ownershipDocumentationTypesData = [
+      { id: 1, typeName: "Deed", typeNameArabic: "سند الملكية" },
+      { id: 2, typeName: "Lease", typeNameArabic: "عقد إيجار" },
+    ];
 
-      const ownershipTypesData = [
-        { id: 1, typeName: "Private", typeNameArabic: "خاص" },
-        { id: 2, typeName: "Public", typeNameArabic: "عام" },
-      ];
+    const damageDescriptionsData = [
+      {
+        id: 1,
+        descriptionType: "Structural",
+        descriptionTypeArabic: "هيكلية",
+      },
+      {
+        id: 2,
+        descriptionType: "Cosmetic",
+        descriptionTypeArabic: "تجميلية",
+      },
+    ];
 
-      const urbanConditionsData = [
-        { id: 1, conditionName: "Urbanized", conditionNameArabic: "متمدن" },
-        { id: 2, conditionName: "Rural", conditionNameArabic: "ريفي" },
-      ];
+    const ownershipTypesData = [
+      { id: 1, typeName: "Private", typeNameArabic: "خاص" },
+      { id: 2, typeName: "Public", typeNameArabic: "عام" },
+    ];
 
-      const dominantLandUsesData = [
-        { id: 1, landUseName: "Residential", landUseNameArabic: "سكني" },
-        { id: 2, landUseName: "Commercial", landUseNameArabic: "تجاري" },
-      ];
+    const urbanConditionsData = [
+      { id: 1, conditionName: "Urbanized", conditionNameArabic: "متمدن" },
+      { id: 2, conditionName: "Rural", conditionNameArabic: "ريفي" },
+    ];
 
-      const humanNeedsTypesData = [
-        { id: 1, needType: "Food", needTypeArabic: "غذاء" },
-        { id: 2, needType: "Water", needTypeArabic: "ماء" },
-      ];
+    const dominantLandUsesData = [
+      { id: 1, landUseName: "Residential", landUseNameArabic: "سكني" },
+      { id: 2, landUseName: "Commercial", landUseNameArabic: "تجاري" },
+    ];
 
-      const neighborhoodsData = [
-        {
-          id: 1,
-          name: "Downtown",
-          nameArabic: "وسط المدينة",
-          code: "DT001",
-          cityId: 1,
-        },
-        {
-          id: 2,
-          name: "Uptown",
-          nameArabic: "الأحياء العليا",
-          code: "UT002",
-          cityId: 2,
-        },
-      ];
+    const humanNeedsTypesData = [
+      { id: 1, needType: "Food", needTypeArabic: "غذاء" },
+      { id: 2, needType: "Water", needTypeArabic: "ماء" },
+    ];
 
-      const humanitarianInterventionsTypesData = [
-        { id: 1, interveningParty: "NGO", distributionDate: "2023-10-01" },
-        {
-          id: 2,
-          interveningParty: "Government",
-          distributionDate: "2023-10-05",
-        },
-      ];
+    const neighborhoodsData = [
+      {
+        id: 1,
+        name: "Downtown",
+        nameArabic: "وسط المدينة",
+        code: "DT001",
+        cityId: 1,
+      },
+      {
+        id: 2,
+        name: "Uptown",
+        nameArabic: "الأحياء العليا",
+        code: "UT002",
+        cityId: 2,
+      },
+    ];
 
-      // إظهار الجدول المحدد وإخفاء الآخرين
-      function showTable(tableName) {
-        const allTables = document.querySelectorAll('[id$="Table"]');
-        allTables.forEach((table) => table.classList.add("hidden"));
-        const selectedTable = document.getElementById(`${tableName}Table`);
-        if (selectedTable) {
-          selectedTable.classList.remove("hidden");
-          displayData(tableName);
-        }
+    const humanitarianInterventionsTypesData = [
+      { id: 1, interveningParty: "NGO", distributionDate: "2023-10-01" },
+      {
+        id: 2,
+        interveningParty: "Government",
+        distributionDate: "2023-10-05",
+      },
+    ];
+
+    // إظهار الجدول المحدد وإخفاء الآخرين
+    function showTable(tableName) {
+      const allTables = document.querySelectorAll('[id$="Table"]');
+      allTables.forEach((table) => table.classList.add("hidden"));
+      const selectedTable = document.getElementById(`${tableName}Table`);
+      if (selectedTable) {
+        selectedTable.classList.remove("hidden");
+        displayData(tableName);
+      }
+    }
+
+    // عرض البيانات في الجداول
+    function displayData(tableName) {
+      console.log(`Displaying data for table: ${tableName}`);
+      const tableBodyId = `${tableName}TableBody`;
+      console.log(`Looking for table body with ID: ${tableBodyId}`);
+      const tableBody = document.getElementById(tableBodyId);
+      if (!tableBody) {
+        console.error(`Element with ID '${tableBodyId}' not found!`);
+        return;
       }
 
-      // عرض البيانات في الجداول
-      function displayData(tableName) {
-        console.log(`Displaying data for table: ${tableName}`);
-        const tableBodyId = `${tableName}TableBody`;
-        console.log(`Looking for table body with ID: ${tableBodyId}`);
-        const tableBody = document.getElementById(tableBodyId);
-        if (!tableBody) {
-          console.error(`Element with ID '${tableBodyId}' not found!`);
+      let data = [];
+      switch (tableName) {
+        case "operationalStatuses":
+          data = operationalStatusesData;
+          break;
+        case "interventionPriorities":
+          data = interventionPrioritiesData;
+          break;
+        case "infrastructureStatuses":
+          data = infrastructureStatusesData;
+          break;
+        case "staffStatuses":
+          data = staffStatusesData;
+          break;
+        case "consumablesStatuses":
+          data = consumablesStatusesData;
+          break;
+        case "damageLevels":
+          data = damageLevelsData;
+          break;
+        case "networkStatuses":
+          data = networkStatusesData;
+          break;
+        case "supplyOperationLevel":
+          data = supplyOperationLevelData;
+          break;
+        case "ownershipDocumentationTypes":
+          data = ownershipDocumentationTypesData;
+          break;
+        case "damageDescriptions":
+          data = damageDescriptionsData;
+          break;
+        case "ownershipTypes":
+          data = ownershipTypesData;
+          break;
+        case "urbanConditions":
+          data = urbanConditionsData;
+          break;
+        case "dominantLandUses":
+          data = dominantLandUsesData;
+          break;
+        case "humanNeedsTypes":
+          data = humanNeedsTypesData;
+          break;
+        case "neighborhoods":
+          data = neighborhoodsData;
+          break;
+        case "humanitarianInterventionsTypes":
+          data = humanitarianInterventionsTypesData;
+          break;
+        default:
+          console.error(`Unknown table name: ${tableName}`);
           return;
-        }
+      }
 
-        let data = [];
-        switch (tableName) {
-          case "operationalStatuses":
-            data = operationalStatusesData;
-            break;
-          case "interventionPriorities":
-            data = interventionPrioritiesData;
-            break;
-          case "infrastructureStatuses":
-            data = infrastructureStatusesData;
-            break;
-          case "staffStatuses":
-            data = staffStatusesData;
-            break;
-          case "consumablesStatuses":
-            data = consumablesStatusesData;
-            break;
-          case "damageLevels":
-            data = damageLevelsData;
-            break;
-          case "networkStatuses":
-            data = networkStatusesData;
-            break;
-          case "supplyOperationLevel":
-            data = supplyOperationLevelData;
-            break;
-          case "ownershipDocumentationTypes":
-            data = ownershipDocumentationTypesData;
-            break;
-          case "damageDescriptions":
-            data = damageDescriptionsData;
-            break;
-          case "ownershipTypes":
-            data = ownershipTypesData;
-            break;
-          case "urbanConditions":
-            data = urbanConditionsData;
-            break;
-          case "dominantLandUses":
-            data = dominantLandUsesData;
-            break;
-          case "humanNeedsTypes":
-            data = humanNeedsTypesData;
-            break;
-          case "neighborhoods":
-            data = neighborhoodsData;
-            break;
-          case "humanitarianInterventionsTypes":
-            data = humanitarianInterventionsTypesData;
-            break;
-          default:
-            console.error(`Unknown table name: ${tableName}`);
-            return;
-        }
-
-        console.log(`Data to display:`, data);
-        if (data.length === 0) {
-          console.error(`No data available for table: ${tableName}`);
-          return;
-        }
-        tableBody.innerHTML = "";
-        data.forEach((item, index) => {
-          const row = `
+      console.log(`Data to display:`, data);
+      if (data.length === 0) {
+        console.error(`No data available for table: ${tableName}`);
+        return;
+      }
+      tableBody.innerHTML = "";
+      data.forEach((item, index) => {
+        const row = `
     <tr>
       <td>${index + 1}</td>
       <td>${item.id}</td>
-      <td>${
-        item.statusName ||
-        item.priorityName ||
-        item.levelName ||
-        item.typeName ||
-        item.conditionName ||
-        item.landUseName ||
-        item.needType ||
-        item.name ||
-        item.interveningParty
-      }</td>
-      <td>${
-        item.statusNameArabic ||
-        item.priorityNameArabic ||
-        item.levelNameArabic ||
-        item.typeNameArabic ||
-        item.conditionNameArabic ||
-        item.landUseNameArabic ||
-        item.needTypeArabic ||
-        item.nameArabic
-      }</td>
+      <td>${item.statusName ||
+          item.priorityName ||
+          item.levelName ||
+          item.typeName ||
+          item.conditionName ||
+          item.landUseName ||
+          item.needType ||
+          item.name ||
+          item.interveningParty
+          }</td>
+      <td>${item.statusNameArabic ||
+          item.priorityNameArabic ||
+          item.levelNameArabic ||
+          item.typeNameArabic ||
+          item.conditionNameArabic ||
+          item.landUseNameArabic ||
+          item.needTypeArabic ||
+          item.nameArabic
+          }</td>
       <td>
-        <button class="btn btn-sm btn-warning" onclick="editRow('${tableName}', ${index})">تعديل</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteRow('${tableName}', ${index})">حذف</button>
+        <button class="btn btn-sm btn-warning" onclick="editRow('${tableName}', ${index})"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-sm btn-danger" onclick="deleteRow('${tableName}', ${index})"><i class="fas fa-trash-alt"></i></button>
       </td>
     </tr>
   `;
-          tableBody.innerHTML += row;
-        });
+        tableBody.innerHTML += row;
+      });
+    }
+
+    // إضافة صف جديد
+    function addRow(tableName) {
+      let newItem = {};
+      switch (tableName) {
+        case "operationalStatuses":
+          newItem = {
+            id: operationalStatusesData.length + 1,
+            statusName: "New Status",
+            statusNameArabic: "حالة جديدة",
+          };
+          operationalStatusesData.push(newItem);
+          break;
+        case "interventionPriorities":
+          newItem = {
+            id: interventionPrioritiesData.length + 1,
+            priorityName: "New Priority",
+            priorityNameArabic: "أولوية جديدة",
+          };
+          interventionPrioritiesData.push(newItem);
+          break;
+        case "infrastructureStatuses":
+          newItem = {
+            id: infrastructureStatusesData.length + 1,
+            statusName: "New Status",
+            statusNameArabic: "حالة جديدة",
+          };
+          infrastructureStatusesData.push(newItem);
+          break;
+        case "staffStatuses":
+          newItem = {
+            id: staffStatusesData.length + 1,
+            statusName: "New Status",
+            statusNameArabic: "حالة جديدة",
+          };
+          staffStatusesData.push(newItem);
+          break;
+        case "consumablesStatuses":
+          newItem = {
+            id: consumablesStatusesData.length + 1,
+            statusName: "New Status",
+            statusNameArabic: "حالة جديدة",
+          };
+          consumablesStatusesData.push(newItem);
+          break;
+        case "damageLevels":
+          newItem = {
+            id: damageLevelsData.length + 1,
+            levelName: "New Level",
+            levelNameArabic: "مستوى جديد",
+          };
+          damageLevelsData.push(newItem);
+          break;
+        case "networkStatuses":
+          newItem = {
+            id: networkStatusesData.length + 1,
+            statusName: "New Status",
+            statusNameArabic: "حالة جديدة",
+          };
+          networkStatusesData.push(newItem);
+          break;
+        case "supplyOperationLevel":
+          newItem = {
+            id: supplyOperationLevelData.length + 1,
+            levelName: "New Level",
+            levelNameArabic: "مستوى جديد",
+          };
+          supplyOperationLevelData.push(newItem);
+          break;
+        case "ownershipDocumentationTypes":
+          newItem = {
+            id: ownershipDocumentationTypesData.length + 1,
+            typeName: "New Type",
+            typeNameArabic: "نوع جديد",
+          };
+          ownershipDocumentationTypesData.push(newItem);
+          break;
+        case "damageDescriptions":
+          newItem = {
+            id: damageDescriptionsData.length + 1,
+            descriptionType: "New Description",
+            descriptionTypeArabic: "وصف جديد",
+          };
+          damageDescriptionsData.push(newItem);
+          break;
+        case "ownershipTypes":
+          newItem = {
+            id: ownershipTypesData.length + 1,
+            typeName: "New Type",
+            typeNameArabic: "نوع جديد",
+          };
+          ownershipTypesData.push(newItem);
+          break;
+        case "urbanConditions":
+          newItem = {
+            id: urbanConditionsData.length + 1,
+            conditionName: "New Condition",
+            conditionNameArabic: "حالة جديدة",
+          };
+          urbanConditionsData.push(newItem);
+          break;
+        case "dominantLandUses":
+          newItem = {
+            id: dominantLandUsesData.length + 1,
+            landUseName: "New Use",
+            landUseNameArabic: "استخدام جديد",
+          };
+          dominantLandUsesData.push(newItem);
+          break;
+        case "humanNeedsTypes":
+          newItem = {
+            id: humanNeedsTypesData.length + 1,
+            needType: "New Need",
+            needTypeArabic: "احتياج جديد",
+          };
+          humanNeedsTypesData.push(newItem);
+          break;
+        case "neighborhoods":
+          newItem = {
+            id: neighborhoodsData.length + 1,
+            name: "New Neighborhood",
+            nameArabic: "حي جديد",
+            code: "NEW001",
+            cityId: 1,
+          };
+          neighborhoodsData.push(newItem);
+          break;
+        case "humanitarianInterventionsTypes":
+          newItem = {
+            id: humanitarianInterventionsTypesData.length + 1,
+            interveningParty: "New Party",
+            distributionDate: new Date().toISOString().split("T")[0],
+          };
+          humanitarianInterventionsTypesData.push(newItem);
+          break;
+        default:
+          console.error(`Unknown table name: ${tableName}`);
+          return;
+      }
+      displayData(tableName);
+    }
+
+    // تعديل صف
+    function editRow(tableName, index) {
+      let data = [];
+      switch (tableName) {
+        case "operationalStatuses":
+          data = operationalStatusesData;
+          break;
+        case "interventionPriorities":
+          data = interventionPrioritiesData;
+          break;
+        case "infrastructureStatuses":
+          data = infrastructureStatusesData;
+          break;
+        case "staffStatuses":
+          data = staffStatusesData;
+          break;
+        case "consumablesStatuses":
+          data = consumablesStatusesData;
+          break;
+        case "damageLevels":
+          data = damageLevelsData;
+          break;
+        case "networkStatuses":
+          data = networkStatusesData;
+          break;
+        case "supplyOperationLevel":
+          data = supplyOperationLevelData;
+          break;
+        case "ownershipDocumentationTypes":
+          data = ownershipDocumentationTypesData;
+          break;
+        case "damageDescriptions":
+          data = damageDescriptionsData;
+          break;
+        case "ownershipTypes":
+          data = ownershipTypesData;
+          break;
+        case "urbanConditions":
+          data = urbanConditionsData;
+          break;
+        case "dominantLandUses":
+          data = dominantLandUsesData;
+          break;
+        case "humanNeedsTypes":
+          data = humanNeedsTypesData;
+          break;
+        case "neighborhoods":
+          data = neighborhoodsData;
+          break;
+        case "humanitarianInterventionsTypes":
+          data = humanitarianInterventionsTypesData;
+          break;
+        default:
+          console.error(`Unknown table name: ${tableName}`);
+          return;
       }
 
-      // إضافة صف جديد
-      function addRow(tableName) {
-        let newItem = {};
-        switch (tableName) {
-          case "operationalStatuses":
-            newItem = {
-              id: operationalStatusesData.length + 1,
-              statusName: "New Status",
-              statusNameArabic: "حالة جديدة",
-            };
-            operationalStatusesData.push(newItem);
-            break;
-          case "interventionPriorities":
-            newItem = {
-              id: interventionPrioritiesData.length + 1,
-              priorityName: "New Priority",
-              priorityNameArabic: "أولوية جديدة",
-            };
-            interventionPrioritiesData.push(newItem);
-            break;
-          case "infrastructureStatuses":
-            newItem = {
-              id: infrastructureStatusesData.length + 1,
-              statusName: "New Status",
-              statusNameArabic: "حالة جديدة",
-            };
-            infrastructureStatusesData.push(newItem);
-            break;
-          case "staffStatuses":
-            newItem = {
-              id: staffStatusesData.length + 1,
-              statusName: "New Status",
-              statusNameArabic: "حالة جديدة",
-            };
-            staffStatusesData.push(newItem);
-            break;
-          case "consumablesStatuses":
-            newItem = {
-              id: consumablesStatusesData.length + 1,
-              statusName: "New Status",
-              statusNameArabic: "حالة جديدة",
-            };
-            consumablesStatusesData.push(newItem);
-            break;
-          case "damageLevels":
-            newItem = {
-              id: damageLevelsData.length + 1,
-              levelName: "New Level",
-              levelNameArabic: "مستوى جديد",
-            };
-            damageLevelsData.push(newItem);
-            break;
-          case "networkStatuses":
-            newItem = {
-              id: networkStatusesData.length + 1,
-              statusName: "New Status",
-              statusNameArabic: "حالة جديدة",
-            };
-            networkStatusesData.push(newItem);
-            break;
-          case "supplyOperationLevel":
-            newItem = {
-              id: supplyOperationLevelData.length + 1,
-              levelName: "New Level",
-              levelNameArabic: "مستوى جديد",
-            };
-            supplyOperationLevelData.push(newItem);
-            break;
-          case "ownershipDocumentationTypes":
-            newItem = {
-              id: ownershipDocumentationTypesData.length + 1,
-              typeName: "New Type",
-              typeNameArabic: "نوع جديد",
-            };
-            ownershipDocumentationTypesData.push(newItem);
-            break;
-          case "damageDescriptions":
-            newItem = {
-              id: damageDescriptionsData.length + 1,
-              descriptionType: "New Description",
-              descriptionTypeArabic: "وصف جديد",
-            };
-            damageDescriptionsData.push(newItem);
-            break;
-          case "ownershipTypes":
-            newItem = {
-              id: ownershipTypesData.length + 1,
-              typeName: "New Type",
-              typeNameArabic: "نوع جديد",
-            };
-            ownershipTypesData.push(newItem);
-            break;
-          case "urbanConditions":
-            newItem = {
-              id: urbanConditionsData.length + 1,
-              conditionName: "New Condition",
-              conditionNameArabic: "حالة جديدة",
-            };
-            urbanConditionsData.push(newItem);
-            break;
-          case "dominantLandUses":
-            newItem = {
-              id: dominantLandUsesData.length + 1,
-              landUseName: "New Use",
-              landUseNameArabic: "استخدام جديد",
-            };
-            dominantLandUsesData.push(newItem);
-            break;
-          case "humanNeedsTypes":
-            newItem = {
-              id: humanNeedsTypesData.length + 1,
-              needType: "New Need",
-              needTypeArabic: "احتياج جديد",
-            };
-            humanNeedsTypesData.push(newItem);
-            break;
-          case "neighborhoods":
-            newItem = {
-              id: neighborhoodsData.length + 1,
-              name: "New Neighborhood",
-              nameArabic: "حي جديد",
-              code: "NEW001",
-              cityId: 1,
-            };
-            neighborhoodsData.push(newItem);
-            break;
-          case "humanitarianInterventionsTypes":
-            newItem = {
-              id: humanitarianInterventionsTypesData.length + 1,
-              interveningParty: "New Party",
-              distributionDate: new Date().toISOString().split("T")[0],
-            };
-            humanitarianInterventionsTypesData.push(newItem);
-            break;
-          default:
-            console.error(`Unknown table name: ${tableName}`);
-            return;
-        }
+      const newName = prompt(
+        window.enterNewName,
+        data[index].statusName ||
+        data[index].priorityName ||
+        data[index].levelName ||
+        data[index].typeName ||
+        data[index].conditionName ||
+        data[index].landUseName ||
+        data[index].needType ||
+        data[index].name ||
+        data[index].interveningParty
+      );
+      const newNameArabic = prompt(
+        window.enterNewNameArabic,
+        data[index].statusNameArabic ||
+        data[index].priorityNameArabic ||
+        data[index].levelNameArabic ||
+        data[index].typeNameArabic ||
+        data[index].conditionNameArabic ||
+        data[index].landUseNameArabic ||
+        data[index].needTypeArabic ||
+        data[index].nameArabic
+      );
+      if (newName && newNameArabic) {
+        data[index].statusName = newName;
+        data[index].statusNameArabic = newNameArabic;
         displayData(tableName);
       }
+    }
 
-      // تعديل صف
-      function editRow(tableName, index) {
-        let data = [];
-        switch (tableName) {
-          case "operationalStatuses":
-            data = operationalStatusesData;
-            break;
-          case "interventionPriorities":
-            data = interventionPrioritiesData;
-            break;
-          case "infrastructureStatuses":
-            data = infrastructureStatusesData;
-            break;
-          case "staffStatuses":
-            data = staffStatusesData;
-            break;
-          case "consumablesStatuses":
-            data = consumablesStatusesData;
-            break;
-          case "damageLevels":
-            data = damageLevelsData;
-            break;
-          case "networkStatuses":
-            data = networkStatusesData;
-            break;
-          case "supplyOperationLevel":
-            data = supplyOperationLevelData;
-            break;
-          case "ownershipDocumentationTypes":
-            data = ownershipDocumentationTypesData;
-            break;
-          case "damageDescriptions":
-            data = damageDescriptionsData;
-            break;
-          case "ownershipTypes":
-            data = ownershipTypesData;
-            break;
-          case "urbanConditions":
-            data = urbanConditionsData;
-            break;
-          case "dominantLandUses":
-            data = dominantLandUsesData;
-            break;
-          case "humanNeedsTypes":
-            data = humanNeedsTypesData;
-            break;
-          case "neighborhoods":
-            data = neighborhoodsData;
-            break;
-          case "humanitarianInterventionsTypes":
-            data = humanitarianInterventionsTypesData;
-            break;
-          default:
-            console.error(`Unknown table name: ${tableName}`);
-            return;
-        }
-
-        const newName = prompt(
-          "أدخل الاسم الجديد:",
-          data[index].statusName ||
-            data[index].priorityName ||
-            data[index].levelName ||
-            data[index].typeName ||
-            data[index].conditionName ||
-            data[index].landUseName ||
-            data[index].needType ||
-            data[index].name ||
-            data[index].interveningParty
-        );
-        const newNameArabic = prompt(
-          "أدخل الاسم باللغة العربية:",
-          data[index].statusNameArabic ||
-            data[index].priorityNameArabic ||
-            data[index].levelNameArabic ||
-            data[index].typeNameArabic ||
-            data[index].conditionNameArabic ||
-            data[index].landUseNameArabic ||
-            data[index].needTypeArabic ||
-            data[index].nameArabic
-        );
-        if (newName && newNameArabic) {
-          data[index].statusName = newName;
-          data[index].statusNameArabic = newNameArabic;
-          displayData(tableName);
-        }
+    // حذف صف
+    function deleteRow(tableName, index) {
+      let data = [];
+      switch (tableName) {
+        case "operationalStatuses":
+          data = operationalStatusesData;
+          break;
+        case "interventionPriorities":
+          data = interventionPrioritiesData;
+          break;
+        case "infrastructureStatuses":
+          data = infrastructureStatusesData;
+          break;
+        case "staffStatuses":
+          data = staffStatusesData;
+          break;
+        case "consumablesStatuses":
+          data = consumablesStatusesData;
+          break;
+        case "damageLevels":
+          data = damageLevelsData;
+          break;
+        case "networkStatuses":
+          data = networkStatusesData;
+          break;
+        case "supplyOperationLevel":
+          data = supplyOperationLevelData;
+          break;
+        case "ownershipDocumentationTypes":
+          data = ownershipDocumentationTypesData;
+          break;
+        case "damageDescriptions":
+          data = damageDescriptionsData;
+          break;
+        case "ownershipTypes":
+          data = ownershipTypesData;
+          break;
+        case "urbanConditions":
+          data = urbanConditionsData;
+          break;
+        case "dominantLandUses":
+          data = dominantLandUsesData;
+          break;
+        case "humanNeedsTypes":
+          data = humanNeedsTypesData;
+          break;
+        case "neighborhoods":
+          data = neighborhoodsData;
+          break;
+        case "humanitarianInterventionsTypes":
+          data = humanitarianInterventionsTypesData;
+          break;
+        default:
+          console.error(`Unknown table name: ${tableName}`);
+          return;
       }
 
-      // حذف صف
-      function deleteRow(tableName, index) {
-        let data = [];
-        switch (tableName) {
-          case "operationalStatuses":
-            data = operationalStatusesData;
-            break;
-          case "interventionPriorities":
-            data = interventionPrioritiesData;
-            break;
-          case "infrastructureStatuses":
-            data = infrastructureStatusesData;
-            break;
-          case "staffStatuses":
-            data = staffStatusesData;
-            break;
-          case "consumablesStatuses":
-            data = consumablesStatusesData;
-            break;
-          case "damageLevels":
-            data = damageLevelsData;
-            break;
-          case "networkStatuses":
-            data = networkStatusesData;
-            break;
-          case "supplyOperationLevel":
-            data = supplyOperationLevelData;
-            break;
-          case "ownershipDocumentationTypes":
-            data = ownershipDocumentationTypesData;
-            break;
-          case "damageDescriptions":
-            data = damageDescriptionsData;
-            break;
-          case "ownershipTypes":
-            data = ownershipTypesData;
-            break;
-          case "urbanConditions":
-            data = urbanConditionsData;
-            break;
-          case "dominantLandUses":
-            data = dominantLandUsesData;
-            break;
-          case "humanNeedsTypes":
-            data = humanNeedsTypesData;
-            break;
-          case "neighborhoods":
-            data = neighborhoodsData;
-            break;
-          case "humanitarianInterventionsTypes":
-            data = humanitarianInterventionsTypesData;
-            break;
-          default:
-            console.error(`Unknown table name: ${tableName}`);
-            return;
-        }
-
-        if (confirm("هل أنت متأكد من حذف هذا الصف؟")) {
-          data.splice(index, 1);
-          displayData(tableName);
-        }
+      if (confirm(window.confirmDelete)) {
+        data.splice(index, 1);
+        displayData(tableName);
       }
+    }
 
-      // عرض البيانات عند تحميل الصفحة
-      window.onload = () => {
-        displayData("operationalStatuses");
-        displayData("interventionPriorities");
-        displayData("infrastructureStatuses");
-        displayData("staffStatuses");
-        displayData("consumablesStatuses");
-        displayData("damageLevels");
-        displayData("networkStatuses");
-        displayData("supplyOperationLevel");
-        displayData("ownershipDocumentationTypes");
-        displayData("damageDescriptions");
-        displayData("ownershipTypes");
-        displayData("urbanConditions");
-        displayData("dominantLandUses");
-        displayData("humanNeedsTypes");
-        displayData("neighborhoods");
-        displayData("humanitarianInterventionsTypes");
+    // عرض البيانات عند تحميل الصفحة
+    window.onload = () => {
+      displayData("operationalStatuses");
+      displayData("interventionPriorities");
+      displayData("infrastructureStatuses");
+      displayData("staffStatuses");
+      displayData("consumablesStatuses");
+      displayData("damageLevels");
+      displayData("networkStatuses");
+      displayData("supplyOperationLevel");
+      displayData("ownershipDocumentationTypes");
+      displayData("damageDescriptions");
+      displayData("ownershipTypes");
+      displayData("urbanConditions");
+      displayData("dominantLandUses");
+      displayData("humanNeedsTypes");
+      displayData("neighborhoods");
+      displayData("humanitarianInterventionsTypes");
+    };
+  </script>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script>
+    var win = navigator.platform.indexOf("Win") > -1;
+    if (win && document.querySelector("#sidenav-scrollbar")) {
+      var options = {
+        damping: "0.5",
       };
-    </script>
-
-    <!--   Core JS Files   -->
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
-    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-    <script>
-      var win = navigator.platform.indexOf("Win") > -1;
-      if (win && document.querySelector("#sidenav-scrollbar")) {
-        var options = {
-          damping: "0.5",
-        };
-        Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
-      }
-    </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="../assets/js/soft-ui-dashboard.min.js?v=1.1.0"></script>
-    <script>
-      // ربط الحدث show.bs.modal
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".modal").forEach((modal) => {
-          modal.addEventListener("show.bs.modal", function (event) {
-            console.log(`Modal opened: ${this.id}`); // تأكد من تشغيل الحدث
-            const tableName = this.getAttribute("data-table");
-            if (tableName) {
-              console.log(`Displaying data for table: ${tableName}`);
-              displayData(tableName);
-            }
-          });
+      Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/soft-ui-dashboard.min.js?v=1.1.0"></script>
+  <script>
+    // ربط الحدث show.bs.modal
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".modal").forEach((modal) => {
+        modal.addEventListener("show.bs.modal", function (event) {
+          console.log(`Modal opened: ${this.id}`); // تأكد من تشغيل الحدث
+          const tableName = this.getAttribute("data-table");
+          if (tableName) {
+            console.log(`Displaying data for table: ${tableName}`);
+            displayData(tableName);
+          }
         });
       });
-    </script>
-    <script>
-      const translations = {
-        ar: {
-          dir: "rtl",
-          dashboard: "لوحة التحكم",
-          configTables: "جداول الإعدادات",
-          maps: "الخرائط",
-          manageUsers: "إدارة المستخدمين",
-          signIn: "تسجيل الدخول",
-          signUp: "إنشاء حساب",
-          profile: "الملف الشخصي",
-          rtl: "من اليسار لليمين",
-          families: "عدد الأسر",
-          validBuildings: "منشآت صالحة",
-          residentialBuildings: "منشآت سكنية",
-          threatened: "مهددة بالإزالة",
-          constructionStatus: "الوضع الإنشائي",
-          educationStatus: "الوضع التعليمي",
-          healthStatus: "الوضع الصحي",
-          footerText: "© 2025، جميع الحقوق محفوظة،",
-          companyName: "دار التقنية الحديثة",
-          // Grid items translations
-          operationalStatuses: "إدارة الحالات التشغيلية",
-          interventionPriorities: "إدارة أولويات التدخل",
-          infrastructureStatuses: "إدارة حالات البنية التحتية",
-          staffStatuses: "إدارة حالات الموظفين",
-          consumablesStatuses: "إدارة حالات المستهلكات",
-          damageLevels: "إدارة مستويات الضرر",
-          networkStatuses: "إدارة حالات الشبكة",
-          supplyOperationLevel: "إدارة مستويات تشغيل خطوط الإمداد",
-          ownershipDocumentationTypes: "إدارة أنواع توثيق الملكية",
-          damageDescriptions: "إدارة أوصاف الضرر",
-          ownershipTypes: "إدارة أنواع الملكية",
-          urbanConditions: "إدارة الحالات الحضرية",
-          dominantLandUses: "إدارة الاستخدام السائد للأرض",
-          humanNeedsTypes: "إدارة أنواع الاحتياجات الإنسانية",
-          neighborhoods: "إدارة الأحياء",
-          humanitarianInterventionsTypes: "إدارة أنواع التدخلات الإنسانية",
-        },
-        en: {
-          dir: "ltr",
-          dashboard: "Dashboard",
-          configTables: "Configuration Tables",
-          maps: "Maps",
-          manageUsers: "Manage Users",
-          signIn: "Sign In",
-          signUp: "Sign Up",
-          profile: "Profile",
-          rtl: "RTL",
-          families: "Families",
-          validBuildings: "Valid Buildings",
-          residentialBuildings: "Residential Buildings",
-          threatened: "Threatened with Removal",
-          constructionStatus: "Construction Status",
-          educationStatus: "Education Status",
-          healthStatus: "Health Status",
-          footerText: "© 2025, All rights reserved,",
-          companyName: "Hi-Tech House",
-          // Grid items translations
-          operationalStatuses: "Operational Statuses Management",
-          interventionPriorities: "Intervention Priorities Management",
-          infrastructureStatuses: "Infrastructure Statuses Management",
-          staffStatuses: "Staff Statuses Management",
-          consumablesStatuses: "Consumables Statuses Management",
-          damageLevels: "Damage Levels Management",
-          networkStatuses: "Network Statuses Management",
-          supplyOperationLevel: "Supply Lines Operation Levels Management",
-          ownershipDocumentationTypes:
-            "Ownership Documentation Types Management",
-          damageDescriptions: "Damage Descriptions Management",
-          ownershipTypes: "Ownership Types Management",
-          urbanConditions: "Urban Conditions Management",
-          dominantLandUses: "Dominant Land Uses Management",
-          humanNeedsTypes: "Human Needs Types Management",
-          neighborhoods: "Neighborhoods Management",
-          humanitarianInterventionsTypes:
-            "Humanitarian Interventions Types Management",
-        },
-      };
+    });
+  </script>
+  <script>
+    const translations = {
+      ar: {
+        dir: "rtl",
+        dashboard: "لوحة التحكم",
+        configTables: "جداول الإعدادات",
+        manageUsers: " المستخدمين",
+        profile: "الملف الشخصي",
 
-      let currentLang = "ar";
+        operationalStatuses: " الحالات التشغيلية",
+        interventionPriorities: " أولويات التدخل",
+        infrastructureStatuses: " حالات البنية التحتية",
+        staffStatuses: " حالات الموظفين",
+        consumablesStatuses: " حالات المستهلكات",
+        damageLevels: " مستويات الضرر",
+        networkStatuses: " حالات الشبكة",
+        supplyOperationLevel: " مستويات تشغيل خطوط الإمداد",
+        ownershipDocumentationTypes: " أنواع توثيق الملكية",
+        damageDescriptions: " أوصاف الضرر",
+        ownershipTypes: " أنواع الملكية",
+        urbanConditions: " الحالات الحضرية",
+        dominantLandUses: " الاستخدام السائد للأرض",
+        humanNeedsTypes: " أنواع الاحتياجات الإنسانية",
+        neighborhoods: " الأحياء",
+        humanitarianInterventionsTypes: " أنواع التدخلات الإنسانية",
 
-      function switchLanguage(lang) {
-        currentLang = lang;
-        const t = translations[lang];
+        addNew: "إضافة جديد",
+        edit: "تعديل",
+        delete: "حذف",
+        actions: "إجراءات",
+        confirmDelete: "هل أنت متأكد من حذف هذا العنصر؟",
+        enterNewName: "أدخل الاسم الجديد:",
+        enterNewNameArabic: "أدخل الاسم باللغة العربية:",
 
-        // Update document direction
-        document.documentElement.lang = lang;
-        document.documentElement.dir = t.dir;
+        id: "المعرف",
+        name: "الاسم",
+        nameArabic: "الاسم بالعربية",
+        code: "الرمز",
+        cityId: "معرف المدينة",
+        distributionDate: "تاريخ التوزيع",
 
-        // Update header titles visibility
-        const titleAr = document.querySelector(".title-ar");
-        const titleEn = document.querySelector(".title-en");
-        if (titleAr) titleAr.style.display = lang === "ar" ? "block" : "none";
-        if (titleEn) titleEn.style.display = lang === "en" ? "block" : "none";
+        settings: "الإعدادات",
+        logout: "تسجيل الخروج",
 
-        // Update sidebar/menu text
-        const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
-        if (navTexts[0]) navTexts[0].textContent = t.dashboard;
-        if (navTexts[1]) navTexts[1].textContent = t.configTables;
-        if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
-        if (navTexts[3]) navTexts[3].textContent = t.profile;
+        footerText: "© 2025، Powered by ،",
+        companyName: "HI-Tech House",
 
-        // Update grid items text
-        const gridItems = document.querySelectorAll(".grid-item h3");
-        if (gridItems[0]) gridItems[0].textContent = t.operationalStatuses;
-        if (gridItems[1]) gridItems[1].textContent = t.interventionPriorities;
-        if (gridItems[2]) gridItems[2].textContent = t.infrastructureStatuses;
-        if (gridItems[3]) gridItems[3].textContent = t.staffStatuses;
-        if (gridItems[4]) gridItems[4].textContent = t.consumablesStatuses;
-        if (gridItems[5]) gridItems[5].textContent = t.damageLevels;
-        if (gridItems[6]) gridItems[6].textContent = t.networkStatuses;
-        if (gridItems[7]) gridItems[7].textContent = t.supplyOperationLevel;
-        if (gridItems[8])
-          gridItems[8].textContent = t.ownershipDocumentationTypes;
-        if (gridItems[9]) gridItems[9].textContent = t.damageDescriptions;
-        if (gridItems[10]) gridItems[10].textContent = t.ownershipTypes;
-        if (gridItems[11]) gridItems[11].textContent = t.urbanConditions;
-        if (gridItems[12]) gridItems[12].textContent = t.dominantLandUses;
-        if (gridItems[13]) gridItems[13].textContent = t.humanNeedsTypes;
-        if (gridItems[14]) gridItems[14].textContent = t.neighborhoods;
-        if (gridItems[15])
-          gridItems[15].textContent = t.humanitarianInterventionsTypes;
+        loading: "جاري التحميل...",
+        error: "حدث خطأ",
+        success: "تمت العملية بنجاح"
+      },
+      en: {
+        dir: "ltr",
+        dashboard: "Dashboard",
+        configTables: "Configuration Tables",
+        manageUsers: "Manage Users",
+        profile: "Profile",
 
-        // Update footer text
-        const footerText = document.querySelector(".copyright-text");
-        if (footerText) {
-          const companyLink = `<a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">${t.companyName}</a>`;
-          const companyLogo = `<img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />`;
-          footerText.innerHTML = `${t.footerText} ${companyLink} ${companyLogo}`;
-        }
+        operationalStatuses: "Operational Statuses ",
+        interventionPriorities: "Intervention Priorities ",
+        infrastructureStatuses: "Infrastructure Statuses ",
+        staffStatuses: "Staff Statuses ",
+        consumablesStatuses: "Consumables Statuses ",
+        damageLevels: "Damage Levels ",
+        networkStatuses: "Network Statuses ",
+        supplyOperationLevel: "Supply Operation Level ",
+        ownershipDocumentationTypes: "Ownership Documentation Types ",
+        damageDescriptions: "Damage Descriptions ",
+        ownershipTypes: "Ownership Types ",
+        urbanConditions: "Urban Conditions ",
+        dominantLandUses: "Dominant Land Uses ",
+        humanNeedsTypes: "Human Needs Types ",
+        neighborhoods: "Neighborhoods ",
+        humanitarianInterventionsTypes: "Humanitarian Interventions Types ",
+
+        addNew: "Add New",
+        edit: "Edit",
+        delete: "Delete",
+        actions: "Actions",
+        confirmDelete: "Are you sure you want to delete this item?",
+        enterNewName: "Enter new name:",
+        enterNewNameArabic: "Enter name in Arabic:",
+
+        id: "ID",
+        name: "Name",
+        nameArabic: "Name in Arabic",
+        code: "Code",
+        cityId: "City ID",
+        distributionDate: "Distribution Date",
+
+        settings: "Settings",
+        logout: "Logout",
+
+        footerText: "© 2025, Powerd by,",
+        companyName: "Hi-Tech House",
+
+        loading: "Loading...",
+        error: "An error occurred",
+        success: "Operation completed successfully"
+      }
+    };
+
+    let currentLang = "en";
+
+    function switchLanguage(lang) {
+
+      const body = document.body;
+
+      // الحصول على قيمة الاتجاه الحالية
+      const currentDir = body.getAttribute("dir");
+
+      // تبديل الاتجاه
+      if (currentDir === "rtl") {
+        body.setAttribute("dir", "ltr");
+      } else {
+        body.setAttribute("dir", "rtl");
       }
 
-      function toggleLanguage() {
-        console.log(
-          "Language toggle button clicked. Current language:",
-          currentLang
-        );
-        const btn = document.getElementById("langToggleBtn");
-        if (currentLang === "ar") {
-          btn.textContent = "EN";
-          switchLanguage("en");
-        } else {
-          btn.textContent = "AR";
-          switchLanguage("ar");
-        }
-      }
+      currentLang = lang;
+      const t = translations[lang];
 
-      // Initial language setup
-      document.addEventListener("DOMContentLoaded", function () {
-        console.log("Setting up initial language...");
-        // Set initial language
-        switchLanguage("ar");
+      // Update document direction
+      document.documentElement.lang = lang;
+      document.documentElement.dir = t.dir;
 
-        // Add click event listener to the language toggle button
-        const langToggleBtn = document.getElementById("langToggleBtn");
-        if (langToggleBtn) {
-          langToggleBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleLanguage();
-          });
-        }
+      // Update navigation text
+      const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
+      if (navTexts[0]) navTexts[0].textContent = t.dashboard;
+      if (navTexts[1]) navTexts[1].textContent = t.configTables;
+      if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
+      if (navTexts[3]) navTexts[3].textContent = t.profile;
 
-        // Debug footer text
-        const footerText = document.querySelector(".copyright-text");
-        console.log("Footer element:", footerText);
-        if (footerText) {
-          console.log("Current footer text:", footerText.innerHTML);
+      // Update modal titles
+      document.querySelectorAll('.modal-title').forEach(title => {
+        const modalId = title.closest('.modal').id;
+        const tableName = modalId.replace('Modal', '');
+        if (t[tableName]) {
+          title.textContent = t[tableName];
         }
       });
 
-      // Test script to verify language switching
-      document.addEventListener("DOMContentLoaded", function () {
+      // Update table headers
+      document.querySelectorAll('table thead th').forEach(th => {
+        const text = th.textContent.trim();
+        if (t[text]) {
+          th.textContent = t[text];
+        }
+      });
+
+      // Update buttons
+      document.querySelectorAll('.btn-add').forEach(btn => {
+        btn.textContent = t.addNew;
+      });
+
+      // Update menu items
+      const settingsText = document.getElementById("settingsText");
+      const logoutText = document.getElementById("logoutText");
+      if (settingsText) settingsText.textContent = t.settings;
+      if (logoutText) logoutText.textContent = t.logout;
+
+      // Update footer
+      const footerText = document.querySelector(".copyright-text");
+      if (footerText) {
+        const companyLink = `<a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">${t.companyName}</a>`;
+        const companyLogo = `<img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />`;
+        footerText.innerHTML = `${t.footerText} ${companyLink} ${companyLogo}`;
+      }
+
+      // Update grid items
+      document.querySelectorAll('.grid-item h3').forEach(h3 => {
+        const modalId = h3.closest('.grid-item').getAttribute('data-bs-target').replace('#', '');
+        const tableName = modalId.replace('Modal', '');
+        if (t[tableName]) {
+          h3.textContent = t[tableName];
+        }
+      });
+
+      // Update confirmation messages
+      window.confirmDelete = t.confirmDelete;
+      window.enterNewName = t.enterNewName;
+      window.enterNewNameArabic = t.enterNewNameArabic;
+    }
+
+    function toggleLanguage() {
+      const btn = document.getElementById("langToggleBtn");
+      if (currentLang === "ar") {
+        btn.textContent = "EN";
         switchLanguage("en");
-      });
-    </script>
-  </body>
+      } else {
+        btn.textContent = "AR";
+        switchLanguage("ar");
+      }
+    }
+
+    // Initial language setup
+    document.addEventListener("DOMContentLoaded", function () {
+      // Set initial language to Arabic
+      switchLanguage("ar");
+      document.getElementById("langToggleBtn").textContent = "EN";
+
+      // Add click event listener to the language toggle button
+      const langToggleBtn = document.getElementById("langToggleBtn");
+      if (langToggleBtn) {
+        langToggleBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleLanguage();
+        });
+      }
+    });
+  </script>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menuDropdown");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    function logout() {
+      window.location.href = "./index.html";
+    }
+
+    // إغلاق القائمة عند النقر خارجها
+    document.addEventListener("click", function (e) {
+      const menu = document.getElementById("menuDropdown");
+      const menuBtn = document.getElementById("menuToggleBtn");
+
+      if (menu && menuBtn) {
+        if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
+          menu.style.display = "none";
+        }
+      }
+    });
+  </script>
+</body>
+
 </html>

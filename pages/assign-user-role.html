@@ -115,8 +115,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
+        height: 50px;
         box-sizing: border-box;
       }
 
@@ -204,8 +203,7 @@
         z-index: 1000;
         background-color: #3066ff;
         padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
+        height: 50px;
         box-sizing: border-box;
         display: flex;
         align-items: center;
@@ -380,8 +378,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
+        height: 50px;
         box-sizing: border-box;
       }
 
@@ -508,10 +505,91 @@
       body[dir="ltr"] .menu-item {
         flex-direction: row-reverse;
       }
+
+
+ /* إضافة أنماط للشريط الجانبي حسب اتجاه اللغة */
+ body[dir="rtl"] .sidenav {
+        right: 0 !important;
+        left: auto !important;
+        margin-right: 1rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="ltr"] .sidenav {
+        left: 0 !important;
+        right: auto !important;
+        margin-left: 1rem !important;
+        margin-right: 0 !important;
+      }
+
+      /* أنماط للمحتوى الرئيسي */
+      body[dir="rtl"] .main-content {
+        margin-right: 17.125rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="ltr"] .main-content {
+        margin-left: 17.125rem !important;
+        margin-right: 0 !important;
+      }
+
+      /* أنماط للأيقونات في الشريط الجانبي */
+      body[dir="rtl"] .icon {
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+      }
+
+      body[dir="ltr"] .icon {
+        margin-right: 0.5rem !important;
+        margin-left: 0 !important;
+      }
+
+      /* تعديل الأنماط الخاصة بالشريط الجانبي عند الضغط على زر القائمة */
+      body[dir="rtl"] .g-sidenav-hidden .sidenav {
+        transform: translateX(17.125rem) !important;
+      }
+
+      body[dir="ltr"] .g-sidenav-hidden .sidenav {
+        transform: translateX(-17.125rem) !important;
+      }
+
+      /* تعديل الأنماط الخاصة بالمحتوى الرئيسي عند الضغط على زر القائمة */
+      body[dir="rtl"] .g-sidenav-hidden .main-content {
+        margin-right: 0 !important;
+      }
+
+      body[dir="ltr"] .g-sidenav-hidden .main-content {
+        margin-left: 0 !important;
+      }
+
+      /* تعديل أنماط النصوص في القائمة الجانبية */
+      body[dir="rtl"] .nav-link-text {
+        margin-right: 0.5rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="ltr"] .nav-link-text {
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+      }
+
+      /* تعديل أنماط البطاقات في الصفحة */
+      body[dir="rtl"] .profile-card,
+      body[dir="rtl"] .stats-card,
+      body[dir="rtl"] .settings-card {
+        text-align: right;
+      }
+
+      body[dir="ltr"] .profile-card,
+      body[dir="ltr"] .stats-card,
+      body[dir="ltr"] .settings-card {
+        text-align: left;
+      }
+
     </style>
   </head>
 
-  <body class="g-sidenav-show bg-gray-100">
+  <body dir="rtl" class="g-sidenav-show bg-gray-300">
     <header id="mainHeader">
       <div style="display: flex; align-items: center; gap: 10px">
         <img
@@ -563,21 +641,21 @@
           aria-hidden="true"
           id="iconSidenav"
         ></i>
-        <a class="navbar-brand m-0" href="#" target="_blank">
+        <!-- <a class="navbar-brand m-0" href="#" target="_blank">
           <img
             src="../assets/img/UN_Habitat_Logo.svg"
             class="navbar-brand-img h-100"
             alt="main_logo"
           />
-        </a>
+        </a> -->
       </div>
-      <hr class="horizontal dark mt-0" />
+      <!-- <hr class="horizontal dark mt-0" /> -->
       <div
         class="collapse navbar-collapse w-auto"
         id="sidenav-collapse-main"
         style="height: auto !important"
       >
-        <ul class="navbar-nav" style="padding-bottom: 60px">
+        <ul class="navbar-nav" style="padding-bottom: 60px;padding-top:20px;">
           <li class="nav-item">
             <a class="nav-link" href="../pages/dashboard.html">
               <div
@@ -670,7 +748,7 @@
               <span class="nav-link-text ms-1">configuration Tables </span>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="../pages/aleppo-map-analysis.html">
               <div
                 class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
@@ -713,7 +791,7 @@
               </div>
               <span class="nav-link-text ms-1">Maps</span>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link active" href="../pages/ManageUsers.html">
               <div
@@ -826,7 +904,7 @@
           <div class="col-12">
             <div class="card mb-4 mt-5">
               <div class="card-header pb-0">
-                <h6>قائمة المستخدمين والأدوار</h6>
+                <h6 id="userRolesListTitle">قائمة المستخدمين والأدوار</h6>
               </div>
               <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0">
@@ -836,17 +914,17 @@
                         <th
                           class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                         >
-                          اسم المستخدم
+                          <span id="usernameHeader">اسم المستخدم</span>
                         </th>
                         <th
                           class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
                         >
-                          الأدوار
+                          <span id="rolesHeader">الأدوار</span>
                         </th>
                         <th
                           class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                         >
-                          اختيار الأدوار
+                          <span id="selectRolesHeader">اختيار الأدوار</span>
                         </th>
                       </tr>
                     </thead>
@@ -862,22 +940,14 @@
                           </div>
                         </td>
                         <td>
-                          <span class="badge badge-sm bg-gradient-success"
-                            >مدير</span
-                          >
-                          <span class="badge badge-sm bg-gradient-info"
-                            >محرر</span
-                          >
+                          <span class="badge badge-sm bg-gradient-success" id="adminRole1">مدير</span>
+                          <span class="badge badge-sm bg-gradient-info" id="editorRole1">محرر</span>
                         </td>
                         <td class="align-middle text-center">
                           <div class="checkbox-group">
-                            <label
-                              ><input type="checkbox" checked /> مدير</label
-                            >
-                            <label
-                              ><input type="checkbox" checked /> محرر</label
-                            >
-                            <label><input type="checkbox" /> مستخدم عادي</label>
+                            <label><input type="checkbox" checked /> <span class="adminLabel">مدير</span></label>
+                            <label><input type="checkbox" checked /> <span class="editorLabel">محرر</span></label>
+                            <label><input type="checkbox" /> <span class="normalUserLabel">مستخدم عادي</span></label>
                           </div>
                         </td>
                       </tr>
@@ -892,17 +962,13 @@
                           </div>
                         </td>
                         <td>
-                          <span class="badge badge-sm bg-gradient-info"
-                            >محرر</span
-                          >
+                          <span class="badge badge-sm bg-gradient-info" id="editorRole2">محرر</span>
                         </td>
                         <td class="align-middle text-center">
                           <div class="checkbox-group">
-                            <label><input type="checkbox" /> مدير</label>
-                            <label
-                              ><input type="checkbox" checked /> محرر</label
-                            >
-                            <label><input type="checkbox" /> مستخدم عادي</label>
+                            <label><input type="checkbox" /> <span class="adminLabel">مدير</span></label>
+                            <label><input type="checkbox" checked /> <span class="editorLabel">محرر</span></label>
+                            <label><input type="checkbox" /> <span class="normalUserLabel">مستخدم عادي</span></label>
                           </div>
                         </td>
                       </tr>
@@ -927,7 +993,12 @@
     <footer id="mainFooter">
       <div class="footer-content">
         <div class="copyright">
-          <span class="copyright-text"></span>
+                    <span >
+            2025
+            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
+            ,Powered by
+           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+          </span>
         </div>
         <div class="social-icons">
           <a aria-label="Facebook" class="social-icon facebook" href="#"
@@ -1004,20 +1075,24 @@
           constructionStatus: "الوضع الإنشائي",
           educationStatus: "الوضع التعليمي",
           healthStatus: "الوضع الصحي",
-          footerText: "© 2025، جميع الحقوق محفوظة،",
-          companyName: "دار التقنية الحديثة",
+          footerText: "© 2025، Powered by ،",
+          companyName: "HI-Tech House",
           settingsText: "الإعدادات",
           logoutText: "تسجيل الخروج",
+          // User roles table translations
+          userRolesList: "قائمة المستخدمين والأدوار",
+          username: "اسم المستخدم",
+          roles: "الأدوار",
+          selectRoles: "اختيار الأدوار",
+          admin: "مدير",
+          editor: "محرر",
+          normalUser: "مستخدم عادي",
           // Profile section translations
           updatePhoto: "تحديث الصورة",
           activeProjects: "مشاريع نشطة",
           completedTasks: "مهام مكتملة",
           uploadedFiles: "ملفات مرفوعة",
           accountSettings: "إعدادات الحساب",
-          username: "اسم المستخدم",
-          email: "البريد الإلكتروني",
-          newPassword: "كلمة المرور الجديدة",
-          confirmPassword: "تأكيد كلمة المرور",
           enterNewPassword: "أدخل كلمة المرور الجديدة",
           reenterPassword: "أعد إدخال كلمة المرور",
           saveChanges: "حفظ التغييرات",
@@ -1035,20 +1110,24 @@
           constructionStatus: "Construction Status",
           educationStatus: "Education Status",
           healthStatus: "Health Status",
-          footerText: "© 2025, All rights reserved,",
+          footerText: "© 2025, Powerd by,",
           companyName: "Hi-Tech House",
           settingsText: "Settings",
           logoutText: "Logout",
+          // User roles table translations
+          userRolesList: "Users and Roles List",
+          username: "Username",
+          roles: "Roles",
+          selectRoles: "Select Roles",
+          admin: "Admin",
+          editor: "Editor",
+          normalUser: "Normal User",
           // Profile section translations
           updatePhoto: "Update Photo",
           activeProjects: "Active Projects",
           completedTasks: "Completed Tasks",
           uploadedFiles: "Uploaded Files",
           accountSettings: "Account Settings",
-          username: "Username",
-          email: "Email",
-          newPassword: "New Password",
-          confirmPassword: "Confirm Password",
           enterNewPassword: "Enter new password",
           reenterPassword: "Re-enter password",
           saveChanges: "Save Changes",
@@ -1058,6 +1137,14 @@
       let currentLang = "en";
 
       function switchLanguage(lang) {
+        const body = document.body;
+        const currentDir = body.getAttribute("dir");
+        if (currentDir === "rtl") {
+          body.setAttribute("dir", "ltr");
+        } else {
+          body.setAttribute("dir", "rtl");
+        }
+
         currentLang = lang;
         const t = translations[lang];
 
@@ -1065,11 +1152,11 @@
         document.documentElement.lang = lang;
         document.documentElement.dir = t.dir;
 
-        // Update header titles visibility
-        const titleAr = document.querySelector(".title-ar");
-        const titleEn = document.querySelector(".title-en");
-        if (titleAr) titleAr.style.display = lang === "ar" ? "block" : "none";
-        if (titleEn) titleEn.style.display = lang === "en" ? "block" : "none";
+        // // Update header titles visibility
+        // const titleAr = document.querySelector(".title-ar");
+        // const titleEn = document.querySelector(".title-en");
+        // if (titleAr) titleAr.style.display = lang === "ar" ? "block" : "none";
+        // if (titleEn) titleEn.style.display = lang === "en" ? "block" : "none";
 
         // Update menu items text
         const settingsText = document.querySelector(".settings-text");
@@ -1081,25 +1168,32 @@
         const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
         if (navTexts[0]) navTexts[0].textContent = t.dashboard;
         if (navTexts[1]) navTexts[1].textContent = t.configTables;
-        if (navTexts[2]) navTexts[2].textContent = t.maps;
-        if (navTexts[3]) navTexts[3].textContent = t.manageUsers;
-        if (navTexts[4]) navTexts[4].textContent = t.profile;
-        if (navTexts[5]) navTexts[5].textContent = t.profile;
+        if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
+        if (navTexts[3]) navTexts[3].textContent = t.profile;
 
-        // Update main cards
-        const cardTitles = document.querySelectorAll(".card-title");
-        if (cardTitles[0]) cardTitles[0].textContent = t.families;
-        if (cardTitles[1]) cardTitles[1].textContent = t.validBuildings;
-        if (cardTitles[2]) cardTitles[2].textContent = t.residentialBuildings;
-        if (cardTitles[3]) cardTitles[3].textContent = t.threatened;
+        // Update user roles table
+        const userRolesListTitle = document.getElementById("userRolesListTitle");
+        const usernameHeader = document.getElementById("usernameHeader");
+        const rolesHeader = document.getElementById("rolesHeader");
+        const selectRolesHeader = document.getElementById("selectRolesHeader");
+        
+        if (userRolesListTitle) userRolesListTitle.textContent = t.userRolesList;
+        if (usernameHeader) usernameHeader.textContent = t.username;
+        if (rolesHeader) rolesHeader.textContent = t.roles;
+        if (selectRolesHeader) selectRolesHeader.textContent = t.selectRoles;
 
-        // Update chart card titles
-        const chartTitles = document.querySelectorAll(
-          "h5.card-title.text-center"
-        );
-        if (chartTitles[0]) chartTitles[0].textContent = t.constructionStatus;
-        if (chartTitles[1]) chartTitles[1].textContent = t.educationStatus;
-        if (chartTitles[2]) chartTitles[2].textContent = t.healthStatus;
+        // Update role labels
+        const adminLabels = document.querySelectorAll(".adminLabel");
+        const editorLabels = document.querySelectorAll(".editorLabel");
+        const normalUserLabels = document.querySelectorAll(".normalUserLabel");
+        const adminRoles = document.querySelectorAll("[id^='adminRole']");
+        const editorRoles = document.querySelectorAll("[id^='editorRole']");
+
+        adminLabels.forEach(label => label.textContent = t.admin);
+        editorLabels.forEach(label => label.textContent = t.editor);
+        normalUserLabels.forEach(label => label.textContent = t.normalUser);
+        adminRoles.forEach(role => role.textContent = t.admin);
+        editorRoles.forEach(role => role.textContent = t.editor);
 
         // Update footer text
         const footerText = document.querySelector(".copyright-text");
@@ -1108,39 +1202,6 @@
           const companyLogo = `<img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />`;
           footerText.innerHTML = `${t.footerText} ${companyLink} ${companyLogo}`;
         }
-
-        // Update profile section
-        const updatePhotoBtn = document.querySelector(".profile-card .btn");
-        if (updatePhotoBtn) updatePhotoBtn.textContent = t.updatePhoto;
-
-        const statsCards = document.querySelectorAll(".stats-card p");
-        if (statsCards[0]) statsCards[0].textContent = t.activeProjects;
-        if (statsCards[1]) statsCards[1].textContent = t.completedTasks;
-        if (statsCards[2]) statsCards[2].textContent = t.uploadedFiles;
-
-        const settingsTitle = document.querySelector(".settings-card h6");
-        if (settingsTitle) settingsTitle.textContent = t.accountSettings;
-
-        const formLabels = document.querySelectorAll(
-          ".settings-card .form-label"
-        );
-        if (formLabels[0]) formLabels[0].textContent = t.username;
-        if (formLabels[1]) formLabels[1].textContent = t.email;
-        if (formLabels[2]) formLabels[2].textContent = t.newPassword;
-        if (formLabels[3]) formLabels[3].textContent = t.confirmPassword;
-
-        const passwordInputs = document.querySelectorAll(
-          '.settings-card input[type="password"]'
-        );
-        if (passwordInputs[0])
-          passwordInputs[0].placeholder = t.enterNewPassword;
-        if (passwordInputs[1])
-          passwordInputs[1].placeholder = t.reenterPassword;
-
-        const saveButton = document.querySelector(
-          ".settings-card .btn-success"
-        );
-        if (saveButton) saveButton.textContent = t.saveChanges;
       }
 
       function toggleLanguage() {
@@ -1200,7 +1261,7 @@
         }
 
         // Test script to verify language switching
-        switchLanguage("en");
+        switchLanguage("ar");
       });
     </script>
   </body>

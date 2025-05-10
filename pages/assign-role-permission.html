@@ -176,8 +176,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
+        height: 50px;
         box-sizing: border-box;
       }
 
@@ -265,8 +264,7 @@
         z-index: 1000;
         background-color: #3066ff;
         padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
+        height: 50px;
         box-sizing: border-box;
         display: flex;
         align-items: center;
@@ -441,8 +439,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
+        height: 50px;
         box-sizing: border-box;
       }
 
@@ -847,9 +844,90 @@
       .grid-item:nth-child(14) {
         background-color: #bbdefb;
       } /* أزرق سماوي */
+
+ /* إضافة أنماط للشريط الجانبي حسب اتجاه اللغة */
+ body[dir="rtl"] .sidenav {
+        right: 0 !important;
+        left: auto !important;
+        margin-right: 1rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="ltr"] .sidenav {
+        left: 0 !important;
+        right: auto !important;
+        margin-left: 1rem !important;
+        margin-right: 0 !important;
+      }
+
+      /* أنماط للمحتوى الرئيسي */
+      body[dir="rtl"] .main-content {
+        margin-right: 17.125rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="ltr"] .main-content {
+        margin-left: 17.125rem !important;
+        margin-right: 0 !important;
+      }
+
+      /* أنماط للأيقونات في الشريط الجانبي */
+      body[dir="rtl"] .icon {
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+      }
+
+      body[dir="ltr"] .icon {
+        margin-right: 0.5rem !important;
+        margin-left: 0 !important;
+      }
+
+      /* تعديل الأنماط الخاصة بالشريط الجانبي عند الضغط على زر القائمة */
+      body[dir="rtl"] .g-sidenav-hidden .sidenav {
+        transform: translateX(17.125rem) !important;
+      }
+
+      body[dir="ltr"] .g-sidenav-hidden .sidenav {
+        transform: translateX(-17.125rem) !important;
+      }
+
+      /* تعديل الأنماط الخاصة بالمحتوى الرئيسي عند الضغط على زر القائمة */
+      body[dir="rtl"] .g-sidenav-hidden .main-content {
+        margin-right: 0 !important;
+      }
+
+      body[dir="ltr"] .g-sidenav-hidden .main-content {
+        margin-left: 0 !important;
+      }
+
+      /* تعديل أنماط النصوص في القائمة الجانبية */
+      body[dir="rtl"] .nav-link-text {
+        margin-right: 0.5rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="ltr"] .nav-link-text {
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+      }
+
+      /* تعديل أنماط البطاقات في الصفحة */
+      body[dir="rtl"] .profile-card,
+      body[dir="rtl"] .stats-card,
+      body[dir="rtl"] .settings-card {
+        text-align: right;
+      }
+
+      body[dir="ltr"] .profile-card,
+      body[dir="ltr"] .stats-card,
+      body[dir="ltr"] .settings-card {
+        text-align: left;
+      }
+
+
     </style>
   </head>
-  <body class="g-sidenav-show bg-gray-100">
+  <body dir="ltr" class="g-sidenav-show bg-gray-300">
     <header id="mainHeader">
       <div style="display: flex; align-items: center; gap: 10px">
         <img
@@ -902,21 +980,21 @@
           aria-hidden="true"
           id="iconSidenav"
         ></i>
-        <a class="navbar-brand m-0" href="#" target="_blank">
+        <!-- <a class="navbar-brand m-0" href="#" target="_blank">
           <img
             src="../assets/img/UN_Habitat_Logo.svg"
             class="navbar-brand-img h-100"
             alt="main_logo"
           />
-        </a>
+        </a> -->
       </div>
-      <hr class="horizontal dark mt-0" />
+      <!-- <hr class="horizontal dark mt-0" /> -->
       <div
         class="collapse navbar-collapse w-auto"
         id="sidenav-collapse-main"
         style="height: auto !important"
       >
-        <ul class="navbar-nav" style="padding-bottom: 60px">
+        <ul class="navbar-nav" style="padding-bottom: 60px;padding-top:20px;">
           <li class="nav-item">
             <a class="nav-link" href="../pages/dashboard.html">
               <div
@@ -1009,7 +1087,7 @@
               <span class="nav-link-text ms-1">configuration Tables </span>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="../pages/aleppo-map-analysis.html">
               <div
                 class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
@@ -1052,7 +1130,7 @@
               </div>
               <span class="nav-link-text ms-1">Maps</span>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link active" href="../pages/ManageUsers.html">
               <div
@@ -1165,76 +1243,47 @@
           <div class="col-12">
             <div class="card mb-4 mt-5">
               <div class="card-header pb-0">
-                <h6>قائمة الأدوار والسماحيات</h6>
+                <h6 id="rolesPermsTitle">قائمة الأدوار والسماحيات</h6>
               </div>
               <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0">
                   <table class="table align-items-center mb-0">
                     <thead>
                       <tr>
-                        <th
-                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                        >
-                          اسم الدور
-                        </th>
-                        <th
-                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
-                        >
-                          السماحيات
-                        </th>
-                        <th
-                          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                        >
-                          اختيار السماحيات
-                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" id="roleNameHeader">اسم الدور</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2" id="permissionsHeader">السماحيات</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" id="selectPermissionsHeader">اختيار السماحيات</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td>
-                          <h6 class="mb-0 text-sm">مدير النظام</h6>
+                          <h6 class="mb-0 text-sm" id="adminRole">مدير النظام</h6>
                         </td>
                         <td>
-                          <span class="badge badge-sm bg-gradient-success"
-                            >إضافة مستخدم</span
-                          >
-                          <span class="badge badge-sm bg-gradient-info"
-                            >تعديل مستخدم</span
-                          >
+                          <span class="badge badge-sm bg-gradient-success" id="addUser">إضافة مستخدم</span>
+                          <span class="badge badge-sm bg-gradient-info" id="editUser">تعديل مستخدم</span>
                         </td>
                         <td class="align-middle text-center">
                           <div class="checkbox-group">
-                            <label
-                              ><input type="checkbox" checked /> إضافة
-                              مستخدم</label
-                            >
-                            <label
-                              ><input type="checkbox" checked /> تعديل
-                              مستخدم</label
-                            >
-                            <label><input type="checkbox" /> حذف مستخدم</label>
+                            <label><input type="checkbox" checked /> <span id="addUserCheck1">إضافة مستخدم</span></label>
+                            <label><input type="checkbox" checked /> <span id="editUserCheck1">تعديل مستخدم</span></label>
+                            <label><input type="checkbox" /> <span id="deleteUserCheck1">حذف مستخدم</span></label>
                           </div>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <h6 class="mb-0 text-sm">محرر</h6>
+                          <h6 class="mb-0 text-sm" id="editorRole">محرر</h6>
                         </td>
                         <td>
-                          <span class="badge badge-sm bg-gradient-info"
-                            >تعديل محتوى</span
-                          >
+                          <span class="badge badge-sm bg-gradient-info" id="editContent">تعديل محتوى</span>
                         </td>
                         <td class="align-middle text-center">
                           <div class="checkbox-group">
-                            <label
-                              ><input type="checkbox" /> إضافة مستخدم</label
-                            >
-                            <label
-                              ><input type="checkbox" checked /> تعديل
-                              محتوى</label
-                            >
-                            <label><input type="checkbox" /> نشر محتوى</label>
+                            <label><input type="checkbox" /> <span id="addUserCheck2">إضافة مستخدم</span></label>
+                            <label><input type="checkbox" checked /> <span id="editContentCheck2">تعديل محتوى</span></label>
+                            <label><input type="checkbox" /> <span id="publishContentCheck2">نشر محتوى</span></label>
                           </div>
                         </td>
                       </tr>
@@ -1251,7 +1300,12 @@
     <footer id="mainFooter">
       <div class="footer-content">
         <div class="copyright">
-          <span class="copyright-text"></span>
+                    <span >
+            2025
+            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
+            ,Powered by
+           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+          </span>
         </div>
         <div class="social-icons">
           <a aria-label="Facebook" class="social-icon facebook" href="#"
@@ -1360,10 +1414,21 @@
           constructionStatus: "الوضع الإنشائي",
           educationStatus: "الوضع التعليمي",
           healthStatus: "الوضع الصحي",
-          footerText: "© 2025، جميع الحقوق محفوظة،",
-          companyName: "دار التقنية الحديثة",
+          footerText: "© 2025، Powered by ،",
+          companyName: "HI-Tech House",
           settingsText: "الإعدادات",
-          logoutText: "تسجيل الخروج"
+          logoutText: "تسجيل الخروج",
+          rolesPermsTitle: "قائمة الأدوار والسماحيات",
+          roleName: "اسم الدور",
+          permissions: "السماحيات",
+          selectPermissions: "اختيار السماحيات",
+          adminRole: "مدير النظام",
+          editorRole: "محرر",
+          addUser: "إضافة مستخدم",
+          editUser: "تعديل مستخدم",
+          deleteUser: "حذف مستخدم",
+          editContent: "تعديل محتوى",
+          publishContent: "نشر محتوى"
         },
         en: {
           dir: "ltr",
@@ -1378,16 +1443,41 @@
           constructionStatus: "Construction Status",
           educationStatus: "Education Status",
           healthStatus: "Health Status",
-          footerText: "© 2025, All rights reserved,",
+          footerText: "© 2025, Powerd by,",
           companyName: "Hi-Tech House",
           settingsText: "Settings",
-          logoutText: "Logout"
+          logoutText: "Logout",
+          rolesPermsTitle: "Roles and Permissions List",
+          roleName: "Role Name",
+          permissions: "Permissions",
+          selectPermissions: "Select Permissions",
+          adminRole: "System Admin",
+          editorRole: "Editor",
+          addUser: "Add User",
+          editUser: "Edit User",
+          deleteUser: "Delete User",
+          editContent: "Edit Content",
+          publishContent: "Publish Content"
         }
       };
 
       let currentLang = "en";
 
       function switchLanguage(lang) {
+
+        const body = document.body;
+
+        // الحصول على قيمة الاتجاه الحالية
+        const currentDir = body.getAttribute("dir");
+
+        // تبديل الاتجاه
+        if (currentDir === "rtl") {
+          body.setAttribute("dir", "ltr");
+        } else {
+          body.setAttribute("dir", "rtl");
+        }
+
+
         currentLang = lang;
         const t = translations[lang];
 
@@ -1395,19 +1485,19 @@
         document.documentElement.lang = lang;
         document.documentElement.dir = t.dir;
 
-        // Update header titles visibility
-        const titleAr = document.querySelector(".title-ar");
-        const titleEn = document.querySelector(".title-en");
-        if (titleAr) titleAr.style.display = lang === "ar" ? "block" : "none";
-        if (titleEn) titleEn.style.display = lang === "en" ? "block" : "none";
+        // // Update header titles visibility
+        // const titleAr = document.querySelector(".title-ar");
+        // const titleEn = document.querySelector(".title-en");
+        // if (titleAr) titleAr.style.display = lang === "ar" ? "block" : "none";
+        // if (titleEn) titleEn.style.display = lang === "en" ? "block" : "none";
 
         // Update sidebar/menu text
         const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
         if (navTexts[0]) navTexts[0].textContent = t.dashboard;
         if (navTexts[1]) navTexts[1].textContent = t.configTables;
-        if (navTexts[2]) navTexts[2].textContent = t.maps;
-        if (navTexts[3]) navTexts[3].textContent = t.manageUsers;
-        if (navTexts[4]) navTexts[4].textContent = t.profile;
+        // if (navTexts[2]) navTexts[2].textContent = t.maps;
+        if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
+        if (navTexts[3]) navTexts[3].textContent = t.profile;
 
         // Update menu items text
         const settingsText = document.getElementById("settingsText");
@@ -1422,6 +1512,25 @@
           const companyLogo = `<img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />`;
           footerText.innerHTML = `${t.footerText} ${companyLink} ${companyLogo}`;
         }
+
+        // تحديث نصوص الجدول
+        if (document.getElementById("rolesPermsTitle")) document.getElementById("rolesPermsTitle").textContent = t.rolesPermsTitle;
+        if (document.getElementById("roleNameHeader")) document.getElementById("roleNameHeader").textContent = t.roleName;
+        if (document.getElementById("permissionsHeader")) document.getElementById("permissionsHeader").textContent = t.permissions;
+        if (document.getElementById("selectPermissionsHeader")) document.getElementById("selectPermissionsHeader").textContent = t.selectPermissions;
+        if (document.getElementById("adminRole")) document.getElementById("adminRole").textContent = t.adminRole;
+        if (document.getElementById("editorRole")) document.getElementById("editorRole").textContent = t.editorRole;
+        if (document.getElementById("addUser")) document.getElementById("addUser").textContent = t.addUser;
+        if (document.getElementById("editUser")) document.getElementById("editUser").textContent = t.editUser;
+        if (document.getElementById("deleteUser")) document.getElementById("deleteUser").textContent = t.deleteUser;
+        if (document.getElementById("editContent")) document.getElementById("editContent").textContent = t.editContent;
+        if (document.getElementById("publishContent")) document.getElementById("publishContent").textContent = t.publishContent;
+        if (document.getElementById("addUserCheck1")) document.getElementById("addUserCheck1").textContent = t.addUser;
+        if (document.getElementById("editUserCheck1")) document.getElementById("editUserCheck1").textContent = t.editUser;
+        if (document.getElementById("deleteUserCheck1")) document.getElementById("deleteUserCheck1").textContent = t.deleteUser;
+        if (document.getElementById("addUserCheck2")) document.getElementById("addUserCheck2").textContent = t.addUser;
+        if (document.getElementById("editContentCheck2")) document.getElementById("editContentCheck2").textContent = t.editContent;
+        if (document.getElementById("publishContentCheck2")) document.getElementById("publishContentCheck2").textContent = t.publishContent;
       }
 
       function toggleLanguage() {
@@ -1438,7 +1547,7 @@
       // Initial language setup
       document.addEventListener("DOMContentLoaded", function () {
         // Set initial language to English
-        switchLanguage("en");
+        switchLanguage("ar");
 
         // Add click event listener to the language toggle button
         const langToggleBtn = document.getElementById("langToggleBtn");

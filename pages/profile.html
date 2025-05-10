@@ -104,7 +104,6 @@
         top: 0;
         width: 100%;
         z-index: 1030;
-        /* Increased z-index to be above sidebar */
         background-color: #007bff;
         color: white;
         display: flex;
@@ -114,6 +113,7 @@
         height: 56px;
         min-height: 56px;
         box-sizing: border-box;
+        direction: rtl !important; /* Force RTL direction */
       }
 
       .header-logo {
@@ -130,6 +130,7 @@
         font-weight: bold;
         font-size: 1.4rem;
         line-height: 1.4;
+        direction: rtl !important; /* Force RTL direction */
       }
 
       .header-logos {
@@ -137,17 +138,18 @@
         align-items: center;
         gap: 12px;
         padding: 5px;
+        direction: rtl !important; /* Force RTL direction */
       }
 
       .title-ar {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         line-height: 1.2;
         font-weight: bold;
         white-space: normal;
       }
 
       .title-en {
-        font-size: 0.95rem;
+        font-size: 1.22rem;
         line-height: 1.2;
         font-weight: bold;
         white-space: normal;
@@ -205,6 +207,7 @@
         box-sizing: border-box;
         display: flex;
         align-items: center;
+        direction: rtl !important; /* Force RTL direction */
       }
 
       .footer-content {
@@ -216,13 +219,18 @@
         align-items: center;
         padding: 0 1rem;
         color: white;
+        direction: rtl !important; /* Force RTL direction */
       }
 
       .social-icon {
         color: #fff;
         font-size: 1.2rem;
-        margin-left: 1rem;
+        margin-left: 1rem; /* Fixed margin for RTL */
         transition: color 0.3s ease;
+      }
+
+      .social-icon:last-child {
+        margin-left: 0; /* Remove margin from last icon */
       }
 
       .social-icon:hover {
@@ -244,7 +252,7 @@
 
       .footer-logo {
         height: 24px;
-        margin-right: 8px;
+        margin-right: 8px; /* Fixed margin for RTL */
         vertical-align: middle;
         display: inline-block !important;
       }
@@ -253,6 +261,8 @@
         color: white !important;
         text-decoration: none;
         transition: color 0.3s ease;
+        display: inline-block;
+        margin: 0 8px;
       }
 
       .companyHITech:hover {
@@ -260,33 +270,21 @@
         text-decoration: underline;
       }
 
-      /* Add RTL/LTR specific styles for footer */
-      body[dir="rtl"] .footer-content {
-        flex-direction: row;
+      /* Remove RTL/LTR specific styles for header and footer */
+      body[dir="rtl"] #mainHeader,
+      body[dir="ltr"] #mainHeader,
+      body[dir="rtl"] #mainFooter,
+      body[dir="ltr"] #mainFooter {
+        direction: rtl !important;
       }
 
+      body[dir="rtl"] .header-title,
+      body[dir="ltr"] .header-title,
+      body[dir="rtl"] .header-logos,
+      body[dir="ltr"] .header-logos,
+      body[dir="rtl"] .footer-content,
       body[dir="ltr"] .footer-content {
-        flex-direction: row;
-      }
-
-      body[dir="rtl"] .footer-logo {
-        margin-right: 8px;
-        margin-left: 0;
-      }
-
-      body[dir="ltr"] .footer-logo {
-        margin-left: 8px;
-        margin-right: 0;
-      }
-
-      body[dir="rtl"] .social-icon {
-        margin-left: 1rem;
-        margin-right: 0;
-      }
-
-      body[dir="ltr"] .social-icon {
-        margin-right: 1rem;
-        margin-left: 0;
+        direction: rtl !important;
       }
 
       /* Existing styles remain unchanged */
@@ -384,13 +382,13 @@
       .copyright-text {
         color: white;
         display: inline-block;
-        margin-right: 8px;
+        margin-left: 8px; /* Fixed margin for RTL */
         font-size: 14px;
       }
 
       .footer-logo {
         height: 24px;
-        margin-right: 8px;
+        margin-right: 8px; /* Fixed margin for RTL */
         vertical-align: middle;
         display: inline-block !important;
       }
@@ -407,37 +405,6 @@
         color: #f0f0f0 !important;
         text-decoration: underline;
       }
-
-      /* Add RTL/LTR specific styles for footer */
-      body[dir="rtl"] .footer-content {
-        flex-direction: row;
-      }
-
-      body[dir="ltr"] .footer-content {
-        flex-direction: row;
-      }
-
-      body[dir="rtl"] .footer-logo {
-        margin-right: 8px;
-        margin-left: 0;
-      }
-
-      body[dir="ltr"] .footer-logo {
-        margin-left: 8px;
-        margin-right: 0;
-      }
-
-      body[dir="rtl"] .social-icon {
-        margin-left: 1rem;
-        margin-right: 0;
-      }
-
-      body[dir="ltr"] .social-icon {
-        margin-right: 1rem;
-        margin-left: 0;
-      }
-
-      /* Existing styles remain unchanged */
 
       /* إضافة أنماط القائمة المنسدلة */
       .menu-dropdown {
@@ -505,6 +472,94 @@
       body[dir="ltr"] .menu-item i {
         margin-left: 0;
         margin-right: 8px;
+      }
+
+      /* إضافة أنماط للشريط الجانبي حسب اتجاه اللغة */
+      body[dir="rtl"] .sidenav {
+        right: 0 !important;
+        left: auto !important;
+        margin-right: 1rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="ltr"] .sidenav {
+        left: 0 !important;
+        right: auto !important;
+        margin-left: 1rem !important;
+        margin-right: 0 !important;
+      }
+
+      /* أنماط للمحتوى الرئيسي */
+      body[dir="rtl"] .main-content {
+        margin-right: 17.125rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="ltr"] .main-content {
+        margin-left: 17.125rem !important;
+        margin-right: 0 !important;
+      }
+
+      /* أنماط للأيقونات في الشريط الجانبي */
+      body[dir="rtl"] .icon {
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+      }
+
+      body[dir="ltr"] .icon {
+        margin-right: 0.5rem !important;
+        margin-left: 0 !important;
+      }
+
+      /* تعديل الأنماط الخاصة بالشريط الجانبي عند الضغط على زر القائمة */
+      body[dir="rtl"] .g-sidenav-hidden .sidenav {
+        transform: translateX(17.125rem) !important;
+      }
+
+      body[dir="ltr"] .g-sidenav-hidden .sidenav {
+        transform: translateX(-17.125rem) !important;
+      }
+
+      /* تعديل الأنماط الخاصة بالمحتوى الرئيسي عند الضغط على زر القائمة */
+      body[dir="rtl"] .g-sidenav-hidden .main-content {
+        margin-right: 0 !important;
+      }
+
+      body[dir="ltr"] .g-sidenav-hidden .main-content {
+        margin-left: 0 !important;
+      }
+
+      /* تعديل أنماط النصوص في القائمة الجانبية */
+      body[dir="rtl"] .nav-link-text {
+        margin-right: 0.5rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="ltr"] .nav-link-text {
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+      }
+
+      /* تعديل أنماط البطاقات في الصفحة */
+      body[dir="rtl"] .profile-card,
+      body[dir="rtl"] .stats-card,
+      body[dir="rtl"] .settings-card {
+        text-align: right;
+      }
+
+      body[dir="ltr"] .profile-card,
+      body[dir="ltr"] .stats-card,
+      body[dir="ltr"] .settings-card {
+        text-align: left;
+      }
+
+      /* تعديل أنماط النماذج */
+      body[dir="rtl"] .form-label {
+        text-align: right;
+      }
+
+      body[dir="ltr"] .form-label {
+        text-align: left;
       }
     </style>
 
@@ -882,7 +937,7 @@
     </style>
   </head>
 
-  <body class="g-sidenav-show bg-gray-100">
+  <body class="g-sidenav-show bg-gray-300">
     <header id="mainHeader">
       <div style="display: flex; align-items: center; gap: 10px">
         <img
@@ -912,8 +967,10 @@
       </div>
 
       <div class="header-title text-center">
-        <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
-        <div class="title-en">
+        <div style="font-size: 1.2rem">
+          نظام إدارة المعلومات الحضرية _ مدينة حلب
+        </div>
+        <div style="font-size: 1.2rem">
           Urban Information Management System - Aleppo City
         </div>
       </div>
@@ -935,21 +992,21 @@
           aria-hidden="true"
           id="iconSidenav"
         ></i>
-        <a class="navbar-brand m-0" href="#" target="_blank">
+        <!-- <a class="navbar-brand m-0" href="#" target="_blank">
           <img
             src="../assets/img/UN_Habitat_Logo.svg"
             class="navbar-brand-img h-100"
             alt="main_logo"
           />
-        </a>
+        </a> -->
       </div>
-      <hr class="horizontal dark mt-0" />
+      <!-- <hr class="horizontal dark mt-0" /> -->
       <div
         class="collapse navbar-collapse w-auto"
         id="sidenav-collapse-main"
         style="height: auto !important"
       >
-        <ul class="navbar-nav" style="padding-bottom: 60px">
+        <ul class="navbar-nav" style="padding-bottom: 60px; padding-top: 20px">
           <li class="nav-item">
             <a class="nav-link" href="../pages/dashboard.html">
               <div
@@ -1042,7 +1099,7 @@
               <span class="nav-link-text ms-1">configuration Tables </span>
             </a>
           </li>
-        
+
           <li class="nav-item">
             <a class="nav-link" href="../pages/ManageUsers.html">
               <div
@@ -1262,27 +1319,26 @@
     <footer id="mainFooter">
       <div class="footer-content">
         <div class="copyright">
-          <span class="copyright-text"></span>
+          <!--           <span >
+            2025
+            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
+            ,Powered by
+           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+          </span> -->
+          <span >
+            2025
+            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
+            ,Powered by
+           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+          </span>
         </div>
         <div class="social-icons">
-          <a aria-label="Facebook" class="social-icon facebook" href="#"
-            ><i class="fab fa-facebook-f"></i
-          ></a>
-          <a aria-label="Twitter" class="social-icon twitter" href="#"
-            ><i class="fab fa-x-twitter"></i
-          ></a>
-          <a aria-label="Instagram" class="social-icon instagram" href="#"
-            ><i class="fab fa-instagram"></i
-          ></a>
-          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
-            ><i class="fab fa-linkedin-in"></i
-          ></a>
-          <a
-            aria-label="WhatsApp"
-            class="social-icon whatsapp"
-            href="https://wa.me/966501234567"
-            ><i class="fab fa-whatsapp"></i
-          ></a>
+          <a aria-label="Facebook" class="social-icon facebook" href="#"><i class="fab fa-facebook-f"></i></a>
+          <a aria-label="Twitter" class="social-icon twitter" href="#"><i class="fab fa-x-twitter"></i></a>
+          <a aria-label="Instagram" class="social-icon instagram" href="#"><i class="fab fa-instagram"></i></a>
+          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a aria-label="WhatsApp" class="social-icon whatsapp" href="https://wa.me/966501234567"><i
+              class="fab fa-whatsapp"></i></a>
         </div>
       </div>
     </footer>
@@ -1344,8 +1400,8 @@
           constructionStatus: "الوضع الإنشائي",
           educationStatus: "الوضع التعليمي",
           healthStatus: "الوضع الصحي",
-          footerText: "© 2025، جميع الحقوق محفوظة،",
-          companyName: "دار التقنية الحديثة",
+          footerText: "© 2025، Powered by ،",
+          companyName: "HI-Tech House",
           // Profile section translations
           updatePhoto: "تحديث الصورة",
           activeProjects: "مشاريع نشطة",
@@ -1361,7 +1417,7 @@
           saveChanges: "حفظ التغييرات",
           // Menu translations
           settingsText: "الإعدادات",
-          logoutText: "تسجيل الخروج"
+          logoutText: "تسجيل الخروج",
         },
         en: {
           dir: "ltr",
@@ -1379,7 +1435,7 @@
           constructionStatus: "Construction Status",
           educationStatus: "Education Status",
           healthStatus: "Health Status",
-          footerText: "© 2025, All rights reserved,",
+          footerText: "© 2025, Powerd by,",
           companyName: "Hi-Tech House",
           // Profile section translations
           updatePhoto: "Update Photo",
@@ -1396,7 +1452,7 @@
           saveChanges: "Save Changes",
           // Menu translations
           settingsText: "Settings",
-          logoutText: "Logout"
+          logoutText: "Logout",
         },
       };
 
@@ -1406,47 +1462,31 @@
         currentLang = lang;
         const t = translations[lang];
 
-        // Update document direction
+        // تحديث اتجاه المستند
         document.documentElement.lang = lang;
         document.documentElement.dir = t.dir;
+        document.body.dir = t.dir;
 
-        // Update header titles visibility
+        // تحديث عناوين الهيدر
         const titleAr = document.querySelector(".title-ar");
         const titleEn = document.querySelector(".title-en");
         if (titleAr) titleAr.style.display = lang === "ar" ? "block" : "none";
         if (titleEn) titleEn.style.display = lang === "en" ? "block" : "none";
 
-        // Update sidebar/menu text
+        // تحديث نصوص القائمة الجانبية
         const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
         if (navTexts[0]) navTexts[0].textContent = t.dashboard;
         if (navTexts[1]) navTexts[1].textContent = t.configTables;
         if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
         if (navTexts[3]) navTexts[3].textContent = t.profile;
 
-        // Update main cards
-        const cardTitles = document.querySelectorAll(".card-title");
-        if (cardTitles[0]) cardTitles[0].textContent = t.families;
-        if (cardTitles[1]) cardTitles[1].textContent = t.validBuildings;
-        if (cardTitles[2]) cardTitles[2].textContent = t.residentialBuildings;
-        if (cardTitles[3]) cardTitles[3].textContent = t.threatened;
+        // تحديث نصوص القائمة المنسدلة
+        const settingsText = document.getElementById("settingsText");
+        const logoutText = document.getElementById("logoutText");
+        if (settingsText) settingsText.textContent = t.settingsText;
+        if (logoutText) logoutText.textContent = t.logoutText;
 
-        // Update chart card titles
-        const chartTitles = document.querySelectorAll(
-          "h5.card-title.text-center"
-        );
-        if (chartTitles[0]) chartTitles[0].textContent = t.constructionStatus;
-        if (chartTitles[1]) chartTitles[1].textContent = t.educationStatus;
-        if (chartTitles[2]) chartTitles[2].textContent = t.healthStatus;
-
-        // Update footer text
-        const footerText = document.querySelector(".copyright-text");
-        if (footerText) {
-          const companyLink = `<a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">${t.companyName}</a>`;
-          const companyLogo = `<img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />`;
-          footerText.innerHTML = `${t.footerText} ${companyLink} ${companyLogo}`;
-        }
-
-        // Update profile section
+        // تحديث نصوص البطاقات
         const updatePhotoBtn = document.querySelector(".profile-card .btn");
         if (updatePhotoBtn) updatePhotoBtn.textContent = t.updatePhoto;
 
@@ -1458,6 +1498,7 @@
         const settingsTitle = document.querySelector(".settings-card h6");
         if (settingsTitle) settingsTitle.textContent = t.accountSettings;
 
+        // تحديث نصوص النموذج
         const formLabels = document.querySelectorAll(
           ".settings-card .form-label"
         );
@@ -1478,6 +1519,18 @@
           ".settings-card .btn-success"
         );
         if (saveButton) saveButton.textContent = t.saveChanges;
+
+        // تحديث اتجاه الأيقونات في القائمة المنسدلة
+        const menuItems = document.querySelectorAll(".menu-item i");
+        menuItems.forEach((item) => {
+          if (lang === "rtl") {
+            item.style.marginLeft = "8px";
+            item.style.marginRight = "0";
+          } else {
+            item.style.marginRight = "8px";
+            item.style.marginLeft = "0";
+          }
+        });
       }
 
       function toggleLanguage() {
@@ -1519,7 +1572,7 @@
         }
 
         // Test script to verify language switching
-        switchLanguage("en");
+        switchLanguage("ar");
       });
 
       // إضافة وظائف القائمة المنسدلة

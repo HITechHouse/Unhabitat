@@ -79,8 +79,8 @@
         flex: 1;
         text-align: center;
         font-weight: bold;
-        font-size: 1.4rem;
-        line-height: 1.4;
+        font-size: 1.2rem;
+        line-height: 1.2;
       }
 
       .header-logos {
@@ -91,14 +91,14 @@
       }
 
       .title-ar {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         line-height: 1.2;
         font-weight: bold;
         white-space: normal;
       }
 
       .title-en {
-        font-size: 0.95rem;
+        font-size: 1.2rem !important;
         line-height: 1.2;
         font-weight: bold;
         white-space: normal;
@@ -244,6 +244,88 @@
       body {
         background-color: #f8f9fa;
         font-family: "Cairo", sans-serif;
+      }
+
+      /* إضافة أنماط للشريط الجانبي حسب اتجاه اللغة */
+      body[dir="rtl"] .sidenav {
+        right: 0 !important;
+        left: auto !important;
+        margin-right: 1rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="rtl"] .main-content {
+        margin-right: 17.125rem !important;
+        margin-left: 0 !important;
+      }
+
+      body[dir="ltr"] .sidenav {
+        left: 0 !important;
+        right: auto !important;
+        margin-left: 1rem !important;
+        margin-right: 0 !important;
+      }
+
+      body[dir="ltr"] .main-content {
+        margin-left: 17.125rem !important;
+        margin-right: 0 !important;
+      }
+
+      /* تعديل الأنماط الخاصة بالشريط الجانبي */
+      .sidenav {
+        position: fixed;
+        top: 60px; /* لترك مساحة للهيدر */
+        width: 15.625rem;
+        height: calc(
+          100vh - 120px
+        ); /* ارتفاع الشاشة ناقص ارتفاع الهيدر والفوتر */
+        transition: all 0.3s ease;
+      }
+
+      /* تعديل الأنماط الخاصة بالمحتوى الرئيسي */
+      .main-content {
+        transition: all 0.3s ease;
+        padding-top: 60px; /* لترك مساحة للهيدر */
+      }
+
+      /* إضافة أنماط للأيقونات في الشريط الجانبي حسب اتجاه اللغة */
+      body[dir="rtl"] .icon {
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+      }
+
+      body[dir="rtl"] .nav-link-text {
+        margin-right: 0.5rem !important;
+        margin-left: 0 !important;
+      }
+
+      /* تعديل الأنماط الخاصة بالأيقونات في الشريط الجانبي */
+      body[dir="rtl"] .me-2 {
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+      }
+
+      body[dir="rtl"] .ms-1 {
+        margin-right: 0.25rem !important;
+        margin-left: 0 !important;
+      }
+
+      /* تعديل الأنماط الخاصة بالشريط الجانبي عند الضغط على زر القائمة */
+      body[dir="rtl"] .g-sidenav-hidden .sidenav {
+        transform: translateX(17.125rem) !important;
+      }
+
+      body[dir="ltr"] .g-sidenav-hidden .sidenav {
+        transform: translateX(-17.125rem) !important;
+      }
+
+      /* تعديل الأنماط الخاصة بالمحتوى الرئيسي عند الضغط على زر القائمة */
+      body[dir="rtl"] .g-sidenav-hidden .main-content {
+        margin-right: 0 !important;
+      }
+
+      body[dir="ltr"] .g-sidenav-hidden .main-content {
+        margin-left: 0 !important;
       }
 
       /* Add menu dropdown styles */
@@ -448,11 +530,41 @@
         margin-left: 0;
       }
 
-      /* Existing styles remain unchanged */
+      #mainFooter,
+      #mainHeader,
+      #mainFooter .footer-content,
+      #mainFooter .copyright,
+      #mainFooter .social-icons {
+        direction: rtl !important;
+        font-size: 14px;
+        font-family: "Cairo", sans-serif !important;
+      }
+
+      #mainFooter .copyright {
+        position: absolute !important;
+        right: 20px !important;
+        left: auto !important;
+      }
+
+      #mainFooter .social-icons {
+        position: absolute !important;
+        left: 20px !important;
+        right: auto !important;
+      }
+
+      #mainFooter .social-icon {
+        margin-left: 1rem !important;
+        margin-right: 0 !important;
+      }
+
+      #mainFooter .footer-logo {
+        margin-right: 8px !important;
+        margin-left: 0 !important;
+      }
     </style>
   </head>
 
-  <body class="g-sidenav-show bg-gray-100">
+  <body dir="ltr" class="g-sidenav-show bg-gray-300">
     <!-- New Header -->
     <header id="mainHeader">
       <div style="display: flex; align-items: center; gap: 10px">
@@ -483,8 +595,10 @@
       </div>
 
       <div class="header-title text-center">
+
+
         <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
-        <div class="title-en">
+        <div class="title-ar">
           Urban Information Management System - Aleppo City
         </div>
       </div>
@@ -506,21 +620,20 @@
           aria-hidden="true"
           id="iconSidenav"
         ></i>
-        <a class="navbar-brand m-0" href="#" target="_blank">
+        <!-- <a class="navbar-brand m-0" href="#" target="_blank">
           <img
             src="../assets/img/UN_Habitat_Logo.svg"
             class="navbar-brand-img h-100"
             alt="main_logo"
           />
-        </a>
+        </a> -->
       </div>
-      <hr class="horizontal dark mt-0" />
       <div
         class="collapse navbar-collapse w-auto"
         id="sidenav-collapse-main"
         style="height: auto !important"
       >
-        <ul class="navbar-nav" style="padding-bottom: 60px">
+        <ul class="navbar-nav" style="padding-bottom: 60px; padding-top: 20px">
           <li class="nav-item">
             <a class="nav-link active" href="../pages/dashboard.html">
               <div
@@ -562,7 +675,9 @@
                   </g>
                 </svg>
               </div>
-              <span class="nav-link-text ms-1">Dashboard</span>
+              <span class="nav-link-text ms-1" id="dashboardNavText"
+                >Dashboard</span
+              >
             </a>
           </li>
 
@@ -610,10 +725,55 @@
                   </g>
                 </svg>
               </div>
-              <span class="nav-link-text ms-1">configuration Tables </span>
+              <span class="nav-link-text ms-1" id="configTablesNavText"
+                >configuration Tables
+              </span>
             </a>
           </li>
-         
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="../pages/maps/index.html">
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+              >
+                <svg
+                  width="12px"
+                  height="12px"
+                  viewBox="0 0 43 36"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                  <title>credit-card</title>
+                  <g
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      transform="translate(-2169.000000, -745.000000)"
+                      fill="#FFFFFF"
+                      fill-rule="nonzero"
+                    >
+                      <g transform="translate(1716.000000, 291.000000)">
+                        <g transform="translate(453.000000, 454.000000)">
+                          <path
+                            class="color-background opacity-6"
+                            d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
+                          ></path>
+                          <path
+                            class="color-background"
+                            d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"
+                          ></path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <span class="nav-link-text ms-1" id="mapsNavText">Maps</span>
+            </a>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" href="../pages/ManageUsers.html">
               <div
@@ -659,7 +819,9 @@
                   </g>
                 </svg>
               </div>
-              <span class="nav-link-text ms-1">Manage users</span>
+              <span class="nav-link-text ms-1" id="manageUsersNavText"
+                >Manage users</span
+              >
             </a>
           </li>
 
@@ -708,7 +870,9 @@
                   </g>
                 </svg>
               </div>
-              <span class="nav-link-text ms-1">Profile</span>
+              <span class="nav-link-text ms-1" id="profileNavText"
+                >Profile</span
+              >
             </a>
           </li>
         </ul>
@@ -1242,33 +1406,34 @@
         </div>
       </div>
     </main>
+
     <footer id="mainFooter">
       <div class="footer-content">
         <div class="copyright">
-          <span class="copyright-text"></span>
+          <!--           <span >
+            2025
+            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
+            ,Powered by
+           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+          </span> -->
+          <span >
+            2025
+            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
+            ,Powered by
+           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+          </span>
         </div>
         <div class="social-icons">
-          <a aria-label="Facebook" class="social-icon facebook" href="#"
-            ><i class="fab fa-facebook-f"></i
-          ></a>
-          <a aria-label="Twitter" class="social-icon twitter" href="#"
-            ><i class="fab fa-x-twitter"></i
-          ></a>
-          <a aria-label="Instagram" class="social-icon instagram" href="#"
-            ><i class="fab fa-instagram"></i
-          ></a>
-          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
-            ><i class="fab fa-linkedin-in"></i
-          ></a>
-          <a
-            aria-label="WhatsApp"
-            class="social-icon whatsapp"
-            href="https://wa.me/966501234567"
-            ><i class="fab fa-whatsapp"></i
-          ></a>
+          <a aria-label="Facebook" class="social-icon facebook" href="#"><i class="fab fa-facebook-f"></i></a>
+          <a aria-label="Twitter" class="social-icon twitter" href="#"><i class="fab fa-x-twitter"></i></a>
+          <a aria-label="Instagram" class="social-icon instagram" href="#"><i class="fab fa-instagram"></i></a>
+          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a aria-label="WhatsApp" class="social-icon whatsapp" href="https://wa.me/966501234567"><i
+              class="fab fa-whatsapp"></i></a>
         </div>
       </div>
     </footer>
+
     <div class="fixed-plugin">
       <a
         class="fixed-plugin-button text-dark position-fixed px-3 py-2"
@@ -1613,8 +1778,8 @@
           constructionStatus: "الوضع الإنشائي",
           educationStatus: "الوضع التعليمي",
           healthStatus: "الوضع الصحي",
-          footerText: "© 2025، جميع الحقوق محفوظة،",
-          companyName: "دار التقنية الحديثة",
+          footerText: "© 2025، Powered by ،",
+          companyName: "HI-Tech House",
           settingsText: "الإعدادات",
           logoutText: "تسجيل الخروج",
           projectsOverview: "نظرة عامة على المشاريع",
@@ -1630,7 +1795,31 @@
           budget: "الميزانية",
           status: "الحالة",
           projectOrders: "طلبات المشاريع",
-          thisMonth: "هذا الشهر"
+          thisMonth: "هذا الشهر",
+          // إضافة الترجمات المفقودة
+          project1: "المشروع 1",
+          project2: "المشروع 2",
+          project3: "المشروع 3",
+          project4: "المشروع 4",
+          project5: "المشروع 5",
+          project6: "المشروع 6",
+          food: "غذاء",
+          health: "صحة",
+          clothingAndHousing: "ملابس ومساعدات سكنية",
+          housingAndAccommodation: "سكن وإقامة",
+          education: "تعليم",
+          psychologicalSupport: "دعم نفسي وأسري",
+          notSet: "غير محدد",
+          dashboardGuide: "إرشادات لكيفية الاستخدام",
+          seeOptions: "انظر خيارات لوحة التحكم",
+          modifyDisplay: "تعديل الإظهارات",
+          sidenavType: "نوع القائمة الجانبية",
+          chooseType: "اختر بين نوعين مختلفين من القائمة الجانبية",
+          transparent: "شفاف",
+          white: "أبيض",
+          desktopOnly: "يمكنك تغيير نوع القائمة الجانبية فقط في عرض سطح المكتب",
+          navbarFixed: "تثبيت شريط التنقل",
+          viewDocumentation: "عرض التوثيق",
         },
         en: {
           dir: "ltr",
@@ -1648,7 +1837,7 @@
           constructionStatus: "Construction Status",
           educationStatus: "Education Status",
           healthStatus: "Health Status",
-          footerText: "© 2025, All rights reserved,",
+          footerText: "© 2025, Powerd by,",
           companyName: "Hi-Tech House",
           settingsText: "Settings",
           logoutText: "Logout",
@@ -1665,13 +1854,49 @@
           budget: "BUDGET",
           status: "STATUS",
           projectOrders: "Projects Orders overview",
-          thisMonth: "this month"
-        }
+          thisMonth: "this month",
+          // Adding missing translations
+          project1: "Project 1",
+          project2: "Project 2",
+          project3: "Project 3",
+          project4: "Project 4",
+          project5: "Project 5",
+          project6: "Project 6",
+          food: "Food",
+          health: "Health",
+          clothingAndHousing: "Clothing and housing benefits",
+          housingAndAccommodation: "Housing and accommodation",
+          education: "Education",
+          psychologicalSupport: "Psychological and family support",
+          notSet: "Not set",
+          dashboardGuide: "Usage Guide",
+          seeOptions: "See our dashboard options",
+          modifyDisplay: "Modify Display",
+          sidenavType: "Sidenav Type",
+          chooseType: "Choose between 2 different sidenav types",
+          transparent: "Transparent",
+          white: "White",
+          desktopOnly: "You can change the sidenav type just on desktop view",
+          navbarFixed: "Navbar Fixed",
+          viewDocumentation: "View documentation",
+        },
       };
 
       let currentLang = "en";
 
       function switchLanguage(lang) {
+        const body = document.body;
+
+        // الحصول على قيمة الاتجاه الحالية
+        const currentDir = body.getAttribute("dir");
+
+        // تبديل الاتجاه
+        if (currentDir === "rtl") {
+          body.setAttribute("dir", "ltr");
+        } else {
+          body.setAttribute("dir", "rtl");
+        }
+
         currentLang = lang;
         const t = translations[lang];
 
@@ -1679,32 +1904,34 @@
         document.documentElement.lang = lang;
         document.documentElement.dir = t.dir;
 
-        // Update header titles visibility
-        const titleAr = document.querySelector(".title-ar");
-        const titleEn = document.querySelector(".title-en");
-        if (titleAr) titleAr.style.display = lang === "ar" ? "block" : "none";
-        if (titleEn) titleEn.style.display = lang === "en" ? "block" : "none";
+        // Update all text elements with their translations
+        const elements = {
+          dashboardNavText: t.dashboard,
+          configTablesNavText: t.configTables,
+          mapsNavText: t.maps,
+          manageUsersNavText: t.manageUsers,
+          profileNavText: t.profile,
+          settingsText: t.settingsText,
+          logoutText: t.logoutText,
+        };
 
-        // Update sidebar/menu text
-        const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
-        if (navTexts[0]) navTexts[0].textContent = t.dashboard;
-        if (navTexts[1]) navTexts[1].textContent = t.configTables;
-        if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
-        if (navTexts[3]) navTexts[3].textContent = t.profile;
+        // Update elements by ID
+        Object.entries(elements).forEach(([id, text]) => {
+          const element = document.getElementById(id);
+          if (element) element.textContent = text;
+        });
 
-        // Update menu items text
-        document.getElementById("settingsText").textContent = t.settingsText;
-        document.getElementById("logoutText").textContent = t.logoutText;
-
-        // Update main cards
+        // Update card titles
         const cardTitles = document.querySelectorAll(".card-title");
         if (cardTitles[0]) cardTitles[0].textContent = t.families;
         if (cardTitles[1]) cardTitles[1].textContent = t.validBuildings;
         if (cardTitles[2]) cardTitles[2].textContent = t.residentialBuildings;
         if (cardTitles[3]) cardTitles[3].textContent = t.threatened;
 
-        // Update chart card titles
-        const chartTitles = document.querySelectorAll("h5.card-title.text-center");
+        // Update chart titles
+        const chartTitles = document.querySelectorAll(
+          "h5.card-title.text-center"
+        );
         if (chartTitles[0]) chartTitles[0].textContent = t.constructionStatus;
         if (chartTitles[1]) chartTitles[1].textContent = t.educationStatus;
         if (chartTitles[2]) chartTitles[2].textContent = t.healthStatus;
@@ -1717,10 +1944,13 @@
         if (moreIn2024) moreIn2024.textContent = t.moreIn2024;
 
         const projectCompletion = document.querySelector(".card-header .mb-0");
-        if (projectCompletion) projectCompletion.textContent = t.projectCompletion;
+        if (projectCompletion)
+          projectCompletion.textContent = t.projectCompletion;
 
         // Update project list items
-        const projectItems = document.querySelectorAll(".list-group-item .text-sm.font-weight-bold.text-dark");
+        const projectItems = document.querySelectorAll(
+          ".list-group-item .text-sm.font-weight-bold.text-dark"
+        );
         if (projectItems[0]) projectItems[0].textContent = t.foodProjects;
         if (projectItems[1]) projectItems[1].textContent = t.healthProjects;
         if (projectItems[2]) projectItems[2].textContent = t.clothingProjects;
@@ -1733,18 +1963,84 @@
         const projectsTitle = document.querySelector(".card-header h6.mb-0");
         if (projectsTitle) projectsTitle.textContent = t.projects;
 
+        // Update table headers
         const tableHeaders = document.querySelectorAll("th.text-uppercase");
         if (tableHeaders[0]) tableHeaders[0].textContent = t.projectName;
         if (tableHeaders[1]) tableHeaders[1].textContent = t.type;
         if (tableHeaders[2]) tableHeaders[2].textContent = t.budget;
         if (tableHeaders[3]) tableHeaders[3].textContent = t.status;
 
-        // Update project orders section
-        const projectOrders = document.querySelector(".card-header h6");
-        if (projectOrders) projectOrders.textContent = t.projectOrders;
+        // Update project names in table
+        const projectNames = document.querySelectorAll(
+          "tbody tr td:first-child span"
+        );
+        if (projectNames[0]) projectNames[0].textContent = t.project1;
+        if (projectNames[1]) projectNames[1].textContent = t.project2;
+        if (projectNames[2]) projectNames[2].textContent = t.project3;
+        if (projectNames[3]) projectNames[3].textContent = t.project4;
+        if (projectNames[4]) projectNames[4].textContent = t.project5;
+        if (projectNames[5]) projectNames[5].textContent = t.project6;
 
-        const thisMonthText = document.querySelector(".text-sm .font-weight-bold");
-        if (thisMonthText) thisMonthText.textContent = t.thisMonth;
+        // Update project types in table
+        const projectTypes = document.querySelectorAll(
+          "tbody tr td:nth-child(2) span"
+        );
+        if (projectTypes[0]) projectTypes[0].textContent = t.food;
+        if (projectTypes[1]) projectTypes[1].textContent = t.health;
+        if (projectTypes[2]) projectTypes[2].textContent = t.clothingAndHousing;
+        if (projectTypes[3])
+          projectTypes[3].textContent = t.housingAndAccommodation;
+        if (projectTypes[4]) projectTypes[4].textContent = t.education;
+        if (projectTypes[5])
+          projectTypes[5].textContent = t.psychologicalSupport;
+
+        // Update "Not set" text
+        const notSetElements = document.querySelectorAll(
+          "tbody tr td:nth-child(3) span"
+        );
+        notSetElements.forEach((element) => {
+          if (
+            element.textContent === "Not set" ||
+            element.textContent === "غير محدد"
+          ) {
+            element.textContent = t.notSet;
+          }
+        });
+
+        // Update dashboard guide section
+        const guideTitle = document.querySelector(".mt-3.mb-0");
+        if (guideTitle) guideTitle.textContent = t.dashboardGuide;
+
+        const seeOptions = document.querySelector(".card-header p");
+        if (seeOptions) seeOptions.textContent = t.seeOptions;
+
+        const modifyDisplay = document.querySelector(".mb-0");
+        if (modifyDisplay) modifyDisplay.textContent = t.modifyDisplay;
+
+        const sidenavType = document.querySelector(".mt-3 .mb-0");
+        if (sidenavType) sidenavType.textContent = t.sidenavType;
+
+        const chooseType = document.querySelector(".text-sm");
+        if (chooseType) chooseType.textContent = t.chooseType;
+
+        const transparentBtn = document.querySelector(
+          ".btn-primary[data-class='bg-transparent']"
+        );
+        if (transparentBtn) transparentBtn.textContent = t.transparent;
+
+        const whiteBtn = document.querySelector(
+          ".btn-primary[data-class='bg-white']"
+        );
+        if (whiteBtn) whiteBtn.textContent = t.white;
+
+        const desktopOnly = document.querySelector(".text-sm.d-xl-none");
+        if (desktopOnly) desktopOnly.textContent = t.desktopOnly;
+
+        const navbarFixed = document.querySelector(".mt-3 .mb-0:last-child");
+        if (navbarFixed) navbarFixed.textContent = t.navbarFixed;
+
+        const viewDoc = document.querySelector(".btn-outline-dark");
+        if (viewDoc) viewDoc.textContent = t.viewDocumentation;
 
         // Update footer text
         const footerText = document.querySelector(".copyright-text");
@@ -1753,6 +2049,20 @@
           const companyLogo = `<img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />`;
           footerText.innerHTML = `${t.footerText} ${companyLink} ${companyLogo}`;
         }
+
+        // Update timeline event titles
+        const timelineTitles = document.querySelectorAll(
+          ".timeline-content h6"
+        );
+        if (timelineTitles[0]) timelineTitles[0].textContent = t.food;
+        if (timelineTitles[1]) timelineTitles[1].textContent = t.health;
+        if (timelineTitles[2])
+          timelineTitles[2].textContent = t.clothingAndHousing;
+        if (timelineTitles[3])
+          timelineTitles[3].textContent = t.housingAndAccommodation;
+        if (timelineTitles[4]) timelineTitles[4].textContent = t.education;
+        if (timelineTitles[5])
+          timelineTitles[5].textContent = t.psychologicalSupport;
       }
 
       function toggleLanguage() {
@@ -1777,10 +2087,10 @@
       }
 
       // Close menu when clicking outside
-      document.addEventListener("click", function(e) {
+      document.addEventListener("click", function (e) {
         const menu = document.getElementById("menuDropdown");
         const menuBtn = document.getElementById("menuToggleBtn");
-        
+
         if (menu && menuBtn) {
           if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
             menu.style.display = "none";
@@ -1789,14 +2099,14 @@
       });
 
       // Initial language setup
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         // Set initial language to English
-        switchLanguage("en");
+        switchLanguage("ar");
 
         // Add click event listener to the language toggle button
         const langToggleBtn = document.getElementById("langToggleBtn");
         if (langToggleBtn) {
-          langToggleBtn.addEventListener("click", function(e) {
+          langToggleBtn.addEventListener("click", function (e) {
             e.preventDefault();
             e.stopPropagation();
             toggleLanguage();

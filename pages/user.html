@@ -2,471 +2,194 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>user</title>
+    <title>Admin Dashboard</title>
     <link
       rel="shortcut icon"
       href="../assets/img/UN_Habitat_Icon.svg"
       type="image/x-icon"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Font Awesome -->
+    <!-- External Font Awesome CSS -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+    <!-- External Swiper CSS -->
     <link
       rel="stylesheet"
       href="https://unpkg.com/swiper/swiper-bundle.min.css"
     />
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- External Google Fonts: Material Icons, Inter, Tajawal -->
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- External Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
     <style>
-      /* General Styles */
+      /* General Page Styles */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Cairo", sans-serif;
+        font-family: "Tajawal", "Inter", sans-serif;
       }
 
       html,
       body {
-        height: 100%;
+        height: 100%; /* Ensure html and body take full height */
       }
 
       body {
         display: flex;
         flex-direction: column;
-        background-color: #f9f9f9;
         color: #333;
         line-height: 1.6;
+        font-family: "Tajawal", "Inter", sans-serif; /* Default font stack */
+        height: 100vh; /* Full viewport height */
+        overflow: hidden; /* Prevent body scroll, main content will scroll if needed */
       }
 
-      /* Layout Structure */
+      /* Background image with blur effect */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../assets/img/aleppo.png");
+        background-size: cover;
+        background-position: center;
+        z-index: -1; /* Behind all other content */
+        filter: blur(1px); /* Blur effect */
+      }
+
+      /* Consistent Arabic font styling - excluding icon elements */
+      :lang(ar):not(i):not([class*="fa-"]),
+      [lang="ar"]:not(i):not([class*="fa-"]),
+      .arabic-text:not(i):not([class*="fa-"]),
+      .copyright-text:not(i):not([class*="fa-"]),
+      .btn:not(i):not([class*="fa-"]),
+      label:not(i):not([class*="fa-"]),
+      input:not(i):not([class*="fa-"]),
+      .header-title div:not(i):not([class*="fa-"]) {
+        font-family: "Tajawal", sans-serif !important; /* Prioritize Tajawal for Arabic */
+      }
+
+      /* Font consistency for LTR (English) mode, excluding icons */
+      body[dir="ltr"]
+        *:not(i):not([class*="fa-"]):not(.fa):not(.fab):not(.fas):not(.far) {
+        font-family: "Tajawal", "Inter", sans-serif !important; /* Maintain base font stack for LTR */
+      }
+
+      /* Ensure Font Awesome icons display correctly */
+      .fa,
+      .fas,
+      .far,
+      .fab,
+      [class*="fa-"] {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+      }
+
+      /* Layout Structure: Header, Main Content, Footer */
       #mainHeader {
-        flex-shrink: 0;
+        flex-shrink: 0; /* Prevent header from shrinking */
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: #007bff;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4px 16px;
+        height: 50px; /* Fixed header height */
+        box-sizing: border-box;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        direction: rtl !important; /* Force RTL for header */
       }
 
       #mainContent {
-        flex: 1;
-        overflow-y: auto;
-        margin-top: 60px;
-        /* نفس ارتفاع الهيدر */
-        margin-bottom: 60px;
-        /* نفس ارتفاع الفوتر */
-      }
-
-      #mainFooter {
-        flex-shrink: 0;
-      }
-
-      /* Header Styles */
-      #mainHeader {
-        position: fixed;
-        top: 0;
+        flex: 1; /* Allow main content to grow and fill available space */
         width: 100%;
-        z-index: 1000;
-        background-color: #007bff;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
-        box-sizing: border-box;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .header-title-container {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        flex-grow: 1;
-        justify-content: center;
-      }
-
-      .language-switcher {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-      }
-
-      .language-switcher img {
-        width: 28px;
-        height: 18px;
-        object-fit: cover;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 3px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .language-switcher img:hover {
-        transform: scale(1.15);
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-      }
-
-      .logo-col {
-        width: 40px;
-      }
-
-      .account-col {
-        min-width: 120px;
-        display: flex;
-        justify-content: flex-end;
-      }
-
-      /* Main Content Styles */
-      .hero {
-        padding: 4rem 1rem;
-        text-align: center;
-        color: #fff;
-        background-color: #1e293b;
-      }
-
-      .hero-title {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .hero-subtitle {
-        font-size: 1.2rem;
-        margin-bottom: 2rem;
-      }
-
-      .btn {
-        padding: 0.75rem 1.5rem;
-        border-radius: 5px;
-        text-decoration: none;
-        color: #fff;
-        font-weight: 600;
-        transition: background-color 0.3s ease;
-      }
-
-      .btn-primary {
-        background-color: #3498db;
-      }
-
-      .btn-secondary {
-        background-color: #e74c3c;
-      }
-
-      .btn:hover {
-        opacity: 0.9;
-      }
-
-      /* Features Section */
-      .features {
-        padding: 4rem 1rem;
-        background-color: #fff;
-      }
-
-      .section-title {
-        text-align: center;
-        font-size: 2rem;
-        margin-bottom: 2rem;
-        color: #2c3e50;
-      }
-
-      .feature-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 2rem;
-      }
-
-      .feature-card {
-        background-color: #ecf0f1;
-        padding: 1.5rem;
-        border-radius: 10px;
-        text-align: center;
-        transition: transform 0.3s ease;
-      }
-
-      .feature-card:hover {
-        transform: translateY(-10px);
-      }
-
-      .feature-icon {
-        font-size: 2rem;
-        color: #3498db;
-        margin-bottom: 1rem;
-      }
-
-      .feature-title {
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
-        color: #2c3e50;
-      }
-
-      .feature-description {
-        font-size: 0.9rem;
-        color: #555;
-      }
-
-      /* Carousel Section */
-      .custom-carousel-section {
-        padding: 3rem 1rem;
-        background: #f5f7fa;
-        text-align: center;
-      }
-
-      .custom-carousel {
-        overflow: hidden;
         position: relative;
-        max-width: 100%;
-        margin: auto;
-        border-radius: 12px;
-        direction: ltr;
+        margin-top: 50px; /* Space for fixed header */
+        margin-bottom: 50px; /* Space for fixed footer */
+        height: calc(
+          100vh - 100px
+        ); /* Full viewport height minus header and footer */
+        overflow: hidden; /* Swiper will handle its own overflow/scrolling */
+        padding: 0;
       }
 
-      .carousel-track {
-        display: flex;
-        gap: 1rem;
-        animation: scrollLoop 40s linear infinite;
-      }
-
-      .carousel-track img {
-        width: 300px;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 12px;
-        flex-shrink: 0;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      @keyframes scrollLoop {
-        0% {
-          transform: translateX(0%);
-        }
-
-        100% {
-          transform: translateX(-50%);
-        }
-      }
-
-      /* Footer Styles */
       #mainFooter {
+        flex-shrink: 0; /* Prevent footer from shrinking */
         position: fixed;
         bottom: 0;
         width: 100%;
         z-index: 1000;
         background-color: #3066ff;
         padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
+        height: 50px; /* Fixed footer height */
         box-sizing: border-box;
         display: flex;
         align-items: center;
+        direction: rtl !important; /* Force RTL for footer */
       }
 
-      .a {
-        color: #222e3a;
-      }
-
-      .footer-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 1rem;
-      }
-
-      .social-icon {
-        color: #fff;
-        font-size: 1.2rem;
-        margin-left: 1rem;
-        transition: color 0.3s ease;
-      }
-
-      .social-icon:hover {
-        color: #3498db;
-      }
-
-      /* Account Dropdown */
-      .account-icon {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-      }
-
-      .dropdown {
-        display: none;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background: white;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-      }
-
-      .dropdown a {
-        display: block;
-        padding: 10px 15px;
-        text-decoration: none;
-        color: #333;
-      }
-
-      .dropdown a:hover {
-        background-color: #f8f9fa;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .header-title-container {
-          flex-direction: column;
-          gap: 5px;
-        }
-
-        .hero-title {
-          font-size: 2rem;
-        }
-
-        .hero-subtitle {
-          font-size: 1rem;
-        }
-
-        .account-name {
-          display: none;
-        }
-      }
-    </style>
-
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Inter", sans-serif;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
-
-      #mainHeader {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        background-color: #007bff;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-      }
-
+      /* Header Elements */
       .header-logo {
+        /* General logo style in header */
         height: 40px;
         width: 40px;
         border-radius: 50%;
         border: 2px solid rgba(255, 255, 255, 0.7);
-        object-fit: contain;
-      }
-
-      .header-title {
-        flex: 1;
-        text-align: center;
-        font-weight: bold;
-        font-size: 1rem;
-        line-height: 1.2;
-      }
-
-      #mainFooter {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        z-index: 1000;
-        background-color: #3066ff;
-        padding: 0.5rem 1rem;
-      }
-
-      #scrollableContent {
-        flex: 1;
-        overflow-y: auto;
-        margin-top: 70px;
-        /* ارتفاع الهيدر */
-        margin-bottom: 70px;
-        /* ارتفاع الفوتر */
-        padding: 20px;
-      }
-
-      .card {
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 16px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        padding: 2rem;
-        border-color: black;
-        border-width: thick;
-      }
-
-      .nav-tabs .nav-link {
-        font-weight: bold;
-        color: #495057;
-        border-radius: 12px 12px 0 0;
-        border: none;
-        background: #e3f2fd;
-        margin-right: 5px;
-        transition: all 0.3s ease;
-      }
-
-      .nav-tabs .nav-link.active {
-        background: #0d6efd;
-        color: white;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .form-control,
-      .btn {
-        border-radius: 10px;
+        object-fit: contain; /* Ensure logo fits well */
       }
 
       .header-logos {
+        /* Container for multiple logos */
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 5px;
-      }
-
-      .header-logos img {
-        height: 40px;
-        width: 40px;
-        object-fit: contain;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.7);
+        gap: 12px; /* Space between logos */
+        padding: 5px; /* Padding around logos container */
       }
 
       .header-title {
+        /* Main title in header */
+        flex: 1; /* Allow title to take available space */
         text-align: center;
-        flex: 1;
+        font-weight: bold;
+        font-size: 1rem; /* Base font size */
+        line-height: 1.2;
       }
 
       .title-ar {
-        font-size: 1.8rem;
-        line-height: 1.4;
-        font-weight: bold;
-        white-space: normal;
+        /* Arabic title specific style */
+        font-size: 1.2rem; /* Adjusted for better fit from original inline */
+        font-family: "Tajawal", sans-serif !important;
+        white-space: normal; /* Allow wrapping */
       }
 
       .title-en {
-        font-size: 1.2rem;
-        line-height: 1.4;
-        font-weight: bold;
-        white-space: normal;
+        /* English title specific style */
+        font-size: 1.2rem; /* Adjusted for better fit from original inline */
+        font-family: "Tajawal", "Inter", sans-serif !important; /* Keep Inter for English part if desired */
+        white-space: normal; /* Allow wrapping */
       }
 
-      @media (max-width: 768px) {
-        .title-en {
-          display: none;
-        }
-      }
-
+      /* Language Dropdown/Toggle */
       .language-dropdown {
         position: relative;
         display: flex;
@@ -496,831 +219,10 @@
         background: rgba(255, 255, 255, 0.32);
         border-color: #fff;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-        color: #007bff;
+        color: #007bff; /* Example hover color */
       }
 
-      .language-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background-color: white;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        display: none;
-        flex-direction: column;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 2000;
-        min-width: 60px;
-      }
-
-      .language-menu div {
-        padding: 8px 12px;
-        cursor: pointer;
-        color: #333;
-        font-weight: bold;
-        text-align: center;
-      }
-
-      .language-menu div:hover {
-        background-color: #f1f1f1;
-      }
-
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 1rem;
-        color: white;
-      }
-
-      .social-icon {
-        color: #fff;
-        font-size: 1.2rem;
-        margin-left: 1rem;
-        transition: color 0.3s ease;
-      }
-
-      .social-icon:hover {
-        color: #3498db;
-      }
-
-      footer .copyright img {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        background-color: white;
-        padding: 2px;
-        object-fit: contain;
-        background-clip: content-box;
-        vertical-align: middle;
-        margin-right: 8px;
-      }
-
-      .footer-logo {
-        height: 24px;
-        margin-right: 8px;
-        vertical-align: middle;
-        display: inline-block !important;
-      }
-
-      .companyHITech {
-        color: white !important;
-        /* اللون الأبيض */
-        text-decoration: none;
-        /* إزالة الخط التحتي */
-        transition: color 0.3s ease;
-        /* تأثير انتقالي عند التحويم */
-      }
-
-      .companyHITech:hover {
-        color: #f0f0f0 !important;
-        /* لون فاتح قليلاً عند التحويم */
-        text-decoration: underline;
-        /* إضافة خط تحتي عند التحويم */
-      }
-
-      #particles-js {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-      }
-
-      .hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 800px;
-        padding: 2rem;
-      }
-
-      .hero-subtitle {
-        font-size: 1.25rem;
-        margin-bottom: 2rem;
-        line-height: 1.8;
-      }
-
-      .btn {
-        padding: 0.75rem 1.5rem;
-        margin: 0.5rem;
-        border-radius: 50px;
-        font-size: 1rem;
-        text-decoration: none;
-        transition: background 0.3s ease;
-        display: inline-block;
-      }
-
-      .btn-primary {
-        background-color: #3b82f6;
-        color: #fff;
-      }
-
-      .btn-primary:hover {
-        background-color: #2563eb;
-      }
-
-      .btn-secondary {
-        background-color: #e5e7eb;
-        color: #1f2937;
-      }
-
-      .btn-secondary:hover {
-        background-color: #d1d5db;
-      }
-
-      .stats {
-        margin-top: 2rem;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 2rem;
-        color: #fff;
-      }
-
-      .stat {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 1rem 2rem;
-        border-radius: 1rem;
-        backdrop-filter: blur(5px);
-        min-width: 150px;
-      }
-
-      .stat h3 {
-        font-size: 2rem;
-        margin: 0;
-      }
-
-      .stat p {
-        margin: 0;
-        font-size: 1rem;
-      }
-    </style>
-    <style>
-      .hero {
-        position: relative;
-        height: 100vh;
-        color: #fff;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        background-color: #1e293b;
-      }
-
-      #particles-js {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-      }
-
-      .hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 800px;
-        padding: 2rem;
-      }
-
-      .hero-subtitle {
-        font-size: 1.25rem;
-        margin-bottom: 2rem;
-        line-height: 1.8;
-      }
-
-      .btn {
-        padding: 0.75rem 1.5rem;
-        margin: 0.5rem;
-        border-radius: 50px;
-        font-size: 1rem;
-        text-decoration: none;
-        transition: background 0.3s ease;
-        display: inline-block;
-      }
-
-      .btn-primary {
-        background-color: #3b82f6;
-        color: #fff;
-      }
-
-      .btn-primary:hover {
-        background-color: #2563eb;
-      }
-
-      .btn-secondary {
-        background-color: #e5e7eb;
-        color: #1f2937;
-      }
-
-      .btn-secondary:hover {
-        background-color: #d1d5db;
-      }
-
-      .stats {
-        margin-top: 2rem;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 2rem;
-        color: #fff;
-      }
-
-      .stat {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 1rem 2rem;
-        border-radius: 1rem;
-        backdrop-filter: blur(5px);
-        min-width: 150px;
-      }
-
-      .stat h3 {
-        font-size: 2rem;
-        margin: 0;
-      }
-
-      .stat p {
-        margin: 0;
-        font-size: 1rem;
-      }
-
-      .hero-carousel {
-        position: relative;
-        height: 100vh;
-        overflow: hidden;
-        font-family: "Cairo", sans-serif;
-      }
-
-      .carousel-container {
-        width: 100%;
-        height: 100%;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .carousel-track {
-        display: flex;
-        height: 100%;
-        width: 100%;
-        transition: transform 0.5s ease;
-      }
-
-      .carousel-slide {
-        min-width: 100%;
-        height: 100%;
-        flex-shrink: 0;
-        background-size: cover;
-        background-position: center;
-        position: relative;
-      }
-
-      .overlay {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.6),
-          rgba(0, 0, 0, 0.1)
-        );
-        z-index: 1;
-      }
-
-      .slide-content {
-        font-size: 2.2rem;
-        margin-bottom: 210px;
-        font-weight: 700;
-        color: white;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-      }
-
-      .slide-content h2 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .slide-content p {
-        font-size: 1.2rem;
-        line-height: 1.6;
-        opacity: 0.9;
-        max-width: 600px;
-        margin: 0 auto;
-      }
-
-      .slide-content .btn {
-        margin: 0.5rem;
-        padding: 0.75rem 1.5rem;
-        border-radius: 30px;
-        font-weight: bold;
-        text-decoration: none;
-        transition: 0.3s;
-      }
-
-      .btn-primary {
-        background-color: #3b82f6;
-        color: #fff;
-      }
-
-      .btn-secondary {
-        background-color: #f3f4f6;
-        color: #1f2937;
-      }
-
-      .btn-primary:hover {
-        background-color: #2563eb;
-      }
-
-      .btn-secondary:hover {
-        background-color: #e5e7eb;
-      }
-
-      .carousel-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(255, 255, 255, 0.3);
-        border: none;
-        color: white;
-        font-size: 2rem;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        z-index: 5;
-        transition: 0.3s;
-      }
-
-      .carousel-btn:hover {
-        background-color: rgba(255, 255, 255, 0.5);
-      }
-
-      .carousel-btn.prev {
-        left: 15px;
-      }
-
-      .carousel-btn.next {
-        right: 15px;
-      }
-
-      /* جعل mainContent يأخذ المساحة المتاحة */
-      #mainContent {
-        flex: 1;
-        width: 100%;
-        height: calc(100vh - 120px);
-        /* 120px = ارتفاع الهيدر + الفوتر */
-        margin: 0;
-        padding: 0;
-        position: relative;
-      }
-
-      /* تعديلات السلايدر */
-      .swiper-container {
-        width: 100%;
-        height: 100%;
-      }
-
-      .swiper-slide {
-        background-color: #1e293b;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      /* التأكد من أن محتوى السلايد يغطي المساحة كاملة */
-      .swiper-slide > div {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-      }
-
-      /* تعديلات للغة الإنجليزية */
-      body[dir="ltr"] .header-title {
-        text-align: center;
-      }
-
-      body[dir="ltr"] .header-logos.right-logos {
-        margin-left: auto;
-      }
-
-      body[dir="ltr"] .language-menu {
-        left: auto;
-        right: 0;
-      }
-
-      body[dir="ltr"] .social-icon {
-        margin-left: 0;
-        margin-right: 1rem;
-      }
-
-      body[dir="ltr"] .footer-content {
-        direction: ltr;
-      }
-
-      body[dir="ltr"] .footer-logo {
-        margin-right: 0;
-        margin-left: 8px;
-      }
-
-      body[dir="ltr"] .copyright-text {
-        direction: ltr;
-      }
-
-      body[dir="ltr"] .slide-content {
-        text-align: center;
-      }
-
-      .slide-content {
-        text-align: center;
-        color: white;
-        padding: 2rem;
-      }
-
-      .slide-content h2 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        color: white;
-      }
-
-      .slide-content p {
-        font-size: 1.2rem;
-        line-height: 1.6;
-        opacity: 0.9;
-        max-width: 600px;
-        margin: 0 auto;
-        color: white;
-      }
-
-      .slide-content i {
-        margin-left: 0.5rem;
-        color: #3b82f6;
-      }
-    </style>
-  </head>
-
-  <body>
-    <!-- رأس الصفحة الثابت -->
-
-    <header id="mainHeader">
-      <div style="display: flex; align-items: center; gap: 10px">
-        <!-- شعار يسار -->
-        <img
-          src="../assets/img/unhabitat.jfif"
-          alt="Logo 3"
-          class="header-logo"
-        />
-        <!-- زر اللغة -->
-        <div class="language-dropdown">
-          <button
-            class="language-toggle"
-            id="langToggleBtn"
-            onclick="toggleLanguage()"
-          >
-            AR
-          </button>
-        </div>
-        <!-- زر القائمة -->
-        <div class="menu-dropdown">
-          <button class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()">
-            <i class="fas fa-ellipsis-v"></i>
-          </button>
-          <div class="menu-dropdown-content" id="menuDropdown">
-            <a href="#" class="menu-item" id="settingsBtn">
-              <i class="fas fa-cog"></i>
-              <span id="settingsText">الإعدادات</span>
-            </a>
-            <a href="#" class="menu-item" id="logoutBtn" onclick="logout()">
-              <i class="fas fa-sign-out-alt"></i>
-              <span id="logoutText">تسجيل الخروج</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- العنوان في الوسط -->
-      <div class="header-title text-center">
-        <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
-        <div class="title-en">
-          Urban Information Management System - Aleppo City
-        </div>
-      </div>
-
-      <!-- شعاران على اليمين -->
-      <div class="header-logos right-logos">
-        <img src="../assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
-        <img src="../assets/img/japan.png" alt="Logo 2" class="header-logo" />
-      </div>
-    </header>
-
-    <!-- المحتوى الرئيسي القابل للتمرير -->
-    <main id="mainContent">
-      <div class="swiper-container" id="mainSwiper" style="position: relative">
-        <div class="swiper-wrapper">
-          <!-- Slide 1 -->
-          <div class="swiper-slide">
-            <div class="slide-content">
-              <h2 id="slide1Title">نظام إدارة المعلومات الحضرية</h2>
-              <p id="slide1Desc">
-                منصة ذكية لعرض وتحليل البيانات المكانية لأحياء حلب.
-              </p>
-            </div>
-          </div>
-          <!-- Slide 2 -->
-          <div class="swiper-slide">
-            <div class="slide-content">
-              <h2>
-                <i class="fas fa-map-marked-alt"></i>
-                <span id="slide2Title">خرائط تفاعلية</span>
-              </h2>
-              <p id="slide2Desc">
-                تصفح الأحياء والبيانات بسهولة من خلال خرائط ديناميكية.
-              </p>
-            </div>
-          </div>
-          <!-- Slide 3 -->
-          <div class="swiper-slide">
-            <div class="slide-content">
-              <h2>
-                <i class="fas fa-chart-pie"></i>
-                <span id="slide3Title">تحليلات متقدمة</span>
-              </h2>
-              <p id="slide3Desc">
-                تحليل الكثافة السكانية والأضرار والمساحات بدقة عالية.
-              </p>
-            </div>
-          </div>
-          <!-- Slide 1 (مكرر) -->
-          <div class="swiper-slide">
-            <div class="slide-content">
-              <h2 id="slide1Title">نظام إدارة المعلومات الحضرية</h2>
-              <p id="slide1Desc">
-                منصة ذكية لعرض وتحليل البيانات المكانية لأحياء حلب.
-              </p>
-            </div>
-          </div>
-          <!-- Slide 2 (مكرر) -->
-          <div class="swiper-slide">
-            <div class="slide-content">
-              <h2>
-                <i class="fas fa-map-marked-alt"></i>
-                <span id="slide2Title">خرائط تفاعلية</span>
-              </h2>
-              <p id="slide2Desc">
-                تصفح الأحياء والبيانات بسهولة من خلال خرائط ديناميكية.
-              </p>
-            </div>
-          </div>
-          <!-- Slide 3 (مكرر) -->
-          <div class="swiper-slide">
-            <div class="slide-content">
-              <h2>
-                <i class="fas fa-chart-pie"></i>
-                <span id="slide3Title">تحليلات متقدمة</span>
-              </h2>
-              <p id="slide3Desc">
-                تحليل الكثافة السكانية والأضرار والمساحات بدقة عالية.
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- Navigation buttons -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <!-- الزران العائمان -->
-        <div
-          class="floating-slider-btns"
-          style="justify-content: center; align-items: center"
-        >
-          <a
-            href="aleppo-map-analysis.html"
-            class="btn btn-primary"
-            id="exploreMapBtn"
-            style="margin: 0 auto; display: block"
-            >استكشاف الخريطة</a
-          >
-        </div>
-      </div>
-    </main>
-
-    <!-- الفوتر الثابت -->
-    <footer id="mainFooter">
-      <div class="footer-content">
-        <div class="copyright">
-          <span class="copyright-text">
-            ©
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            , <span id="rightsText">جميع الحقوق محفوظة لصالح</span>
-            <a
-              class="companyHITech"
-              href="https://www.hi-techhouse.com"
-              target="_blank"
-              id="companyName"
-              >دار التقنية الحديثة</a
-            >
-          </span>
-          <img
-            alt="Company Logo"
-            src="../assets/img/HTH.png"
-            class="footer-logo"
-          />
-        </div>
-        <div class="social-icons">
-          <a aria-label="Facebook" class="social-icon facebook" href="#"
-            ><i class="fab fa-facebook-f"></i
-          ></a>
-          <a aria-label="Twitter" class="social-icon twitter" href="#"
-            ><i class="fab fa-x-twitter"></i
-          ></a>
-          <a aria-label="Instagram" class="social-icon instagram" href="#"
-            ><i class="fab fa-instagram"></i
-          ></a>
-          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
-            ><i class="fab fa-linkedin-in"></i
-          ></a>
-          <a
-            aria-label="WhatsApp"
-            class="social-icon whatsapp"
-            href="https://wa.me/966501234567"
-            ><i class="fab fa-whatsapp"></i
-          ></a>
-        </div>
-      </div>
-    </footer>
-
-    <script>
-      function initSwiper() {
-        try {
-          const swiper = new Swiper(".swiper-container", {
-            loop: true,
-            autoplay: {
-              delay: 8000,
-            },
-            navigation: {
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            },
-          });
-          return swiper;
-        } catch (error) {
-          console.error("فشل تهيئة Swiper:", error);
-          return null;
-        }
-      }
-
-      // حاول تهيئة Swiper عند تحميل الصفحة وعند كل تغيير في DOM
-      document.addEventListener("DOMContentLoaded", initSwiper);
-      document.addEventListener("load", initSwiper);
-    </script>
-    <!-- سكربت التفاعل -->
-    <script>
-      function toggleMenu() {
-        const menu = document.getElementById("menuDropdown");
-        menu.style.display = menu.style.display === "block" ? "none" : "block";
-      }
-
-      function logout() {
-        window.location.href = "./index.html";
-      }
-      document.addEventListener("click", function (e) {
-        const dropdown = document.getElementById("accountDropdown");
-        const icon = document.querySelector(".account-icon");
-
-        if (dropdown && icon) {
-          if (!icon.contains(e.target) && !dropdown.contains(e.target)) {
-            dropdown.style.display = "none";
-          }
-        }
-      });
-
-      const translations = {
-        ar: {
-          title: "نظام الإدارة الحضرية لمدينة حلب",
-          slide1Title: "نظام إدارة المعلومات الحضرية",
-          slide1Desc: "منصة ذكية لعرض وتحليل البيانات المكانية لأحياء حلب.",
-          slide2Title: "خرائط تفاعلية",
-          slide2Desc: "تصفح الأحياء والبيانات بسهولة من خلال خرائط ديناميكية.",
-          slide3Title: "تحليلات متقدمة",
-          slide3Desc: "تحليل الكثافة السكانية والأضرار والمساحات بدقة عالية.",
-          exploreMapBtn: "استكشاف الخريطة",
-          dashboardBtn: "لوحة التحكم",
-          settingsText: "الإعدادات",
-          logoutText: "تسجيل الخروج",
-          rightsText: "جميع الحقوق محفوظة لصالح",
-          companyName: "دار التقنية الحديثة",
-        },
-        en: {
-          title: "Urban Management System for Aleppo",
-          slide1Title: "Urban Information Management System",
-          slide1Desc:
-            "Smart platform for displaying and analyzing spatial data for Aleppo neighborhoods.",
-          slide2Title: "Interactive Maps",
-          slide2Desc:
-            "Browse neighborhoods and data easily through dynamic maps.",
-          slide3Title: "Advanced Analytics",
-          slide3Desc:
-            "Analyze population density, damages and areas with high accuracy.",
-          exploreMapBtn: "Explore Map",
-          dashboardBtn: "Dashboard",
-          settingsText: "Settings",
-          logoutText: "Logout",
-          rightsText: "All rights reserved to",
-          companyName: "Hi-Tech House",
-        },
-      };
-
-      let currentLang = "ar";
-      function switchLanguage(lang) {
-        currentLang = lang;
-        const t = translations[lang];
-        document.documentElement.lang = lang;
-        document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-        // إظهار العنوان المناسب فقط
-        document.querySelector(".title-ar").style.display =
-          lang === "ar" ? "block" : "none";
-        document.querySelector(".title-en").style.display =
-          lang === "en" ? "block" : "none";
-        // تحديث نصوص السلايدر
-        document
-          .querySelectorAll("#slide1Title")
-          .forEach((el) => (el.textContent = t.slide1Title));
-        document
-          .querySelectorAll("#slide1Desc")
-          .forEach((el) => (el.textContent = t.slide1Desc));
-        document
-          .querySelectorAll("#slide2Title")
-          .forEach((el) => (el.textContent = t.slide2Title));
-        document
-          .querySelectorAll("#slide2Desc")
-          .forEach((el) => (el.textContent = t.slide2Desc));
-        document
-          .querySelectorAll("#slide3Title")
-          .forEach((el) => (el.textContent = t.slide3Title));
-        document
-          .querySelectorAll("#slide3Desc")
-          .forEach((el) => (el.textContent = t.slide3Desc));
-        // تحديث الأزرار
-        document.getElementById("exploreMapBtn").textContent = t.exploreMapBtn;
-        document.getElementById("dashboardBtn").textContent = t.dashboardBtn;
-        // تحديث الفوتر
-        document.getElementById("rightsText").textContent = t.rightsText;
-        document.getElementById("companyName").textContent = t.companyName;
-        // تحديث زر اللغة
-        document.getElementById("langToggleBtn").textContent =
-          lang === "ar" ? "AR" : "EN";
-        // تحديث نصوص القائمة
-        document.getElementById("settingsText").textContent = t.settingsText;
-        document.getElementById("logoutText").textContent = t.logoutText;
-      }
-      function toggleLanguage() {
-        const btn = document.getElementById("langToggleBtn");
-        if (currentLang === "ar") {
-          btn.textContent = "EN";
-          switchLanguage("en");
-        } else {
-          btn.textContent = "AR";
-          switchLanguage("ar");
-        }
-      }
-      // تهيئة اللغة الافتراضية
-      switchLanguage("ar");
-    </script>
-    <style>
-      .floating-slider-btns {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 10;
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .floating-slider-btns .btn {
-        min-width: 150px;
-        font-size: 1.1rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-      }
-
-      @media (max-width: 600px) {
-        .floating-slider-btns {
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-
-        .floating-slider-btns .btn {
-          min-width: 120px;
-          font-size: 1rem;
-        }
-      }
-    </style>
-    <style>
-      /* إضافة أنماط القائمة المنسدلة */
+      /* Menu Dropdown */
       .menu-dropdown {
         position: relative;
         display: inline-block;
@@ -1346,15 +248,15 @@
       }
 
       .menu-dropdown-content {
-        display: none;
+        display: none; /* Hidden by default, shown by JS */
         position: absolute;
-        top: 100%;
-        right: 0;
+        top: 100%; /* Position below the toggle button */
+        right: 0; /* Align to the right for RTL default */
         background-color: white;
         min-width: 160px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
-        z-index: 1000;
+        z-index: 1000; /* Ensure it's above other content */
         margin-top: 5px;
       }
 
@@ -1368,7 +270,8 @@
       }
 
       .menu-item i {
-        margin-left: 8px;
+        /* Icon styling within menu item */
+        margin-left: 8px; /* LTR default, JS might adjust for RTL/LTR text */
         width: 20px;
         text-align: center;
       }
@@ -1377,16 +280,624 @@
         background-color: #f5f5f5;
       }
 
-      /* تعديلات للغة الإنجليزية */
+      /* Main Content: Swiper Carousel */
+      .swiper-container {
+        width: 100%;
+        height: 100%; /* Fill the #mainContent area */
+      }
+
+      .swiper-slide {
+        background-color: #1e293b; /* Slide background */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.7; /* Applied opacity to slides */
+      }
+
+      .swiper-slide > div {
+        /* Ensure content div inside slide takes full space */
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .slide-content {
+        text-align: center;
+        color: white;
+        padding: 2rem;
+        position: relative; /* For z-index stacking if needed over overlays */
+        z-index: 2; /* Above potential overlays */
+        max-width: 800px; /* Limit content width for readability */
+      }
+
+      .slide-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: white;
+        font-weight: 700;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .slide-content p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+        color: white;
+      }
+
+      .slide-content i {
+        /* Icon styling within slide content */
+        margin-left: 0.5rem; /* Default spacing */
+        color: #3b82f6; /* Icon color */
+      }
+
+      /* Swiper Navigation Buttons */
+      .swiper-button-next,
+      .swiper-button-prev {
+        color: white; /* Navigation arrow color */
+        /* Swiper's default positioning is usually fine, can be overridden if needed */
+      }
+
+      /* Floating Buttons over Swiper */
+      .floating-slider-btns {
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10; /* Above slides */
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* General Button Styles */
+      .btn {
+        padding: 0.75rem 1.5rem;
+        margin: 0.5rem;
+        border-radius: 50px; /* Rounded buttons */
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s ease, opacity 0.3s ease;
+        display: inline-block;
+        min-width: 150px; /* Minimum width for floating buttons */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); /* Shadow for floating buttons */
+      }
+
+      .btn:hover {
+        opacity: 0.9; /* General hover effect */
+      }
+
+      .btn-primary {
+        background-color: #3b82f6;
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background-color: #2563eb; /* Darker shade on hover */
+      }
+
+      .btn-secondary {
+        background-color: #e5e7eb;
+        color: #1f2937;
+      }
+
+      .btn-secondary:hover {
+        background-color: #d1d5db; /* Darker shade on hover */
+      }
+
+      /* Footer Elements */
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+        color: white;
+        direction: rtl !important; /* Ensure content within footer is also RTL */
+      }
+
+      .copyright {
+        /* Copyright text container */
+        display: flex;
+        align-items: center;
+      }
+
+      .companyHITech {
+        color: white !important;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .companyHITech:hover {
+        color: #f0f0f0 !important;
+        text-decoration: underline;
+      }
+
+      .footer-logo {
+        /* Logo in footer, e.g. company logo */
+        height: 24px; /* Smaller logo for footer */
+        margin-right: 8px; /* Spacing for RTL, JS might adjust for LTR */
+        vertical-align: middle;
+        display: inline-block !important; /* Ensure it displays correctly */
+      }
+
+      footer .copyright img.footer-logo {
+        /* More specific selector for HTH logo if needed */
+        height: 40px; /* As per original specific rule */
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        background-color: white;
+        padding: 2px;
+        object-fit: contain;
+        background-clip: content-box;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+
+      .social-icons {
+        /* Container for social media icons */
+        display: flex;
+        align-items: center;
+      }
+
+      .social-icon {
+        color: #fff;
+        font-size: 1.2rem;
+        margin-left: 1rem; /* Spacing between icons (RTL context) */
+        transition: color 0.3s ease;
+      }
+
+      .social-icon:hover {
+        color: #3498db; /* Example hover color */
+      }
+
+      /* LTR Specific Adjustments */
+      body[dir="ltr"] .header-title {
+        text-align: center; /* Already default, but explicit */
+      }
+
+      body[dir="ltr"] .header-logos.right-logos {
+        /* Adjust logo positioning for LTR */
+        margin-left: auto; /* Push to the right */
+      }
+
       body[dir="ltr"] .menu-dropdown-content {
+        /* Adjust menu dropdown for LTR */
         right: auto;
         left: 0;
       }
 
       body[dir="ltr"] .menu-item i {
+        /* Adjust icon margin in menu for LTR */
         margin-left: 0;
         margin-right: 8px;
       }
+
+      body[dir="ltr"] .social-icon {
+        /* Adjust social icon margin for LTR */
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+
+      body[dir="ltr"] .footer-content {
+        /* Ensure footer content respects LTR */
+        direction: ltr;
+      }
+
+      body[dir="ltr"] .footer-logo {
+        /* Adjust footer logo margin for LTR */
+        margin-right: 0;
+        margin-left: 8px;
+      }
+
+      body[dir="ltr"] .copyright-text {
+        /* Ensure copyright text respects LTR */
+        direction: ltr;
+      }
+
+      body[dir="ltr"] .slide-content {
+        /* Ensure slide content text alignment for LTR */
+        text-align: center; /* Already default, but explicit */
+      }
+      body[dir="ltr"] .slide-content i {
+        margin-left: 0;
+        margin-right: 0.5rem;
+      }
+
+      /* Responsive Design Adjustments */
+      @media (max-width: 768px) {
+        .header-title-container {
+          /* Example if this class was used */
+          flex-direction: column;
+          gap: 5px;
+        }
+        .account-name {
+          /* Example if an account name was displayed */
+          display: none; /* Hide on smaller screens */
+        }
+      }
+
+      @media (max-width: 600px) {
+        .floating-slider-btns {
+          /* Stack floating buttons vertically */
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .floating-slider-btns .btn {
+          /* Adjust button size for smaller screens */
+          min-width: 120px;
+          font-size: 1rem;
+        }
+      }
     </style>
+  </head>
+
+  <body>
+    <!-- Header Section: Fixed at the top -->
+    <header id="mainHeader">
+      <!-- Left side of header: Logo, Language Toggle, Menu -->
+      <div style="display: flex; align-items: center; gap: 10px">
+        <img
+          src="../assets/img/unhabitat.jfif"
+          alt="UN Habitat Logo"
+          class="header-logo"
+        />
+        <div class="language-dropdown">
+          <button
+            class="language-toggle"
+            id="langToggleBtn"
+            onclick="toggleLanguage()"
+            aria-label="Toggle Language"
+          >
+            AR
+          </button>
+        </div>
+        <div class="menu-dropdown">
+          <button
+            class="menu-toggle"
+            id="menuToggleBtn"
+            onclick="toggleMenu()"
+            aria-label="Toggle Menu"
+          >
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+          <div class="menu-dropdown-content" id="menuDropdown">
+            <a href="#" class="menu-item" id="settingsBtn">
+              <i class="fas fa-cog"></i>
+              <span id="settingsText">Settings</span>
+            </a>
+            <a href="#" class="menu-item" id="logoutBtn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span id="logoutText">Logout</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center part of header: Titles -->
+      <div class="header-title text-center">
+        <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
+        <div class="title-en">
+          Urban Information Management System - Aleppo City
+        </div>
+      </div>
+
+      <!-- Right side of header: Additional Logos -->
+      <div class="header-logos right-logos">
+        <img
+          src="../assets/img/aleppo.jfif"
+          alt="Aleppo City Logo"
+          class="header-logo"
+        />
+        <img
+          src="../assets/img/japan.png"
+          alt="Japan Flag Logo"
+          class="header-logo"
+        />
+      </div>
+    </header>
+
+    <!-- Main Content Area: Swiper Carousel -->
+    <main id="mainContent">
+      <div class="swiper-container" id="mainSwiper">
+        <div class="swiper-wrapper">
+          <!-- Slide 1 -->
+          <div class="swiper-slide">
+            <div class="slide-content">
+              <h2 id="slide1Title">Urban Information Management System</h2>
+              <p id="slide1Desc">
+                A smart platform for displaying and analyzing spatial data for
+                Aleppo's neighborhoods.
+              </p>
+            </div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="swiper-slide">
+            <div class="slide-content">
+              <h2>
+                <i class="fas fa-map-marked-alt"></i>
+                <span id="slide2Title">Interactive Maps</span>
+              </h2>
+              <p id="slide2Desc">
+                Easily browse neighborhoods and data through dynamic maps.
+              </p>
+            </div>
+          </div>
+          <!-- Slide 3 -->
+          <div class="swiper-slide">
+            <div class="slide-content">
+              <h2>
+                <i class="fas fa-chart-pie"></i>
+                <span id="slide3Title">Advanced Analytics</span>
+              </h2>
+              <p id="slide3Desc">
+                Analyze population density, damage, and areas with high
+                precision.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Swiper Navigation Buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+
+        <!-- Floating Action Buttons over Swiper -->
+        <div class="floating-slider-btns">
+          <a href="maps/index.html" class="btn btn-primary" id="exploreMapBtn"
+            >Neighborhood Map
+          </a>
+          <a
+            href="sector/index.html"
+            class="btn btn-primary"
+            id="servicesCirclesBtn"
+          >
+            Service Circles</a
+          >
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer Section: Fixed at the bottom -->
+    <footer id="mainFooter">
+      <div class="footer-content">
+        <!-- Copyright Information -->
+        <div class="copyright">
+          <span class="copyright-text" lang="ar">
+            ©
+            <script>
+              document.write(new Date().getFullYear()); // Dynamically sets the current year
+            </script>
+            , <span lang="ar" class="arabic-text"> Powered by</span> ,
+            <a
+              class="companyHITech arabic-text"
+              href="https://www.hi-techhouse.com"
+              target="_blank"
+              lang="ar"
+            >
+              HI-Tech House</a
+            >
+          </span>
+          <img
+            alt="Company Logo HTH"
+            src="../assets/img/HTH.png"
+            class="footer-logo"
+          />
+        </div>
+        <!-- Social Media Icons -->
+        <div class="social-icons">
+          <a aria-label="Facebook" class="social-icon facebook" href="#"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a aria-label="Twitter" class="social-icon twitter" href="#"
+            ><i class="fab fa-x-twitter"></i
+          ></a>
+          <a aria-label="Instagram" class="social-icon instagram" href="#"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+          <a
+            aria-label="WhatsApp"
+            class="social-icon whatsapp"
+            href="https://wa.me/966501234567"
+            target="_blank"
+            ><i class="fab fa-whatsapp"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Page Interaction Scripts -->
+    <script>
+      // Global variable to store the Swiper instance
+      let swiperInstance = null;
+
+      // Function to initialize the Swiper carousel
+      function initSwiper() {
+        try {
+          // Destroy the existing Swiper instance if it exists
+          if (swiperInstance) {
+            swiperInstance.destroy(true, true);
+            swiperInstance = null;
+          }
+
+          // Initialize a new Swiper instance
+          swiperInstance = new Swiper(".swiper-container", {
+            loop: true, // Enables continuous loop mode
+            autoplay: {
+              delay: 8000, // Delay between transitions (in ms)
+            },
+            navigation: {
+              // Navigation arrows
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+            effect: "slide", // Add smooth transition effect
+            fadeEffect: {
+              crossFade: true,
+            },
+          });
+
+          return swiperInstance;
+        } catch (error) {
+          console.error("Failed to initialize Swiper:", error);
+          return null;
+        }
+      }
+
+      // Function to toggle the main menu visibility
+      function toggleMenu() {
+        const menu = document.getElementById("menuDropdown");
+        if (menu) {
+          menu.style.display =
+            menu.style.display === "block" ? "none" : "block";
+        }
+      }
+
+      // Function to handle user logout
+      function logout() {
+        // Redirects to the main page or login page
+        window.location.href = "./index.html";
+      }
+
+      // Translations object for multilingual support
+      const translations = {
+        ar: {
+          // title: "نظام الإدارة الحضرية لمدينة حلب", // Document title, not directly set here
+          slide1Title: "نظام إدارة المعلومات الحضرية",
+          slide1Desc: "منصة ذكية لعرض وتحليل البيانات المكانية لأحياء حلب.",
+          slide2Title: "خرائط تفاعلية",
+          slide2Desc: "تصفح الأحياء والبيانات بسهولة من خلال خرائط ديناميكية.",
+          slide3Title: "تحليلات متقدمة",
+          slide3Desc: "تحليل الكثافة السكانية والأضرار والمساحات بدقة عالية.",
+          exploreMapBtn: "خريطة الاحياء",
+          servicesCirclesBtn: "دوائر الخدمات",
+          dashboardBtn: "لوحة التحكم",
+          settingsText: "الإعدادات", // Changed from "إعدادات الحساب"
+          logoutText: "تسجيل الخروج",
+          // rightsText: "جميع الحقوق محفوظة لصالح", // Footer text is mostly static HTML
+          // companyName: "دار التقنية الحديثة",
+        },
+        en: {
+          // title: "Urban Management System for Aleppo",
+          slide1Title: "Urban Information Management System",
+          slide1Desc:
+            "Smart platform for displaying and analyzing spatial data for Aleppo neighborhoods.",
+          slide2Title: "Interactive Maps",
+          slide2Desc:
+            "Browse neighborhoods and data easily through dynamic maps.",
+          slide3Title: "Advanced Analytics",
+          slide3Desc:
+            "Analyze population density, damages and areas with high accuracy.",
+          exploreMapBtn: "Explore Map",
+          servicesCirclesBtn: "Service Circles",
+          dashboardBtn: "Dashboard",
+          settingsText: "Settings", // Changed from "Account Settings"
+          logoutText: "Logout",
+          // rightsText: "All rights reserved to",
+          // companyName: "Hi-Tech House",
+        },
+      };
+
+      let currentLang = "ar"; // Default language
+
+      // Function to switch the page language
+      function switchLanguage(lang) {
+        currentLang = lang;
+        const t = translations[lang];
+
+        // Set document language and direction
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+        // Ensure header and footer maintain their forced RTL direction
+        // These are already set with !important in CSS, but this JS ensures it if needed.
+        // document.getElementById("mainHeader").style.direction = "rtl";
+        // document.getElementById("mainFooter").style.direction = "rtl";
+        // document.querySelector(".footer-content").style.direction = "rtl";
+
+        // Update text content based on selected language
+        // Note: Using querySelectorAll for IDs is unusual but was in original for handling duplicate IDs/classes.
+        // Assuming IDs are now unique for the first 3 slides.
+        document
+          .querySelectorAll("#slide1Title, .slide1Title")
+          .forEach((el) => (el.textContent = t.slide1Title));
+        document
+          .querySelectorAll("#slide1Desc, .slide1Desc")
+          .forEach((el) => (el.textContent = t.slide1Desc));
+        document
+          .querySelectorAll("#slide2Title, .slide2Title")
+          .forEach((el) => (el.textContent = t.slide2Title));
+        document
+          .querySelectorAll("#slide2Desc, .slide2Desc")
+          .forEach((el) => (el.textContent = t.slide2Desc));
+        document
+          .querySelectorAll("#slide3Title, .slide3Title")
+          .forEach((el) => (el.textContent = t.slide3Title));
+        document
+          .querySelectorAll("#slide3Desc, .slide3Desc")
+          .forEach((el) => (el.textContent = t.slide3Desc));
+
+        document.getElementById("exploreMapBtn").textContent = t.exploreMapBtn;
+        document.getElementById("servicesCirclesBtn").textContent =
+          t.servicesCirclesBtn;
+
+        document.getElementById("settingsText").textContent = t.settingsText;
+        document.getElementById("logoutText").textContent = t.logoutText;
+
+        // Update language toggle button text
+        document.getElementById("langToggleBtn").textContent =
+          lang === "ar" ? "AR" : "EN";
+
+        // Re-initialize Swiper after language change to ensure layout updates
+        setTimeout(() => {
+          initSwiper();
+          console.log("Swiper re-initialized after language change");
+        }, 300); // Longer delay for DOM updates
+      }
+
+      // Function to toggle language between AR and EN
+      function toggleLanguage() {
+        const newLang = currentLang === "ar" ? "en" : "ar";
+        switchLanguage(newLang);
+      }
+
+      // Event listener to close the menu when clicking outside of it
+      document.addEventListener("click", function (event) {
+        const menu = document.getElementById("menuDropdown");
+        const menuBtn = document.getElementById("menuToggleBtn");
+
+        if (menu && menuBtn) {
+          // Check if the click is outside the menu button and the menu itself
+          if (!menuBtn.contains(event.target) && !menu.contains(event.target)) {
+            menu.style.display = "none";
+          }
+        }
+      });
+
+      // Initialize Swiper and set default language when the DOM is fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Set initial language to Arabic first
+        switchLanguage("ar");
+
+        // Then initialize Swiper with a short delay to ensure DOM is ready
+        setTimeout(() => {
+          initSwiper();
+          console.log("Initial Swiper initialization complete");
+        }, 200);
+      });
+    </script>
   </body>
 </html>

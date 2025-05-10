@@ -1574,3 +1574,94 @@ input[type="date"].editable-field {
   transform: translateY(0);
   opacity: 1;
 }
+
+/* Leaflet popup customization - unified style */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.2);
+  width:250px;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  padding: 0;
+  width: 280px !important;
+}
+
+.popup-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+}
+
+.popup-header.futuristic {
+  background-color: var(--primary-color);
+}
+
+.popup-header[style*="background-color"] {
+  /* يحافظ على الألوان المخصصة إذا تم تعيينها */
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.popup-body {
+  padding: 12px;
+}
+
+.popup-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.popup-table tr {
+  border-bottom: 1px solid #eee;
+}
+
+.popup-table tr:last-child {
+  border-bottom: none;
+}
+
+.popup-table td {
+  padding: 8px 5px;
+}
+
+.popup-table td:first-child {
+  font-weight: 500;
+  color: #666;
+  width: 40%;
+}
+
+.popup-table td:last-child {
+  font-weight: 600;
+  color: #333;
+  width: 60%;
+}
+
+/* تحويل النمط القديم إلى النمط الجديد */
+.popup-stat {
+  display: table-row;
+  border-bottom: 1px solid #eee;
+}
+
+.popup-stat span:first-child {
+  display: table-cell;
+  font-weight: 500;
+  color: #666;
+  width: 40%;
+  padding: 8px 5px;
+}
+
+.popup-stat span:last-child {
+  display: table-cell;
+  font-weight: 600;
+  color: #333;
+  width: 60%;
+  padding: 8px 5px;
+}

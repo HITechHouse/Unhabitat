@@ -1,805 +1,837 @@
 <!DOCTYPE html>
 
 <html dir="rtl" lang="ar">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Login</title>
+    <!-- Favicon -->
+    <link
+      rel="shortcut icon"
+      href="../assets/img/UN_Habitat_Icon.svg"
+      type="image/x-icon"
+    />
+    <!-- Bootstrap RTL CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts - Inter -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <!-- Google Fonts - Tajawal (for Arabic) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
 
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <title>Login</title>
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="../assets/img/UN_Habitat_Icon.svg" type="image/x-icon" />
-  <!-- Bootstrap RTL CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
-  <!-- Google Fonts - Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&amp;display=swap" rel="stylesheet" />
-  <!-- Font Awesome CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"
-    crossorigin="anonymous" />
-  <!-- Google Fonts - Tajawal (for Arabic) -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
-
-  <!-- Internal Styles -->
-  <style>
-    /* Base body styles */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Tajawal", "Inter", sans-serif;
-      /* Default font stack */
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      /* Prevent scrolling on the body itself */
-    }
-
-    /* Consistent Arabic font styling */
-    :lang(ar),
-    [lang="ar"],
-    .arabic-text,
-    .copyright-text,
-    .social-icons,
-    .btn,
-    label,
-    input,
-    .header-title,
-    .title-ar,
-    .title-en,
-    .header-title div {
-      font-family: "Tajawal", sans-serif !important;
-      /* Ensure Tajawal is used for Arabic text */
-    }
-
-    /* Font consistency for LTR (English) mode, excluding icons */
-    body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
-      font-family: "Tajawal", "Inter", sans-serif !important;
-    }
-
-    /* Background image with blur effect */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url("../assets/img/aleppo.png");
-      background-size: cover;
-      background-position: center;
-      z-index: -1;
-      /* Place it behind all other content */
-      filter: blur(1px);
-      /* Blur effect for the background */
-    }
-
-    /* Main Header Styles */
-    #mainHeader {
-      position: fixed;
-      /* Fixed position at the top */
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      /* Ensure it's above other content */
-      background-color: #007bff;
-      /* Header background color */
-      color: white;
-      /* Header text color */
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      /* Space out logo, title, and other logos */
-      padding: 4px 16px;
-      height: 50px;
-      box-sizing: border-box;
-      direction: rtl !important;
-      /* Force RTL for header regardless of page language */
-    }
-
-    /* Header Logo Styles */
-    .header-logo {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      /* Circular logos */
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      /* Semi-transparent white border */
-      object-fit: contain;
-      /* Ensure logo aspect ratio is maintained */
-    }
-
-    /* Header Title Styles */
-    .header-title {
-      flex: 1;
-      /* Allow title to take available space */
-      text-align: center;
-      font-weight: bold;
-      font-size: 1.4rem;
-      line-height: 1.4;
-    }
-
-    /* Main Footer Styles */
-    #mainFooter {
-      position: fixed;
-      /* Fixed position at the bottom */
-      bottom: 0;
-      width: 100%;
-      z-index: 1000;
-      /* Ensure it's above other content */
-      background-color: #3066ff;
-      /* Footer background color */
-      padding: 4px 16px;
-      height: 50px;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      direction: rtl !important;
-      /* Force RTL for footer regardless of page language */
-    }
-
-    /* Scrollable Content Area Styles */
-    #scrollableContent {
-      flex: 1;
-      /* Takes up remaining vertical space */
-      overflow-y: auto;
-      /* Enable vertical scrolling */
-      margin-top: 50px;
-      /* Space for fixed header */
-      margin-bottom: 50px;
-      /* Space for fixed footer */
-      padding: 20px;
-    }
-
-    /* Card Styles (for login form) */
-    .card {
-      background: rgba(255, 255, 255, 0.9);
-      /* Semi-transparent white background */
-      border-radius: 16px;
-      /* Rounded corners */
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      /* Card shadow */
-      padding: 2rem;
-      border-color: rgb(13 110 253);
-      border-width: thick;
-    }
-
-    /* Navigation Tabs Styles (if used, currently not visible in login) */
-    .nav-tabs .nav-link {
-      font-weight: bold;
-      color: #495057;
-      border-radius: 12px 12px 0 0;
-      border: none;
-      background: #e3f2fd;
-      margin-right: 5px;
-      transition: all 0.3s ease;
-    }
-
-    .nav-tabs .nav-link.active {
-      background: #0d6efd;
-      color: white;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Form Control and Button Styles */
-    .form-control,
-    .btn {
-      border-radius: 10px;
-      /* Rounded form elements and buttons */
-    }
-
-    /* Header Logos Container (for multiple logos) */
-    .header-logos {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      /* Space between logos */
-      padding: 5px;
-    }
-
-    .header-logos img {
-      /* Styles for individual logos within the container */
-      height: 40px;
-      width: 40px;
-      object-fit: contain;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-    }
-
-    /* Central Header Title (overrides previous .header-title for flex behavior) */
-    .header-title {
-      /* This is a duplicate selector, but might have specific context in mind, keeping for now. */
-      text-align: center;
-      flex: 1;
-    }
-
-    /* Arabic Title Styles */
-    .title-ar {
-      font-size: 1.3rem;
-      line-height: 1.2;
-      font-weight: bold;
-      white-space: normal;
-      /* Allow text to wrap */
-    }
-
-    /* English Title Styles */
-    .title-en {
-      font-size: 0.95rem;
-      line-height: 1.2;
-      font-weight: bold;
-      white-space: normal;
-      /* Allow text to wrap */
-    }
-
-    /* Responsive: Hide English title on smaller screens */
-    @media (max-width: 768px) {
-      .title-en {
-        display: none;
+    <!-- Internal Styles -->
+    <style>
+      /* Base body styles */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Tajawal", "Inter", sans-serif;
+        /* Default font stack */
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        /* Prevent scrolling on the body itself */
       }
-    }
 
-    /* Language Dropdown/Toggle Styles */
-    .language-dropdown {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+      /* Consistent Arabic font styling */
+      :lang(ar),
+      [lang="ar"],
+      .arabic-text,
+      .copyright-text,
+      .social-icons,
+      .btn,
+      label,
+      input,
+      .header-title,
+      .title-ar,
+      .title-en,
+      .header-title div {
+        font-family: "Tajawal", sans-serif !important;
+        /* Ensure Tajawal is used for Arabic text */
+      }
 
-    .language-toggle {
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      /* Semi-transparent background */
-      color: #fff;
-      font-weight: bold;
-      font-size: 1.1rem;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      outline: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: background 0.2s, border 0.2s, box-shadow 0.2s;
-    }
+      /* Font consistency for LTR (English) mode, excluding icons */
+      body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
+        font-family: "Tajawal", "Inter", sans-serif !important;
+      }
 
-    .language-toggle:hover {
-      background: rgba(255, 255, 255, 0.32);
-      border-color: #fff;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-      color: #007bff;
-      /* Change text color on hover */
-    }
+      /* Background image with blur effect */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("../assets/img/aleppo.png");
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+        /* Place it behind all other content */
+        filter: blur(1px);
+        /* Blur effect for the background */
+      }
 
-    .language-flag {
-      /* Style for language flag images (if used) */
-      width: 24px;
-      height: 24px;
-      border-radius: 4px;
-      object-fit: cover;
-    }
+      /* Main Header Styles */
+      #mainHeader {
+        position: fixed;
+        /* Fixed position at the top */
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        /* Ensure it's above other content */
+        background-color: #00b2e3;
+        /* Header background color */
+        color: white;
+        /* Header text color */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        /* Space out logo, title, and other logos */
+        padding: 4px 16px;
+        height: 50px;
+        box-sizing: border-box;
+        direction: rtl !important;
+        /* Force RTL for header regardless of page language */
+      }
 
-    /* Password Input Field Wrapper */
-    .password-wrapper {
-      position: relative;
-      /* For positioning the toggle icon */
-    }
+      /* Header Logo Styles */
+      .header-logo {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        /* Circular logos */
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        /* Semi-transparent white border */
+        object-fit: contain;
+        /* Ensure logo aspect ratio is maintained */
+      }
 
-    /* Password Visibility Toggle Icon */
-    .toggle-password {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: 10px;
-      /* Position for RTL */
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #888;
-      font-size: 1.2rem;
-      z-index: 2;
-      /* Ensure icon is clickable over the input field */
-    }
+      /* Header Title Styles */
+      .header-title {
+        flex: 1;
+        /* Allow title to take available space */
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.4rem;
+        line-height: 1.4;
+      }
 
-    /* Adjust toggle position for LTR (English) mode */
-    body[dir="ltr"] .toggle-password {
-      left: auto;
-      right: 10px;
-    }
+      /* Main Footer Styles */
+      #mainFooter {
+        position: fixed;
+        /* Fixed position at the bottom */
+        bottom: 0;
+        width: 100%;
+        z-index: 1000;
+        /* Ensure it's above other content */
+        background-color: #00b2e3;
+        /* Footer background color */
+        padding: 4px 16px;
+        height: 50px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        direction: rtl !important;
+        /* Force RTL for footer regardless of page language */
+      }
 
-    /* Invalid Form Control Styles (Bootstrap-like) */
-    .form-control.is-invalid {
-      border-color: #dc3545;
-      /* Red border for invalid input */
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right 0.75rem center;
-      /* Icon position (adjust for RTL if needed) */
-      background-size: 16px 12px;
-    }
+      /* Scrollable Content Area Styles */
+      #scrollableContent {
+        flex: 1;
+        /* Takes up remaining vertical space */
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+        margin-top: 50px;
+        /* Space for fixed header */
+        margin-bottom: 50px;
+        /* Space for fixed footer */
+        padding: 20px;
+      }
 
-    .invalid-feedback {
-      /* Error message style */
-      display: none;
-      /* Hidden by default */
-      color: #dc3545;
-      font-size: 0.875em;
-      margin-top: 0.25rem;
-    }
+      /* Card Styles (for login form) */
+      .card {
+        background: rgba(255, 255, 255, 0.9);
+        /* Semi-transparent white background */
+        border-radius: 16px;
+        /* Rounded corners */
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        /* Card shadow */
+        padding: 2rem;
+        border-color: rgb(13 110 253);
+        border-width: thick;
+      }
 
-    .form-control.is-invalid~.invalid-feedback {
-      display: block;
-      /* Show when input is invalid */
-    }
+      /* Navigation Tabs Styles (if used, currently not visible in login) */
+      .nav-tabs .nav-link {
+        font-weight: bold;
+        color: #495057;
+        border-radius: 12px 12px 0 0;
+        border: none;
+        background: #e3f2fd;
+        margin-right: 5px;
+        transition: all 0.3s ease;
+      }
 
-    /* Valid Form Control Styles (Bootstrap-like) */
-    .form-control.is-valid {
-      border-color: #198754;
-      /* Green border for valid input */
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right 0.75rem center;
-      /* Icon position (adjust for RTL if needed) */
-      background-size: 16px 12px;
-    }
+      .nav-tabs .nav-link.active {
+        background: #0d6efd;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
 
-    /* Footer Content Area */
-    .footer-content {
-      max-width: 1200px;
-      /* Max width for content */
-      margin: 0 auto;
-      /* Center content */
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      /* Space copyright and social icons */
-      align-items: center;
-      padding: 0 1rem;
-      color: white;
-    }
+      /* Form Control and Button Styles */
+      .form-control,
+      .btn {
+        border-radius: 10px;
+        /* Rounded form elements and buttons */
+      }
 
-    /* Social Media Icon Styles */
-    .social-icon {
-      color: #fff;
-      font-size: 1.2rem;
-      margin-left: 1rem;
-      /* Space between icons (RTL) */
-      transition: color 0.3s ease;
-    }
+      /* Header Logos Container (for multiple logos) */
+      .header-logos {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        /* Space between logos */
+        padding: 5px;
+      }
 
-    .social-icon:hover {
-      color: #3498db;
-      /* Icon color on hover */
-    }
+      .header-logos img {
+        /* Styles for individual logos within the container */
+        height: 40px;
+        width: 40px;
+        object-fit: contain;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+      }
 
-    /* Footer Copyright Image Style */
-    footer .copyright img {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      background-color: white;
-      padding: 2px;
-      object-fit: contain;
-      background-clip: content-box;
-      vertical-align: middle;
-      margin-right: 8px;
-      /* Space to the right of the image (RTL) */
-    }
+      /* Central Header Title (overrides previous .header-title for flex behavior) */
+      .header-title {
+        text-align: center;
+        flex: 1;
+      }
 
-    /* Footer Logo (Company Logo) Style */
-    .footer-logo {
-      height: 24px;
-      margin-right: 8px;
-      /* Space to the right (RTL) */
-      vertical-align: middle;
-      display: inline-block !important;
-    }
+      /* Arabic Title Styles */
+      .title-ar {
+        font-size: 1.3rem;
+        line-height: 1.2;
+        font-weight: bold;
+        white-space: normal;
+        /* Allow text to wrap */
+      }
 
-    /* Adjust footer logo margin for LTR (English) mode */
-    body[dir="ltr"] .footer-logo {
-      margin-right: 8px;
-      /* Keep margin-right for consistency, or adjust as needed */
-      margin-left: 0;
-    }
+      /* English Title Styles */
+      .title-en {
+        font-size: 0.95rem;
+        line-height: 1.2;
+        font-weight: bold;
+        white-space: normal;
+        /* Allow text to wrap */
+      }
 
-    /* Company Link Style in Footer */
-    .companyHITech {
-      color: white !important;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
+      /* Responsive: Hide English title on smaller screens */
+      @media (max-width: 768px) {
+        .title-en {
+          display: none;
+        }
+      }
 
-    .companyHITech:hover {
-      color: #f0f0f0 !important;
-      /* Lighter color on hover */
-      text-decoration: underline;
-      /* Removed nested .bg style here as it's invalid CSS structure */
-    }
+      /* Language Dropdown/Toggle Styles */
+      .language-dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-    /* Note: The .bg class that was nested inside .companyHITech:hover was invalid CSS. 
-         If .bg is a separate element that needs styling on hover of .companyHITech, 
-         it should be targeted with a sibling or child combinator, e.g., .companyHITech:hover .bg 
-         However, based on its properties, it seems like a full-page background, 
-         which is already handled by body::before. This style block may be redundant or misplaced.
-      */
+      .language-toggle {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        /* Semi-transparent background */
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.1rem;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+      }
 
+      .language-toggle:hover {
+        background: rgba(255, 255, 255, 0.32);
+        border-color: #fff;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        color: #007bff;
+        /* Change text color on hover */
+      }
 
-    /* Menu Dropdown Styles (if used, not directly visible in login) */
-    .menu-dropdown {
-      position: relative;
-      display: inline-block;
-    }
+      .language-flag {
+        /* Style for language flag images (if used) */
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        object-fit: cover;
+      }
 
-    .menu-toggle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
+      /* Password Input Field Wrapper */
+      .password-wrapper {
+        position: relative;
+      }
 
-    .menu-toggle:hover {
-      background: rgba(255, 255, 255, 0.32);
-      transform: scale(1.05);
-      /* Slight zoom effect on hover */
-    }
+      /* Password Visibility Toggle Icon */
+      .toggle-password {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 10px;
+        /* Position for RTL */
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #888;
+        font-size: 1.2rem;
+        z-index: 2;
+        /* Ensure icon is clickable over the input field */
+      }
 
-    .menu-dropdown-content {
-      display: none;
-      /* Hidden by default */
-      position: absolute;
-      top: 100%;
-      /* Position below the toggle */
-      right: 0;
-      /* Align to the right (RTL) */
-      background-color: white;
-      min-width: 160px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      z-index: 1000;
-      /* Ensure dropdown is above other content */
-      margin-top: 5px;
-    }
+      /* Adjust toggle position for LTR (English) mode */
+      body[dir="ltr"] .toggle-password {
+        left: auto;
+        right: 10px;
+      }
 
-    .menu-item {
-      display: flex;
-      align-items: center;
-      padding: 12px 16px;
-      text-decoration: none;
-      color: #333;
-      transition: background-color 0.3s ease;
-    }
+      /* Invalid Form Control Styles (Bootstrap-like) */
+      .form-control.is-invalid {
+        border-color: #dc3545;
+        /* Red border for invalid input */
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        /* Icon position (adjust for RTL if needed) */
+        background-size: 16px 12px;
+      }
 
-    .menu-item i {
-      /* Icon inside menu item */
-      margin-left: 8px;
-      /* Space to the left of icon (RTL) */
-      width: 20px;
-      text-align: center;
-    }
+      .invalid-feedback {
+        /* Error message style */
+        display: none;
+        /* Hidden by default */
+        color: #dc3545;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+      }
 
-    .menu-item:hover {
-      background-color: #f5f5f5;
-      /* Background color on hover */
-    }
+      .form-control.is-invalid ~ .invalid-feedback {
+        display: block;
+        /* Show when input is invalid */
+      }
 
-    /* Adjust menu dropdown for LTR (English) mode */
-    body[dir="ltr"] .menu-dropdown-content {
-      right: auto;
-      left: 0;
-      /* Align to the left */
-    }
+      /* Valid Form Control Styles (Bootstrap-like) */
+      .form-control.is-valid {
+        border-color: #198754;
+        /* Green border for valid input */
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        /* Icon position (adjust for RTL if needed) */
+        background-size: 16px 12px;
+      }
 
-    body[dir="ltr"] .menu-item i {
-      margin-left: 0;
-      margin-right: 8px;
-      /* Space to the right of icon */
-    }
+      /* Footer Content Area */
+      .footer-content {
+        max-width: 1200px;
+        /* Max width for content */
+        margin: 0 auto;
+        /* Center content */
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        /* Space copyright and social icons */
+        align-items: center;
+        padding: 0 1rem;
+        color: white;
+      }
 
-    /* Ensure Font Awesome icons are always visible and correctly styled */
-    .fa,
-    .fab,
-    .fas,
-    .far,
-    i.fa,
-    i.fab,
-    i.fas,
-    i.far,
-    i.fa-facebook-f,
-    i.fa-x-twitter,
-    i.fa-instagram,
-    i.fa-linkedin-in,
-    i.fa-whatsapp,
-    i.fa-eye,
-    i.fa-eye-slash {
-      font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
-      display: inline-block !important;
-      visibility: visible !important;
-    }
+      /* Social Media Icon Styles */
+      .social-icon {
+        color: #fff;
+        font-size: 1.2rem;
+        margin-left: 1rem;
+        /* Space between icons (RTL) */
+        transition: color 0.3s ease;
+      }
 
-    /* Ensure icon font family in LTR mode */
-    body[dir="ltr"] .fa,
-    body[dir="ltr"] .fab,
-    body[dir="ltr"] .fas,
-    body[dir="ltr"] .far,
-    body[dir="ltr"] i.fa,
-    body[dir="ltr"] i.fab,
-    body[dir="ltr"] i.fas,
-    body[dir="ltr"] i.far {
-      font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
-    }
+      .social-icon:hover {
+        color: #3498db;
+        /* Icon color on hover */
+      }
 
-    /* Maintain RTL direction for header and footer in LTR mode */
-    body[dir="ltr"] #mainHeader,
-    body[dir="ltr"] #mainFooter {
-      direction: rtl !important;
-    }
+      /* Footer Copyright Image Style */
+      footer .copyright img {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        background-color: white;
+        padding: 2px;
+        object-fit: contain;
+        background-clip: content-box;
+        vertical-align: middle;
+        margin-right: 8px;
+        /* Space to the right of the image (RTL) */
+      }
 
-    /* Maintain Tajawal font for header and footer text in LTR mode */
-    body[dir="ltr"] #mainHeader *,
-    body[dir="ltr"] #mainFooter * {
-      font-family: "Tajawal", sans-serif !important;
-    }
-  </style>
-</head>
+      /* Footer Logo (Company Logo) Style */
+      .footer-logo {
+        height: 24px;
+        margin-right: 8px;
+        /* Space to the right (RTL) */
+        vertical-align: middle;
+        display: inline-block !important;
+      }
 
-<body>
-  <!-- Page Header -->
-  <header id="mainHeader">
-    <!-- Left Section: UN Habitat Logo and Language Toggle -->
-    <div style="display: flex; align-items: center; gap: 10px">
-      <!-- UN Habitat Logo -->
-      <img src="../assets/img/unhabitat.jfif" alt="UN Habitat Logo" class="header-logo" />
+      /* Adjust footer logo margin for LTR (English) mode */
+      body[dir="ltr"] .footer-logo {
+        margin-right: 8px;
+        /* Keep margin-right for consistency, or adjust as needed */
+        margin-left: 0;
+      }
 
-      <!-- Language Toggle Button -->
-      <div class="language-dropdown">
-        <button class="language-toggle" id="langToggleBtn" onclick="toggleLanguage()">
-          AR
-        </button>
+      /* Company Link Style in Footer */
+      .companyHITech {
+        color: white !important;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .companyHITech:hover {
+        color: #f0f0f0 !important;
+        /* Lighter color on hover */
+        text-decoration: underline;
+        /* Removed nested .bg style here as it's invalid CSS structure */
+      }
+
+      /* Menu Dropdown Styles (if used, not directly visible in login) */
+      .menu-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .menu-toggle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.32);
+        transform: scale(1.05);
+        /* Slight zoom effect on hover */
+      }
+
+      .menu-dropdown-content {
+        display: none;
+        /* Hidden by default */
+        position: absolute;
+        top: 100%;
+        /* Position below the toggle */
+        right: 0;
+        /* Align to the right (RTL) */
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1000;
+        /* Ensure dropdown is above other content */
+        margin-top: 5px;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        text-decoration: none;
+        color: #333;
+        transition: background-color 0.3s ease;
+      }
+
+      .menu-item i {
+        /* Icon inside menu item */
+        margin-left: 8px;
+        /* Space to the left of icon (RTL) */
+        width: 20px;
+        text-align: center;
+      }
+
+      .menu-item:hover {
+        background-color: #f5f5f5;
+        /* Background color on hover */
+      }
+
+      /* Adjust menu dropdown for LTR (English) mode */
+      body[dir="ltr"] .menu-dropdown-content {
+        right: auto;
+        left: 0;
+        /* Align to the left */
+      }
+
+      body[dir="ltr"] .menu-item i {
+        margin-left: 0;
+        margin-right: 8px;
+        /* Space to the right of icon */
+      }
+
+      /* Ensure Font Awesome icons are always visible and correctly styled */
+      .fa,
+      .fab,
+      .fas,
+      .far,
+      i.fa,
+      i.fab,
+      i.fas,
+      i.far,
+      i.fa-facebook-f,
+      i.fa-x-twitter,
+      i.fa-instagram,
+      i.fa-linkedin-in,
+      i.fa-whatsapp,
+      i.fa-eye,
+      i.fa-eye-slash {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+        display: inline-block !important;
+        visibility: visible !important;
+      }
+
+      /* Ensure icon font family in LTR mode */
+      body[dir="ltr"] .fa,
+      body[dir="ltr"] .fab,
+      body[dir="ltr"] .fas,
+      body[dir="ltr"] .far,
+      body[dir="ltr"] i.fa,
+      body[dir="ltr"] i.fab,
+      body[dir="ltr"] i.fas,
+      body[dir="ltr"] i.far {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+      }
+
+      /* Maintain RTL direction for header and footer in LTR mode */
+      body[dir="ltr"] #mainHeader,
+      body[dir="ltr"] #mainFooter {
+        direction: rtl !important;
+      }
+
+      /* Maintain Tajawal font for header and footer text in LTR mode */
+      body[dir="ltr"] #mainHeader *,
+      body[dir="ltr"] #mainFooter * {
+        font-family: "Tajawal", sans-serif !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Page Header -->
+    <header id="mainHeader">
+      <!-- Left Section: UN Habitat Logo and Language Toggle -->
+      <div style="display: flex; align-items: center; gap: 10px">
+        <!-- UN Habitat Logo -->
+
+        <img
+          src="../assets/img/unhabitat.jfif"
+          alt="Logo 3"
+          class="header-logo"
+        />
+
+        <!-- Language Toggle Button -->
+        <div class="language-dropdown">
+          <button
+            class="language-toggle"
+            id="langToggleBtn"
+            onclick="toggleLanguage()"
+          >
+            AR
+          </button>
+        </div>
       </div>
-    </div>
 
-    <!-- Center Section: Page Title (Arabic and English) -->
-    <div class="header-title text-center" id="fixedHeader">
-      <div style="
-            font-size: 1.2rem;
+      <!-- Center Section: Page Title (Arabic and English) -->
+      <div class="header-title text-center" id="fixedHeader">
+        <div
+          style="
+            font-size: 1.1rem;
             font-family: 'Tajawal', sans-serif !important;
-          " class="title-ar">
-        نظام إدارة المعلومات الحضرية _ مدينة حلب
-      </div>
-      <div style="
-            font-size: 1.2rem;
+          "
+          class="title-ar"
+        >
+          نظام إدارة المعلومات الحضرية _ مدينة حلب
+        </div>
+        <div
+          style="
+            font-size: 1.1rem;
             font-family: 'Tajawal', sans-serif !important;
-          " class="title-en">
-        Urban Information Management System - Aleppo City
+          "
+          class="title-en"
+        >
+          Urban Information Management System - Aleppo City
+        </div>
       </div>
-    </div>
 
-    <!-- Right Section: Aleppo and Japan Logos -->
-    <div class="header-logos right-logos">
-      <img src="../assets/img/aleppo.jfif" alt="Aleppo City Logo" class="header-logo" />
-      <img src="../assets/img/japan.png" alt="Japan Flag Logo" class="header-logo" />
-    </div>
-  </header>
+      <!-- Right Section: Aleppo and Japan Logos -->
+      <div class="header-logos right-logos">
+        <img
+          src="../assets/img/aleppo.jfif"
+          alt="Aleppo City Logo"
+          class="header-logo"
+        />
+        <img
+          src="../assets/img/japan.png"
+          alt="Japan Flag Logo"
+          class="header-logo"
+        />
+      </div>
+    </header>
 
-  <!-- Main Content Area: Login Form -->
-  <div class="container d-flex justify-content-center align-items-center" style="height: 100%">
-    <div class="col-md-6">
-      <!-- Login Card -->
-      <div class="card" id="authCard">
-        <div class="tab-content" id="tabsContent">
-          <!-- Sign In Tab Pane -->
-          <div class="tab-pane fade show active" id="signin" role="tabpanel">
-            <!-- Sign In Form -->
-            <form id="signinForm">
-              <!-- Email Input -->
-              <div class="mb-3">
-                <label class="form-label" for="emailInput" id="emailLabel1">البريد الإلكتروني</label>
-                <input class="form-control" id="emailInput" placeholder="example@email.com" required="" type="email" />
-                <div class="invalid-feedback" id="emailFeedback"></div>
-              </div>
-              <!-- Password Input -->
-              <div class="mb-3">
-                <label class="form-label" for="passwordInput" id="passwordLabel1">كلمة المرور</label>
-                <div class="password-wrapper">
-                  <input class="form-control" id="passwordInput" required="" type="password" />
-                  <button type="button" class="toggle-password" tabindex="-1" onclick="togglePasswordVisibility()">
-                    <i class="fa fa-eye" id="eyeIcon"></i>
-                  </button>
+    <!-- Main Content Area: Login Form -->
+    <div
+      class="container d-flex justify-content-center align-items-center"
+      style="height: 100%"
+    >
+      <div class="col-md-6">
+        <!-- Login Card -->
+        <div class="card" id="authCard">
+          <div class="tab-content" id="tabsContent">
+            <!-- Sign In Tab Pane -->
+            <div class="tab-pane fade show active" id="signin" role="tabpanel">
+              <!-- Sign In Form -->
+              <form id="signinForm">
+                <!-- Email Input -->
+                <div class="mb-3">
+                  <label class="form-label" for="emailInput" id="emailLabel1"
+                    >البريد الإلكتروني</label
+                  >
+                  <input
+                    class="form-control"
+                    id="emailInput"
+                    placeholder="example@email.com"
+                    required=""
+                    type="email"
+                  />
+                  <div class="invalid-feedback" id="emailFeedback"></div>
                 </div>
-                <div class="invalid-feedback" id="passwordFeedback"></div>
-              </div>
-              <!-- Login Button -->
-              <button class="btn btn-primary w-100" id="loginBtn" type="submit">
-                تسجيل الدخول
-              </button>
-            </form>
+                <!-- Password Input -->
+                <div class="mb-3">
+                  <label
+                    class="form-label"
+                    for="passwordInput"
+                    id="passwordLabel1"
+                    >كلمة المرور</label
+                  >
+                  <div class="password-wrapper">
+                    <input
+                      class="form-control"
+                      id="passwordInput"
+                      required=""
+                      type="password"
+                    />
+                    <button
+                      title="password"
+                      type="button"
+                      class="toggle-password"
+                      tabindex="-1"
+                      onclick="togglePasswordVisibility()"
+                    >
+                      <i class="fa fa-eye" id="eyeIcon"></i>
+                    </button>
+                  </div>
+                  <div class="invalid-feedback" id="passwordFeedback"></div>
+                </div>
+                <!-- Login Button -->
+                <button
+                  class="btn btn-primary w-100"
+                  id="loginBtn"
+                  type="submit"
+                >
+                  تسجيل الدخول
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Page Footer -->
-  <footer id="mainFooter">
-    <div class="footer-content">
-      <!-- Copyright Information -->
-      <div class="copyright">
-        <span class="copyright-text" lang="ar">
-          ©
-          <script>
-            document.write(new Date().getFullYear()); // Dynamically sets the current year
-          </script>
-          , <span lang="ar" class="arabic-text"> Powered by</span> ,
-          <a class="companyHITech arabic-text" href="https://www.hi-techhouse.com" target="_blank" lang="ar">
-            HI-Tech House</a>
-        </span>
-        <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+    <!-- Page Footer -->
+    <footer id="mainFooter">
+      <div class="footer-content">
+        <!-- Copyright Information -->
+        <div class="copyright">
+          <span class="copyright-text" lang="ar">
+            ©
+            <script>
+              document.write(new Date().getFullYear()); // Dynamically sets the current year
+            </script>
+            , <span lang="ar" class="arabic-text"> Powered by</span> ,
+            <a
+              rel="noopener"
+              class="companyHITech arabic-text"
+              href="https://hasan20nassar.github.io/HTH_Profile/"
+              target="_blank"
+              lang="ar"
+            >
+              HI-Tech House</a
+            >
+          </span>
+          <img
+            alt="Company Logo"
+            src="../assets/img/HTH.png"
+            class="footer-logo"
+          />
+        </div>
+        <!-- Social Media Icons -->
+        <div class="social-icons">
+          <a aria-label="Facebook" class="social-icon facebook" href="#"
+            ><i class="fab fa-facebook-f" aria-hidden="true"></i
+          ></a>
+          <a aria-label="Twitter" class="social-icon twitter" href="#"
+            ><i class="fab fa-x-twitter" aria-hidden="true"></i
+          ></a>
+          <a aria-label="Instagram" class="social-icon instagram" href="#"
+            ><i class="fab fa-instagram" aria-hidden="true"></i
+          ></a>
+          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
+            ><i class="fab fa-linkedin-in" aria-hidden="true"></i
+          ></a>
+          <a
+            aria-label="WhatsApp"
+            class="social-icon whatsapp"
+            href="https://wa.me/966501234567"
+            ><i class="fab fa-whatsapp" aria-hidden="true"></i
+          ></a>
+        </div>
       </div>
-      <!-- Social Media Icons -->
-      <div class="social-icons">
-        <a aria-label="Facebook" class="social-icon facebook" href="#"><i class="fab fa-facebook-f"
-            aria-hidden="true"></i></a>
-        <a aria-label="Twitter" class="social-icon twitter" href="#"><i class="fab fa-x-twitter"
-            aria-hidden="true"></i></a>
-        <a aria-label="Instagram" class="social-icon instagram" href="#"><i class="fab fa-instagram"
-            aria-hidden="true"></i></a>
-        <a aria-label="LinkedIn" class="social-icon linkedin" href="#"><i class="fab fa-linkedin-in"
-            aria-hidden="true"></i></a>
-        <a aria-label="WhatsApp" class="social-icon whatsapp" href="https://wa.me/966501234567"><i
-            class="fab fa-whatsapp" aria-hidden="true"></i></a>
-      </div>
-    </div>
-  </footer>
+    </footer>
 
-  <!-- Bootstrap Bundle JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Custom JavaScript -->
-  <script>
-    // Translations for multi-language support
-    const translations = {
-      ar: {
-        dir: "rtl",
-        signin: "تسجيل الدخول",
-        title: "نظام الإدارة الحضرية لمدينة حلب",
-        signup: "إنشاء حساب",
-        email: "البريد الإلكتروني",
-        password: "كلمة المرور",
-        name: "الاسم الكامل",
-        province: "المحافظة",
-        area: "المنطقة",
-        loginBtn: "تسجيل الدخول",
-        registerBtn: "إنشاء الحساب",
-        select: "اختر",
-        footerRights: "جميع الحقوق محفوظة لصالح",
-        emailRequired: "الرجاء إدخال البريد الإلكتروني",
-        emailInvalid: "الرجاء إدخال بريد إلكتروني صحيح",
-        passwordRequired: "الرجاء إدخال كلمة المرور",
-        passwordLength: "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
-        loginError: "البريد الإلكتروني أو كلمة المرور غير صحيحة!",
-        settingsText: "الإعدادات",
-        logoutText: "تسجيل الخروج",
-      },
-      en: {
-        dir: "ltr",
-        signin: "Sign In",
-        title: "Urban Management System for Aleppo",
-        signup: "Sign Up",
-        email: "Email",
-        password: "Password",
-        name: "Full Name",
-        province: "Province",
-        area: "Area",
-        loginBtn: "Log In",
-        registerBtn: "Register",
-        select: "Select",
-        footerRights: "All rights reserved to",
-        emailRequired: "Please enter your email",
-        emailInvalid: "Please enter a valid email",
-        passwordRequired: "Please enter your password",
-        passwordLength: "Password must be at least 6 characters",
-        loginError: "Invalid email or password!",
-        settingsText: "Settings",
-        logoutText: "Logout",
-      },
-    };
+    <!-- Custom JavaScript -->
+    <script>
+      // Translations for multi-language support
+      const translations = {
+        ar: {
+          dir: "rtl",
+          signin: "تسجيل الدخول",
+          title: "نظام الإدارة الحضرية لمدينة حلب",
+          signup: "إنشاء حساب",
+          email: "البريد الإلكتروني",
+          password: "كلمة المرور",
+          name: "الاسم الكامل",
+          province: "المحافظة",
+          area: "المنطقة",
+          loginBtn: "تسجيل الدخول",
+          registerBtn: "إنشاء الحساب",
+          select: "اختر",
+          footerRights: "جميع الحقوق محفوظة لصالح",
+          emailRequired: "الرجاء إدخال البريد الإلكتروني",
+          emailInvalid: "الرجاء إدخال بريد إلكتروني صحيح",
+          passwordRequired: "الرجاء إدخال كلمة المرور",
+          passwordLength: "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+          loginError: "البريد الإلكتروني أو كلمة المرور غير صحيحة!",
+          settingsText: "الإعدادات",
+          logoutText: "تسجيل الخروج",
+        },
+        en: {
+          dir: "ltr",
+          signin: "Sign In",
+          title: "Urban Management System for Aleppo",
+          signup: "Sign Up",
+          email: "Email",
+          password: "Password",
+          name: "Full Name",
+          province: "Province",
+          area: "Area",
+          loginBtn: "Log In",
+          registerBtn: "Register",
+          select: "Select",
+          footerRights: "All rights reserved to",
+          emailRequired: "Please enter your email",
+          emailInvalid: "Please enter a valid email",
+          passwordRequired: "Please enter your password",
+          passwordLength: "Password must be at least 6 characters",
+          loginError: "Invalid email or password!",
+          settingsText: "Settings",
+          logoutText: "Logout",
+        },
+      };
 
-    let currentLang = "ar"; // Default language
+      let currentLang = "ar"; // Default language
 
-    // Function to switch page language
-    function switchLanguage(lang) {
-      currentLang = lang;
-      const t = translations[lang];
+      // Function to switch page language
+      function switchLanguage(lang) {
+        currentLang = lang;
+        const t = translations[lang];
 
-      const mainHeader = document.getElementById("mainHeader");
-      const mainFooter = document.getElementById("mainFooter");
+        const mainHeader = document.getElementById("mainHeader");
+        const mainFooter = document.getElementById("mainFooter");
 
-      // Apply language direction to the document
-      document.documentElement.lang = lang;
-      document.documentElement.dir = t.dir;
+        // Apply language direction to the document
+        document.documentElement.lang = lang;
+        document.documentElement.dir = t.dir;
 
-      // Ensure header and footer remain RTL and use Tajawal font
-      mainHeader.style.direction = "rtl";
-      mainFooter.style.direction = "rtl";
-      document
-        .querySelectorAll("#mainHeader *, #mainFooter *")
-        .forEach((el) => {
-          if (window.getComputedStyle(el).fontFamily) { // Check if fontFamily is applicable
-            el.style.fontFamily = '"Tajawal", sans-serif';
-          }
-        });
+        // Ensure header and footer remain RTL and use Tajawal font
+        mainHeader.style.direction = "rtl";
+        mainFooter.style.direction = "rtl";
+        document
+          .querySelectorAll("#mainHeader *, #mainFooter *")
+          .forEach((el) => {
+            if (window.getComputedStyle(el).fontFamily) {
+              // Check if fontFamily is applicable
+              el.style.fontFamily = '"Tajawal", sans-serif';
+            }
+          });
 
-      // Update login form text elements
-      document.getElementById("emailLabel1").textContent = t.email;
-      document.getElementById("passwordLabel1").textContent = t.password;
-      document.getElementById("loginBtn").textContent = t.loginBtn;
+        // Update login form text elements
+        document.getElementById("emailLabel1").textContent = t.email;
+        document.getElementById("passwordLabel1").textContent = t.password;
+        document.getElementById("loginBtn").textContent = t.loginBtn;
 
-      // Adjust password toggle button position based on language direction
-      const togglePasswordBtn = document.querySelector(".toggle-password");
-      if (lang === "en") {
-        togglePasswordBtn.style.left = "auto";
-        togglePasswordBtn.style.right = "10px";
-      } else {
-        togglePasswordBtn.style.right = "auto";
-        togglePasswordBtn.style.left = "10px";
-      }
-
-      // Ensure login form elements use Tajawal font
-      document
-        .querySelectorAll(
-          "#signinForm .btn, #signinForm label, #signinForm input"
-        )
-        .forEach((el) => {
-          el.style.fontFamily = '"Tajawal", sans-serif';
-        });
-
-      // Ensure Font Awesome icons are correctly displayed
-      document.querySelectorAll(".fa, .fab, .fas, .far").forEach((el) => {
-        el.style.fontFamily =
-          '"Font Awesome 6 Free", "Font Awesome 6 Brands"';
-        el.style.display = "inline-block";
-        el.style.visibility = "visible";
-      });
-
-      // Update email input placeholder (remains the same in this case)
-      if (document.getElementById("emailInput")) {
-        document.getElementById("emailInput").placeholder = "example@email.com";
-      }
-
-      // Update validation feedback messages
-      const emailFeedback = document.getElementById("emailFeedback");
-      const passwordFeedback = document.getElementById("passwordFeedback");
-
-      if (emailFeedback && emailFeedback.textContent) { // Only update if a message is present
-        if (emailFeedback.textContent.includes(translations.ar.emailRequired) ||
-          emailFeedback.textContent.includes(translations.en.emailRequired)) {
-          emailFeedback.textContent = t.emailRequired;
-        } else if (emailFeedback.textContent.includes(translations.ar.emailInvalid) ||
-          emailFeedback.textContent.includes(translations.en.emailInvalid)) {
-          emailFeedback.textContent = t.emailInvalid;
+        // Adjust password toggle button position based on language direction
+        const togglePasswordBtn = document.querySelector(".toggle-password");
+        if (lang === "en") {
+          togglePasswordBtn.style.left = "auto";
+          togglePasswordBtn.style.right = "10px";
+        } else {
+          togglePasswordBtn.style.right = "auto";
+          togglePasswordBtn.style.left = "10px";
         }
-      }
 
-      if (passwordFeedback && passwordFeedback.textContent) { // Only update if a message is present
-        if (passwordFeedback.textContent.includes(translations.ar.passwordRequired) ||
-          passwordFeedback.textContent.includes(translations.en.passwordRequired)) {
-          passwordFeedback.textContent = t.passwordRequired;
-        } else if (passwordFeedback.textContent.includes(translations.ar.passwordLength) ||
-          passwordFeedback.textContent.includes(translations.en.passwordLength)) {
-          passwordFeedback.textContent = t.passwordLength;
-        }
-      }
-
-      // Delayed re-application of styles to ensure overrides
-      setTimeout(() => {
+        // Ensure login form elements use Tajawal font
         document
           .querySelectorAll(
             "#signinForm .btn, #signinForm label, #signinForm input"
@@ -808,182 +840,307 @@
             el.style.fontFamily = '"Tajawal", sans-serif';
           });
 
-        document
-          .querySelectorAll("#mainHeader *, #mainFooter *")
-          .forEach((el) => {
-            if (window.getComputedStyle(el).fontFamily) {
-              el.style.fontFamily = '"Tajawal", sans-serif';
-            }
-          });
-
+        // Ensure Font Awesome icons are correctly displayed
         document.querySelectorAll(".fa, .fab, .fas, .far").forEach((el) => {
           el.style.fontFamily =
             '"Font Awesome 6 Free", "Font Awesome 6 Brands"';
           el.style.display = "inline-block";
           el.style.visibility = "visible";
         });
-      }, 100);
-    }
 
-    // Function to toggle language between Arabic and English
-    function toggleLanguage() {
-      const btn = document.getElementById("langToggleBtn");
-      const headerTitleDiv = document.querySelector(".header-title");
-      const currentHeaderHTML = headerTitleDiv.innerHTML; // Store current header HTML
-
-      if (currentLang === "ar") {
-        btn.textContent = "EN";
-        switchLanguage("en");
-      } else {
-        btn.textContent = "AR";
-        switchLanguage("ar");
-      }
-      headerTitleDiv.innerHTML = currentHeaderHTML; // Restore header HTML to prevent translation
-    }
-
-    // Initialize language to Arabic on page load
-    switchLanguage("ar");
-
-    // Event listener for DOM content loaded
-    document.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById("signinForm");
-      const emailInput = document.getElementById("emailInput");
-      const passwordInput = document.getElementById("passwordInput");
-      const emailFeedback = document.getElementById("emailFeedback");
-      const passwordFeedback = document.getElementById("passwordFeedback");
-
-      // Function to validate email format
-      function validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-      }
-
-      // Function to validate password length
-      function validatePassword(password) {
-        return password.length >= 6;
-      }
-
-      // Function to show error message for an input field
-      function showError(input, feedback, message) {
-        input.classList.remove("is-valid");
-        input.classList.add("is-invalid");
-        feedback.textContent = message;
-      }
-
-      // Function to show success state for an input field
-      function showSuccess(input, feedback) {
-        input.classList.remove("is-invalid");
-        input.classList.add("is-valid");
-        feedback.textContent = ""; // Clear feedback message
-      }
-
-      // Real-time email validation
-      emailInput.addEventListener("input", function () {
-        const email = this.value.trim();
-        if (!email) {
-          showError(this, emailFeedback, translations[currentLang].emailRequired);
-        } else if (!validateEmail(email)) {
-          showError(this, emailFeedback, translations[currentLang].emailInvalid);
-        } else {
-          showSuccess(this, emailFeedback);
+        // Update email input placeholder (remains the same in this case)
+        if (document.getElementById("emailInput")) {
+          document.getElementById("emailInput").placeholder =
+            "example@email.com";
         }
+
+        // Update validation feedback messages
+        const emailFeedback = document.getElementById("emailFeedback");
+        const passwordFeedback = document.getElementById("passwordFeedback");
+
+        if (emailFeedback && emailFeedback.textContent) {
+          // Only update if a message is present
+          if (
+            emailFeedback.textContent.includes(translations.ar.emailRequired) ||
+            emailFeedback.textContent.includes(translations.en.emailRequired)
+          ) {
+            emailFeedback.textContent = t.emailRequired;
+          } else if (
+            emailFeedback.textContent.includes(translations.ar.emailInvalid) ||
+            emailFeedback.textContent.includes(translations.en.emailInvalid)
+          ) {
+            emailFeedback.textContent = t.emailInvalid;
+          }
+        }
+
+        if (passwordFeedback && passwordFeedback.textContent) {
+          // Only update if a message is present
+          if (
+            passwordFeedback.textContent.includes(
+              translations.ar.passwordRequired
+            ) ||
+            passwordFeedback.textContent.includes(
+              translations.en.passwordRequired
+            )
+          ) {
+            passwordFeedback.textContent = t.passwordRequired;
+          } else if (
+            passwordFeedback.textContent.includes(
+              translations.ar.passwordLength
+            ) ||
+            passwordFeedback.textContent.includes(
+              translations.en.passwordLength
+            )
+          ) {
+            passwordFeedback.textContent = t.passwordLength;
+          }
+        }
+
+        // Delayed re-application of styles to ensure overrides
+        setTimeout(() => {
+          document
+            .querySelectorAll(
+              "#signinForm .btn, #signinForm label, #signinForm input"
+            )
+            .forEach((el) => {
+              el.style.fontFamily = '"Tajawal", sans-serif';
+            });
+
+          document
+            .querySelectorAll("#mainHeader *, #mainFooter *")
+            .forEach((el) => {
+              if (window.getComputedStyle(el).fontFamily) {
+                el.style.fontFamily = '"Tajawal", sans-serif';
+              }
+            });
+
+          document.querySelectorAll(".fa, .fab, .fas, .far").forEach((el) => {
+            el.style.fontFamily =
+              '"Font Awesome 6 Free", "Font Awesome 6 Brands"';
+            el.style.display = "inline-block";
+            el.style.visibility = "visible";
+          });
+        }, 100);
+      }
+
+      // Function to toggle language between Arabic and English
+      function toggleLanguage() {
+        const btn = document.getElementById("langToggleBtn");
+        const headerTitleDiv = document.querySelector(".header-title");
+        const currentHeaderHTML = headerTitleDiv.innerHTML; // Store current header HTML
+
+        if (currentLang === "ar") {
+          btn.textContent = "EN";
+          switchLanguage("en");
+        } else {
+          btn.textContent = "AR";
+          switchLanguage("ar");
+        }
+        headerTitleDiv.innerHTML = currentHeaderHTML; // Restore header HTML to prevent translation
+
+        // Store language preference in localStorage
+        try {
+          localStorage.setItem("preferredLanguage", currentLang);
+        } catch (error) {
+          console.error("Error saving language preference:", error);
+        }
+      }
+
+      // Initialize language based on stored preference or default to Arabic
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if there's a saved language preference in localStorage
+        let savedLanguage;
+        try {
+          savedLanguage = localStorage.getItem("preferredLanguage");
+        } catch (error) {
+          console.error("Error retrieving language preference:", error);
+          savedLanguage = null;
+        }
+
+        // Set initial language based on saved preference or default to Arabic
+        const initialLang = savedLanguage || "ar";
+        switchLanguage(initialLang);
       });
 
-      // Real-time password validation
-      passwordInput.addEventListener("input", function () {
-        const password = this.value;
-        if (!password) {
-          showError(this, passwordFeedback, translations[currentLang].passwordRequired);
-        } else if (!validatePassword(password)) {
-          showError(this, passwordFeedback, translations[currentLang].passwordLength);
-        } else {
-          showSuccess(this, passwordFeedback);
+      // Event listener for DOM content loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("signinForm");
+        const emailInput = document.getElementById("emailInput");
+        const passwordInput = document.getElementById("passwordInput");
+        const emailFeedback = document.getElementById("emailFeedback");
+        const passwordFeedback = document.getElementById("passwordFeedback");
+
+        // Function to validate email format
+        function validateEmail(email) {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return emailRegex.test(email);
         }
+
+        // Function to validate password length
+        function validatePassword(password) {
+          return password.length >= 6;
+        }
+
+        // Function to show error message for an input field
+        function showError(input, feedback, message) {
+          input.classList.remove("is-valid");
+          input.classList.add("is-invalid");
+          feedback.textContent = message;
+        }
+
+        // Function to show success state for an input field
+        function showSuccess(input, feedback) {
+          input.classList.remove("is-invalid");
+          input.classList.add("is-valid");
+          feedback.textContent = ""; // Clear feedback message
+        }
+
+        // Real-time email validation
+        emailInput.addEventListener("input", function () {
+          const email = this.value.trim();
+          if (!email) {
+            showError(
+              this,
+              emailFeedback,
+              translations[currentLang].emailRequired
+            );
+          } else if (!validateEmail(email)) {
+            showError(
+              this,
+              emailFeedback,
+              translations[currentLang].emailInvalid
+            );
+          } else {
+            showSuccess(this, emailFeedback);
+          }
+        });
+
+        // Real-time password validation
+        passwordInput.addEventListener("input", function () {
+          const password = this.value;
+          if (!password) {
+            showError(
+              this,
+              passwordFeedback,
+              translations[currentLang].passwordRequired
+            );
+          } else if (!validatePassword(password)) {
+            showError(
+              this,
+              passwordFeedback,
+              translations[currentLang].passwordLength
+            );
+          } else {
+            showSuccess(this, passwordFeedback);
+          }
+        });
+
+        // Form submission handler
+        form.addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent default form submission
+
+          const email = emailInput.value.trim();
+          const password = passwordInput.value;
+          let isValid = true;
+
+          // Validate email on submit
+          if (!email || !validateEmail(email)) {
+            showError(
+              emailInput,
+              emailFeedback,
+              translations[currentLang].emailInvalid
+            );
+            isValid = false;
+          } else {
+            showSuccess(emailInput, emailFeedback);
+          }
+
+          // Validate password on submit
+          if (!password || !validatePassword(password)) {
+            showError(
+              passwordInput,
+              passwordFeedback,
+              translations[currentLang].passwordLength
+            );
+            isValid = false;
+          } else {
+            showSuccess(passwordInput, passwordFeedback);
+          }
+
+          if (!isValid) return; // Stop if form is not valid
+
+          // Example user credentials (replace with actual authentication logic)
+          const users = {
+            admin: {
+              email: "admin@example.com",
+              password: "admin123",
+              role: "admin",
+            },
+            user: {
+              email: "user@example.com",
+              password: "user123",
+              role: "user",
+            },
+          };
+
+          // Check credentials and redirect
+          if (
+            email === users.admin.email &&
+            password === users.admin.password
+          ) {
+            window.location.href = "admin.html"; // Redirect admin
+          } else if (
+            email === users.user.email &&
+            password === users.user.password
+          ) {
+            window.location.href = "user.html"; // Redirect user
+          } else {
+            alert(translations[currentLang].loginError); // Show login error
+          }
+        });
       });
 
-      // Form submission handler
-      form.addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent default form submission
-
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-        let isValid = true;
-
-        // Validate email on submit
-        if (!email || !validateEmail(email)) {
-          showError(emailInput, emailFeedback, translations[currentLang].emailInvalid);
-          isValid = false;
+      // Function to toggle password visibility
+      function togglePasswordVisibility() {
+        const passwordInput = document.getElementById("passwordInput");
+        const eyeIcon = document.getElementById("eyeIcon");
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          eyeIcon.classList.remove("fa-eye");
+          eyeIcon.classList.add("fa-eye-slash");
         } else {
-          showSuccess(emailInput, emailFeedback);
+          passwordInput.type = "password";
+          eyeIcon.classList.remove("fa-eye-slash");
+          eyeIcon.classList.add("fa-eye");
         }
+      }
 
-        // Validate password on submit
-        if (!password || !validatePassword(password)) {
-          showError(passwordInput, passwordFeedback, translations[currentLang].passwordLength);
-          isValid = false;
-        } else {
-          showSuccess(passwordInput, passwordFeedback);
+      // Function to toggle a generic menu (not used in login, but defined)
+      function toggleMenu() {
+        const menu = document.getElementById("menuDropdown"); // Assumes an element with ID 'menuDropdown'
+        if (menu) {
+          menu.style.display =
+            menu.style.display === "block" ? "none" : "block";
         }
+      }
 
-        if (!isValid) return; // Stop if form is not valid
+      // Function for logout (redirects to index.html)
+      function logout() {
+        window.location.href = "./index.html";
+      }
 
-        // Example user credentials (replace with actual authentication logic)
-        const users = {
-          admin: { email: "admin@example.com", password: "admin123", role: "admin" },
-          user: { email: "user@example.com", password: "user123", role: "user" },
-        };
+      // Close menu dropdown when clicking outside of it
+      document.addEventListener("click", function (e) {
+        const menu = document.getElementById("menuDropdown");
+        const menuBtn = document.getElementById("menuToggleBtn"); // Assumes a toggle button with ID 'menuToggleBtn'
 
-        // Check credentials and redirect
-        if (email === users.admin.email && password === users.admin.password) {
-          window.location.href = "admin.html"; // Redirect admin
-        } else if (email === users.user.email && password === users.user.password) {
-          window.location.href = "user.html"; // Redirect user
-        } else {
-          alert(translations[currentLang].loginError); // Show login error
+        if (menu && menuBtn) {
+          // Check if both elements exist
+          if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
+            menu.style.display = "none";
+          }
         }
       });
-    });
-
-    // Function to toggle password visibility
-    function togglePasswordVisibility() {
-      const passwordInput = document.getElementById("passwordInput");
-      const eyeIcon = document.getElementById("eyeIcon");
-      if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        eyeIcon.classList.remove("fa-eye");
-        eyeIcon.classList.add("fa-eye-slash");
-      } else {
-        passwordInput.type = "password";
-        eyeIcon.classList.remove("fa-eye-slash");
-        eyeIcon.classList.add("fa-eye");
-      }
-    }
-
-    // Function to toggle a generic menu (not used in login, but defined)
-    function toggleMenu() {
-      const menu = document.getElementById("menuDropdown"); // Assumes an element with ID 'menuDropdown'
-      if (menu) {
-        menu.style.display = menu.style.display === "block" ? "none" : "block";
-      }
-    }
-
-    // Function for logout (redirects to index.html)
-    function logout() {
-      window.location.href = "./index.html";
-    }
-
-    // Close menu dropdown when clicking outside of it
-    document.addEventListener("click", function (e) {
-      const menu = document.getElementById("menuDropdown");
-      const menuBtn = document.getElementById("menuToggleBtn"); // Assumes a toggle button with ID 'menuToggleBtn'
-
-      if (menu && menuBtn) { // Check if both elements exist
-        if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
-          menu.style.display = "none";
-        }
-      }
-    });
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

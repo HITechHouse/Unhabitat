@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>Admin Dashboard</title>
+    <title>Admin Intro</title>
     <link
       rel="shortcut icon"
       href="../assets/img/UN_Habitat_Icon.svg"
@@ -46,7 +46,8 @@
 
       html,
       body {
-        height: 100%; /* Ensure html and body take full height */
+        height: 100%;
+        /* Ensure html and body take full height */
       }
 
       body {
@@ -54,9 +55,12 @@
         flex-direction: column;
         color: #333;
         line-height: 1.6;
-        font-family: "Tajawal", "Inter", sans-serif; /* Default font stack */
-        height: 100vh; /* Full viewport height */
-        overflow: hidden; /* Prevent body scroll, main content will scroll if needed */
+        font-family: "Tajawal", "Inter", sans-serif;
+        /* Default font stack */
+        height: 100vh;
+        /* Full viewport height */
+        overflow: hidden;
+        /* Prevent body scroll, main content will scroll if needed */
       }
 
       /* Background image with blur effect */
@@ -70,8 +74,10 @@
         background-image: url("../assets/img/aleppo.png");
         background-size: cover;
         background-position: center;
-        z-index: -1; /* Behind all other content */
-        filter: blur(1px); /* Blur effect */
+        z-index: -1;
+        /* Behind all other content */
+        filter: blur(1px);
+        /* Blur effect */
       }
 
       /* Consistent Arabic font styling - excluding icon elements */
@@ -83,13 +89,15 @@
       label:not(i):not([class*="fa-"]),
       input:not(i):not([class*="fa-"]),
       .header-title div:not(i):not([class*="fa-"]) {
-        font-family: "Tajawal", sans-serif !important; /* Prioritize Tajawal for Arabic */
+        font-family: "Tajawal", sans-serif !important;
+        /* Prioritize Tajawal for Arabic */
       }
 
       /* Font consistency for LTR (English) mode, excluding icons */
       body[dir="ltr"]
         *:not(i):not([class*="fa-"]):not(.fa):not(.fab):not(.fas):not(.far) {
-        font-family: "Tajawal", "Inter", sans-serif !important; /* Maintain base font stack for LTR */
+        font-family: "Tajawal", "Inter", sans-serif !important;
+        /* Maintain base font stack for LTR */
       }
 
       /* Ensure Font Awesome icons display correctly */
@@ -103,49 +111,58 @@
 
       /* Layout Structure: Header, Main Content, Footer */
       #mainHeader {
-        flex-shrink: 0; /* Prevent header from shrinking */
+        flex-shrink: 0;
+        /* Prevent header from shrinking */
         position: fixed;
         top: 0;
         width: 100%;
         z-index: 1000;
-        background-color: #007bff;
+        background-color: #00b2e3;
         color: white;
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 4px 16px;
-        height: 50px; /* Fixed header height */
+        height: 50px;
+        /* Fixed header height */
         box-sizing: border-box;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        direction: rtl !important; /* Force RTL for header */
+        direction: rtl !important;
+        /* Force RTL for header */
       }
 
       #mainContent {
-        flex: 1; /* Allow main content to grow and fill available space */
+        flex: 1;
+        /* Allow main content to grow and fill available space */
         width: 100%;
         position: relative;
-        margin-top: 50px; /* Space for fixed header */
-        margin-bottom: 50px; /* Space for fixed footer */
-        height: calc(
-          100vh - 100px
-        ); /* Full viewport height minus header and footer */
-        overflow: hidden; /* Swiper will handle its own overflow/scrolling */
+        margin-top: 50px;
+        /* Space for fixed header */
+        margin-bottom: 50px;
+        /* Space for fixed footer */
+        height: calc(100vh - 100px);
+        /* Full viewport height minus header and footer */
+        overflow: hidden;
+        /* Swiper will handle its own overflow/scrolling */
         padding: 0;
       }
 
       #mainFooter {
-        flex-shrink: 0; /* Prevent footer from shrinking */
+        flex-shrink: 0;
+        /* Prevent footer from shrinking */
         position: fixed;
         bottom: 0;
         width: 100%;
         z-index: 1000;
-        background-color: #3066ff;
+        background-color: #00b2e3;
         padding: 4px 16px;
-        height: 50px; /* Fixed footer height */
+        height: 50px;
+        /* Fixed footer height */
         box-sizing: border-box;
         display: flex;
         align-items: center;
-        direction: rtl !important; /* Force RTL for footer */
+        direction: rtl !important;
+        /* Force RTL for footer */
       }
 
       /* Header Elements */
@@ -155,38 +172,48 @@
         width: 40px;
         border-radius: 50%;
         border: 2px solid rgba(255, 255, 255, 0.7);
-        object-fit: contain; /* Ensure logo fits well */
+        object-fit: contain;
+        /* Ensure logo fits well */
       }
 
       .header-logos {
         /* Container for multiple logos */
         display: flex;
         align-items: center;
-        gap: 12px; /* Space between logos */
-        padding: 5px; /* Padding around logos container */
+        gap: 12px;
+        /* Space between logos */
+        padding: 5px;
+        /* Padding around logos container */
       }
 
       .header-title {
         /* Main title in header */
-        flex: 1; /* Allow title to take available space */
+        flex: 1;
+        /* Allow title to take available space */
         text-align: center;
         font-weight: bold;
-        font-size: 1rem; /* Base font size */
+        font-size: 1rem;
+        /* Base font size */
         line-height: 1.2;
       }
 
       .title-ar {
         /* Arabic title specific style */
-        font-size: 1.2rem; /* Adjusted for better fit from original inline */
+        font-size: 1.1rem;
+        /* Adjusted for better fit from original inline */
         font-family: "Tajawal", sans-serif !important;
-        white-space: normal; /* Allow wrapping */
+        white-space: normal;
+        /* Allow wrapping */
       }
 
       .title-en {
         /* English title specific style */
-        font-size: 1.2rem; /* Adjusted for better fit from original inline */
-        font-family: "Tajawal", "Inter", sans-serif !important; /* Keep Inter for English part if desired */
-        white-space: normal; /* Allow wrapping */
+        font-size: 1.1rem;
+        /* Adjusted for better fit from original inline */
+        font-family: "Tajawal", "Inter", sans-serif !important;
+        /* Keep Inter for English part if desired */
+        white-space: normal;
+        /* Allow wrapping */
       }
 
       /* Language Dropdown/Toggle */
@@ -219,7 +246,8 @@
         background: rgba(255, 255, 255, 0.32);
         border-color: #fff;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-        color: #007bff; /* Example hover color */
+        color: #007bff;
+        /* Example hover color */
       }
 
       /* Menu Dropdown */
@@ -248,15 +276,19 @@
       }
 
       .menu-dropdown-content {
-        display: none; /* Hidden by default, shown by JS */
+        display: none;
+        /* Hidden by default, shown by JS */
         position: absolute;
-        top: 100%; /* Position below the toggle button */
-        right: 0; /* Align to the right for RTL default */
+        top: 100%;
+        /* Position below the toggle button */
+        right: 0;
+        /* Align to the right for RTL default */
         background-color: white;
         min-width: 160px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
-        z-index: 1000; /* Ensure it's above other content */
+        z-index: 1000;
+        /* Ensure it's above other content */
         margin-top: 5px;
       }
 
@@ -271,7 +303,8 @@
 
       .menu-item i {
         /* Icon styling within menu item */
-        margin-left: 8px; /* LTR default, JS might adjust for RTL/LTR text */
+        margin-left: 8px;
+        /* LTR default, JS might adjust for RTL/LTR text */
         width: 20px;
         text-align: center;
       }
@@ -283,15 +316,18 @@
       /* Main Content: Swiper Carousel */
       .swiper-container {
         width: 100%;
-        height: 100%; /* Fill the #mainContent area */
+        height: 100%;
+        /* Fill the #mainContent area */
       }
 
       .swiper-slide {
-        background-color: #1e293b; /* Slide background */
+        background-color: #1e293b;
+        /* Slide background */
         display: flex;
         align-items: center;
         justify-content: center;
-        opacity: 0.7; /* Applied opacity to slides */
+        opacity: 0.7;
+        /* Applied opacity to slides */
       }
 
       .swiper-slide > div {
@@ -308,9 +344,12 @@
         text-align: center;
         color: white;
         padding: 2rem;
-        position: relative; /* For z-index stacking if needed over overlays */
-        z-index: 2; /* Above potential overlays */
-        max-width: 800px; /* Limit content width for readability */
+        position: relative;
+        /* For z-index stacking if needed over overlays */
+        z-index: 2;
+        /* Above potential overlays */
+        max-width: 800px;
+        /* Limit content width for readability */
       }
 
       .slide-content h2 {
@@ -332,15 +371,17 @@
 
       .slide-content i {
         /* Icon styling within slide content */
-        margin-left: 0.5rem; /* Default spacing */
-        color: #3b82f6; /* Icon color */
+        margin-left: 0.5rem;
+        /* Default spacing */
+        color: #3b82f6;
+        /* Icon color */
       }
 
       /* Swiper Navigation Buttons */
       .swiper-button-next,
       .swiper-button-prev {
-        color: white; /* Navigation arrow color */
-        /* Swiper's default positioning is usually fine, can be overridden if needed */
+        color: white;
+        /* Navigation arrow color */
       }
 
       /* Floating Buttons over Swiper */
@@ -349,7 +390,8 @@
         top: 70%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 10; /* Above slides */
+        z-index: 10;
+        /* Above slides */
         display: flex;
         gap: 1rem;
         justify-content: center;
@@ -360,27 +402,32 @@
       .btn {
         padding: 0.75rem 1.5rem;
         margin: 0.5rem;
-        border-radius: 50px; /* Rounded buttons */
+        border-radius: 50px;
+        /* Rounded buttons */
         font-size: 1rem;
         font-weight: 600;
         text-decoration: none;
         transition: background 0.3s ease, opacity 0.3s ease;
         display: inline-block;
-        min-width: 150px; /* Minimum width for floating buttons */
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); /* Shadow for floating buttons */
+        min-width: 150px;
+        /* Minimum width for floating buttons */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        /* Shadow for floating buttons */
       }
 
       .btn:hover {
-        opacity: 0.9; /* General hover effect */
+        opacity: 0.9;
+        /* General hover effect */
       }
 
       .btn-primary {
-        background-color: #3b82f6;
+        background-color: #5b8fe0;
         color: #fff;
       }
 
       .btn-primary:hover {
-        background-color: #2563eb; /* Darker shade on hover */
+        background-color: #2563eb;
+        /* Darker shade on hover */
       }
 
       .btn-secondary {
@@ -389,7 +436,8 @@
       }
 
       .btn-secondary:hover {
-        background-color: #d1d5db; /* Darker shade on hover */
+        background-color: #d1d5db;
+        /* Darker shade on hover */
       }
 
       /* Footer Elements */
@@ -402,7 +450,8 @@
         align-items: center;
         padding: 0 1rem;
         color: white;
-        direction: rtl !important; /* Ensure content within footer is also RTL */
+        direction: rtl !important;
+        /* Ensure content within footer is also RTL */
       }
 
       .copyright {
@@ -424,15 +473,19 @@
 
       .footer-logo {
         /* Logo in footer, e.g. company logo */
-        height: 24px; /* Smaller logo for footer */
-        margin-right: 8px; /* Spacing for RTL, JS might adjust for LTR */
+        height: 24px;
+        /* Smaller logo for footer */
+        margin-right: 8px;
+        /* Spacing for RTL, JS might adjust for LTR */
         vertical-align: middle;
-        display: inline-block !important; /* Ensure it displays correctly */
+        display: inline-block !important;
+        /* Ensure it displays correctly */
       }
 
       footer .copyright img.footer-logo {
         /* More specific selector for HTH logo if needed */
-        height: 40px; /* As per original specific rule */
+        height: 40px;
+        /* As per original specific rule */
         width: 40px;
         border-radius: 50%;
         border: 2px solid rgba(255, 255, 255, 0.7);
@@ -453,22 +506,26 @@
       .social-icon {
         color: #fff;
         font-size: 1.2rem;
-        margin-left: 1rem; /* Spacing between icons (RTL context) */
+        margin-left: 1rem;
+        /* Spacing between icons (RTL context) */
         transition: color 0.3s ease;
       }
 
       .social-icon:hover {
-        color: #3498db; /* Example hover color */
+        color: #3498db;
+        /* Example hover color */
       }
 
       /* LTR Specific Adjustments */
       body[dir="ltr"] .header-title {
-        text-align: center; /* Already default, but explicit */
+        text-align: center;
+        /* Already default, but explicit */
       }
 
       body[dir="ltr"] .header-logos.right-logos {
         /* Adjust logo positioning for LTR */
-        margin-left: auto; /* Push to the right */
+        margin-left: auto;
+        /* Push to the right */
       }
 
       body[dir="ltr"] .menu-dropdown-content {
@@ -507,8 +564,10 @@
 
       body[dir="ltr"] .slide-content {
         /* Ensure slide content text alignment for LTR */
-        text-align: center; /* Already default, but explicit */
+        text-align: center;
+        /* Already default, but explicit */
       }
+
       body[dir="ltr"] .slide-content i {
         margin-left: 0;
         margin-right: 0.5rem;
@@ -521,9 +580,11 @@
           flex-direction: column;
           gap: 5px;
         }
+
         .account-name {
           /* Example if an account name was displayed */
-          display: none; /* Hide on smaller screens */
+          display: none;
+          /* Hide on smaller screens */
         }
       }
 
@@ -548,11 +609,14 @@
     <header id="mainHeader">
       <!-- Left side of header: Logo, Language Toggle, Menu -->
       <div style="display: flex; align-items: center; gap: 10px">
-        <img
-          src="../assets/img/unhabitat.jfif"
-          alt="UN Habitat Logo"
-          class="header-logo"
-        />
+        <a href="#" title="Go to Admin Page">
+          <img
+            src="../assets/img/unhabitat.jfif"
+            alt="Logo 3"
+            class="header-logo"
+            style="cursor: pointer; margin-top: 8px"
+          />
+        </a>
         <div class="language-dropdown">
           <button
             class="language-toggle"
@@ -573,11 +637,21 @@
             <i class="fas fa-ellipsis-v"></i>
           </button>
           <div class="menu-dropdown-content" id="menuDropdown">
-            <a href="#" class="menu-item" id="settingsBtn">
+            <a
+              href="#"
+              class="menu-item"
+              id="settingsBtn"
+              onclick="window.location.href = './profile.html';"
+            >
               <i class="fas fa-cog"></i>
               <span id="settingsText">Settings</span>
             </a>
-            <a href="#" class="menu-item" id="logoutBtn" onclick="logout()">
+            <a
+              href="#"
+              class="menu-item"
+              id="logoutBtn"
+              onclick="window.location.href = './index.html';"
+            >
               <i class="fas fa-sign-out-alt"></i>
               <span id="logoutText">Logout</span>
             </a>
@@ -687,8 +761,9 @@
             </script>
             , <span lang="ar" class="arabic-text"> Powered by</span> ,
             <a
+              rel="noopener"
               class="companyHITech arabic-text"
-              href="https://www.hi-techhouse.com"
+              href="https://hasan20nassar.github.io/HTH_Profile/"
               target="_blank"
               lang="ar"
             >
@@ -716,6 +791,7 @@
             ><i class="fab fa-linkedin-in"></i
           ></a>
           <a
+            rel="noopener"
             aria-label="WhatsApp"
             class="social-icon whatsapp"
             href="https://wa.me/966501234567"
@@ -773,12 +849,6 @@
         }
       }
 
-      // Function to handle user logout
-      function logout() {
-        // Redirects to the main page or login page
-        window.location.href = "./index.html";
-      }
-
       // Translations object for multilingual support
       const translations = {
         ar: {
@@ -794,8 +864,6 @@
           dashboardBtn: "لوحة التحكم",
           settingsText: "الإعدادات", // Changed from "إعدادات الحساب"
           logoutText: "تسجيل الخروج",
-          // rightsText: "جميع الحقوق محفوظة لصالح", // Footer text is mostly static HTML
-          // companyName: "دار التقنية الحديثة",
         },
         en: {
           // title: "Urban Management System for Aleppo",
@@ -813,8 +881,6 @@
           dashboardBtn: "Dashboard",
           settingsText: "Settings", // Changed from "Account Settings"
           logoutText: "Logout",
-          // rightsText: "All rights reserved to",
-          // companyName: "Hi-Tech House",
         },
       };
 
@@ -822,6 +888,13 @@
 
       // Function to switch the page language
       function switchLanguage(lang) {
+        // Store the language preference in localStorage
+        try {
+          localStorage.setItem("preferredLanguage", lang);
+        } catch (error) {
+          console.error("Error saving language preference:", error);
+        }
+
         currentLang = lang;
         const t = translations[lang];
 
@@ -829,14 +902,6 @@
         document.documentElement.lang = lang;
         document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
 
-        // Ensure header and footer maintain their forced RTL direction
-        // These are already set with !important in CSS, but this JS ensures it if needed.
-        // document.getElementById("mainHeader").style.direction = "rtl";
-        // document.getElementById("mainFooter").style.direction = "rtl";
-        // document.querySelector(".footer-content").style.direction = "rtl";
-
-        // Update text content based on selected language
-        // Note: Using querySelectorAll for IDs is unusual but was in original for handling duplicate IDs/classes.
         // Assuming IDs are now unique for the first 3 slides.
         document
           .querySelectorAll("#slide1Title, .slide1Title")
@@ -872,7 +937,6 @@
         // Re-initialize Swiper after language change to ensure layout updates
         setTimeout(() => {
           initSwiper();
-          console.log("Swiper re-initialized after language change");
         }, 300); // Longer delay for DOM updates
       }
 
@@ -897,13 +961,22 @@
 
       // Initialize Swiper and set default language when the DOM is fully loaded
       document.addEventListener("DOMContentLoaded", function () {
-        // Set initial language to Arabic first
-        switchLanguage("ar");
+        // Check if there's a saved language preference in localStorage
+        let savedLanguage;
+        try {
+          savedLanguage = localStorage.getItem("preferredLanguage");
+        } catch (error) {
+          console.error("Error retrieving language preference:", error);
+          savedLanguage = null;
+        }
+
+        // Set initial language based on saved preference or default to Arabic
+        const initialLang = savedLanguage || "ar";
+        switchLanguage(initialLang);
 
         // Then initialize Swiper with a short delay to ensure DOM is ready
         setTimeout(() => {
           initSwiper();
-          console.log("Initial Swiper initialization complete");
         }, 200);
       });
     </script>

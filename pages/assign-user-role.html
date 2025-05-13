@@ -1,82 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Metatags for character set, viewport, and compatibility -->
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
+    <!-- Favicon and Apple Touch Icon -->
     <link
-      rel="apple-touch-icon"
-      sizes="76x76"
-      href="../assets/img/images.png"
+      rel="shortcut icon"
+      href="../assets/img/UN_Habitat_Icon.svg"
+      type="image/x-icon"
     />
-    <link rel="icon" type="image/png" href="../assets/img/images.png" />
+    <!-- Page Title -->
     <title>Assign User Role</title>
-    <!--     Fonts and icons     -->
+    <!-- Fonts and icons -->
     <link
       href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800"
-      rel="stylesheet"
-    />
-    <!-- Nucleo Icons -->
-    <link
-      href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome Icons -->
-    <script
-      src="https://kit.fontawesome.com/42d5adcbca.js"
-      crossorigin="anonymous"
-    ></script>
-    <!-- CSS Files -->
-    <link
-      id="pagestyle"
-      href="../assets/css/soft-ui-dashboard.css?v=1.1.0"
-      rel="stylesheet"
-    />
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-    <script
-      defer
-      data-site="YOUR_DOMAIN_HERE"
-      src="https://api.nepcha.com/js/nepcha-analytics.js"
-    ></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- CSS Files -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800"
-      rel="stylesheet"
-    />
-    <!-- Nucleo Icons -->
-    <link
-      href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css"
       rel="stylesheet"
     />
     <!-- Font Awesome Icons -->
@@ -84,32 +25,67 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
       rel="stylesheet"
     />
-    <script
-      src="https://kit.fontawesome.com/42d5adcbca.js"
-      crossorigin="anonymous"
-    ></script>
     <!-- CSS Files -->
     <link
       id="pagestyle"
       href="../assets/css/soft-ui-dashboard.css?v=1.1.0"
       rel="stylesheet"
     />
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-    <script
-      defer
-      data-site="YOUR_DOMAIN_HERE"
-      src="https://api.nepcha.com/js/nepcha-analytics.js"
-    ></script>
-
+    <!-- Google Fonts - Inter -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts - Tajawal (for Arabic) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="https://cdn.jsdelivr.net/npm/soft-ui-dashboard@1.1.0/assets/js/soft-ui-dashboard.min.js"></script>
     <style>
+      /* General body styles and font setup */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Tajawal", "Inter", sans-serif;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #f8f9fa;
+      }
+
+      /* Arabic font for RTL and specific elements */
+      :lang(ar),
+      [lang="ar"],
+      .arabic-text,
+      .copyright-text,
+      .social-icons,
+      .btn,
+      label,
+      input,
+      .header-title,
+      .title-ar,
+      .title-en,
+      .header-title div {
+        font-family: "Tajawal", sans-serif !important;
+      }
+
+      body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
+        font-family: "Tajawal", "Inter", sans-serif !important;
+      }
+
+      /* Header styles */
       #mainHeader {
         position: fixed;
         top: 0;
         width: 100%;
-        z-index: 1030;
-        /* Increased z-index to be above sidebar */
-        background-color: #007bff;
+        z-index: 5000;
+        background-color: #00b2e3;
         color: white;
         display: flex;
         align-items: center;
@@ -117,14 +93,7 @@
         padding: 4px 16px;
         height: 50px;
         box-sizing: border-box;
-      }
-
-      .header-logo {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        object-fit: contain;
+        direction: rtl !important;
       }
 
       .header-title {
@@ -135,6 +104,28 @@
         line-height: 1.4;
       }
 
+      .title-ar {
+        font-size: 1.1rem;
+        line-height: 1.2;
+        font-weight: bold;
+        white-space: normal;
+      }
+
+      .title-en {
+        font-size: 1.1rem;
+        line-height: 1.2;
+        font-weight: bold;
+        white-space: normal;
+      }
+
+      .header-logo {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        object-fit: contain;
+      }
+
       .header-logos {
         display: flex;
         align-items: center;
@@ -142,27 +133,13 @@
         padding: 5px;
       }
 
-      .title-ar {
-        font-size: 1.3rem;
-        line-height: 1.2;
-        font-weight: bold;
-        white-space: normal;
-      }
-
-      .title-en {
-        font-size: 0.95rem;
-        line-height: 1.2;
-        font-weight: bold;
-        white-space: normal;
-      }
-
+      /* Language and menu buttons */
       .language-dropdown {
         position: relative;
         display: flex;
         align-items: center;
         gap: 10px;
         z-index: 1031;
-        /* Higher than header to ensure dropdown works */
       }
 
       .language-toggle {
@@ -180,10 +157,9 @@
         align-items: center;
         justify-content: center;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+        transition: 0.2s, border 0.2s, box-shadow 0.2s;
         position: relative;
         z-index: 5000;
-        /* Higher than header to ensure button works */
       }
 
       .language-toggle:hover {
@@ -194,257 +170,9 @@
         background: rgba(255, 255, 255, 0.4);
       }
 
-      #mainFooter {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100vw;
-        z-index: 1000;
-        background-color: #3066ff;
-        padding: 4px 16px;
-        height: 50px;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-      }
-
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 1rem;
-        color: white;
-      }
-
-      .social-icon {
-        color: #fff;
-        font-size: 1.2rem;
-        margin-left: 1rem;
-        transition: color 0.3s ease;
-      }
-
-      .social-icon:hover {
-        color: #3498db;
-      }
-
-      footer .copyright img {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        background-color: white;
-        padding: 2px;
-        object-fit: contain;
-        background-clip: content-box;
-        vertical-align: middle;
-        margin-right: 8px;
-      }
-
-      .footer-logo {
-        height: 24px;
-        margin-right: 8px;
-        vertical-align: middle;
-        display: inline-block !important;
-      }
-
-      .companyHITech {
-        color: white !important;
-        text-decoration: none;
-        transition: color 0.3s ease;
-      }
-
-      .companyHITech:hover {
-        color: #f0f0f0 !important;
-        text-decoration: underline;
-      }
-
-      /* Add RTL/LTR specific styles for footer */
-      body[dir="rtl"] .footer-content {
-        flex-direction: row;
-      }
-
-      body[dir="ltr"] .footer-content {
-        flex-direction: row;
-      }
-
-      body[dir="rtl"] .footer-logo {
-        margin-right: 8px;
-        margin-left: 0;
-      }
-
-      body[dir="ltr"] .footer-logo {
-        margin-left: 8px;
-        margin-right: 0;
-      }
-
-      body[dir="rtl"] .social-icon {
-        margin-left: 1rem;
-        margin-right: 0;
-      }
-
-      body[dir="ltr"] .social-icon {
-        margin-right: 1rem;
-        margin-left: 0;
-      }
-
-      /* Existing styles remain unchanged */
-      body {
-        background-color: #f8f9fa;
-        font-family: "Cairo", sans-serif;
-      }
-
-      .card {
-        border-radius: 1rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        background-color: linear-gradient(135deg, #e3f2fd, #ffffff);
-        height: 100%;
-        /* Make all cards the same height */
-        display: flex;
-        flex-direction: column;
-      }
-
-      .card-body {
-        flex: 1;
-        /* Allow card body to grow and fill available space */
-        display: flex;
-        flex-direction: column;
-        min-height: 200px;
-        /* Set minimum height */
-        padding: 1.5rem;
-        /* Consistent padding */
-      }
-
-      .card-title {
-        margin-bottom: 1rem;
-        /* Consistent spacing */
-      }
-
-      .card-text {
-        flex: 1;
-        /* Allow text to grow and fill available space */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        /* Consistent font size */
-        margin: 0;
-        /* Remove default margins */
-      }
-
-      /* Ensure charts maintain consistent height */
-      .chart-container {
-        height: 100%;
-        min-height: 200px;
-      }
-
-      canvas {
-        width: 100% !important;
-        height: 100% !important;
-      }
-
-      /* Add styles for the sidebar logo */
-      .sidenav-header {
-        padding-top: 20px;
-        /* Add padding to move logo down */
-        margin-bottom: 10px;
-      }
-
-      .navbar-brand {
-        margin-top: 20px !important;
-        /* Force margin to move logo down */
-        display: block;
-        padding: 10px 0;
-      }
-
-      .navbar-brand-img {
-        max-height: 35px;
-        /* Control logo size */
-        width: auto;
-      }
-
-      /* Ensure header stays on top */
-      #mainHeader {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 5000;
-        background-color: #007bff;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 4px 16px;
-        height: 50px;
-        box-sizing: border-box;
-      }
-
-      .copyright-text {
-        color: white;
-        display: inline-block;
-        margin-right: 8px;
-        font-size: 14px;
-      }
-
-      .footer-logo {
-        height: 24px;
-        margin-right: 8px;
-        vertical-align: middle;
-        display: inline-block !important;
-      }
-
-      .companyHITech {
-        color: white !important;
-        text-decoration: none;
-        transition: color 0.3s ease;
-        display: inline-block;
-        margin: 0 8px;
-      }
-
-      .companyHITech:hover {
-        color: #f0f0f0 !important;
-        text-decoration: underline;
-      }
-
-      /* Add RTL/LTR specific styles for footer */
-      body[dir="rtl"] .footer-content {
-        flex-direction: row;
-      }
-
-      body[dir="ltr"] .footer-content {
-        flex-direction: row;
-      }
-
-      body[dir="rtl"] .footer-logo {
-        margin-right: 8px;
-        margin-left: 0;
-      }
-
-      body[dir="ltr"] .footer-logo {
-        margin-left: 8px;
-        margin-right: 0;
-      }
-
-      body[dir="rtl"] .social-icon {
-        margin-left: 1rem;
-        margin-right: 0;
-      }
-
-      body[dir="ltr"] .social-icon {
-        margin-right: 1rem;
-        margin-left: 0;
-      }
-
-      /* Existing styles remain unchanged */
-
-      /* تنسيق القائمة المنسدلة */
       .menu-dropdown {
         position: relative;
         display: inline-block;
-        margin-right: 10px;
       }
 
       .menu-toggle {
@@ -462,14 +190,16 @@
       }
 
       .menu-toggle:hover {
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.32);
+        transform: scale(1.05);
       }
 
       .menu-dropdown-content {
         display: none;
         position: absolute;
+        top: 100%;
         right: 0;
-        background-color: #fff;
+        background-color: white;
         min-width: 160px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
@@ -478,127 +208,275 @@
       }
 
       .menu-item {
-        color: #333;
-        padding: 12px 16px;
-        text-decoration: none;
         display: flex;
         align-items: center;
-        gap: 10px;
-        transition: background-color 0.3s;
-      }
-
-      .menu-item:hover {
-        background-color: #f8f9fa;
+        padding: 12px 16px;
+        text-decoration: none;
+        color: #333;
+        transition: background-color 0.3s ease;
       }
 
       .menu-item i {
+        margin-left: 8px;
         width: 20px;
         text-align: center;
       }
 
-      /* تعديلات للغة الإنجليزية */
+      .menu-item:hover {
+        background-color: #f5f5f5;
+      }
+
       body[dir="ltr"] .menu-dropdown-content {
         right: auto;
         left: 0;
       }
 
-      body[dir="ltr"] .menu-item {
-        flex-direction: row-reverse;
+      body[dir="ltr"] .menu-item i {
+        margin-left: 0;
+        margin-right: 8px;
       }
 
-
- /* إضافة أنماط للشريط الجانبي حسب اتجاه اللغة */
- body[dir="rtl"] .sidenav {
-        right: 0 !important;
-        left: auto !important;
-        margin-right: 1rem !important;
-        margin-left: 0 !important;
+      /* Sidebar styles */
+      #sidenav-main .navbar-nav {
+        padding-inline-start: 0 !important;
       }
 
-      body[dir="ltr"] .sidenav {
-        left: 0 !important;
-        right: auto !important;
-        margin-left: 1rem !important;
-        margin-right: 0 !important;
+      .sidenav-header {
+        padding-top: 20px;
+        margin-bottom: 10px;
       }
 
-      /* أنماط للمحتوى الرئيسي */
-      body[dir="rtl"] .main-content {
-        margin-right: 17.125rem !important;
-        margin-left: 0 !important;
+      .navbar-brand {
+        margin-top: 20px !important;
+        display: block;
+        padding: 10px 0;
       }
 
-      body[dir="ltr"] .main-content {
-        margin-left: 17.125rem !important;
-        margin-right: 0 !important;
+      .navbar-brand-img {
+        max-height: 35px;
+        width: auto;
       }
 
-      /* أنماط للأيقونات في الشريط الجانبي */
-      body[dir="rtl"] .icon {
-        margin-left: 0.5rem !important;
-        margin-right: 0 !important;
+      /* Footer styles */
+      #mainFooter {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        z-index: 1000;
+        background-color: #00b2e3;
+        padding: 4px 16px;
+        height: 50px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        direction: rtl !important;
       }
 
-      body[dir="ltr"] .icon {
-        margin-right: 0.5rem !important;
-        margin-left: 0 !important;
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+        color: white;
       }
 
-      /* تعديل الأنماط الخاصة بالشريط الجانبي عند الضغط على زر القائمة */
-      body[dir="rtl"] .g-sidenav-hidden .sidenav {
-        transform: translateX(17.125rem) !important;
+      .footer-logo {
+        height: 24px;
+        margin-right: 8px;
+        vertical-align: middle;
+        display: inline-block !important;
       }
 
-      body[dir="ltr"] .g-sidenav-hidden .sidenav {
-        transform: translateX(-17.125rem) !important;
+      /* Footer Copyright Image Style */
+      footer .copyright img {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        background-color: white;
+        padding: 2px;
+        object-fit: contain;
+        background-clip: content-box;
+        vertical-align: middle;
+        margin-right: 8px;
+        /* Space to the right of the image (RTL) */
       }
 
-      /* تعديل الأنماط الخاصة بالمحتوى الرئيسي عند الضغط على زر القائمة */
-      body[dir="rtl"] .g-sidenav-hidden .main-content {
-        margin-right: 0 !important;
+      .companyHITech {
+        color: white !important;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: inline-block;
+        margin: 0 8px;
       }
 
-      body[dir="ltr"] .g-sidenav-hidden .main-content {
-        margin-left: 0 !important;
+      .companyHITech:hover {
+        color: #f0f0f0 !important;
+        text-decoration: underline;
       }
 
-      /* تعديل أنماط النصوص في القائمة الجانبية */
-      body[dir="rtl"] .nav-link-text {
-        margin-right: 0.5rem !important;
-        margin-left: 0 !important;
+      .copyright-text {
+        color: white;
+        display: inline-block;
+        margin-right: 8px;
+        font-size: 14px;
       }
 
-      body[dir="ltr"] .nav-link-text {
-        margin-left: 0.5rem !important;
-        margin-right: 0 !important;
+      .social-icon {
+        color: #fff;
+        font-size: 1.2rem;
+        margin-left: 1rem;
+        transition: color 0.3s ease;
       }
 
-      /* تعديل أنماط البطاقات في الصفحة */
-      body[dir="rtl"] .profile-card,
-      body[dir="rtl"] .stats-card,
-      body[dir="rtl"] .settings-card {
-        text-align: right;
+      .social-icon:hover {
+        color: #3498db;
       }
 
-      body[dir="ltr"] .profile-card,
-      body[dir="ltr"] .stats-card,
-      body[dir="ltr"] .settings-card {
-        text-align: left;
+      body[dir="rtl"] .footer-content,
+      body[dir="ltr"] .footer-content {
+        flex-direction: row;
       }
 
+      body[dir="rtl"] .footer-logo {
+        margin-right: 8px;
+        margin-left: 0;
+      }
+
+      body[dir="ltr"] .footer-logo {
+        margin-left: 8px;
+        margin-right: 0;
+      }
+
+      body[dir="rtl"] .social-icon {
+        margin-left: 1rem;
+        margin-right: 0;
+      }
+
+      body[dir="ltr"] .social-icon {
+        margin-right: 1rem;
+        margin-left: 0;
+      }
+
+      /* Card and chart styles */
+      .card {
+        border-radius: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        background-color: linear-gradient(135deg, #e3f2fd, #ffffff);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 200px;
+        padding: 1.5rem;
+      }
+
+      .card-title {
+        margin-bottom: 1rem;
+      }
+
+      .card-text {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin: 0;
+      }
+
+      .chart-container {
+        height: 100%;
+        min-height: 200px;
+      }
+
+      canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      /* Font Awesome icon styles */
+      .fa,
+      .fab,
+      .fas,
+      .far,
+      i.fa,
+      i.fab,
+      i.fas,
+      i.far,
+      i.fa-facebook-f,
+      i.fa-x-twitter,
+      i.fa-instagram,
+      i.fa-linkedin-in,
+      i.fa-whatsapp {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+        display: inline-block !important;
+        visibility: visible !important;
+      }
     </style>
   </head>
 
-  <body dir="rtl" class="g-sidenav-show bg-gray-300">
+  <body class="g-sidenav-show bg-gray-100">
+    <!-- New Header -->
     <header id="mainHeader">
       <div style="display: flex; align-items: center; gap: 10px">
-        <img
-          src="../assets/img/unhabitat.jfif"
-          alt="Logo 3"
-          class="header-logo"
-        />
+        <a href="./admin.html" title="Go to Admin Page">
+          <img
+            src="../assets/img/unhabitat.jfif"
+            alt="Logo 3"
+            class="header-logo"
+            style="cursor: pointer"
+          />
+        </a>
         <div class="language-dropdown">
-          <button class="language-toggle" id="langToggleBtn">AR</button>
+          <button
+            class="language-toggle"
+            id="langToggleBtn"
+            onclick="toggleLanguage()"
+            aria-label="Toggle Language"
+          >
+            AR
+          </button>
+        </div>
+        <!-- Add menu dropdown button -->
+        <div class="menu-dropdown">
+          <button
+            title="toggle language"
+            class="menu-toggle"
+            id="menuToggleBtn"
+            onclick="toggleMenu()"
+          >
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+          <div class="menu-dropdown-content" id="menuDropdown">
+            <a
+              href="#"
+              class="menu-item"
+              id="settingsBtn"
+              onclick="window.location.href = './profile.html';"
+            >
+              <i class="fas fa-cog"></i>
+              <span id="settingsText">الإعدادات</span>
+            </a>
+            <a
+              href="#"
+              class="menu-item"
+              id="logoutBtn"
+              onclick="window.location.href = './index.html';"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+              <span id="logoutText">تسجيل الخروج</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -610,30 +488,15 @@
       </div>
 
       <div class="header-logos right-logos">
-        <div class="menu-dropdown">
-          <button class="menu-toggle" onclick="toggleMenu()">
-            <i class="fas fa-ellipsis-v"></i>
-          </button>
-          <div class="menu-dropdown-content" id="menuDropdown">
-            <a href="#" class="menu-item">
-              <i class="fas fa-cog"></i>
-              <span class="settings-text">الإعدادات</span>
-            </a>
-            <a href="#" class="menu-item" onclick="logout()">
-              <i class="fas fa-sign-out-alt"></i>
-              <span class="logout-text">تسجيل الخروج</span>
-            </a>
-          </div>
-        </div>
         <img src="../assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
         <img src="../assets/img/japan.png" alt="Logo 2" class="header-logo" />
       </div>
     </header>
 
     <aside
-      class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
+      class="sidenav navbar navbar-vertical navbar-expand-xs border-0 my-3 fixed-end bg-gray-300"
       id="sidenav-main"
-      style="max-height: calc(100vh - 60px); overflow-y: visible"
+      style="max-height: calc(100vh - 66px); overflow-y: visible"
     >
       <div class="sidenav-header">
         <i
@@ -641,25 +504,14 @@
           aria-hidden="true"
           id="iconSidenav"
         ></i>
-        <!-- <a class="navbar-brand m-0" href="#" target="_blank">
-          <img
-            src="../assets/img/UN_Habitat_Logo.svg"
-            class="navbar-brand-img h-100"
-            alt="main_logo"
-          />
-        </a> -->
       </div>
-      <!-- <hr class="horizontal dark mt-0" /> -->
-      <div
-        class="collapse navbar-collapse w-auto"
-        id="sidenav-collapse-main"
-        style="height: auto !important"
-      >
-        <ul class="navbar-nav" style="padding-bottom: 60px;padding-top:20px;">
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="../pages/dashboard.html">
               <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <svg
                   width="12px"
@@ -704,7 +556,7 @@
           <li class="nav-item">
             <a class="nav-link" href="../pages/tables.html">
               <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <svg
                   width="12px"
@@ -748,54 +600,11 @@
               <span class="nav-link-text ms-1">configuration Tables </span>
             </a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="../pages/aleppo-map-analysis.html">
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 43 36"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title>credit-card</title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-2169.000000, -745.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(453.000000, 454.000000)">
-                          <path
-                            class="color-background opacity-6"
-                            d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"
-                          ></path>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Maps</span>
-            </a>
-          </li> -->
+
           <li class="nav-item">
             <a class="nav-link active" href="../pages/ManageUsers.html">
               <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <svg
                   width="12px"
@@ -844,7 +653,7 @@
           <li class="nav-item">
             <a class="nav-link" href="../pages/profile.html">
               <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <svg
                   width="12px"
@@ -893,82 +702,126 @@
       </div>
       <div class="sidenav-footer mx-3"></div>
     </aside>
-
-    <!-- Main Content -->
+    <!-- Main Content Area -->
     <main
       class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
     >
-      <!-- Table Section -->
+      <!-- Table Section for Assigning User Roles -->
       <div class="container-fluid py-4">
+        <!-- Bootstrap container with padding -->
         <div class="row">
           <div class="col-12">
+            <!-- Full-width column -->
             <div class="card mb-4 mt-5">
+              <!-- Card with margin bottom and top -->
+              <!-- Card Header -->
               <div class="card-header pb-0">
-                <h6 id="userRolesListTitle">قائمة المستخدمين والأدوار</h6>
+                <!-- Card header with no bottom padding -->
+                <h6>User List and Roles</h6>
+                <!-- Title in Arabic (to be translated) -->
               </div>
+              <!-- Card Body -->
               <div class="card-body px-0 pt-0 pb-2">
+                <!-- Card body with specific padding -->
+                <!-- Table Responsive Wrapper -->
                 <div class="table-responsive p-0">
+                  <!-- Responsive table with no padding -->
                   <table class="table align-items-center mb-0">
+                    <!-- Bootstrap table -->
+                    <!-- Table Header -->
                     <thead>
                       <tr>
+                        <!-- User Name Column -->
                         <th
                           class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                         >
-                          <span id="usernameHeader">اسم المستخدم</span>
+                          User Name
+                          <!-- Column header (to be translated) -->
                         </th>
+                        <!-- Roles Column -->
                         <th
                           class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
                         >
-                          <span id="rolesHeader">الأدوار</span>
+                          Roles
+                          <!-- Column header (to be translated) -->
                         </th>
+                        <!-- Select Roles Column -->
                         <th
                           class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                         >
-                          <span id="selectRolesHeader">اختيار الأدوار</span>
+                          Select Roles
+                          <!-- Column header (to be translated) -->
                         </th>
                       </tr>
                     </thead>
+                    <!-- Table Body -->
                     <tbody>
+                      <!-- First User Row -->
                       <tr>
+                        <!-- User Name Cell -->
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div
                               class="d-flex flex-column justify-content-center"
                             >
-                              <h6 class="mb-0 text-sm">أحمد محمد</h6>
+                              <h6 class="mb-0 text-sm">Ahmed Mohamed</h6>
+                              <!-- User name (to be translated) -->
                             </div>
                           </div>
                         </td>
+                        <!-- Roles Cell -->
                         <td>
-                          <span class="badge badge-sm bg-gradient-success" id="adminRole1">مدير</span>
-                          <span class="badge badge-sm bg-gradient-info" id="editorRole1">محرر</span>
+                          <span class="badge badge-sm bg-gradient-success"
+                            >Admin</span
+                          >
+                          <span class="badge badge-sm bg-gradient-info"
+                            >Editor</span
+                          >
                         </td>
+                        <!-- Select Roles Cell -->
                         <td class="align-middle text-center">
                           <div class="checkbox-group">
-                            <label><input type="checkbox" checked /> <span class="adminLabel">مدير</span></label>
-                            <label><input type="checkbox" checked /> <span class="editorLabel">محرر</span></label>
-                            <label><input type="checkbox" /> <span class="normalUserLabel">مستخدم عادي</span></label>
+                            <label
+                              ><input type="checkbox" checked /> Admin</label
+                            >
+                            <label
+                              ><input type="checkbox" checked /> Editor</label
+                            >
+                            <label
+                              ><input type="checkbox" /> Regular User</label
+                            >
                           </div>
                         </td>
                       </tr>
+                      <!-- Second User Row -->
                       <tr>
+                        <!-- User Name Cell -->
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div
                               class="d-flex flex-column justify-content-center"
                             >
-                              <h6 class="mb-0 text-sm">سارة علي</h6>
+                              <h6 class="mb-0 text-sm">Sarah Ali</h6>
+                              <!-- User name (to be translated) -->
                             </div>
                           </div>
                         </td>
+                        <!-- Roles Cell -->
                         <td>
-                          <span class="badge badge-sm bg-gradient-info" id="editorRole2">محرر</span>
+                          <span class="badge badge-sm bg-gradient-info"
+                            >Editor</span
+                          >
                         </td>
+                        <!-- Select Roles Cell -->
                         <td class="align-middle text-center">
                           <div class="checkbox-group">
-                            <label><input type="checkbox" /> <span class="adminLabel">مدير</span></label>
-                            <label><input type="checkbox" checked /> <span class="editorLabel">محرر</span></label>
-                            <label><input type="checkbox" /> <span class="normalUserLabel">مستخدم عادي</span></label>
+                            <label><input type="checkbox" /> Admin</label>
+                            <label
+                              ><input type="checkbox" checked /> Editor</label
+                            >
+                            <label
+                              ><input type="checkbox" /> Regular User</label
+                            >
                           </div>
                         </td>
                       </tr>
@@ -980,57 +833,314 @@
           </div>
         </div>
       </div>
-      <div class="fixed-plugin">
-        <a
-          class="fixed-plugin-button text-dark position-fixed px-3 py-2"
-          style="bottom: 80px"
-        >
-          <i class="fa fa-question-circle py-2"> </i>
-        </a>
-      </div>
     </main>
 
     <footer id="mainFooter">
       <div class="footer-content">
         <div class="copyright">
-                    <span >
-            2025
-            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
-            ,Powered by
-           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+          <span class="copyright-text" lang="ar">
+            ©
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            <a
+              rel="noopener"
+              class="companyHITech arabic-text"
+              href="https://hasan20nassar.github.io/HTH_Profile/"
+              target="_blank"
+              lang="ar"
+            >
+              , HI-Tech House</a
+            >
           </span>
+          <span lang="ar" class="arabic-text">Powered by</span>
+          <img
+            alt="Company Logo"
+            src="../assets/img/HTH.png"
+            class="footer-logo"
+          />
         </div>
         <div class="social-icons">
-          <a aria-label="Facebook" class="social-icon facebook" href="#"
-            ><i class="fab fa-facebook-f"></i
-          ></a>
-          <a aria-label="Twitter" class="social-icon twitter" href="#"
-            ><i class="fab fa-x-twitter"></i
-          ></a>
-          <a aria-label="Instagram" class="social-icon instagram" href="#"
-            ><i class="fab fa-instagram"></i
+          <a aria-label="WhatsApp" class="social-icon whatsapp" href="#"
+            ><i class="fab fa-whatsapp"></i
           ></a>
           <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
             ><i class="fab fa-linkedin-in"></i
           ></a>
-          <a
-            aria-label="WhatsApp"
-            class="social-icon whatsapp"
-            href="https://wa.me/966501234567"
-            ><i class="fab fa-whatsapp"></i
+          <a aria-label="Instagram" class="social-icon instagram" href="#"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a aria-label="X" class="social-icon twitter" href="#"
+            ><i class="fab fa-x-twitter"></i
+          ></a>
+          <a aria-label="Facebook" class="social-icon facebook" href="#"
+            ><i class="fab fa-facebook-f"></i
           ></a>
         </div>
       </div>
     </footer>
+    <div class="fixed-plugin">
+      <a
+        id="helpButton"
+        class="fixed-plugin-button text-dark position-fixed px-3 py-2"
+        style="bottom: 80px; z-index: 6000"
+      >
+        <i class="fa fa-question-circle py-2"> </i>
+      </a>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/smooth-scrollbar@8.8.4/dist/smooth-scrollbar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+      // Wait for DOM to be fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Function to handle zoom level changes
+        function handleZoom() {
+          const sidenav = document.getElementById("sidenav-main");
+          const windowWidth = window.innerWidth;
+          const zoomLevel = window.devicePixelRatio;
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+          if (zoomLevel > 1.51 || windowWidth < 1200) {
+            sidenav.style.display = "none";
+          } else {
+            sidenav.style.display = "block";
+          }
+        }
 
-    <!-- Core JS Files -->
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
-    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+        // Initial check
+        handleZoom();
+
+        // Listen for zoom changes
+        window.addEventListener("resize", handleZoom);
+
+        // Initialize charts only if the canvas elements exist
+        try {
+          // Line chart
+          if (document.getElementById("chart-line")) {
+            var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+            var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+            gradientStroke1.addColorStop(1, "rgba(203,12,159,0.2)");
+            gradientStroke1.addColorStop(0.2, "rgba(72,72,176,0.0)");
+            gradientStroke1.addColorStop(0, "rgba(203,12,159,0)"); //purple colors
+
+            var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+            gradientStroke2.addColorStop(1, "rgba(20,23,39,0.2)");
+            gradientStroke2.addColorStop(0.2, "rgba(72,72,176,0.0)");
+            gradientStroke2.addColorStop(0, "rgba(20,23,39,0)"); //purple colors
+
+            window.lineChart = new Chart(ctx2, {
+              type: "line",
+              data: {
+                labels: [
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ],
+                datasets: [
+                  {
+                    label: "Foods",
+                    tension: 0.4,
+                    borderWidth: 3,
+                    pointRadius: 0,
+                    borderColor: "#cb0c9f",
+                    backgroundColor: gradientStroke1,
+                    fill: true,
+                    data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                    maxBarThickness: 6,
+                  },
+                  {
+                    label: "Health",
+                    tension: 0.4,
+                    borderWidth: 3,
+                    pointRadius: 0,
+                    borderColor: "#3A416F",
+                    backgroundColor: gradientStroke2,
+                    fill: true,
+                    data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+                    maxBarThickness: 6,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                },
+                interaction: {
+                  intersect: false,
+                  mode: "index",
+                },
+                scales: {
+                  y: {
+                    grid: {
+                      drawBorder: false,
+                      display: true,
+                      drawOnChartArea: true,
+                      drawTicks: false,
+                      borderDash: [5, 5],
+                    },
+                    ticks: {
+                      display: true,
+                      padding: 10,
+                      color: "#b2b9bf",
+                      font: {
+                        size: 11,
+                        family: "Inter",
+                        style: "normal",
+                        lineHeight: 2,
+                      },
+                    },
+                  },
+                  x: {
+                    grid: {
+                      drawBorder: false,
+                      display: false,
+                      drawOnChartArea: false,
+                      drawTicks: false,
+                      borderDash: [5, 5],
+                    },
+                    ticks: {
+                      display: true,
+                      color: "#b2b9bf",
+                      padding: 20,
+                      font: {
+                        size: 11,
+                        family: "Inter",
+                        style: "normal",
+                        lineHeight: 2,
+                      },
+                    },
+                  },
+                },
+              },
+            });
+          }
+
+          // Service supply data
+          if (document.getElementById("serviceChart")) {
+            window.serviceChart = new Chart(
+              document.getElementById("serviceChart"),
+              {
+                type: "pie",
+                data: {
+                  labels: ["مياه", "كهرباء", "صرف صحي", "لا شيء"],
+                  datasets: [
+                    {
+                      data: [120, 140, 100, 30],
+                      backgroundColor: [
+                        "#0d6efd",
+                        "#198754",
+                        "#ffc107",
+                        "#dc3545",
+                      ],
+                    },
+                  ],
+                },
+              }
+            );
+          }
+
+          // Construction status data
+          if (document.getElementById("constructionChart")) {
+            window.constructionChart = new Chart(
+              document.getElementById("constructionChart"),
+              {
+                type: "bar",
+                data: {
+                  labels: ["صالح", "متصدع", "متهالك", "جيد"],
+                  datasets: [
+                    {
+                      label: "عدد المنشآت",
+                      data: [85, 20, 10, 40],
+                      backgroundColor: "#198754",
+                    },
+                  ],
+                },
+                options: {
+                  scales: {
+                    y: { beginAtZero: true },
+                  },
+                },
+              }
+            );
+          }
+
+          // Health status data
+          if (document.getElementById("healthChart")) {
+            window.healthChart = new Chart(
+              document.getElementById("healthChart"),
+              {
+                type: "bar",
+                data: {
+                  labels: ["مشفى", "مستوصف", "عيادة متنقلة", "عيادة"],
+                  datasets: [
+                    {
+                      label: "عدد المراكز الصحية",
+                      data: [85, 30, 15, 55],
+                      backgroundColor: "blue",
+                    },
+                  ],
+                },
+                options: {
+                  scales: {
+                    y: { beginAtZero: true },
+                  },
+                },
+              }
+            );
+          }
+
+          // Educational status data
+          if (document.getElementById("educationChart")) {
+            window.educationChart = new Chart(
+              document.getElementById("educationChart"),
+              {
+                type: "bar",
+                data: {
+                  labels: ["جامعة", "مدرسة", "مدارس خاصة", "روضات"],
+                  datasets: [
+                    {
+                      label: " عدد المنشآت التعليمية ",
+                      data: [2, 80, 30, 20],
+                      backgroundColor: "yellow",
+                    },
+                  ],
+                },
+                options: {
+                  scales: {
+                    y: { beginAtZero: true },
+                  },
+                },
+              }
+            );
+          }
+        } catch (error) {
+          console.error("Error initializing charts:", error);
+        }
+
+        // Initialize scrollbar
+        var win = navigator.platform.indexOf("Win") > -1;
+        if (win && document.querySelector("#sidenav-scrollbar")) {
+          var options = {
+            damping: "0.5",
+          };
+          Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+        }
+      });
+    </script>
     <script>
       var win = navigator.platform.indexOf("Win") > -1;
       if (win && document.querySelector("#sidenav-scrollbar")) {
@@ -1040,26 +1150,8 @@
         Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
       }
     </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="../assets/js/soft-ui-dashboard.min.js?v=1.1.0"></script>
-    <script>
-      // ربط الحدث show.bs.modal
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".modal").forEach((modal) => {
-          modal.addEventListener("show.bs.modal", function (event) {
-            console.log(`Modal opened: ${this.id}`); // تأكد من تشغيل الحدث
-            const tableName = this.getAttribute("data-table");
-            if (tableName) {
-              console.log(`Displaying data for table: ${tableName}`);
-              displayData(tableName);
-            }
-          });
-        });
-      });
-    </script>
 
+    <!-- Language Toggle Script -->
     <script>
       const translations = {
         ar: {
@@ -1071,31 +1163,53 @@
           profile: "الملف الشخصي",
           signIn: "تسجيل الدخول",
           signUp: "إنشاء حساب",
+          families: "عدد الأسر",
+          validBuildings: "منشآت صالحة",
+          residentialBuildings: "منشآت سكنية",
           threatened: "مهددة بالإزالة",
           constructionStatus: "الوضع الإنشائي",
           educationStatus: "الوضع التعليمي",
           healthStatus: "الوضع الصحي",
-          footerText: "© 2025، Powered by ،",
-          companyName: "HI-Tech House",
+          footerText: "© 2025، جميع الحقوق محفوظة،",
+          companyName: "دار التقنية الحديثة",
           settingsText: "الإعدادات",
           logoutText: "تسجيل الخروج",
-          // User roles table translations
-          userRolesList: "قائمة المستخدمين والأدوار",
-          username: "اسم المستخدم",
-          roles: "الأدوار",
-          selectRoles: "اختيار الأدوار",
-          admin: "مدير",
-          editor: "محرر",
-          normalUser: "مستخدم عادي",
-          // Profile section translations
-          updatePhoto: "تحديث الصورة",
-          activeProjects: "مشاريع نشطة",
-          completedTasks: "مهام مكتملة",
-          uploadedFiles: "ملفات مرفوعة",
-          accountSettings: "إعدادات الحساب",
-          enterNewPassword: "أدخل كلمة المرور الجديدة",
-          reenterPassword: "أعد إدخال كلمة المرور",
-          saveChanges: "حفظ التغييرات",
+          projectsOverview: "نظرة عامة على المشاريع",
+          moreIn2024: "زيادة بنسبة 4% في 2024",
+          projectCompletion: "معدل إكمال المشاريع في حلب",
+          foodProjects: "مشاريع الغذاء",
+          healthProjects: "مشاريع الصحة",
+          clothingProjects: "مشاريع الملابس والمساعدات السكنية",
+          viewAllProjects: "عرض جمي�� المشاريع",
+          projects: "المشاريع",
+          projectName: "اسم المشروع",
+          type: "النوع",
+          budget: "الميزانية",
+          status: "الحالة",
+          projectOrders: "طلبات المشاريع",
+          thisMonth: "هذا الشهر",
+          timeline: [
+            { title: "أغذية", date: "٢٨ كانون الأول ٢٠٢٥" },
+            { title: "صحة", date: "١٦ نيسان ٢٠٢٥" },
+            { title: "ملابس ومساعدات سكنية", date: "١٧ نيسان ٢٠٢٥" },
+            { title: "سكن وإقامة", date: "٢٠ كانون الأول ٢٠٢٥" },
+            { title: "تعليم", date: "٠٥ تشرين الثاني ٢٠٢٥" },
+            { title: "دعم نفسي وأسري", date: "١٧ كانون الأول ٢٠٢٥" },
+          ],
+          chartLabels: {
+            construction: ["صالح", "متصدع", "متهالك", "جيد"],
+            health: ["مشفى", "مستوصف", "عيادة متنقلة", "عيادة"],
+            education: ["جامعة", "مدرسة", "مدارس خاصة", "روضات"],
+            service: ["مياه", "كهرباء", "صرف صحي", "لا شيء"],
+          },
+          // Assign User Role Page Specific Translations
+          userListRoles: "قائمة المستخدمين والأدوار",
+          userNameHeader: "اسم المستخدم",
+          rolesHeader: "الأدوار",
+          selectRolesHeader: "اختيار الأدوار",
+          adminRole: "مدير",
+          editorRole: "محرر",
+          regularUserRole: "مستخدم عادي",
         },
         en: {
           dir: "ltr",
@@ -1106,44 +1220,119 @@
           profile: "Profile",
           signIn: "Sign In",
           signUp: "Sign Up",
+          families: "Families",
+          validBuildings: "Valid Buildings",
+          residentialBuildings: "Residential Buildings",
           threatened: "Threatened with Removal",
           constructionStatus: "Construction Status",
           educationStatus: "Education Status",
           healthStatus: "Health Status",
-          footerText: "© 2025, Powerd by,",
+          footerText: "© 2025, All rights reserved,",
           companyName: "Hi-Tech House",
           settingsText: "Settings",
           logoutText: "Logout",
-          // User roles table translations
-          userRolesList: "Users and Roles List",
-          username: "Username",
-          roles: "Roles",
-          selectRoles: "Select Roles",
-          admin: "Admin",
-          editor: "Editor",
-          normalUser: "Normal User",
-          // Profile section translations
-          updatePhoto: "Update Photo",
-          activeProjects: "Active Projects",
-          completedTasks: "Completed Tasks",
-          uploadedFiles: "Uploaded Files",
-          accountSettings: "Account Settings",
-          enterNewPassword: "Enter new password",
-          reenterPassword: "Re-enter password",
-          saveChanges: "Save Changes",
+          projectsOverview: "Projects Foods And Health overview",
+          moreIn2024: "4% more in 2024",
+          projectCompletion: "Project completion rate in Aleppo",
+          foodProjects: "Food Projects",
+          healthProjects: "Health Projects",
+          clothingProjects: "Clothing and housing benefits Projects",
+          viewAllProjects: "View all Projects",
+          projects: "Projects",
+          projectName: "NAME OF PROJECT",
+          type: "TYPE",
+          budget: "BUDGET",
+          status: "STATUS",
+          projectOrders: "Projects Orders overview",
+          thisMonth: "this month",
+          timeline: [
+            { title: "Foods", date: "28 DEC 2025" },
+            { title: "Health", date: "16 Apr 2025" },
+            { title: "Clothing and housing benefits", date: "17 Apr 2025" },
+            { title: "Housing and accommodation", date: "20 DEC 2025" },
+            { title: "Education", date: "05 Nov 2025" },
+            { title: "Psychological and family support", date: "17 DEC 2025" },
+          ],
+          chartLabels: {
+            construction: ["Valid", "Cracked", "Dilapidated", "Good"],
+            health: ["Hospital", "Clinic", "Mobile Clinic", "Polyclinic"],
+            education: [
+              "University",
+              "School",
+              "Private Schools",
+              "Kindergartens",
+            ],
+            service: ["Water", "Electricity", "Sanitation", "None"],
+          },
+          // Assign User Role Page Specific Translations
+          userListRoles: "User List and Roles",
+          userNameHeader: "User Name",
+          rolesHeader: "Roles",
+          selectRolesHeader: "Select Roles",
+          adminRole: "Admin",
+          editorRole: "Editor",
+          regularUserRole: "Regular User",
         },
       };
 
-      let currentLang = "en";
+      let currentLang = "ar";
 
       function switchLanguage(lang) {
-        const body = document.body;
-        const currentDir = body.getAttribute("dir");
-        if (currentDir === "rtl") {
-          body.setAttribute("dir", "ltr");
-        } else {
-          body.setAttribute("dir", "rtl");
+        // Store the language preference in localStorage
+        try {
+          localStorage.setItem("preferredLanguage", lang);
+        } catch (error) {
+          console.error("Error saving language preference:", error);
         }
+
+        // Update aside (sidebar) position based on language
+        const aside = document.getElementById("sidenav-main");
+
+        aside.classList.remove("fixed-end", "fixed-start");
+
+        // Update dropdown button container alignment based on language
+        const dropdownContainer = document.getElementById(
+          "dropdownButtonContainer"
+        );
+        const projectsTitleContainer = document.getElementById(
+          "projectsTitleContainer"
+        );
+        const helpButton = document.getElementById("helpButton");
+
+        if (lang === "ar") {
+          aside.classList.add("fixed-end");
+          // For RTL (Arabic)
+          if (dropdownContainer) dropdownContainer.classList.remove("text-end");
+          if (dropdownContainer) dropdownContainer.classList.add("text-start");
+          if (projectsTitleContainer)
+            projectsTitleContainer.classList.remove("text-start");
+          if (projectsTitleContainer)
+            projectsTitleContainer.classList.add("text-end");
+
+          // Position help button on the left side for Arabic
+          if (helpButton) {
+            helpButton.style.left = "20px";
+            helpButton.style.right = "auto";
+          }
+        } else {
+          aside.classList.add("fixed-start");
+          // For LTR (English)
+          if (dropdownContainer)
+            dropdownContainer.classList.remove("text-start");
+          if (dropdownContainer) dropdownContainer.classList.add("text-end");
+          if (projectsTitleContainer)
+            projectsTitleContainer.classList.remove("text-end");
+          if (projectsTitleContainer)
+            projectsTitleContainer.classList.add("text-start");
+
+          // Position help button on the right side for English
+          if (helpButton) {
+            helpButton.style.right = "20px";
+            helpButton.style.left = "auto";
+          }
+        }
+
+        // Update document direction
 
         currentLang = lang;
         const t = translations[lang];
@@ -1152,63 +1341,113 @@
         document.documentElement.lang = lang;
         document.documentElement.dir = t.dir;
 
-        // // Update header titles visibility
-        // const titleAr = document.querySelector(".title-ar");
-        // const titleEn = document.querySelector(".title-en");
-        // if (titleAr) titleAr.style.display = lang === "ar" ? "block" : "none";
-        // if (titleEn) titleEn.style.display = lang === "en" ? "block" : "none";
-
-        // Update menu items text
-        const settingsText = document.querySelector(".settings-text");
-        const logoutText = document.querySelector(".logout-text");
-        if (settingsText) settingsText.textContent = t.settingsText;
-        if (logoutText) logoutText.textContent = t.logoutText;
-
-        // Update sidebar/menu text
+        // Update aside (sidebar) text
         const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
         if (navTexts[0]) navTexts[0].textContent = t.dashboard;
         if (navTexts[1]) navTexts[1].textContent = t.configTables;
-        if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
-        if (navTexts[3]) navTexts[3].textContent = t.profile;
+        if (navTexts[2]) navTexts[2].textContent = t.manageUsers; // Corrected index
+        if (navTexts[3]) navTexts[3].textContent = t.profile; // Corrected index
 
-        // Update user roles table
-        const userRolesListTitle = document.getElementById("userRolesListTitle");
-        const usernameHeader = document.getElementById("usernameHeader");
-        const rolesHeader = document.getElementById("rolesHeader");
-        const selectRolesHeader = document.getElementById("selectRolesHeader");
-        
-        if (userRolesListTitle) userRolesListTitle.textContent = t.userRolesList;
-        if (usernameHeader) usernameHeader.textContent = t.username;
-        if (rolesHeader) rolesHeader.textContent = t.roles;
-        if (selectRolesHeader) selectRolesHeader.textContent = t.selectRoles;
+        // Update header menu items (settings/logout)
+        const settingsText = document.getElementById("settingsText");
+        if (settingsText) settingsText.textContent = t.settingsText;
+        const logoutText = document.getElementById("logoutText");
+        if (logoutText) logoutText.textContent = t.logoutText;
 
-        // Update role labels
-        const adminLabels = document.querySelectorAll(".adminLabel");
-        const editorLabels = document.querySelectorAll(".editorLabel");
-        const normalUserLabels = document.querySelectorAll(".normalUserLabel");
-        const adminRoles = document.querySelectorAll("[id^='adminRole']");
-        const editorRoles = document.querySelectorAll("[id^='editorRole']");
+        // Update main cards (if they exist on this page)
+        const cardTitles = document.querySelectorAll(".card-title");
+        // if (cardTitles[0]) cardTitles[0].textContent = t.families; // Example from dashboard
+        // if (cardTitles[1]) cardTitles[1].textContent = t.validBuildings; // Example from dashboard
+        // if (cardTitles[2]) cardTitles[2].textContent = t.residentialBuildings; // Example from dashboard
+        // if (cardTitles[3]) cardTitles[3].textContent = t.threatened; // Example from dashboard
+        // --- Assign User Role Page Specific Translations ---
+        // Update card header for user list
+        const userListCardHeader = document.querySelector(".card-header h6");
+        if (userListCardHeader)
+          userListCardHeader.textContent = t.userListRoles;
 
-        adminLabels.forEach(label => label.textContent = t.admin);
-        editorLabels.forEach(label => label.textContent = t.editor);
-        normalUserLabels.forEach(label => label.textContent = t.normalUser);
-        adminRoles.forEach(role => role.textContent = t.admin);
-        editorRoles.forEach(role => role.textContent = t.editor);
-
-        // Update footer text
-        const footerText = document.querySelector(".copyright-text");
-        if (footerText) {
-          const companyLink = `<a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">${t.companyName}</a>`;
-          const companyLogo = `<img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />`;
-          footerText.innerHTML = `${t.footerText} ${companyLink} ${companyLogo}`;
+        // Update table headers
+        const tableHeaders = document.querySelectorAll("table thead th");
+        if (tableHeaders.length >= 3) {
+          tableHeaders[0].textContent = t.userNameHeader;
+          tableHeaders[1].textContent = t.rolesHeader;
+          tableHeaders[2].textContent = t.selectRolesHeader;
         }
+        // Update role badges and checkbox labels (example, ideally dynamic)
+        document.querySelectorAll("tbody tr").forEach((row) => {
+          // Badges
+          row.querySelectorAll(".badge").forEach((badge) => {
+            if (
+              badge.textContent.includes("مدير") ||
+              badge.textContent.toLowerCase().includes("admin")
+            ) {
+              badge.textContent = t.adminRole;
+            } else if (
+              badge.textContent.includes("محرر") ||
+              badge.textContent.toLowerCase().includes("editor")
+            ) {
+              badge.textContent = t.editorRole;
+            }
+          });
+          // Checkbox labels
+          row.querySelectorAll(".checkbox-group label").forEach((label) => {
+            const checkbox = label.querySelector('input[type="checkbox"]');
+            const isChecked = checkbox ? checkbox.checked : false;
+            if (
+              label.textContent.includes("مدير") ||
+              label.textContent.toLowerCase().includes("admin")
+            ) {
+              label.innerHTML = `<input type="checkbox" ${
+                isChecked ? "checked" : ""
+              } /> ${t.adminRole}`;
+            } else if (
+              label.textContent.includes("محرر") ||
+              label.textContent.toLowerCase().includes("editor")
+            ) {
+              label.innerHTML = `<input type="checkbox" ${
+                isChecked ? "checked" : ""
+              } /> ${t.editorRole}`;
+            } else if (
+              label.textContent.includes("مستخدم عادي") ||
+              label.textContent.toLowerCase().includes("regular user")
+            ) {
+              label.innerHTML = `<input type="checkbox" ${
+                isChecked ? "checked" : ""
+              } /> ${t.regularUserRole}`;
+            }
+          });
+        });
+
+        // Update chart card titles (if they exist on this page)
+        const chartTitles = document.querySelectorAll(
+          "h5.card-title.text-center"
+        );
+        // if (chartTitles[0]) chartTitles[0].textContent = t.constructionStatus; // Example from dashboard
+        // if (chartTitles[1]) chartTitles[1].textContent = t.educationStatus; // Example from dashboard
+        // if (chartTitles[2]) chartTitles[2].textContent = t.healthStatus; // Example from dashboard
+
+        // Update chart labels and datasets (if they exist on this page)
+        // if (window.constructionChart) { // Example from dashboard
+        //   constructionChart.data.labels = t.chartLabels.construction;
+        //   constructionChart.data.datasets[0].label =
+        //     lang === "ar" ? "عدد المنشآت" : "Number of Buildings";
+        //   constructionChart.update();
+        // }
+        // ... other charts if present
+
+        // Update projects section title (if it exists on this page)
+        const projectsTitle = document.getElementById("projectsTitle");
+        // if (projectsTitle) projectsTitle.textContent = t.projects; // Example from dashboard
+
+        // Update Projects Orders overview section title (if it exists on this page)
+        const projectsOrdersTitle = document.getElementById(
+          "projectsOrdersTitle"
+        );
+        // if (projectsOrdersTitle) // Example from dashboard
+        //   projectsOrdersTitle.textContent = t.projectOrders;
       }
 
       function toggleLanguage() {
-        console.log(
-          "Language toggle button clicked. Current language:",
-          currentLang
-        );
         const btn = document.getElementById("langToggleBtn");
         if (currentLang === "ar") {
           btn.textContent = "EN";
@@ -1217,51 +1456,88 @@
           btn.textContent = "AR";
           switchLanguage("ar");
         }
-      }
 
-      function toggleMenu() {
-        const dropdown = document.getElementById("menuDropdown");
-        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-      }
-
-      function logout() {
-        window.location.href = "./index.html";
-      }
-
-      // إغلاق القائمة عند النقر خارجها
-      window.onclick = function(event) {
-        const dropdown = document.getElementById("menuDropdown");
-        const menuToggle = document.querySelector(".menu-toggle");
-        if (!menuToggle.contains(event.target) && !dropdown.contains(event.target)) {
-          dropdown.style.display = "none";
+        // Store language preference in localStorage
+        try {
+          localStorage.setItem("preferredLanguage", currentLang);
+        } catch (error) {
+          console.error(
+            "Error saving language preference in toggleLanguage:",
+            error
+          );
         }
       }
 
+      function logout() {
+        window.location.href = "./index.html"; // Redirect to index.html (login page)
+      }
+
+      // Add menu functionality
+      function toggleMenu() {
+        const menu = document.getElementById("menuDropdown");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+      }
+
+      // Close menu when clicking outside
+      document.addEventListener("click", function (e) {
+        const menu = document.getElementById("menuDropdown");
+        const menuBtn = document.getElementById("menuToggleBtn");
+
+        if (menu && menuBtn) {
+          if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
+            menu.style.display = "none";
+          }
+        }
+      });
+
       // Initial language setup
       document.addEventListener("DOMContentLoaded", function () {
-        console.log("Setting up initial language...");
-        // Set initial language to English
-        switchLanguage("en");
+        // Set initial classes for RTL layout (if applicable to this page)
+        const dropdownContainer = document.getElementById(
+          "dropdownButtonContainer"
+        );
+        const projectsTitleContainer = document.getElementById(
+          "projectsTitleContainer"
+        );
+        const helpButton = document.getElementById("helpButton");
 
-        // Add click event listener to the language toggle button
+        if (dropdownContainer && projectsTitleContainer) {
+          // Initial setup for Arabic (RTL) if needed
+          // dropdownContainer.classList.add("text-start");
+          // projectsTitleContainer.classList.add("text-end");
+        }
+
+        // Initial position for help button (Arabic - RTL) if needed
+        // if (helpButton) {
+        //   helpButton.style.left = "20px";
+        //   helpButton.style.right = "auto";
+        // }
+
+        // Check if there's a saved language preference in localStorage
+        let savedLanguage;
+        try {
+          savedLanguage = localStorage.getItem("preferredLanguage");
+        } catch (error) {
+          console.error("Error retrieving language preference:", error);
+          savedLanguage = null;
+        }
+
+        // Set initial language based on saved preference or default to Arabic
+        const initialLang = savedLanguage || "ar";
+        switchLanguage(initialLang); // Apply the language switch
+
+        // Set language toggle button text based on current language
         const langToggleBtn = document.getElementById("langToggleBtn");
         if (langToggleBtn) {
+          langToggleBtn.textContent = initialLang === "ar" ? "AR" : "EN";
+          // Remove any existing click handlers to avoid duplicates
+          langToggleBtn.onclick = null; // Clear previous handler if any
           langToggleBtn.addEventListener("click", function (e) {
             e.preventDefault();
             e.stopPropagation();
             toggleLanguage();
           });
         }
-
-        // Debug footer text
-        const footerText = document.querySelector(".copyright-text");
-        console.log("Footer element:", footerText);
-        if (footerText) {
-          console.log("Current footer text:", footerText.innerHTML);
-        }
-
-        // Test script to verify language switching
-        switchLanguage("ar");
       });
     </script>
   </body>

@@ -1,1030 +1,489 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/images.png" />
-  <link rel="icon" type="image/png" href="../assets/img/images.png" />
-  <title>Manage Users</title>
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
-  <!-- Nucleo Icons -->
-  <link href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <!-- CSS Files -->
-  <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/images.png" />
-  <link rel="icon" type="image/png" href="../assets/img/images.png" />
-  <title>Soft UI Dashboard 3 by Creative Tim</title>
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
-  <!-- Nucleo Icons -->
-  <link href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <!-- CSS Files -->
-  <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
-  <!-- Nucleo Icons -->
-  <link href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <!-- CSS Files -->
-  <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-
-  <style>
-    #mainHeader {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1030;
-      /* Increased z-index to be above sidebar */
-      background-color: #007bff;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 4px 16px;
-      height: 50px;
-      box-sizing: border-box;
-    }
-
-    .header-logo {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      object-fit: contain;
-    }
-
-    .header-title {
-      flex: 1;
-      text-align: center;
-      font-weight: bold;
-      font-size: 1.4rem;
-      line-height: 1.4;
-    }
-
-    .header-logos {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 5px;
-    }
-
-    .title-ar {
-      font-size: 1.3rem;
-      line-height: 1.2;
-      font-weight: bold;
-      white-space: normal;
-    }
-
-    .title-en {
-      font-size: 0.95rem;
-      line-height: 1.2;
-      font-weight: bold;
-      white-space: normal;
-    }
-
-    .language-dropdown {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 1031;
-      /* Higher than header to ensure dropdown works */
-    }
-
-    .language-toggle {
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-      font-weight: bold;
-      font-size: 1.1rem;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      outline: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: background 0.2s, border 0.2s, box-shadow 0.2s;
-      position: relative;
-      z-index: 5000;
-      /* Higher than header to ensure button works */
-    }
-
-    .language-toggle:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .language-toggle:active {
-      background: rgba(255, 255, 255, 0.4);
-    }
-
-    #mainFooter {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100vw;
-      z-index: 1000;
-      background-color: #3066ff;
-      padding: 4px 16px;
-      height: 50px;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 1rem;
-      color: white;
-    }
-
-    .social-icon {
-      color: #fff;
-      font-size: 1.2rem;
-      margin-left: 1rem;
-      transition: color 0.3s ease;
-    }
-
-    .social-icon:hover {
-      color: #3498db;
-    }
-
-    footer .copyright img {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      background-color: white;
-      padding: 2px;
-      object-fit: contain;
-      background-clip: content-box;
-      vertical-align: middle;
-      margin-right: 8px;
-    }
-
-    .footer-logo {
-      height: 24px;
-      margin-right: 8px;
-      vertical-align: middle;
-      display: inline-block !important;
-    }
-
-    .companyHITech {
-      color: white !important;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .companyHITech:hover {
-      color: #f0f0f0 !important;
-      text-decoration: underline;
-    }
-
-    /* Add RTL/LTR specific styles for footer */
-    body[dir="rtl"] .footer-content {
-      flex-direction: row;
-    }
-
-    body[dir="ltr"] .footer-content {
-      flex-direction: row;
-    }
-
-    body[dir="rtl"] .footer-logo {
-      margin-right: 8px;
-      margin-left: 0;
-    }
-
-    body[dir="ltr"] .footer-logo {
-      margin-left: 8px;
-      margin-right: 0;
-    }
-
-    body[dir="rtl"] .social-icon {
-      margin-left: 1rem;
-      margin-right: 0;
-    }
-
-    body[dir="ltr"] .social-icon {
-      margin-right: 1rem;
-      margin-left: 0;
-    }
-
-    /* Existing styles remain unchanged */
-    body {
-      background-color: #f8f9fa;
-      font-family: "Cairo", sans-serif;
-    }
-
-    .card {
-      border-radius: 1rem;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-      background-color: linear-gradient(135deg, #e3f2fd, #ffffff);
-      height: 100%;
-      /* Make all cards the same height */
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-body {
-      flex: 1;
-      /* Allow card body to grow and fill available space */
-      display: flex;
-      flex-direction: column;
-      min-height: 200px;
-      /* Set minimum height */
-      padding: 1.5rem;
-      /* Consistent padding */
-    }
-
-    .card-title {
-      margin-bottom: 1rem;
-      /* Consistent spacing */
-    }
-
-    .card-text {
-      flex: 1;
-      /* Allow text to grow and fill available space */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      /* Consistent font size */
-      margin: 0;
-      /* Remove default margins */
-    }
-
-    /* Ensure charts maintain consistent height */
-    .chart-container {
-      height: 100%;
-      min-height: 200px;
-    }
-
-    canvas {
-      width: 100% !important;
-      height: 100% !important;
-    }
-
-    /* Add styles for the sidebar logo */
-    .sidenav-header {
-      padding-top: 20px;
-      /* Add padding to move logo down */
-      margin-bottom: 10px;
-    }
-
-    .navbar-brand {
-      margin-top: 20px !important;
-      /* Force margin to move logo down */
-      display: block;
-      padding: 10px 0;
-    }
-
-    .navbar-brand-img {
-      max-height: 35px;
-      /* Control logo size */
-      width: auto;
-    }
-
-    /* Ensure header stays on top */
-    #mainHeader {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 5000;
-      background-color: #007bff;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 4px 16px;
-      height: 50px;
-      box-sizing: border-box;
-    }
-
-    .copyright-text {
-      color: white;
-      display: inline-block;
-      margin-right: 8px;
-      font-size: 14px;
-    }
-
-    .footer-logo {
-      height: 24px;
-      margin-right: 8px;
-      vertical-align: middle;
-      display: inline-block !important;
-    }
-
-    .companyHITech {
-      color: white !important;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      display: inline-block;
-      margin: 0 8px;
-    }
-
-    .companyHITech:hover {
-      color: #f0f0f0 !important;
-      text-decoration: underline;
-    }
-
-    /* Add RTL/LTR specific styles for footer */
-    body[dir="rtl"] .footer-content {
-      flex-direction: row;
-    }
-
-    body[dir="ltr"] .footer-content {
-      flex-direction: row;
-    }
-
-    body[dir="rtl"] .footer-logo {
-      margin-right: 8px;
-      margin-left: 0;
-    }
-
-    body[dir="ltr"] .footer-logo {
-      margin-left: 8px;
-      margin-right: 0;
-    }
-
-    body[dir="rtl"] .social-icon {
-      margin-left: 1rem;
-      margin-right: 0;
-    }
-
-    body[dir="ltr"] .social-icon {
-      margin-right: 1rem;
-      margin-left: 0;
-    }
-
-    /* Existing styles remain unchanged */
-
-    /* إضافة أنماط القائمة المنسدلة */
-    .menu-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .menu-toggle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .menu-toggle:hover {
-      background: rgba(255, 255, 255, 0.32);
-      transform: scale(1.05);
-    }
-
-    .menu-dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background-color: white;
-      min-width: 160px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      z-index: 1000;
-      margin-top: 5px;
-    }
-
-    .menu-item {
-      display: flex;
-      align-items: center;
-      padding: 12px 16px;
-      text-decoration: none;
-      color: #333;
-      transition: background-color 0.3s ease;
-    }
-
-    .menu-item i {
-      margin-left: 8px;
-      width: 20px;
-      text-align: center;
-    }
-
-    .menu-item:hover {
-      background-color: #f5f5f5;
-    }
-
-    /* تعديلات للغة الإنجليزية */
-    body[dir="ltr"] .menu-dropdown-content {
-      right: auto;
-      left: 0;
-    }
-
-    body[dir="ltr"] .menu-item i {
-      margin-left: 0;
-      margin-right: 8px;
-    }
-  </style>
-
-  <style>
-    /* تنسيق المربعات */
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .grid-item {
-      background-color: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .grid-item::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #0d6efd20, #6c757d20);
-      z-index: -1;
-      transition: opacity 0.3s ease;
-      opacity: 0;
-    }
-
-    .grid-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .grid-item:hover::before {
-      opacity: 1;
-    }
-
-    .grid-item h3 {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    .grid-item i {
-      font-size: 2.5rem;
-      /* حجم الأيقونة */
-      color: #0d6efd;
-      /* لون الأيقونة */
-      margin-bottom: 10px;
-      /* المسافة بين الأيقونة والنص */
-      display: block;
-      /* لجعل الأيقونة في السطر الخاص بها */
-    }
-
-    .grid-item h3 {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .table-container {
-      max-height: 400px;
-      overflow-y: auto;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .table thead {
-      background-color: #f8f9fa;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    .table th,
-    .table td {
-      padding: 12px;
-      text-align: center;
-      border: 1px solid #ddd;
-    }
-
-    .table tbody tr:hover {
-      background-color: #f1f1f1;
-    }
-
-    .btn-add {
-      margin-bottom: 20px;
-    }
-
-    .btn-edit {
-      background-color: #ffc107;
-      border-color: #ffc107;
-    }
-
-    .btn-delete {
-      background-color: #dc3545;
-      border-color: #dc3545;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    /* تحسين شكل النافذة المنبثقة */
-    .modal-content {
-      border-radius: 16px;
-      border: none;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      animation: fadeIn 0.3s ease-in-out;
-      margin-top: 80px; /* إضافة مسافة من الأعلى */
-    }
-
-    .modal-header {
-      background: linear-gradient(135deg, #0d6efd, #1a73e8);
-      color: #fff;
-      border-radius: 16px 16px 0 0;
-      padding: 15px 20px;
-      position: relative;
-    }
-
-    .modal-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 0;
-      color: #fff;
-    }
-
-    .modal-body {
-      padding: 20px;
-    }
-
-    .modal-footer {
-      border-top: 1px solid #e0e0e0;
-      padding: 15px 20px;
-      border-radius: 0 0 16px 16px;
-    }
-
-    /* زر الإغلاق */
-    .btn-close {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      opacity: 1;
-      padding: 0;
-      margin: 0;
-    }
-
-    .btn-close::before {
-      content: "×";
-      color: #fff;
-      font-size: 24px;
-      line-height: 1;
-    }
-
-    .btn-close:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.1);
-    }
-
-    /* تعديل موضع زر الإغلاق حسب اتجاه اللغة */
-    body[dir="rtl"] .btn-close {
-      right: auto;
-      left: 15px;
-    }
-
-    body[dir="ltr"] .btn-close {
-      left: auto;
-      right: 15px;
-    }
-
-    /* تحسين شكل الجداول */
-    .table-container {
-      max-height: 400px;
-      overflow-y: auto;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .table thead {
-      background-color: #f8f9fa;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    .table th,
-    .table td {
-      padding: 12px;
-      text-align: center;
-      border: 1px solid #ddd;
-    }
-
-    .table tbody tr:hover {
-      background-color: #f1f1f1;
-    }
-
-    /* تأثيرات تحريك */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="shortcut icon"
+      href="../assets/img/UN_Habitat_Icon.svg"
+      type="image/x-icon"
+    />
+    <title>Manage Users</title>
+    <!-- Fonts and icons -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- CSS Files -->
+    <link
+      id="pagestyle"
+      href="../assets/css/soft-ui-dashboard.css?v=1.1.0"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts - Inter -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts - Tajawal (for Arabic) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="https://cdn.jsdelivr.net/npm/soft-ui-dashboard@1.1.0/assets/js/soft-ui-dashboard.min.js"></script>
+    <!--   Core JS Files   -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/smooth-scrollbar@8.8.4/dist/smooth-scrollbar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+      /* General body styles and font setup */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Tajawal", "Inter", sans-serif;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #f8f9fa;
       }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
+      /* Arabic font for RTL and specific elements */
+      :lang(ar),
+      [lang="ar"],
+      .arabic-text,
+      .copyright-text,
+      .social-icons,
+      .btn,
+      label,
+      input,
+      .header-title,
+      .title-ar,
+      .title-en,
+      .header-title div {
+        font-family: "Tajawal", sans-serif !important;
       }
-    }
 
-    .grid-item {
-      background: linear-gradient(135deg,
-          #ffffff,
-          #f0f8ff);
-      /* تدرج أبيض وأزرق فاتح */
-      border: none;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
+      body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
+        font-family: "Tajawal", "Inter", sans-serif !important;
+      }
 
-    .grid-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
+      /* Header styles */
+      #mainHeader {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 5000;
+        background-color: #00b2e3;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4px 16px;
+        height: 50px;
+        box-sizing: border-box;
+        direction: rtl !important;
+      }
 
-    .grid-item i {
-      font-size: 2.5rem;
-      /* حجم الأيقونة */
-      margin-bottom: 10px;
-      /* المسافة بين الأيقونة والنص */
-      transition: transform 0.3s ease;
-    }
+      .header-title {
+        flex: 1;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.4rem;
+        line-height: 1.4;
+      }
 
-    .grid-item span {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #333;
-    }
+      .title-ar {
+        font-size: 1.1rem;
+        line-height: 1.2;
+        font-weight: bold;
+        white-space: normal;
+      }
 
-    .grid-item:hover i {
-      transform: scale(1.1);
-      /* تكبير الأيقونة عند التحويم */
-    }
+      .title-en {
+        font-size: 1.1rem;
+        line-height: 1.2;
+        font-weight: bold;
+        white-space: normal;
+      }
 
-    /* ألوان ديناميكية لكل مربع */
-    .grid-item:nth-child(1) {
-      background-color: #e8f5e9;
-    }
+      .header-logo {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        object-fit: contain;
+      }
 
-    /* أخضر فاتح */
-    .grid-item:nth-child(2) {
-      background-color: #fff3e0;
-    }
+      .header-logos {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 5px;
+      }
 
-    /* برتقالي فاتح */
-    .grid-item:nth-child(3) {
-      background-color: #e3f2fd;
-    }
+      /* Language and menu buttons */
+      .language-dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1031;
+      }
 
-    /* أزرق فاتح */
-    .grid-item:nth-child(4) {
-      background-color: #ffebee;
-    }
+      .language-toggle {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.1rem;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: 0.2s, border 0.2s, box-shadow 0.2s;
+        position: relative;
+        z-index: 5000;
+      }
 
-    /* أحمر فاتح */
-    .grid-item:nth-child(5) {
-      background-color: #f3e5f5;
-    }
+      .language-toggle:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
 
-    /* بنفسجي فاتح */
-    .grid-item:nth-child(6) {
-      background-color: #e0f7fa;
-    }
+      .language-toggle:active {
+        background: rgba(255, 255, 255, 0.4);
+      }
 
-    /* سماوي فاتح */
-    .grid-item:nth-child(7) {
-      background-color: #ede7f6;
-    }
+      .menu-dropdown {
+        position: relative;
+        display: inline-block;
+      }
 
-    /* بنفسجي فاتح آخر */
-    .grid-item:nth-child(8) {
-      background-color: #fffde7;
-    }
+      .menu-toggle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
 
-    /* أصفر فاتح */
-    .grid-item:nth-child(9) {
-      background-color: #e8eaf6;
-    }
+      .menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.32);
+        transform: scale(1.05);
+      }
 
-    /* أزرق غامق قليلاً */
-    .grid-item:nth-child(10) {
-      background-color: #d1c4e9;
-    }
+      .menu-dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1000;
+        margin-top: 5px;
+      }
 
-    /* بنفسجي متوسط */
-    .grid-item:nth-child(11) {
-      background-color: #b2ebf2;
-    }
+      .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        text-decoration: none;
+        color: #333;
+        transition: background-color 0.3s ease;
+      }
 
-    /* أزرق ماء */
-    .grid-item:nth-child(12) {
-      background-color: #ffecb3;
-    }
+      .menu-item i {
+        margin-left: 8px;
+        width: 20px;
+        text-align: center;
+      }
 
-    /* ذهبي فاتح */
-    .grid-item:nth-child(13) {
-      background-color: #c8e6c9;
-    }
+      .menu-item:hover {
+        background-color: #f5f5f5;
+      }
 
-    /* أخضر متوسط */
-    .grid-item:nth-child(14) {
-      background-color: #bbdefb;
-    }
+      body[dir="ltr"] .menu-dropdown-content {
+        right: auto;
+        left: 0;
+      }
 
-    /* أزرق سماوي */
+      body[dir="ltr"] .menu-item i {
+        margin-left: 0;
+        margin-right: 8px;
+      }
 
+      /* Sidebar styles */
+      #sidenav-main .navbar-nav {
+        padding-inline-start: 0 !important;
+      }
 
-    /* إضافة أنماط للشريط الجانبي حسب اتجاه اللغة */
-    body[dir="rtl"] .sidenav {
-      right: 0 !important;
-      left: auto !important;
-      margin-right: 1rem !important;
-      margin-left: 0 !important;
-    }
+      .sidenav-header {
+        padding-top: 20px;
+        margin-bottom: 10px;
+      }
 
-    body[dir="ltr"] .sidenav {
-      left: 0 !important;
-      right: auto !important;
-      margin-left: 1rem !important;
-      margin-right: 0 !important;
-    }
+      .navbar-brand {
+        margin-top: 20px !important;
+        display: block;
+        padding: 10px 0;
+      }
 
-    /* أنماط للمحتوى الرئيسي */
-    body[dir="rtl"] .main-content {
-      margin-right: 17.125rem !important;
-      margin-left: 0 !important;
-    }
+      .navbar-brand-img {
+        max-height: 35px;
+        width: auto;
+      }
 
-    body[dir="ltr"] .main-content {
-      margin-left: 17.125rem !important;
-      margin-right: 0 !important;
-    }
+      /* Footer styles */
+      #mainFooter {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        z-index: 1000;
+        background-color: #00b2e3;
+        padding: 4px 16px;
+        height: 50px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        direction: rtl !important;
+      }
 
-    /* أنماط للأيقونات في الشريط الجانبي */
-    body[dir="rtl"] .icon {
-      margin-left: 0.5rem !important;
-      margin-right: 0 !important;
-    }
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+        color: white;
+      }
 
-    body[dir="ltr"] .icon {
-      margin-right: 0.5rem !important;
-      margin-left: 0 !important;
-    }
+      .footer-logo {
+        height: 24px;
+        margin-right: 8px;
+        vertical-align: middle;
+        display: inline-block !important;
+      }
 
-    /* تعديل الأنماط الخاصة بالشريط الجانبي عند الضغط على زر القائمة */
-    body[dir="rtl"] .g-sidenav-hidden .sidenav {
-      transform: translateX(17.125rem) !important;
-    }
+      /* Footer Copyright Image Style */
+      footer .copyright img {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        background-color: white;
+        padding: 2px;
+        object-fit: contain;
+        background-clip: content-box;
+        vertical-align: middle;
+        margin-right: 8px;
+        /* Space to the right of the image (RTL) */
+      }
 
-    body[dir="ltr"] .g-sidenav-hidden .sidenav {
-      transform: translateX(-17.125rem) !important;
-    }
+      .companyHITech {
+        color: white !important;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: inline-block;
+        margin: 0 8px;
+      }
 
-    /* تعديل الأنماط الخاصة بالمحتوى الرئيسي عند الضغط على زر القائمة */
-    body[dir="rtl"] .g-sidenav-hidden .main-content {
-      margin-right: 0 !important;
-    }
+      .companyHITech:hover {
+        color: #f0f0f0 !important;
+        text-decoration: underline;
+      }
 
-    body[dir="ltr"] .g-sidenav-hidden .main-content {
-      margin-left: 0 !important;
-    }
+      .copyright-text {
+        color: white;
+        display: inline-block;
+        margin-right: 8px;
+        font-size: 14px;
+      }
 
-    /* تعديل أنماط النصوص في القائمة الجانبية */
-    body[dir="rtl"] .nav-link-text {
-      margin-right: 0.5rem !important;
-      margin-left: 0 !important;
-    }
+      .social-icon {
+        color: #fff;
+        font-size: 1.2rem;
+        margin-left: 1rem;
+        transition: color 0.3s ease;
+      }
 
-    body[dir="ltr"] .nav-link-text {
-      margin-left: 0.5rem !important;
-      margin-right: 0 !important;
-    }
+      .social-icon:hover {
+        color: #3498db;
+      }
 
-    /* تعديل أنماط البطاقات في الصفحة */
-    body[dir="rtl"] .profile-card,
-    body[dir="rtl"] .stats-card,
-    body[dir="rtl"] .settings-card {
-      text-align: right;
-    }
+      body[dir="rtl"] .footer-content,
+      body[dir="ltr"] .footer-content {
+        flex-direction: row;
+      }
 
-    body[dir="ltr"] .profile-card,
-    body[dir="ltr"] .stats-card,
-    body[dir="ltr"] .settings-card {
-      text-align: left;
-    }
-  </style>
-</head>
+      body[dir="rtl"] .footer-logo {
+        margin-right: 8px;
+        margin-left: 0;
+      }
 
-<body dir="rtl" class="g-sidenav-show bg-gray-300">
-  <header id="mainHeader">
-    <div style="display: flex; align-items: center; gap: 10px">
-      <img src="../assets/img/unhabitat.jfif" alt="Logo 3" class="header-logo" />
-      <div class="language-dropdown">
-        <button class="language-toggle" id="langToggleBtn">AR</button>
-      </div>
-      <!-- زر القائمة -->
-      <div class="menu-dropdown">
-        <button class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()">
-          <i class="fas fa-ellipsis-v"></i>
-        </button>
-        <div class="menu-dropdown-content" id="menuDropdown">
-          <a href="#" class="menu-item" id="settingsBtn">
-            <i class="fas fa-cog"></i>
-            <span id="settingsText">الإعدادات</span>
-          </a>
-          <a href="#" class="menu-item" id="logoutBtn" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i>
-            <span id="logoutText">تسجيل الخروج</span>
-          </a>
+      body[dir="ltr"] .footer-logo {
+        margin-left: 8px;
+        margin-right: 0;
+      }
+
+      body[dir="rtl"] .social-icon {
+        margin-left: 1rem;
+        margin-right: 0;
+      }
+
+      body[dir="ltr"] .social-icon {
+        margin-right: 1rem;
+        margin-left: 0;
+      }
+
+      /* Font Awesome icon styles */
+      .fa,
+      .fab,
+      .fas,
+      .far,
+      i.fa,
+      i.fab,
+      i.fas,
+      i.far,
+      i.fa-facebook-f,
+      i.fa-x-twitter,
+      i.fa-instagram,
+      i.fa-linkedin-in,
+      i.fa-whatsapp {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+        display: inline-block !important;
+        visibility: visible !important;
+      }
+    </style>
+  </head>
+
+  <body class="g-sidenav-show bg-gray-100">
+    <!-- New Header -->
+    <header id="mainHeader">
+      <div style="display: flex; align-items: center; gap: 10px">
+        <a href="./admin.html" title="Go to Admin Page">
+          <img
+            src="../assets/img/unhabitat.jfif"
+            alt="Logo 3"
+            class="header-logo"
+            style="cursor: pointer"
+          />
+        </a>
+        <div class="language-dropdown">
+          <button
+            class="language-toggle"
+            id="langToggleBtn"
+            onclick="toggleLanguage()"
+            aria-label="Toggle Language"
+          >
+            AR
+          </button>
+        </div>
+        <!-- Add menu dropdown button -->
+        <div class="menu-dropdown">
+          <button
+            title="toggle language"
+            class="menu-toggle"
+            id="menuToggleBtn"
+            onclick="toggleMenu()"
+          >
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+          <div class="menu-dropdown-content" id="menuDropdown">
+            <a
+              href="#"
+              class="menu-item"
+              id="settingsBtn"
+              onclick="window.location.href = './profile.html';"
+            >
+              <i class="fas fa-cog"></i>
+              <span id="settingsText">الإعدادات</span>
+            </a>
+            <a
+              href="#"
+              class="menu-item"
+              id="logoutBtn"
+              onclick="window.location.href = './index.html';"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+              <span id="logoutText">تسجيل الخروج</span>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="header-title text-center">
-      <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
-      <div class="title-en">
-        Urban Information Management System - Aleppo City
+      <div class="header-title text-center">
+        <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
+        <div class="title-en">
+          Urban Information Management System - Aleppo City
+        </div>
       </div>
-    </div>
 
-    <div class="header-logos right-logos">
-      <img src="../assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
-      <img src="../assets/img/japan.png" alt="Logo 2" class="header-logo" />
-    </div>
-  </header>
+      <div class="header-logos right-logos">
+        <img src="../assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
+        <img src="../assets/img/japan.png" alt="Logo 2" class="header-logo" />
+      </div>
+    </header>
 
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
-    id="sidenav-main" style="max-height: calc(100vh - 60px); overflow-y: visible">
-    <div class="sidenav-header">
-      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-        aria-hidden="true" id="iconSidenav"></i>
-      <!-- <a class="navbar-brand m-0" href="#" target="_blank">
-          <img
-            src="../assets/img/UN_Habitat_Logo.svg"
-            class="navbar-brand-img h-100"
-            alt="main_logo"
-          />
-        </a> -->
-    </div>
-    <!-- <hr class="horizontal dark mt-0" /> -->
-    <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main" style="height: auto !important">
-      <ul class="navbar-nav" style="padding-bottom: 60px;padding-top:20px;">
-        <li class="nav-item">
-          <a class="nav-link" href="../pages/dashboard.html">
-            <div
-              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title></title>
-                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                    <g transform="translate(1716.000000, 291.000000)">
-                      <g transform="translate(0.000000, 148.000000)">
-                        <path class="color-background opacity-6"
-                          d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z">
-                        </path>
-                        <path class="color-background"
-                          d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z">
-                        </path>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </svg>
-            </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
-          </a>
-        </li>
+    <aside
+      class="sidenav navbar navbar-vertical navbar-expand-xs border-0 my-3 fixed-end bg-gray-300"
+      id="sidenav-main"
+      style="max-height: calc(100vh - 66px); overflow-y: visible"
+    >
+      <div class="sidenav-header">
+        <i
+          class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+          aria-hidden="true"
+          id="iconSidenav"
+        ></i>
+      </div>
 
-        <li class="nav-item">
-          <a class="nav-link" href="../pages/tables.html">
-            <div
-              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-              <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title>office</title>
-                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                    <g transform="translate(1716.000000, 291.000000)">
-                      <g id="office" transform="translate(153.000000, 2.000000)">
-                        <path class="color-background opacity-6"
-                          d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z">
-                        </path>
-                        <path class="color-background"
-                          d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z">
-                        </path>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </svg>
-            </div>
-            <span class="nav-link-text ms-1">configuration Tables </span>
-          </a>
-        </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link" href="../pages/aleppo-map-analysis.html">
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="../pages/dashboard.html">
               <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <svg
                   width="12px"
                   height="12px"
-                  viewBox="0 0 43 36"
+                  viewBox="0 0 45 40"
                   version="1.1"
                   xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink"
                 >
-                  <title>credit-card</title>
+                  <title></title>
                   <g
                     stroke="none"
                     stroke-width="1"
@@ -1032,19 +491,19 @@
                     fill-rule="evenodd"
                   >
                     <g
-                      transform="translate(-2169.000000, -745.000000)"
+                      transform="translate(-1716.000000, -439.000000)"
                       fill="#FFFFFF"
                       fill-rule="nonzero"
                     >
                       <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(453.000000, 454.000000)">
+                        <g transform="translate(0.000000, 148.000000)">
                           <path
                             class="color-background opacity-6"
-                            d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
+                            d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z"
                           ></path>
                           <path
                             class="color-background"
-                            d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"
+                            d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z"
                           ></path>
                         </g>
                       </g>
@@ -1052,734 +511,1562 @@
                   </g>
                 </svg>
               </div>
-              <span class="nav-link-text ms-1">Maps</span>
+              <span class="nav-link-text ms-1">Dashboard</span>
             </a>
-          </li> -->
-        <li class="nav-item">
-          <a class="nav-link active" href="../pages/ManageUsers.html">
-            <div
-              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-              <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title>box-3d-50</title>
-                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                    <g transform="translate(1716.000000, 291.000000)">
-                      <g transform="translate(603.000000, 0.000000)">
-                        <path class="color-background"
-                          d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z">
-                        </path>
-                        <path class="color-background opacity-6"
-                          d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z">
-                        </path>
-                        <path class="color-background opacity-6"
-                          d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z">
-                        </path>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </svg>
-            </div>
-            <span class="nav-link-text ms-1">Manage users</span>
-          </a>
-        </li>
+          </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="../pages/profile.html">
-            <div
-              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-              <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title>customer-support</title>
-                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                    <g transform="translate(1716.000000, 291.000000)">
-                      <g transform="translate(1.000000, 0.000000)">
-                        <path class="color-background opacity-6"
-                          d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z">
-                        </path>
-                        <path class="color-background"
-                          d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z">
-                        </path>
-                        <path class="color-background"
-                          d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z">
-                        </path>
+          <li class="nav-item">
+            <a class="nav-link" href="../pages/tables.html">
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
+              >
+                <svg
+                  width="12px"
+                  height="12px"
+                  viewBox="0 0 42 42"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                  <title>office</title>
+                  <g
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      transform="translate(-1869.000000, -293.000000)"
+                      fill="#FFFFFF"
+                      fill-rule="nonzero"
+                    >
+                      <g transform="translate(1716.000000, 291.000000)">
+                        <g
+                          id="office"
+                          transform="translate(153.000000, 2.000000)"
+                        >
+                          <path
+                            class="color-background opacity-6"
+                            d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z"
+                          ></path>
+                          <path
+                            class="color-background"
+                            d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z"
+                          ></path>
+                        </g>
                       </g>
                     </g>
                   </g>
-                </g>
-              </svg>
-            </div>
-            <span class="nav-link-text ms-1">Profile</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="sidenav-footer mx-3"></div>
-  </aside>
-  <!-- Main Content -->
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-    <!-- Table Section -->
-    <div class="container-fluid py-4">
-      <div class="row">
-        <div class="col-12">
-          <div class="card mb-4 mt-5">
-            <div class="card-header pb-0">
-              <h6>قائمة المستخدمين</h6>
-              <button class="btn btn-primary btn-sm float-end" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                <i class="fas fa-plus"></i> إضافة مستخدم
-              </button>
-            </div>
-            <div class="card-body px-0 pt-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        اسم المستخدم
-                      </th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                        البريد الإلكتروني
-                      </th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        الدور
-                      </th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        الإجراءات
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">أحمد محمد</h6>
+                </svg>
+              </div>
+              <span class="nav-link-text ms-1">configuration Tables </span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" href="../pages/ManageUsers.html">
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
+              >
+                <svg
+                  width="12px"
+                  height="12px"
+                  viewBox="0 0 42 42"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                  <title>box-3d-50</title>
+                  <g
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      transform="translate(-2319.000000, -291.000000)"
+                      fill="#FFFFFF"
+                      fill-rule="nonzero"
+                    >
+                      <g transform="translate(1716.000000, 291.000000)">
+                        <g transform="translate(603.000000, 0.000000)">
+                          <path
+                            class="color-background"
+                            d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z"
+                          ></path>
+                          <path
+                            class="color-background opacity-6"
+                            d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z"
+                          ></path>
+                          <path
+                            class="color-background opacity-6"
+                            d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z"
+                          ></path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <span class="nav-link-text ms-1">Manage users</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../pages/profile.html">
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
+              >
+                <svg
+                  width="12px"
+                  height="12px"
+                  viewBox="0 0 46 42"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                  <title>customer-support</title>
+                  <g
+                    stroke="none"
+                    stroke-width="1"
+                    fill="none"
+                    fill-rule="evenodd"
+                  >
+                    <g
+                      transform="translate(-1717.000000, -291.000000)"
+                      fill="#FFFFFF"
+                      fill-rule="nonzero"
+                    >
+                      <g transform="translate(1716.000000, 291.000000)">
+                        <g transform="translate(1.000000, 0.000000)">
+                          <path
+                            class="color-background opacity-6"
+                            d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z"
+                          ></path>
+                          <path
+                            class="color-background"
+                            d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z"
+                          ></path>
+                          <path
+                            class="color-background"
+                            d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z"
+                          ></path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <span class="nav-link-text ms-1">Profile</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="sidenav-footer mx-3"></div>
+    </aside>
+    <main
+      class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
+    >
+      <!-- Table Section -->
+      <div class="container-fluid py-4">
+        <div class="row">
+          <div class="col-12">
+            <div class="card mb-4 mt-5">
+              <div class="card-header pb-0">
+                <h6>قائمة المستخدمين</h6>
+                <button
+                  class="btn btn-primary btn-sm float-end"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addUserModal"
+                >
+                  <i class="fas fa-plus"></i> إضافة مستخدم
+                </button>
+              </div>
+              <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th
+                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                        >
+                          اسم المستخدم
+                        </th>
+                        <th
+                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+                        >
+                          البريد الإلكتروني
+                        </th>
+                        <th
+                          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                        >
+                          الدور
+                        </th>
+                        <th
+                          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                        >
+                          الإجراءات
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="d-flex px-2 py-1">
+                            <div
+                              class="d-flex flex-column justify-content-center"
+                            >
+                              <h6 class="mb-0 text-sm">أحمد محمد</h6>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">
-                          ahmed@example.com
-                        </p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">مدير</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <a href="#" class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal"
-                          data-bs-target="#editUserModal">
-                          <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>تعديل
-                        </a>
-                        <a href="#" class="btn btn-link text-danger text-gradient px-3 mb-0">
-                          <i class="far fa-trash-alt me-2" aria-hidden="true"></i>حذف
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">سارة علي</h6>
+                        </td>
+                        <td>
+                          <p class="text-xs font-weight-bold mb-0">
+                            ahmed@example.com
+                          </p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                          <span class="badge badge-sm bg-gradient-success"
+                            >مدير</span
+                          >
+                        </td>
+                        <td class="align-middle text-center">
+                          <a
+                            href="#"
+                            class="btn btn-link text-dark px-3 mb-0"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editUserModal"
+                          >
+                            <i
+                              class="fas fa-pencil-alt text-dark me-2"
+                              aria-hidden="true"
+                            ></i
+                            >تعديل
+                          </a>
+                          <a
+                            href="#"
+                            class="btn btn-link text-danger text-gradient px-3 mb-0"
+                          >
+                            <i
+                              class="far fa-trash-alt me-2"
+                              aria-hidden="true"
+                            ></i
+                            >حذف
+                          </a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="d-flex px-2 py-1">
+                            <div
+                              class="d-flex flex-column justify-content-center"
+                            >
+                              <h6 class="mb-0 text-sm">سارة علي</h6>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">
-                          sara@example.com
-                        </p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-info">مستخدم</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <a href="#" class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal"
-                          data-bs-target="#editUserModal">
-                          <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>تعديل
-                        </a>
-                        <a href="#" class="btn btn-link text-danger text-gradient px-3 mb-0">
-                          <i class="far fa-trash-alt me-2" aria-hidden="true"></i>حذف
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                        </td>
+                        <td>
+                          <p class="text-xs font-weight-bold mb-0">
+                            sara@example.com
+                          </p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                          <span class="badge badge-sm bg-gradient-info"
+                            >مستخدم</span
+                          >
+                        </td>
+                        <td class="align-middle text-center">
+                          <a
+                            href="#"
+                            class="btn btn-link text-dark px-3 mb-0"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editUserModal"
+                          >
+                            <i
+                              class="fas fa-pencil-alt text-dark me-2"
+                              aria-hidden="true"
+                            ></i
+                            >تعديل
+                          </a>
+                          <a
+                            href="#"
+                            class="btn btn-link text-danger text-gradient px-3 mb-0"
+                          >
+                            <i
+                              class="far fa-trash-alt me-2"
+                              aria-hidden="true"
+                            ></i
+                            >حذف
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
 
-  <!-- Add User Modal -->
-  <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true"
-    data-bs-backdrop="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addUserModalLabel">
-            إضافة مستخدم جديد
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="username" class="form-label">اسم المستخدم</label>
-              <input type="text" class="form-control" id="username" placeholder="أدخل اسم المستخدم" />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">البريد الإلكتروني</label>
-              <input type="email" class="form-control" id="email" placeholder="أدخل البريد الإلكتروني" />
-            </div>
-            <div class="mb-3">
-              <label for="role" class="form-label">الدور</label>
-              <select class="form-select" id="role">
-                <option value="admin">مدير</option>
-                <option value="user">مستخدم</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            إغلاق
-          </button>
-          <button type="button" class="btn btn-primary">حفظ</button>
+    <!-- Add User Modal -->
+    <div
+      class="modal fade"
+      id="addUserModal"
+      tabindex="-1"
+      aria-labelledby="addUserModalLabel"
+      aria-hidden="true"
+      data-bs-backdrop="false"
+    >
+      <div class="modal-dialog pt-5">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addUserModalLabel">
+              إضافة مستخدم جديد
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="username" class="form-label">اسم المستخدم</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="أدخل اسم المستخدم"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">البريد الإلكتروني</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="أدخل البريد الإلكتروني"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="role" class="form-label">الدور</label>
+                <select class="form-select" id="role">
+                  <option value="admin">مدير</option>
+                  <option value="user">مستخدم</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              إغلاق
+            </button>
+            <button type="button" class="btn btn-primary">حفظ</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Edit User Modal -->
-  <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true"
-    data-bs-backdrop="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editUserModalLabel">تعديل المستخدم</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="editUsername" class="form-label">اسم المستخدم</label>
-              <input type="text" class="form-control" id="editUsername" placeholder="أدخل اسم المستخدم" />
-            </div>
-            <div class="mb-3">
-              <label for="editEmail" class="form-label">البريد الإلكتروني</label>
-              <input type="email" class="form-control" id="editEmail" placeholder="أدخل البريد الإلكتروني" />
-            </div>
-            <div class="mb-3">
-              <label for="editRole" class="form-label">الدور</label>
-              <select class="form-select" id="editRole">
-                <option value="admin">مدير</option>
-                <option value="user">مستخدم</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            إغلاق
-          </button>
-          <button type="button" class="btn btn-primary">حفظ التغييرات</button>
+    <!-- Edit User Modal -->
+    <div
+      class="modal fade"
+      id="editUserModal"
+      tabindex="-1"
+      aria-labelledby="editUserModalLabel"
+      aria-hidden="true"
+      data-bs-backdrop="false"
+    >
+      <div class="modal-dialog pt-5">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editUserModalLabel">تعديل المستخدم</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="editUsername" class="form-label"
+                  >اسم المستخدم</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editUsername"
+                  placeholder="أدخل اسم المستخدم"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="editEmail" class="form-label"
+                  >البريد الإلكتروني</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="editEmail"
+                  placeholder="أدخل البريد الإلكتروني"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="editRole" class="form-label">الدور</label>
+                <select class="form-select" id="editRole">
+                  <option value="admin">مدير</option>
+                  <option value="user">مستخدم</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              إغلاق
+            </button>
+            <button type="button" class="btn btn-primary">حفظ التغييرات</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <footer id="mainFooter">
-    <div class="footer-content">
-      <div class="copyright">
-                  <span >
-            2025
-            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
-            ,Powered by
-           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+    <footer id="mainFooter">
+      <div class="footer-content">
+        <div class="copyright">
+          <span class="copyright-text" lang="ar">
+            ©
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            <a
+              rel="noopener"
+              class="companyHITech arabic-text"
+              href="https://hasan20nassar.github.io/HTH_Profile/"
+              target="_blank"
+              lang="ar"
+            >
+              , HI-Tech House</a
+            >
           </span>
+          <span lang="ar" class="arabic-text">Powered by</span>
+          <img
+            alt="Company Logo"
+            src="../assets/img/HTH.png"
+            class="footer-logo"
+          />
+        </div>
+        <div class="social-icons">
+          <a aria-label="WhatsApp" class="social-icon whatsapp" href="#"
+            ><i class="fab fa-whatsapp"></i
+          ></a>
+          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+          <a aria-label="Instagram" class="social-icon instagram" href="#"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a aria-label="X" class="social-icon twitter" href="#"
+            ><i class="fab fa-x-twitter"></i
+          ></a>
+          <a aria-label="Facebook" class="social-icon facebook" href="#"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+        </div>
       </div>
-      <div class="social-icons">
-        <a aria-label="Facebook" class="social-icon facebook" href="#"><i class="fab fa-facebook-f"></i></a>
-        <a aria-label="Twitter" class="social-icon twitter" href="#"><i class="fab fa-x-twitter"></i></a>
-        <a aria-label="Instagram" class="social-icon instagram" href="#"><i class="fab fa-instagram"></i></a>
-        <a aria-label="LinkedIn" class="social-icon linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
-        <a aria-label="WhatsApp" class="social-icon whatsapp" href="https://wa.me/966501234567"><i
-            class="fab fa-whatsapp"></i></a>
-      </div>
+    </footer>
+    <div class="fixed-plugin">
+      <a
+        id="helpButton"
+        class="fixed-plugin-button text-dark position-fixed px-3 py-2"
+        style="bottom: 80px; z-index: 6000"
+      >
+        <i class="fa fa-question-circle py-2"> </i>
+      </a>
     </div>
-  </footer>
 
-  <div class="fixed-plugin">
-    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2" style="bottom: 80px">
-      <i class="fa fa-question-circle py-2"> </i>
-    </a>
-  </div>
+    <script>
+      // Wait for DOM to be fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Function to handle zoom level changes
+        function handleZoom() {
+          const sidenav = document.getElementById("sidenav-main");
+          const windowWidth = window.innerWidth;
+          const zoomLevel = window.devicePixelRatio;
 
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+          if (zoomLevel > 1.51 || windowWidth < 1200) {
+            sidenav.style.display = "none";
+          } else {
+            sidenav.style.display = "block";
+          }
+        }
 
-  <!--   Core JS Files   -->
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script>
-    var win = navigator.platform.indexOf("Win") > -1;
-    if (win && document.querySelector("#sidenav-scrollbar")) {
-      var options = {
-        damping: "0.5",
+        // Initial check
+        handleZoom();
+
+        // Listen for zoom changes
+        window.addEventListener("resize", handleZoom);
+
+        // Initialize charts only if the canvas elements exist
+        try {
+          // Line chart
+          if (document.getElementById("chart-line")) {
+            var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+            var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+            gradientStroke1.addColorStop(1, "rgba(203,12,159,0.2)");
+            gradientStroke1.addColorStop(0.2, "rgba(72,72,176,0.0)");
+            gradientStroke1.addColorStop(0, "rgba(203,12,159,0)"); //purple colors
+
+            var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+            gradientStroke2.addColorStop(1, "rgba(20,23,39,0.2)");
+            gradientStroke2.addColorStop(0.2, "rgba(72,72,176,0.0)");
+            gradientStroke2.addColorStop(0, "rgba(20,23,39,0)"); //purple colors
+
+            window.lineChart = new Chart(ctx2, {
+              type: "line",
+              data: {
+                labels: [
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ],
+                datasets: [
+                  {
+                    label: "Foods",
+                    tension: 0.4,
+                    borderWidth: 3,
+                    pointRadius: 0,
+                    borderColor: "#cb0c9f",
+                    backgroundColor: gradientStroke1,
+                    fill: true,
+                    data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                    maxBarThickness: 6,
+                  },
+                  {
+                    label: "Health",
+                    tension: 0.4,
+                    borderWidth: 3,
+                    pointRadius: 0,
+                    borderColor: "#3A416F",
+                    backgroundColor: gradientStroke2,
+                    fill: true,
+                    data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+                    maxBarThickness: 6,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                },
+                interaction: {
+                  intersect: false,
+                  mode: "index",
+                },
+                scales: {
+                  y: {
+                    grid: {
+                      drawBorder: false,
+                      display: true,
+                      drawOnChartArea: true,
+                      drawTicks: false,
+                      borderDash: [5, 5],
+                    },
+                    ticks: {
+                      display: true,
+                      padding: 10,
+                      color: "#b2b9bf",
+                      font: {
+                        size: 11,
+                        family: "Inter",
+                        style: "normal",
+                        lineHeight: 2,
+                      },
+                    },
+                  },
+                  x: {
+                    grid: {
+                      drawBorder: false,
+                      display: false,
+                      drawOnChartArea: false,
+                      drawTicks: false,
+                      borderDash: [5, 5],
+                    },
+                    ticks: {
+                      display: true,
+                      color: "#b2b9bf",
+                      padding: 20,
+                      font: {
+                        size: 11,
+                        family: "Inter",
+                        style: "normal",
+                        lineHeight: 2,
+                      },
+                    },
+                  },
+                },
+              },
+            });
+          }
+
+          // Service supply data
+          if (document.getElementById("serviceChart")) {
+            window.serviceChart = new Chart(
+              document.getElementById("serviceChart"),
+              {
+                type: "pie",
+                data: {
+                  labels: ["مياه", "كهرباء", "صرف صحي", "لا شيء"],
+                  datasets: [
+                    {
+                      data: [120, 140, 100, 30],
+                      backgroundColor: [
+                        "#0d6efd",
+                        "#198754",
+                        "#ffc107",
+                        "#dc3545",
+                      ],
+                    },
+                  ],
+                },
+              }
+            );
+          }
+
+          // Construction status data
+          if (document.getElementById("constructionChart")) {
+            window.constructionChart = new Chart(
+              document.getElementById("constructionChart"),
+              {
+                type: "bar",
+                data: {
+                  labels: ["صالح", "متصدع", "متهالك", "جيد"],
+                  datasets: [
+                    {
+                      label: "عدد المنشآت",
+                      data: [85, 20, 10, 40],
+                      backgroundColor: "#198754",
+                    },
+                  ],
+                },
+                options: {
+                  scales: {
+                    y: { beginAtZero: true },
+                  },
+                },
+              }
+            );
+          }
+
+          // Health status data
+          if (document.getElementById("healthChart")) {
+            window.healthChart = new Chart(
+              document.getElementById("healthChart"),
+              {
+                type: "bar",
+                data: {
+                  labels: ["مشفى", "مستوصف", "عيادة متنقلة", "عيادة"],
+                  datasets: [
+                    {
+                      label: "عدد المراكز الصحية",
+                      data: [85, 30, 15, 55],
+                      backgroundColor: "blue",
+                    },
+                  ],
+                },
+                options: {
+                  scales: {
+                    y: { beginAtZero: true },
+                  },
+                },
+              }
+            );
+          }
+
+          // Educational status data
+          if (document.getElementById("educationChart")) {
+            window.educationChart = new Chart(
+              document.getElementById("educationChart"),
+              {
+                type: "bar",
+                data: {
+                  labels: ["جامعة", "مدرسة", "مدارس خاصة", "روضات"],
+                  datasets: [
+                    {
+                      label: " عدد المنشآت التعليمية ",
+                      data: [2, 80, 30, 20],
+                      backgroundColor: "yellow",
+                    },
+                  ],
+                },
+                options: {
+                  scales: {
+                    y: { beginAtZero: true },
+                  },
+                },
+              }
+            );
+          }
+        } catch (error) {
+          console.error("Error initializing charts:", error);
+        }
+
+        // Initialize scrollbar
+        var win = navigator.platform.indexOf("Win") > -1;
+        if (win && document.querySelector("#sidenav-scrollbar")) {
+          var options = {
+            damping: "0.5",
+          };
+          Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+        }
+      });
+    </script>
+    <script>
+      var win = navigator.platform.indexOf("Win") > -1;
+      if (win && document.querySelector("#sidenav-scrollbar")) {
+        var options = {
+          damping: "0.5",
+        };
+        Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+      }
+    </script>
+
+    <!-- Language Toggle Script -->
+    <script>
+      const translations = {
+        ar: {
+          dir: "rtl",
+          dashboard: "لوحة التحكم",
+          configTables: "جداول الإعدادات",
+          maps: "الخرائط",
+          manageUsers: "إدارة المستخدمين",
+          profile: "الملف الشخصي",
+          signIn: "تسجيل الدخول",
+          signUp: "إنشاء حساب",
+          permissionsList: "قائمة المستخدمين",
+          addPermission: "إضافة مستخدم",
+          editPermission: "تعديل الدور",
+          permissionName: "اسم الدور",
+          permissionDescription: "الوصف",
+          enterPermissionName: "أدخل اسم الدور",
+          enterPermissionDescription: "أدخل وصف الدور",
+          close: "إغلاق",
+          save: "حفظ",
+          saveChanges: "حفظ التغييرات",
+          actions: "الإجراءات",
+          edit: "تعديل",
+          delete: "حذف",
+          confirmDelete: "هل أنت متأكد من حذف هذا الدور؟",
+          fillAllFields: "الرجاء ملء جميع الحقول",
+          families: "عدد الأسر",
+          validBuildings: "منشآت صالحة",
+          residentialBuildings: "منشآت سكنية",
+          threatened: "مهددة بالإزالة",
+          constructionStatus: "الوضع الإنشائي",
+          educationStatus: "الوضع التعليمي",
+          healthStatus: "الوضع الصحي",
+          footerText: "© 2025، جميع الحقوق محفوظة،",
+          companyName: "دار التقنية الحديثة",
+          settingsText: "الإعدادات",
+          logoutText: "تسجيل الخروج",
+          projectsOverview: "نظرة عامة على المشاريع",
+          moreIn2024: "زيادة بنسبة 4% في 2024",
+          projectCompletion: "معدل إكمال المشاريع في حلب",
+          foodProjects: "مشاريع الغذاء",
+          healthProjects: "مشاريع الصحة",
+          clothingProjects: "مشاريع الملابس والمساعدات السكنية",
+          viewAllProjects: "عرض جميع المشاريع",
+          projects: "المشاريع",
+          projectName: "اسم المشروع",
+          type: "النوع",
+          budget: "الميزانية",
+          status: "الحالة",
+          projectOrders: "طلبات المشاريع",
+          thisMonth: "هذا الشهر",
+          timeline: [
+            { title: "أغذية", date: "٢٨ كانون الأول ٢٠٢٥" },
+            { title: "صحة", date: "١٦ نيسان ٢٠٢٥" },
+            { title: "ملابس ومساعدات سكنية", date: "١٧ نيسان ٢٠٢٥" },
+            { title: "سكن وإقامة", date: "٢٠ كانون الأول ٢٠٢٥" },
+            { title: "تعليم", date: "٠٥ تشرين الثاني ٢٠٢٥" },
+            { title: "دعم نفسي وأسري", date: "١٧ كانون الأول ٢٠٢٥" },
+          ],
+          chartLabels: {
+            construction: ["صالح", "متصدع", "متهالك", "جيد"],
+            health: ["مشفى", "مستوصف", "عيادة متنقلة", "عيادة"],
+            education: ["جامعة", "مدرسة", "مدارس خاصة", "روضات"],
+            service: ["مياه", "كهرباء", "صرف صحي", "لا شيء"],
+          },
+          userTable: {
+            username: "اسم المستخدم",
+            email: "البريد الإلكتروني",
+            role: "الدور",
+            actions: "الإجراءات",
+            admin: "مدير",
+            user: "مستخدم",
+            edit: "تعديل",
+            delete: "حذف",
+            confirmDelete: "هل أنت متأكد من حذف هذا المستخدم؟",
+            addUserTitle: "إضافة مستخدم جديد",
+            editUserTitle: "تعديل المستخدم",
+            usernameLabel: "اسم المستخدم",
+            usernamePlaceholder: "أدخل اسم المستخدم",
+            emailLabel: "البريد الإلكتروني",
+            emailPlaceholder: "أدخل البريد الإلكتروني",
+            roleLabel: "الدور",
+            adminOption: "مدير",
+            userOption: "مستخدم",
+            close: "إغلاق",
+            save: "حفظ",
+            saveChanges: "حفظ التغييرات",
+          },
+        },
+        en: {
+          dir: "ltr",
+          dashboard: "Dashboard",
+          configTables: "Configuration Tables",
+          maps: "Maps",
+          manageUsers: "Manage Users",
+          profile: "Profile",
+          signIn: "Sign In",
+          signUp: "Sign Up",
+          permissionsList: "Users List",
+          addPermission: "Add User",
+          editPermission: "Edit User",
+          permissionName: "Username",
+          permissionDescription: "Description",
+          enterPermissionName: "Enter username",
+          enterPermissionDescription: "Enter user description",
+          close: "Close",
+          save: "Save",
+          saveChanges: "Save Changes",
+          actions: "Actions",
+          edit: "Edit",
+          delete: "Delete",
+          confirmDelete: "Are you sure you want to delete this user?",
+          fillAllFields: "Please fill all fields",
+          families: "Families",
+          validBuildings: "Valid Buildings",
+          residentialBuildings: "Residential Buildings",
+          threatened: "Threatened with Removal",
+          constructionStatus: "Construction Status",
+          educationStatus: "Education Status",
+          healthStatus: "Health Status",
+          footerText: " 2025, All rights reserved,",
+          companyName: "Hi-Tech House",
+          settingsText: "Settings",
+          logoutText: "Logout",
+          projectsOverview: "Projects Foods And Health overview",
+          moreIn2024: "4% more in 2024",
+          projectCompletion: "Project completion rate in Aleppo",
+          foodProjects: "Food Projects",
+          healthProjects: "Health Projects",
+          clothingProjects: "Clothing and housing benefits Projects",
+          viewAllProjects: "View all Projects",
+          projects: "Projects",
+          projectName: "NAME OF PROJECT",
+          type: "TYPE",
+          budget: "BUDGET",
+          status: "STATUS",
+          projectOrders: "Projects Orders overview",
+          thisMonth: "this month",
+          timeline: [
+            { title: "Foods", date: "28 DEC 2025" },
+            { title: "Health", date: "16 Apr 2025" },
+            { title: "Clothing and housing benefits", date: "17 Apr 2025" },
+            { title: "Housing and accommodation", date: "20 DEC 2025" },
+            { title: "Education", date: "05 Nov 2025" },
+            { title: "Psychological and family support", date: "17 DEC 2025" },
+          ],
+          chartLabels: {
+            construction: ["Valid", "Cracked", "Dilapidated", "Good"],
+            health: ["Hospital", "Clinic", "Mobile Clinic", "Polyclinic"],
+            education: [
+              "University",
+              "School",
+              "Private Schools",
+              "Kindergartens",
+            ],
+            service: ["Water", "Electricity", "Sanitation", "None"],
+          },
+          userTable: {
+            username: "Username",
+            email: "Email",
+            role: "Role",
+            actions: "Actions",
+            admin: "Admin",
+            user: "User",
+            edit: "Edit",
+            delete: "Delete",
+            confirmDelete: "Are you sure you want to delete this user?",
+            addUserTitle: "Add New User",
+            editUserTitle: "Edit User",
+            usernameLabel: "Username",
+            usernamePlaceholder: "Enter username",
+            emailLabel: "Email",
+            emailPlaceholder: "Enter email",
+            roleLabel: "Role",
+            adminOption: "Admin",
+            userOption: "User",
+            close: "Close",
+            save: "Save",
+            saveChanges: "Save Changes",
+          },
+        },
       };
-      Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
-    }
-  </script>
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/soft-ui-dashboard.min.js?v=1.1.0"></script>
-  <script>
-    // ربط الحدث show.bs.modal
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll(".modal").forEach((modal) => {
-        modal.addEventListener("show.bs.modal", function (event) {
-          console.log(`Modal opened: ${this.id}`); // تأكد من تشغيل الحدث
-          const tableName = this.getAttribute("data-table");
-          if (tableName) {
-            console.log(`Displaying data for table: ${tableName}`);
-            displayData(tableName);
+
+      let currentLang = "ar";
+
+      function switchLanguage(lang) {
+        // Store the language preference in localStorage
+        try {
+          localStorage.setItem("preferredLanguage", lang);
+        } catch (error) {
+          console.error("Error saving language preference:", error);
+        }
+
+        // Update aside (sidebar) position based on language
+        const aside = document.getElementById("sidenav-main");
+
+        aside.classList.remove("fixed-end", "fixed-start");
+
+        // Update dropdown button container alignment based on language
+        const dropdownContainer = document.getElementById(
+          "dropdownButtonContainer"
+        );
+        const projectsTitleContainer = document.getElementById(
+          "projectsTitleContainer"
+        );
+        const helpButton = document.getElementById("helpButton");
+
+        if (lang === "ar") {
+          aside.classList.add("fixed-end");
+          // For RTL (Arabic)
+          if (dropdownContainer) {
+            dropdownContainer.classList.remove("text-end");
+            dropdownContainer.classList.add("text-start");
+          }
+          if (projectsTitleContainer) {
+            projectsTitleContainer.classList.remove("text-start");
+            projectsTitleContainer.classList.add("text-end");
+          }
+          // Position help button on the left side for Arabic
+          if (helpButton) {
+            helpButton.style.left = "20px";
+            helpButton.style.right = "auto";
+          }
+        } else {
+          aside.classList.add("fixed-start");
+          // For LTR (English)
+          if (dropdownContainer) {
+            dropdownContainer.classList.remove("text-start");
+            dropdownContainer.classList.add("text-end");
+          }
+          if (projectsTitleContainer) {
+            projectsTitleContainer.classList.remove("text-end");
+            projectsTitleContainer.classList.add("text-start");
+          }
+
+          // Position help button on the right side for English
+          if (helpButton) {
+            helpButton.style.right = "20px";
+            helpButton.style.left = "auto";
+          }
+        }
+
+        // Update document direction
+
+        currentLang = lang;
+        const t = translations[lang];
+
+        // Update document direction
+        document.documentElement.lang = lang;
+        document.documentElement.dir = t.dir;
+
+        // Update aside (sidebar) text
+        const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
+        if (navTexts[0]) navTexts[0].textContent = t.dashboard;
+        if (navTexts[1]) navTexts[1].textContent = t.configTables;
+        if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
+        if (navTexts[3]) navTexts[3].textContent = t.profile;
+
+        // Update header menu items (settings/logout)
+        const settingsText = document.getElementById("settingsText");
+        if (settingsText) settingsText.textContent = t.settingsText;
+        const logoutText = document.getElementById("logoutText");
+        if (logoutText) logoutText.textContent = t.logoutText;
+
+        // Update main cards
+        const cardTitles = document.querySelectorAll(".card-title");
+        if (cardTitles[0]) cardTitles[0].textContent = t.families;
+        if (cardTitles[1]) cardTitles[1].textContent = t.validBuildings;
+        if (cardTitles[2]) cardTitles[2].textContent = t.residentialBuildings;
+        if (cardTitles[3]) cardTitles[3].textContent = t.threatened;
+
+        // Update chart card titles
+        const chartTitles = document.querySelectorAll(
+          "h5.card-title.text-center"
+        );
+        if (chartTitles[0]) chartTitles[0].textContent = t.constructionStatus;
+        if (chartTitles[1]) chartTitles[1].textContent = t.educationStatus;
+        if (chartTitles[2]) chartTitles[2].textContent = t.healthStatus;
+
+        // Update chart labels and datasets
+        if (window.constructionChart) {
+          constructionChart.data.labels = t.chartLabels.construction;
+          constructionChart.data.datasets[0].label =
+            lang === "ar" ? "عدد المنشآت" : "Number of Buildings";
+          constructionChart.update();
+        }
+        if (window.healthChart) {
+          healthChart.data.labels = t.chartLabels.health;
+          healthChart.data.datasets[0].label =
+            lang === "ar" ? "عدد المراكز الصحية" : "Number of Health Centers";
+          healthChart.update();
+        }
+        if (window.educationChart) {
+          educationChart.data.labels = t.chartLabels.education;
+          educationChart.data.datasets[0].label =
+            lang === "ar"
+              ? "عدد المنشآت التعليمية"
+              : "Number of Educational Facilities";
+          educationChart.update();
+        }
+        if (window.serviceChart) {
+          serviceChart.data.labels = t.chartLabels.service;
+          serviceChart.update();
+        }
+
+        // Update projects section title
+        const projectsTitle = document.getElementById("projectsTitle");
+        if (projectsTitle) projectsTitle.textContent = t.projects;
+
+        // Update Projects Orders overview section title
+        const projectsOrdersTitle = document.getElementById(
+          "projectsOrdersTitle"
+        );
+        if (projectsOrdersTitle)
+          projectsOrdersTitle.textContent = t.projectOrders;
+
+        // Update other elements as before...
+        const moreIn2024 = document.querySelector(".text-sm .font-weight-bold");
+        if (moreIn2024) moreIn2024.textContent = t.moreIn2024;
+
+        const projectCompletion = document.querySelector(".card-header .mb-0");
+        if (projectCompletion)
+          projectCompletion.textContent = t.projectCompletion;
+
+        // Update project list items
+        const projectItems = document.querySelectorAll(
+          ".list-group-item .text-sm.font-weight-bold.text-dark"
+        );
+        if (projectItems[0]) projectItems[0].textContent = t.foodProjects;
+        if (projectItems[1]) projectItems[1].textContent = t.healthProjects;
+        if (projectItems[2]) projectItems[2].textContent = t.clothingProjects;
+
+        // Update view all projects button
+        const viewAllBtn = document.querySelector(".btn-dark.mb-0");
+        if (viewAllBtn) viewAllBtn.textContent = t.viewAllProjects;
+
+        // Update projects table headers
+        const tableHeaders = document.querySelectorAll("th.text-uppercase");
+        if (tableHeaders[0]) tableHeaders[0].textContent = t.projectName;
+        if (tableHeaders[1]) tableHeaders[1].textContent = t.type;
+        if (tableHeaders[2]) tableHeaders[2].textContent = t.budget;
+        if (tableHeaders[3]) tableHeaders[3].textContent = t.status;
+
+        // Update project orders section
+        const thisMonthText = document.querySelectorAll(
+          ".text-sm .font-weight-bold"
+        )[1];
+        if (thisMonthText) thisMonthText.textContent = t.thisMonth;
+
+        // Update timeline
+        const timelineBlocks = document.querySelectorAll(
+          ".timeline-block .timeline-content h6"
+        );
+        const timelineDates = document.querySelectorAll(
+          ".timeline-block .timeline-content p"
+        );
+        t.timeline.forEach((item, idx) => {
+          if (timelineBlocks[idx]) timelineBlocks[idx].textContent = item.title;
+          if (timelineDates[idx]) timelineDates[idx].textContent = item.date;
+        });
+
+        // Update projects overview and section titles
+        const projectsOverviewTitle = document.getElementById(
+          "projectsOverviewTitle"
+        );
+        if (projectsOverviewTitle)
+          projectsOverviewTitle.textContent = t.projectsOverview;
+
+        updateUserTableTexts();
+      }
+
+      function toggleLanguage() {
+        const btn = document.getElementById("langToggleBtn");
+        if (currentLang === "ar") {
+          btn.textContent = "EN";
+          switchLanguage("en");
+        } else {
+          btn.textContent = "AR";
+          switchLanguage("ar");
+        }
+
+        // Store language preference in localStorage (redundant as switchLanguage already does this, but for clarity)
+        try {
+          localStorage.setItem("preferredLanguage", currentLang);
+        } catch (error) {
+          console.error(
+            "Error saving language preference in toggleLanguage:",
+            error
+          );
+        }
+      }
+
+      // Add menu functionality
+      function toggleMenu() {
+        const menu = document.getElementById("menuDropdown");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+      }
+
+      // Close menu when clicking outside
+      document.addEventListener("click", function (e) {
+        const menu = document.getElementById("menuDropdown");
+        const menuBtn = document.getElementById("menuToggleBtn");
+
+        if (menu && menuBtn) {
+          if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
+            menu.style.display = "none";
+          }
+        }
+      });
+
+      // Initialize page
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize scrollbar for Windows platform
+        var win = navigator.platform.indexOf("Win") > -1;
+        if (win && document.querySelector("#sidenav-scrollbar")) {
+          var options = {
+            damping: "0.5",
+          };
+          Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+        }
+        // Set initial classes for RTL layout
+        const dropdownContainer = document.getElementById(
+          "dropdownButtonContainer"
+        );
+        const projectsTitleContainer = document.getElementById(
+          "projectsTitleContainer"
+        );
+        const helpButton = document.getElementById("helpButton");
+
+        if (dropdownContainer && projectsTitleContainer) {
+          // Initial setup for Arabic (RTL)
+          dropdownContainer.classList.add("text-start");
+          projectsTitleContainer.classList.add("text-end");
+        }
+
+        // Initial position for help button (Arabic - RTL)
+        if (helpButton) {
+          helpButton.style.left = "20px";
+          helpButton.style.right = "auto";
+        }
+
+        // Check if there's a saved language preference in localStorage
+        let savedLanguage;
+        try {
+          savedLanguage = localStorage.getItem("preferredLanguage");
+        } catch (error) {
+          console.error("Error retrieving language preference:", error);
+          savedLanguage = null;
+        }
+
+        // Set initial language based on saved preference or default to Arabic
+        const initialLang = savedLanguage || "ar";
+        switchLanguage(initialLang);
+
+        // Set language toggle button text based on current language
+        const langToggleBtn = document.getElementById("langToggleBtn");
+        if (langToggleBtn) {
+          langToggleBtn.textContent = initialLang === "ar" ? "AR" : "EN";
+          // Remove any existing click handlers to avoid duplicates
+          langToggleBtn.onclick = function () {
+            toggleLanguage();
+          };
+        }
+
+        // Display initial users
+        displayUsers();
+
+        // Add event listeners for user management
+        const addUserButton = document.querySelector(
+          "#addUserModal .btn-primary"
+        );
+        if (addUserButton) {
+          addUserButton.addEventListener("click", addUser);
+        }
+
+        const saveEditButton = document.querySelector(
+          "#editUserModal .btn-primary"
+        );
+        if (saveEditButton) {
+          saveEditButton.addEventListener("click", saveUserEdit);
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener("click", function (e) {
+          const menu = document.getElementById("menuDropdown");
+          const menuBtn = document.getElementById("menuToggleBtn");
+          if (
+            menu &&
+            menuBtn &&
+            !menuBtn.contains(e.target) &&
+            !menu.contains(e.target)
+          ) {
+            menu.style.display = "none";
           }
         });
       });
-    });
-  </script>
 
-  <script>
-    const translations = {
-      ar: {
-        dir: "rtl",
-        dashboard: "لوحة التحكم",
-        configTables: "جداول الإعدادات",
-        maps: "الخرائط",
-        manageUsers: "إدارة المستخدمين",
-        profile: "الملف الشخصي",
-        signIn: "تسجيل الدخول",
-        signUp: "إنشاء حساب",
-        threatened: "مهددة بالإزالة",
-        constructionStatus: "الوضع الإنشائي",
-        educationStatus: "الوضع التعليمي",
-        healthStatus: "الوضع الصحي",
-        footerText: "© 2025، Powered by ،",
-        companyName: "HI-Tech House",
-        settingsText: "الإعدادات",
-        logoutText: "تسجيل الخروج",
-        // Users list translations
-        usersList: "قائمة المستخدمين",
-        addUser: "إضافة مستخدم",
-        username: "اسم المستخدم",
-        email: "البريد الإلكتروني",
-        role: "الدور",
-        actions: "الإجراءات",
-        edit: "تعديل",
-        delete: "حذف",
-        admin: "مدير",
-        user: "مستخدم",
-        addNewUser: "إضافة مستخدم جديد",
-        enterUsername: "أدخل اسم المستخدم",
-        enterEmail: "أدخل البريد الإلكتروني",
-        close: "إغلاق",
-        save: "حفظ",
-        saveChanges: "حفظ التغييرات",
-        editUser: "تعديل المستخدم",
-        confirmDelete: "هل أنت متأكد من حذف هذا المستخدم؟",
-        fillRequired: "يرجى ملء جميع الحقول المطلوبة",
-        validEmail: "يرجى إدخال بريد إلكتروني صحيح",
-        emailExists: "هذا البريد الإلكتروني مستخدم بالفعل",
-        // Profile section translations
-        updatePhoto: "تحديث الصورة",
-        activeProjects: "مشاريع نشطة",
-        completedTasks: "مهام مكتملة",
-        uploadedFiles: "ملفات مرفوعة",
-        accountSettings: "إعدادات الحساب",
-        newPassword: "كلمة المرور الجديدة",
-        confirmPassword: "تأكيد كلمة المرور",
-        enterNewPassword: "أدخل كلمة المرور الجديدة",
-        reenterPassword: "أعد إدخال كلمة المرور",
-      },
-      en: {
-        dir: "ltr",
-        dashboard: "Dashboard",
-        configTables: "Configuration Tables",
-        maps: "Maps",
-        manageUsers: "Manage Users",
-        profile: "Profile",
-        signIn: "Sign In",
-        signUp: "Sign Up",
-        threatened: "Threatened with Removal",
-        constructionStatus: "Construction Status",
-        educationStatus: "Education Status",
-        healthStatus: "Health Status",
-        footerText: "© 2025, Powerd by,",
-        companyName: "Hi-Tech House",
-        settingsText: "Settings",
-        logoutText: "Logout",
-        // Users list translations
-        usersList: "Users List",
-        addUser: "Add User",
-        username: "Username",
-        email: "Email",
-        role: "Role",
-        actions: "Actions",
-        edit: "Edit",
-        delete: "Delete",
-        admin: "Admin",
-        user: "User",
-        addNewUser: "Add New User",
-        enterUsername: "Enter username",
-        enterEmail: "Enter email",
-        close: "Close",
-        save: "Save",
-        saveChanges: "Save Changes",
-        editUser: "Edit User",
-        confirmDelete: "Are you sure you want to delete this user?",
-        fillRequired: "Please fill in all required fields",
-        validEmail: "Please enter a valid email address",
-        emailExists: "This email is already in use",
-        // Profile section translations
-        updatePhoto: "Update Photo",
-        activeProjects: "Active Projects",
-        completedTasks: "Completed Tasks",
-        uploadedFiles: "Uploaded Files",
-        accountSettings: "Account Settings",
-        newPassword: "New Password",
-        confirmPassword: "Confirm Password",
-        enterNewPassword: "Enter new password",
-        reenterPassword: "Re-enter password",
-      },
-    };
+      // Mock data for users
+      let users = [
+        {
+          id: 1,
+          username: "أحمد محمد",
+          email: "ahmed@example.com",
+          role: "admin", // admin or user
+        },
+        {
+          id: 2,
+          username: "سارة علي",
+          email: "sara@example.com",
+          role: "user",
+        },
+      ];
 
-    let currentLang = "en";
+      // Function to display users in the table
+      function displayUsers() {
+        const tbody = document.querySelector("tbody");
+        if (!tbody) return;
 
-    function toggleMenu() {
-      const menu = document.getElementById("menuDropdown");
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
+        tbody.innerHTML = "";
 
-    function logout() {
-      window.location.href = "./index.html";
-    }
+        users.forEach((user) => {
+          const tr = document.createElement("tr");
+          const t = translations[currentLang].userTable;
+          tr.innerHTML = `
+        <td>
+          <div class="d-flex px-2 py-1">
+            <div class="d-flex flex-column justify-content-center">
+              <h6 class="mb-0 text-sm">${user.username}</h6>
+            </div>
+          </div>
+        </td>
+        <td>
+          <p class="text-xs font-weight-bold mb-0">${user.email}</p>
+        </td>
+        <td class="align-middle text-center text-sm">
+          <span class="badge badge-sm bg-gradient-${
+            user.role === "admin" ? "success" : "info"
+          }">
+            ${user.role === "admin" ? t.admin : t.user}
+          </span>
+        </td>
+        <td class="align-middle text-center">
+          <a href="#" class="btn btn-link text-dark px-3 mb-0" onclick="editUser(${
+            user.id
+          })" data-bs-toggle="modal" data-bs-target="#editUserModal">
+            <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>${
+              t.edit
+            }
+          </a>
+          <a href="#" class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="deleteUser(${
+            user.id
+          })">
+            <i class="far fa-trash-alt me-2" aria-hidden="true"></i>${t.delete}
+          </a>
+        </td>
+      `;
+          tbody.appendChild(tr);
+        });
 
-    // إغلاق القائمة عند النقر خارجها
-    document.addEventListener("click", function (e) {
-      const menu = document.getElementById("menuDropdown");
-      const menuBtn = document.getElementById("menuToggleBtn");
+        // Update card title and add button
+        const cardTitle = document.querySelector(".card-header h6");
+        const t = translations[currentLang];
+        if (cardTitle) cardTitle.textContent = t.permissionsList; // Using the same translation key
 
-      if (menu && menuBtn) {
-        if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
-          menu.style.display = "none";
+        const addButton = document.querySelector(".card-header .btn-primary");
+        if (addButton) {
+          addButton.innerHTML = `<i class="fas fa-plus"></i> ${t.addPermission}`;
         }
       }
-    });
 
-    function switchLanguage(lang) {
-      const body = document.body;
-      const currentDir = body.getAttribute("dir");
-      if (currentDir === "rtl") {
-        body.setAttribute("dir", "ltr");
-      } else {
-        body.setAttribute("dir", "rtl");
+      // Function to add new user
+      function addUser() {
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const role = document.getElementById("role").value;
+        const t = translations[currentLang];
+
+        if (!username || !email) {
+          alert(t.fillAllFields);
+          return;
+        }
+
+        const newUser = {
+          id: users.length + 1,
+          username: username,
+          email: email,
+          role: role,
+        };
+
+        users.push(newUser);
+        displayUsers();
+
+        // Clear form and close modal
+        document.getElementById("username").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("role").value = "user";
+        const modal = bootstrap.Modal.getInstance(
+          document.getElementById("addUserModal")
+        );
+        modal.hide();
       }
 
-      currentLang = lang;
-      const t = translations[lang];
+      // Function to edit user
+      function editUser(id) {
+        const user = users.find((u) => u.id === id);
+        if (!user) return;
 
-      // Update document direction
-      document.documentElement.lang = lang;
-      document.documentElement.dir = t.dir;
+        document.getElementById("editUsername").value = user.username;
+        document.getElementById("editEmail").value = user.email;
+        document.getElementById("editRole").value = user.role;
 
-      // Update menu items text
-      document.getElementById("settingsText").textContent = t.settingsText;
-      document.getElementById("logoutText").textContent = t.logoutText;
+        document.getElementById("editUserModal").dataset.userId = id;
+      }
 
-      // // Update header titles visibility
-      // const titleAr = document.querySelector(".title-ar");
-      // const titleEn = document.querySelector(".title-en");
-      // if (titleAr) titleAr.style.display = lang === "ar" ? "block" : "none";
-      // if (titleEn) titleEn.style.display = lang === "en" ? "block" : "none";
+      // Function to save edited user
+      function saveUserEdit() {
+        const id = parseInt(
+          document.getElementById("editUserModal").dataset.userId
+        );
+        const username = document.getElementById("editUsername").value;
+        const email = document.getElementById("editEmail").value;
+        const role = document.getElementById("editRole").value;
+        const t = translations[currentLang];
 
-      // Update sidebar/menu text
-      const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
-      if (navTexts[0]) navTexts[0].textContent = t.dashboard;
-      if (navTexts[1]) navTexts[1].textContent = t.configTables;
-      if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
-      if (navTexts[3]) navTexts[3].textContent = t.profile;
-
-      // Update users list section
-      document.querySelector('.card-header h6').textContent = t.usersList;
-      document.querySelector('.card-header .btn-primary').innerHTML = `<i class="fas fa-plus"></i> ${t.addUser}`;
-      
-      // Update table headers
-      const tableHeaders = document.querySelectorAll('thead th');
-      if (tableHeaders[0]) tableHeaders[0].textContent = t.username;
-      if (tableHeaders[1]) tableHeaders[1].textContent = t.email;
-      if (tableHeaders[2]) tableHeaders[2].textContent = t.role;
-      if (tableHeaders[3]) tableHeaders[3].textContent = t.actions;
-
-      // Update modals
-      document.querySelector('#addUserModalLabel').textContent = t.addNewUser;
-      document.querySelector('#editUserModalLabel').textContent = t.editUser;
-      
-      // Update form labels and placeholders
-      const formLabels = document.querySelectorAll('.form-label');
-      formLabels.forEach(label => {
-        if (label.htmlFor === 'username' || label.htmlFor === 'editUsername') {
-          label.textContent = t.username;
-        } else if (label.htmlFor === 'email' || label.htmlFor === 'editEmail') {
-          label.textContent = t.email;
-        } else if (label.htmlFor === 'role' || label.htmlFor === 'editRole') {
-          label.textContent = t.role;
+        if (!username || !email) {
+          alert(t.fillAllFields);
+          return;
         }
-      });
 
-      const inputs = document.querySelectorAll('input[type="text"], input[type="email"]');
-      inputs.forEach(input => {
-        if (input.id === 'username' || input.id === 'editUsername') {
-          input.placeholder = t.enterUsername;
-        } else if (input.id === 'email' || input.id === 'editEmail') {
-          input.placeholder = t.enterEmail;
+        const index = users.findIndex((u) => u.id === id);
+        if (index !== -1) {
+          users[index] = {
+            id: id,
+            username: username,
+            email: email,
+            role: role,
+          };
+          displayUsers();
+        }
+
+        const modal = bootstrap.Modal.getInstance(
+          document.getElementById("editUserModal")
+        );
+        modal.hide();
+      }
+
+      // Function to delete user
+      function deleteUser(id) {
+        const t = translations[currentLang];
+        if (confirm(t.userTable.confirmDelete || t.confirmDelete)) {
+          users = users.filter((u) => u.id !== id);
+          displayUsers();
+        }
+      }
+
+      // Update modal content when language changes
+      function updateModals() {
+        // All modal updates now handled by updateAddUserModalTexts() and the original switchLanguage function
+      }
+
+      // Modify the switchLanguage function to update user interface
+      const originalSwitchLanguage = switchLanguage;
+      switchLanguage = function (lang) {
+        originalSwitchLanguage(lang);
+        updateModals();
+        displayUsers();
+      };
+
+      // Add event listeners when document is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        displayUsers();
+        updateUserTableTexts();
+        updateAddUserModalTexts();
+
+        const addUserButton = document.querySelector(
+          "#addUserModal .btn-primary"
+        );
+        if (addUserButton) {
+          addUserButton.addEventListener("click", addUser);
+        }
+
+        const saveEditButton = document.querySelector(
+          "#editUserModal .btn-primary"
+        );
+        if (saveEditButton) {
+          saveEditButton.addEventListener("click", saveUserEdit);
         }
       });
 
-      // Update select options
-      const roleSelects = document.querySelectorAll('select[id="role"], select[id="editRole"]');
-      roleSelects.forEach(select => {
-        select.options[0].text = t.admin;
-        select.options[1].text = t.user;
-      });
-
-      // Update buttons
-      const closeButtons = document.querySelectorAll('.modal-footer .btn-secondary');
-      closeButtons.forEach(button => button.textContent = t.close);
-      
-      const saveButtons = document.querySelectorAll('.modal-footer .btn-primary');
-      saveButtons.forEach(button => {
-        if (button.closest('#addUserModal')) {
-          button.textContent = t.save;
-        } else {
-          button.textContent = t.saveChanges;
-        }
-      });
-
-      // Update existing users in the table
-      displayUsers();
-
-      // Update footer text
-      const footerText = document.querySelector(".copyright-text");
-      if (footerText) {
-        const companyLink = `<a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">${t.companyName}</a>`;
-        const companyLogo = `<img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />`;
-        footerText.innerHTML = `${t.footerText} ${companyLink} ${companyLogo}`;
-      }
-    }
-
-    function toggleLanguage() {
-      console.log(
-        "Language toggle button clicked. Current language:",
-        currentLang
-      );
-      const btn = document.getElementById("langToggleBtn");
-      if (currentLang === "ar") {
-        btn.textContent = "EN";
-        switchLanguage("en");
-      } else {
-        btn.textContent = "AR";
-        switchLanguage("ar");
-      }
-    }
-
-    // Initial language setup
-    document.addEventListener("DOMContentLoaded", function () {
-      console.log("Setting up initial language...");
-      // Set initial language to English
-      switchLanguage("en");
-
-      // Add click event listener to the language toggle button
-      const langToggleBtn = document.getElementById("langToggleBtn");
-      if (langToggleBtn) {
-        langToggleBtn.addEventListener("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          toggleLanguage();
+      function updateUserTableTexts() {
+        const t = translations[currentLang].userTable;
+        // تحديث عناوين الأعمدة فقط
+        const ths = document.querySelectorAll(".table thead th");
+        if (ths[0]) ths[0].textContent = t.username;
+        if (ths[1]) ths[1].textContent = t.email;
+        if (ths[2]) ths[2].textContent = t.role;
+        if (ths[3]) ths[3].textContent = t.actions;
+        // تحديث أسماء الأدوار فقط
+        document
+          .querySelectorAll(".badge.bg-gradient-success")
+          .forEach((e) => (e.textContent = t.admin));
+        document
+          .querySelectorAll(".badge.bg-gradient-info")
+          .forEach((e) => (e.textContent = t.user));
+        // تحديث نصوص الأزرار فقط
+        document.querySelectorAll(".btn-link.text-dark").forEach((e) => {
+          if (e.textContent.match(/تعديل|Edit/))
+            e.innerHTML = `<i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>${t.edit}`;
+        });
+        document.querySelectorAll(".btn-link.text-danger").forEach((e) => {
+          if (e.textContent.match(/حذف|Delete/))
+            e.innerHTML = `<i class="far fa-trash-alt me-2" aria-hidden="true"></i>${t.delete}`;
         });
       }
 
-      // Debug footer text
-      const footerText = document.querySelector(".copyright-text");
-      console.log("Footer element:", footerText);
-      if (footerText) {
-        console.log("Current footer text:", footerText.innerHTML);
+      if (typeof window.originalSwitchLanguage === "undefined") {
+        window.originalSwitchLanguage = switchLanguage;
+        switchLanguage = function (lang) {
+          window.originalSwitchLanguage(lang);
+          updateUserTableTexts();
+          updateAddUserModalTexts();
+          displayUsers();
+        };
       }
-
-      // Test script to verify language switching
-      switchLanguage("ar");
-    });
-  </script>
-
-  <script>
-    // إدارة المستخدمين
-    let users = [
-      { id: 1, name: "أحمد محمد", email: "ahmed@example.com", role: "admin" },
-      { id: 2, name: "سارة علي", email: "sara@example.com", role: "user" }
-    ];
-
-    // عرض المستخدمين في الجدول
-    function displayUsers() {
-      const tbody = document.querySelector('table tbody');
-      tbody.innerHTML = '';
-      const t = translations[currentLang];
-
-      users.forEach(user => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>
-            <div class="d-flex px-2 py-1">
-              <div class="d-flex flex-column justify-content-center">
-                <h6 class="mb-0 text-sm">${user.name}</h6>
-              </div>
-            </div>
-          </td>
-          <td>
-            <p class="text-xs font-weight-bold mb-0">${user.email}</p>
-          </td>
-          <td class="align-middle text-center text-sm">
-            <span class="badge badge-sm ${user.role === 'admin' ? 'bg-gradient-success' : 'bg-gradient-info'}">
-              ${user.role === 'admin' ? t.admin : t.user}
-            </span>
-          </td>
-          <td class="align-middle text-center">
-            <a href="#" class="btn btn-link text-dark px-3 mb-0" onclick="editUser(${user.id})">
-              <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>${t.edit}
-            </a>
-            <a href="#" class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="deleteUser(${user.id})">
-              <i class="far fa-trash-alt me-2" aria-hidden="true"></i>${t.delete}
-            </a>
-          </td>
-        `;
-        tbody.appendChild(tr);
+      // استدعاء تحديث الجدول عند تحميل الصفحة
+      document.addEventListener("DOMContentLoaded", function () {
+        updateUserTableTexts();
       });
-    }
 
-    // إضافة مستخدم جديد
-    function addUser() {
-      const t = translations[currentLang];
-      const name = document.getElementById('username').value;
-      const email = document.getElementById('email').value;
-      const role = document.getElementById('role').value;
+      function updateAddUserModalTexts() {
+        const t = translations[currentLang].userTable;
+        const modal = document.getElementById("addUserModal");
+        if (!modal) return;
+        // العنوان
+        const title = modal.querySelector(".modal-title");
+        if (title) title.textContent = t.addUserTitle;
+        // اسم المستخدم
+        const usernameLabel = modal.querySelector('label[for="username"]');
+        if (usernameLabel) usernameLabel.textContent = t.usernameLabel;
+        const usernameInput = modal.querySelector("#username");
+        if (usernameInput) usernameInput.placeholder = t.usernamePlaceholder;
+        // البريد الإلكتروني
+        const emailLabel = modal.querySelector('label[for="email"]');
+        if (emailLabel) emailLabel.textContent = t.emailLabel;
+        const emailInput = modal.querySelector("#email");
+        if (emailInput) emailInput.placeholder = t.emailPlaceholder;
+        // الدور
+        const roleLabel = modal.querySelector('label[for="role"]');
+        if (roleLabel) roleLabel.textContent = t.roleLabel;
+        const roleSelect = modal.querySelector("#role");
+        if (roleSelect && roleSelect.options.length >= 2) {
+          roleSelect.options[0].textContent = t.adminOption;
+          roleSelect.options[1].textContent = t.userOption;
+        }
+        // الأزرار
+        const closeBtn = modal.querySelector(".btn-secondary");
+        if (closeBtn) closeBtn.textContent = t.close;
+        const saveBtn = modal.querySelector(".btn-primary");
+        if (saveBtn) saveBtn.textContent = t.save;
 
-      if (!name || !email) {
-        alert(t.fillRequired);
-        return;
+        // Also update Edit User Modal
+        const editModal = document.getElementById("editUserModal");
+        if (!editModal) return;
+        // العنوان
+        const editTitle = editModal.querySelector(".modal-title");
+        if (editTitle)
+          editTitle.textContent = t.editUserTitle || "تعديل المستخدم";
+        // اسم المستخدم
+        const editUsernameLabel = editModal.querySelector(
+          'label[for="editUsername"]'
+        );
+        if (editUsernameLabel) editUsernameLabel.textContent = t.usernameLabel;
+        const editUsernameInput = editModal.querySelector("#editUsername");
+        if (editUsernameInput)
+          editUsernameInput.placeholder = t.usernamePlaceholder;
+        // البريد الإلكتروني
+        const editEmailLabel = editModal.querySelector(
+          'label[for="editEmail"]'
+        );
+        if (editEmailLabel) editEmailLabel.textContent = t.emailLabel;
+        const editEmailInput = editModal.querySelector("#editEmail");
+        if (editEmailInput) editEmailInput.placeholder = t.emailPlaceholder;
+        // الدور
+        const editRoleLabel = editModal.querySelector('label[for="editRole"]');
+        if (editRoleLabel) editRoleLabel.textContent = t.roleLabel;
+        const editRoleSelect = editModal.querySelector("#editRole");
+        if (editRoleSelect && editRoleSelect.options.length >= 2) {
+          editRoleSelect.options[0].textContent = t.adminOption;
+          editRoleSelect.options[1].textContent = t.userOption;
+        }
+        // الأزرار
+        const editCloseBtn = editModal.querySelector(".btn-secondary");
+        if (editCloseBtn) editCloseBtn.textContent = t.close;
+        const editSaveBtn = editModal.querySelector(".btn-primary");
+        if (editSaveBtn)
+          editSaveBtn.textContent = t.saveChanges || "حفظ التغييرات";
       }
 
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        alert(t.validEmail);
-        return;
+      // Ensure we don't define switchLanguage multiple times
+      if (typeof window.userSwitchLanguage === "undefined") {
+        window.userSwitchLanguage = switchLanguage;
+        switchLanguage = function (lang) {
+          window.userSwitchLanguage(lang);
+          updateUserTableTexts();
+          updateAddUserModalTexts();
+          displayUsers();
+        };
       }
 
-      if (users.some(user => user.email === email)) {
-        alert(t.emailExists);
-        return;
-      }
-
-      const newUser = {
-        id: users.length + 1,
-        name: name,
-        email: email,
-        role: role
-      };
-
-      users.push(newUser);
-      displayUsers();
-
-      const modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
-      modal.hide();
-      document.getElementById('username').value = '';
-      document.getElementById('email').value = '';
-      document.getElementById('role').value = 'user';
-    }
-
-    // تعديل مستخدم
-    function editUser(id) {
-      const user = users.find(u => u.id === id);
-      if (!user) return;
-
-      document.getElementById('editUsername').value = user.name;
-      document.getElementById('editEmail').value = user.email;
-      document.getElementById('editRole').value = user.role;
-
-      // تخزين معرف المستخدم للاستخدام لاحقاً
-      document.getElementById('editUserModal').dataset.userId = id;
-
-      const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
-      modal.show();
-    }
-
-    // حفظ التعديلات
-    function saveEdit() {
-      const t = translations[currentLang];
-      const id = parseInt(document.getElementById('editUserModal').dataset.userId);
-      const name = document.getElementById('editUsername').value;
-      const email = document.getElementById('editEmail').value;
-      const role = document.getElementById('editRole').value;
-
-      if (!name || !email) {
-        alert(t.fillRequired);
-        return;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        alert(t.validEmail);
-        return;
-      }
-
-      const existingUser = users.find(u => u.email === email && u.id !== id);
-      if (existingUser) {
-        alert(t.emailExists);
-        return;
-      }
-
-      const userIndex = users.findIndex(u => u.id === id);
-      if (userIndex !== -1) {
-        users[userIndex] = { ...users[userIndex], name, email, role };
-        displayUsers();
-      }
-
-      const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
-      modal.hide();
-    }
-
-    // حذف مستخدم
-    function deleteUser(id) {
-      const t = translations[currentLang];
-      if (confirm(t.confirmDelete)) {
-        users = users.filter(user => user.id !== id);
-        displayUsers();
-      }
-    }
-
-    // إضافة مستمعي الأحداث
-    document.addEventListener('DOMContentLoaded', function () {
-      // عرض المستخدمين عند تحميل الصفحة
-      displayUsers();
-
-      // إضافة مستمعي الأحداث لأزرار الحفظ
-      document.querySelector('#addUserModal .btn-primary').addEventListener('click', addUser);
-      document.querySelector('#editUserModal .btn-primary').addEventListener('click', saveEdit);
-    });
-  </script>
-</body>
-
+      document.addEventListener("DOMContentLoaded", function () {
+        updateUserTableTexts();
+        updateAddUserModalTexts();
+      });
+    </script>
+  </body>
 </html>

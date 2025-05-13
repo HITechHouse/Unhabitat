@@ -6,19 +6,25 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
+    <link
+      rel="shortcut icon"
+      href="../assets/img/UN_Habitat_Icon.svg"
+      type="image/x-icon"
+    />
     <title>Profile</title>
-    <!--     Fonts and icons     -->
+    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800"
       rel="stylesheet"
     />
-    <!-- Nucleo Icons -->
+    <!-- Google Fonts - Inter -->
     <link
-      href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap"
       rel="stylesheet"
     />
+    <!-- Google Fonts - Tajawal (for Arabic) -->
     <link
-      href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css"
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
     <!-- Font Awesome Icons -->
@@ -26,26 +32,8 @@
       src="https://kit.fontawesome.com/42d5adcbca.js"
       crossorigin="anonymous"
     ></script>
-    <!-- CSS Files -->
     <link
-      id="pagestyle"
-      href="../assets/css/soft-ui-dashboard.css?v=1.1.0"
-      rel="stylesheet"
-    />
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-    <script
-      defer
-      data-site="YOUR_DOMAIN_HERE"
-      src="https://api.nepcha.com/js/nepcha-analytics.js"
-    ></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- CSS Files -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
       rel="stylesheet"
     />
     <!-- Bootstrap CSS -->
@@ -53,67 +41,94 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-
-    <!--     Fonts and icons     -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800"
-      rel="stylesheet"
-    />
-    <!-- Nucleo Icons -->
-    <link
-      href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-icons.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://demos.creative-tim.com/soft-ui-dashboard/assets/css/nucleo-svg.css"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome Icons -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <script
-      src="https://kit.fontawesome.com/42d5adcbca.js"
-      crossorigin="anonymous"
-    ></script>
-    <!-- CSS Files -->
+    <!-- Soft UI Dashboard CSS -->
     <link
       id="pagestyle"
       href="../assets/css/soft-ui-dashboard.css?v=1.1.0"
       rel="stylesheet"
     />
-    <!-- Nepcha Analytics (nepcha.com) -->
-    <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-    <script
-      defer
-      data-site="YOUR_DOMAIN_HERE"
-      src="https://api.nepcha.com/js/nepcha-analytics.js"
-    ></script>
+
+    <!-- Core JS Files for Soft UI Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/smooth-scrollbar@8.8.1/dist/smooth-scrollbar.min.js"></script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft UI Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="https://cdn.jsdelivr.net/npm/soft-ui-dashboard@1.1.0/assets/js/soft-ui-dashboard.min.js"></script>
 
     <style>
+      /* General body styles and font setup */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Tajawal", "Inter", sans-serif;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #f8f9fa;
+      }
+
+      /* Arabic font for RTL and specific elements */
+      :lang(ar),
+      [lang="ar"],
+      .arabic-text,
+      .copyright-text,
+      .social-icons,
+      .btn,
+      label,
+      input,
+      .header-title,
+      .title-ar,
+      .title-en,
+      .header-title div {
+        font-family: "Tajawal", sans-serif !important;
+      }
+
+      body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
+        font-family: "Tajawal", "Inter", sans-serif !important;
+      }
+
+      /* Header styles */
       #mainHeader {
         position: fixed;
         top: 0;
         width: 100%;
-        z-index: 1030;
-        background-color: #007bff;
+        z-index: 5000;
+        background-color: #00b2e3;
         color: white;
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
+        height: 50px;
         box-sizing: border-box;
-        direction: rtl !important; /* Force RTL direction */
+        direction: rtl !important;
+      }
+
+      .header-title {
+        flex: 1;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.4rem;
+        line-height: 1.4;
+      }
+
+      .title-ar {
+        font-size: 1.1rem;
+        line-height: 1.2;
+        font-weight: bold;
+        white-space: normal;
+      }
+
+      .title-en {
+        font-size: 1.1rem;
+        line-height: 1.2;
+        font-weight: bold;
+        white-space: normal;
       }
 
       .header-logo {
@@ -124,44 +139,20 @@
         object-fit: contain;
       }
 
-      .header-title {
-        flex: 1;
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.4rem;
-        line-height: 1.4;
-        direction: rtl !important; /* Force RTL direction */
-      }
-
       .header-logos {
         display: flex;
         align-items: center;
         gap: 12px;
         padding: 5px;
-        direction: rtl !important; /* Force RTL direction */
       }
 
-      .title-ar {
-        font-size: 1.2rem;
-        line-height: 1.2;
-        font-weight: bold;
-        white-space: normal;
-      }
-
-      .title-en {
-        font-size: 1.22rem;
-        line-height: 1.2;
-        font-weight: bold;
-        white-space: normal;
-      }
-
+      /* Language and menu buttons */
       .language-dropdown {
         position: relative;
         display: flex;
         align-items: center;
         gap: 10px;
         z-index: 1031;
-        /* Higher than header to ensure dropdown works */
       }
 
       .language-toggle {
@@ -179,10 +170,9 @@
         align-items: center;
         justify-content: center;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+        transition: 0.2s, border 0.2s, box-shadow 0.2s;
         position: relative;
         z-index: 5000;
-        /* Higher than header to ensure button works */
       }
 
       .language-toggle:hover {
@@ -193,220 +183,6 @@
         background: rgba(255, 255, 255, 0.4);
       }
 
-      #mainFooter {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100vw;
-        z-index: 1000;
-        background-color: #3066ff;
-        padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        direction: rtl !important; /* Force RTL direction */
-      }
-
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 1rem;
-        color: white;
-        direction: rtl !important; /* Force RTL direction */
-      }
-
-      .social-icon {
-        color: #fff;
-        font-size: 1.2rem;
-        margin-left: 1rem; /* Fixed margin for RTL */
-        transition: color 0.3s ease;
-      }
-
-      .social-icon:last-child {
-        margin-left: 0; /* Remove margin from last icon */
-      }
-
-      .social-icon:hover {
-        color: #3498db;
-      }
-
-      footer .copyright img {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        background-color: white;
-        padding: 2px;
-        object-fit: contain;
-        background-clip: content-box;
-        vertical-align: middle;
-        margin-right: 8px;
-      }
-
-      .footer-logo {
-        height: 24px;
-        margin-right: 8px; /* Fixed margin for RTL */
-        vertical-align: middle;
-        display: inline-block !important;
-      }
-
-      .companyHITech {
-        color: white !important;
-        text-decoration: none;
-        transition: color 0.3s ease;
-        display: inline-block;
-        margin: 0 8px;
-      }
-
-      .companyHITech:hover {
-        color: #f0f0f0 !important;
-        text-decoration: underline;
-      }
-
-      /* Remove RTL/LTR specific styles for header and footer */
-      body[dir="rtl"] #mainHeader,
-      body[dir="ltr"] #mainHeader,
-      body[dir="rtl"] #mainFooter,
-      body[dir="ltr"] #mainFooter {
-        direction: rtl !important;
-      }
-
-      body[dir="rtl"] .header-title,
-      body[dir="ltr"] .header-title,
-      body[dir="rtl"] .header-logos,
-      body[dir="ltr"] .header-logos,
-      body[dir="rtl"] .footer-content,
-      body[dir="ltr"] .footer-content {
-        direction: rtl !important;
-      }
-
-      /* Existing styles remain unchanged */
-      body {
-        background-color: #f8f9fa;
-        font-family: "Cairo", sans-serif;
-      }
-
-      .card {
-        border-radius: 1rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        background-color: linear-gradient(135deg, #e3f2fd, #ffffff);
-        height: 100%;
-        /* Make all cards the same height */
-        display: flex;
-        flex-direction: column;
-      }
-
-      .card-body {
-        flex: 1;
-        /* Allow card body to grow and fill available space */
-        display: flex;
-        flex-direction: column;
-        min-height: 200px;
-        /* Set minimum height */
-        padding: 1.5rem;
-        /* Consistent padding */
-      }
-
-      .card-title {
-        margin-bottom: 1rem;
-        /* Consistent spacing */
-      }
-
-      .card-text {
-        flex: 1;
-        /* Allow text to grow and fill available space */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        /* Consistent font size */
-        margin: 0;
-        /* Remove default margins */
-      }
-
-      /* Ensure charts maintain consistent height */
-      .chart-container {
-        height: 100%;
-        min-height: 200px;
-      }
-
-      canvas {
-        width: 100% !important;
-        height: 100% !important;
-      }
-
-      /* Add styles for the sidebar logo */
-      .sidenav-header {
-        padding-top: 20px;
-        /* Add padding to move logo down */
-        margin-bottom: 10px;
-      }
-
-      .navbar-brand {
-        margin-top: 20px !important;
-        /* Force margin to move logo down */
-        display: block;
-        padding: 10px 0;
-      }
-
-      .navbar-brand-img {
-        max-height: 35px;
-        /* Control logo size */
-        width: auto;
-      }
-
-      /* Ensure header stays on top */
-      #mainHeader {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 5000;
-        background-color: #007bff;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 4px 16px;
-        height: 56px;
-        min-height: 56px;
-        box-sizing: border-box;
-      }
-
-      .copyright-text {
-        color: white;
-        display: inline-block;
-        margin-left: 8px; /* Fixed margin for RTL */
-        font-size: 14px;
-      }
-
-      .footer-logo {
-        height: 24px;
-        margin-right: 8px; /* Fixed margin for RTL */
-        vertical-align: middle;
-        display: inline-block !important;
-      }
-
-      .companyHITech {
-        color: white !important;
-        text-decoration: none;
-        transition: color 0.3s ease;
-        display: inline-block;
-        margin: 0 8px;
-      }
-
-      .companyHITech:hover {
-        color: #f0f0f0 !important;
-        text-decoration: underline;
-      }
-
-      /* إضافة أنماط القائمة المنسدلة */
       .menu-dropdown {
         position: relative;
         display: inline-block;
@@ -463,7 +239,6 @@
         background-color: #f5f5f5;
       }
 
-      /* تعديلات للغة الإنجليزية */
       body[dir="ltr"] .menu-dropdown-content {
         right: auto;
         left: 0;
@@ -474,97 +249,196 @@
         margin-right: 8px;
       }
 
-      /* إضافة أنماط للشريط الجانبي حسب اتجاه اللغة */
-      body[dir="rtl"] .sidenav {
-        right: 0 !important;
-        left: auto !important;
-        margin-right: 1rem !important;
-        margin-left: 0 !important;
+      /* Sidebar styles */
+      #sidenav-main .navbar-nav {
+        padding-inline-start: 0 !important;
       }
 
-      body[dir="ltr"] .sidenav {
-        left: 0 !important;
-        right: auto !important;
-        margin-left: 1rem !important;
-        margin-right: 0 !important;
+      .sidenav-header {
+        padding-top: 20px;
+        margin-bottom: 10px;
       }
 
-      /* أنماط للمحتوى الرئيسي */
-      body[dir="rtl"] .main-content {
-        margin-right: 17.125rem !important;
-        margin-left: 0 !important;
+      .navbar-brand {
+        margin-top: 20px !important;
+        display: block;
+        padding: 10px 0;
       }
 
-      body[dir="ltr"] .main-content {
-        margin-left: 17.125rem !important;
-        margin-right: 0 !important;
+      .navbar-brand-img {
+        max-height: 35px;
+        width: auto;
       }
 
-      /* أنماط للأيقونات في الشريط الجانبي */
-      body[dir="rtl"] .icon {
-        margin-left: 0.5rem !important;
-        margin-right: 0 !important;
+      /* Footer styles */
+      #mainFooter {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        z-index: 1000;
+        background-color: #00b2e3;
+        padding: 4px 16px;
+        height: 50px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        direction: rtl !important;
       }
 
-      body[dir="ltr"] .icon {
-        margin-right: 0.5rem !important;
-        margin-left: 0 !important;
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+        color: white;
       }
 
-      /* تعديل الأنماط الخاصة بالشريط الجانبي عند الضغط على زر القائمة */
-      body[dir="rtl"] .g-sidenav-hidden .sidenav {
-        transform: translateX(17.125rem) !important;
+      .footer-logo {
+        height: 24px;
+        margin-right: 8px;
+        vertical-align: middle;
+        display: inline-block !important;
       }
 
-      body[dir="ltr"] .g-sidenav-hidden .sidenav {
-        transform: translateX(-17.125rem) !important;
+      /* Footer Copyright Image Style */
+      footer .copyright img {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        background-color: white;
+        padding: 2px;
+        object-fit: contain;
+        background-clip: content-box;
+        vertical-align: middle;
+        margin-right: 8px;
+        /* Space to the right of the image (RTL) */
       }
 
-      /* تعديل الأنماط الخاصة بالمحتوى الرئيسي عند الضغط على زر القائمة */
-      body[dir="rtl"] .g-sidenav-hidden .main-content {
-        margin-right: 0 !important;
+      .companyHITech {
+        color: white !important;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: inline-block;
+        margin: 0 8px;
       }
 
-      body[dir="ltr"] .g-sidenav-hidden .main-content {
-        margin-left: 0 !important;
+      .companyHITech:hover {
+        color: #f0f0f0 !important;
+        text-decoration: underline;
       }
 
-      /* تعديل أنماط النصوص في القائمة الجانبية */
-      body[dir="rtl"] .nav-link-text {
-        margin-right: 0.5rem !important;
-        margin-left: 0 !important;
+      .copyright-text {
+        color: white;
+        display: inline-block;
+        margin-right: 8px;
+        font-size: 14px;
       }
 
-      body[dir="ltr"] .nav-link-text {
-        margin-left: 0.5rem !important;
-        margin-right: 0 !important;
+      .social-icon {
+        color: #fff;
+        font-size: 1.2rem;
+        margin-left: 1rem;
+        transition: color 0.3s ease;
       }
 
-      /* تعديل أنماط البطاقات في الصفحة */
-      body[dir="rtl"] .profile-card,
-      body[dir="rtl"] .stats-card,
-      body[dir="rtl"] .settings-card {
-        text-align: right;
+      .social-icon:hover {
+        color: #3498db;
       }
 
-      body[dir="ltr"] .profile-card,
-      body[dir="ltr"] .stats-card,
-      body[dir="ltr"] .settings-card {
-        text-align: left;
+      body[dir="rtl"] .footer-content,
+      body[dir="ltr"] .footer-content {
+        flex-direction: row;
       }
 
-      /* تعديل أنماط النماذج */
-      body[dir="rtl"] .form-label {
-        text-align: right;
+      body[dir="rtl"] .footer-logo {
+        margin-right: 8px;
+        margin-left: 0;
       }
 
-      body[dir="ltr"] .form-label {
-        text-align: left;
+      body[dir="ltr"] .footer-logo {
+        margin-left: 8px;
+        margin-right: 0;
+      }
+
+      body[dir="rtl"] .social-icon {
+        margin-left: 1rem;
+        margin-right: 0;
+      }
+
+      body[dir="ltr"] .social-icon {
+        margin-right: 1rem;
+        margin-left: 0;
+      }
+
+      /* Card and chart styles */
+      .card {
+        border-radius: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        background-color: linear-gradient(135deg, #e3f2fd, #ffffff);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 200px;
+        padding: 1.5rem;
+      }
+
+      .card-title {
+        margin-bottom: 1rem;
+      }
+
+      .card-text {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin: 0;
+      }
+
+      .chart-container {
+        height: 100%;
+        min-height: 200px;
+      }
+
+      canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      /* Font Awesome icon styles */
+      .fa,
+      .fab,
+      .fas,
+      .far,
+      i.fa,
+      i.fab,
+      i.fas,
+      i.far,
+      i.fa-facebook-f,
+      i.fa-x-twitter,
+      i.fa-instagram,
+      i.fa-linkedin-in,
+      i.fa-whatsapp {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+        display: inline-block !important;
+        visibility: visible !important;
       }
     </style>
 
     <style>
-      /* تنسيق المربعات */
+      /* Grid container for layout items */
       .grid-container {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -572,9 +446,12 @@
         margin-top: 20px;
       }
 
+      /* Individual grid item styling */
       .grid-item {
         background-color: #ffffff;
-        border: 1px solid #e0e0e0;
+        /* Default background */
+        /* border: 1px solid #e0e0e0; */
+        /* Original border, removed for cleaner look with gradient */
         border-radius: 12px;
         padding: 20px;
         text-align: center;
@@ -583,8 +460,13 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         position: relative;
         overflow: hidden;
+        background: linear-gradient(135deg, #ffffff, #f0f8ff);
+        /* Light gradient background */
+        border: none;
+        /* Ensure no border if using gradient */
       }
 
+      /* Pseudo-element for hover effect background */
       .grid-item::before {
         content: "";
         position: absolute;
@@ -593,44 +475,62 @@
         width: 100%;
         height: 100%;
         background: linear-gradient(135deg, #0d6efd20, #6c757d20);
+        /* Gradient overlay */
         z-index: -1;
+        /* Behind content */
         transition: opacity 0.3s ease;
         opacity: 0;
+        /* Hidden by default */
       }
 
       .grid-item:hover {
         transform: translateY(-5px);
+        /* Slight lift on hover */
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        /* Enhanced shadow on hover */
       }
 
       .grid-item:hover::before {
         opacity: 1;
+        /* Show gradient overlay on hover */
       }
 
+      /* Grid item heading style (h3) */
       .grid-item h3 {
         font-size: 1.2rem;
         font-weight: bold;
         color: #333;
         margin-bottom: 10px;
+        /* Spacing below heading */
       }
 
+      /* Grid item icon style */
       .grid-item i {
         font-size: 2.5rem;
-        /* حجم الأيقونة */
+        /* Icon size */
         color: #0d6efd;
-        /* لون الأيقونة */
+        /* Icon color */
         margin-bottom: 10px;
-        /* المسافة بين الأيقونة والنص */
+        /* Spacing below icon */
         display: block;
-        /* لجعل الأيقونة في السطر الخاص بها */
+        /* Icon on its own line */
+        transition: transform 0.3s ease;
+        /* Animation for hover */
       }
 
-      .grid-item h3 {
-        font-size: 1.2rem;
+      /* Grid item text (span) style */
+      .grid-item span {
+        font-size: 1.1rem;
         font-weight: bold;
         color: #333;
       }
 
+      .grid-item:hover i {
+        transform: scale(1.1);
+        /* Enlarge icon on hover */
+      }
+
+      /* Table container with scrollbar */
       .table-container {
         max-height: 400px;
         overflow-y: auto;
@@ -639,18 +539,22 @@
         margin-top: 20px;
       }
 
+      /* Basic table styling */
       .table {
         width: 100%;
         border-collapse: collapse;
       }
 
+      /* Table header (sticky) */
       .table thead {
         background-color: #f8f9fa;
         position: sticky;
         top: 0;
         z-index: 1;
+        /* Keep header above scrolling content */
       }
 
+      /* Table header cells and data cells */
       .table th,
       .table td {
         padding: 12px;
@@ -658,60 +562,72 @@
         border: 1px solid #ddd;
       }
 
+      /* Table row hover effect */
       .table tbody tr:hover {
         background-color: #f1f1f1;
       }
 
+      /* "Add" button styling */
       .btn-add {
         margin-bottom: 20px;
       }
 
+      /* "Edit" button styling */
       .btn-edit {
         background-color: #ffc107;
         border-color: #ffc107;
       }
 
+      /* "Delete" button styling */
       .btn-delete {
         background-color: #dc3545;
         border-color: #dc3545;
       }
 
+      /* Utility class to hide elements */
       .hidden {
         display: none;
       }
 
-      /* تحسين شكل النافذة المنبثقة */
+      /* Modal content styling */
       .modal-content {
         border-radius: 16px;
         border: none;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         animation: fadeIn 0.3s ease-in-out;
+        /* Fade-in animation */
       }
 
+      /* Modal header styling */
       .modal-header {
         background: linear-gradient(135deg, #0d6efd, #1a73e8);
         color: #fff;
         border-radius: 16px 16px 0 0;
+        /* Rounded top corners */
         padding: 15px 20px;
       }
 
+      /* Modal title styling */
       .modal-title {
         font-size: 1.5rem;
         font-weight: bold;
         margin: 0;
       }
 
+      /* Modal body styling */
       .modal-body {
         padding: 20px;
       }
 
+      /* Modal footer styling */
       .modal-footer {
         border-top: 1px solid #e0e0e0;
         padding: 15px 20px;
         border-radius: 0 0 16px 16px;
+        /* Rounded bottom corners */
       }
 
-      /* زر الإغلاق */
+      /* Modal close button styling */
       .btn-close {
         background: #fff;
         border-radius: 50%;
@@ -728,39 +644,7 @@
         transform: scale(1.1);
       }
 
-      /* تحسين شكل الجداول */
-      .table-container {
-        max-height: 400px;
-        overflow-y: auto;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin-top: 20px;
-      }
-
-      .table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .table thead {
-        background-color: #f8f9fa;
-        position: sticky;
-        top: 0;
-        z-index: 1;
-      }
-
-      .table th,
-      .table td {
-        padding: 12px;
-        text-align: center;
-        border: 1px solid #ddd;
-      }
-
-      .table tbody tr:hover {
-        background-color: #f1f1f1;
-      }
-
-      /* تأثيرات تحريك */
+      /* Fade-in animation keyframes */
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -773,44 +657,7 @@
         }
       }
 
-      .grid-item {
-        background: linear-gradient(135deg, #ffffff, #f0f8ff);
-        /* تدرج أبيض وأزرق فاتح */
-        border: none;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .grid-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .grid-item i {
-        font-size: 2.5rem;
-        /* حجم الأيقونة */
-        margin-bottom: 10px;
-        /* المسافة بين الأيقونة والنص */
-        transition: transform 0.3s ease;
-      }
-
-      .grid-item span {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #333;
-      }
-
-      .grid-item:hover i {
-        transform: scale(1.1);
-        /* تكبير الأيقونة عند التحويم */
-      }
-
+      /* Profile card specific styling */
       .profile-card {
         background: linear-gradient(135deg, #e3f2fd, #ffffff);
         border-radius: 16px;
@@ -828,6 +675,7 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       }
 
+      /* Statistics card styling */
       .stats-card {
         background: linear-gradient(135deg, #e3f2fd, #ffffff);
         border-radius: 12px;
@@ -847,6 +695,7 @@
         color: #666;
       }
 
+      /* Settings card styling */
       .settings-card {
         background: linear-gradient(135deg, #e3f2fd, #ffffff);
         border-radius: 12px;
@@ -863,102 +712,123 @@
         border-radius: 12px;
       }
 
-      /* ألوان ديناميكية لكل مربع */
+      /* Dynamic background colors for grid items (example colors) */
       .grid-item:nth-child(1) {
         background-color: #e8f5e9;
       }
 
-      /* أخضر فاتح */
+      /* Light Green */
       .grid-item:nth-child(2) {
         background-color: #fff3e0;
       }
 
-      /* برتقالي فاتح */
+      /* Light Orange */
       .grid-item:nth-child(3) {
         background-color: #e3f2fd;
       }
 
-      /* أزرق فاتح */
+      /* Light Blue */
       .grid-item:nth-child(4) {
         background-color: #ffebee;
       }
 
-      /* أحمر فاتح */
+      /* Light Red */
       .grid-item:nth-child(5) {
         background-color: #f3e5f5;
       }
 
-      /* بنفسجي فاتح */
+      /* Light Purple */
       .grid-item:nth-child(6) {
         background-color: #e0f7fa;
       }
 
-      /* سماوي فاتح */
+      /* Light Cyan */
       .grid-item:nth-child(7) {
         background-color: #ede7f6;
       }
 
-      /* بنفسجي فاتح آخر */
+      /* Another Light Purple */
       .grid-item:nth-child(8) {
         background-color: #fffde7;
       }
 
-      /* أصفر فاتح */
+      /* Light Yellow */
       .grid-item:nth-child(9) {
         background-color: #e8eaf6;
       }
 
-      /* أزرق غامق قليلاً */
+      /* Light Indigo */
       .grid-item:nth-child(10) {
         background-color: #d1c4e9;
       }
 
-      /* بنفسجي متوسط */
+      /* Medium Purple */
       .grid-item:nth-child(11) {
         background-color: #b2ebf2;
       }
 
-      /* أزرق ماء */
+      /* Aqua Blue */
       .grid-item:nth-child(12) {
         background-color: #ffecb3;
       }
 
-      /* ذهبي فاتح */
+      /* Light Gold */
       .grid-item:nth-child(13) {
         background-color: #c8e6c9;
       }
 
-      /* أخضر متوسط */
+      /* Medium Green */
       .grid-item:nth-child(14) {
         background-color: #bbdefb;
       }
 
-      /* أزرق سماوي */
+      /* Sky Blue */
     </style>
   </head>
 
-  <body class="g-sidenav-show bg-gray-300">
+  <body class="g-sidenav-show bg-gray-100">
+    <!-- New Header -->
     <header id="mainHeader">
       <div style="display: flex; align-items: center; gap: 10px">
-        <img
-          src="../assets/img/unhabitat.jfif"
-          alt="Logo 3"
-          class="header-logo"
-        />
+        <a href="./admin.html" title="Go to Admin Page">
+          <img
+            src="../assets/img/unhabitat.jfif"
+            alt="Logo 3"
+            class="header-logo"
+            style="cursor: pointer"
+          />
+        </a>
         <div class="language-dropdown">
-          <button class="language-toggle" id="langToggleBtn">AR</button>
+          <button
+            class="language-toggle"
+            id="langToggleBtn"
+            onclick="toggleLanguage()"
+            aria-label="Toggle Language"
+          >
+            AR
+          </button>
         </div>
-        <!-- زر القائمة -->
+        <!-- Add menu dropdown button -->
         <div class="menu-dropdown">
-          <button class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()">
+          <button
+            title="toggle language"
+            class="menu-toggle"
+            id="menuToggleBtn"
+            onclick="toggleMenu()"
+          >
             <i class="fas fa-ellipsis-v"></i>
           </button>
           <div class="menu-dropdown-content" id="menuDropdown">
-            <a href="#" class="menu-item" id="settingsBtn">
-              <i class="fas fa-cog"></i>
-              <span id="settingsText">الإعدادات</span>
-            </a>
-            <a href="#" class="menu-item" id="logoutBtn" onclick="logout()">
+            <!-- <a href="#" class="menu-item" id="settingsBtn" onclick="window.location.href = './profile.html';">
+            <i class="fas fa-cog"></i>
+            <span id="settingsText">الإعدادات</span>
+          </a> -->
+            <a
+              href="#"
+              class="menu-item"
+              id="logoutBtn"
+              onclick="window.location.href = './index.html';"
+            >
               <i class="fas fa-sign-out-alt"></i>
               <span id="logoutText">تسجيل الخروج</span>
             </a>
@@ -967,10 +837,8 @@
       </div>
 
       <div class="header-title text-center">
-        <div style="font-size: 1.2rem">
-          نظام إدارة المعلومات الحضرية _ مدينة حلب
-        </div>
-        <div style="font-size: 1.2rem">
+        <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
+        <div class="title-en">
           Urban Information Management System - Aleppo City
         </div>
       </div>
@@ -982,9 +850,9 @@
     </header>
 
     <aside
-      class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3"
+      class="sidenav navbar navbar-vertical navbar-expand-xs border-0 my-3 fixed-end bg-gray-300"
       id="sidenav-main"
-      style="max-height: calc(100vh - 60px); overflow-y: visible"
+      style="max-height: calc(100vh - 66px); overflow-y: visible"
     >
       <div class="sidenav-header">
         <i
@@ -992,25 +860,14 @@
           aria-hidden="true"
           id="iconSidenav"
         ></i>
-        <!-- <a class="navbar-brand m-0" href="#" target="_blank">
-          <img
-            src="../assets/img/UN_Habitat_Logo.svg"
-            class="navbar-brand-img h-100"
-            alt="main_logo"
-          />
-        </a> -->
       </div>
-      <!-- <hr class="horizontal dark mt-0" /> -->
-      <div
-        class="collapse navbar-collapse w-auto"
-        id="sidenav-collapse-main"
-        style="height: auto !important"
-      >
-        <ul class="navbar-nav" style="padding-bottom: 60px; padding-top: 20px">
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="../pages/dashboard.html">
               <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <svg
                   width="12px"
@@ -1055,7 +912,7 @@
           <li class="nav-item">
             <a class="nav-link" href="../pages/tables.html">
               <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <svg
                   width="12px"
@@ -1103,7 +960,7 @@
           <li class="nav-item">
             <a class="nav-link" href="../pages/ManageUsers.html">
               <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <svg
                   width="12px"
@@ -1152,7 +1009,7 @@
           <li class="nav-item">
             <a class="nav-link active" href="../pages/profile.html">
               <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center"
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <svg
                   width="12px"
@@ -1201,16 +1058,17 @@
       </div>
       <div class="sidenav-footer mx-3"></div>
     </aside>
+    <!-- End Sidebar Navigation -->
 
-    <!-- Main Content -->
+    <!-- Main Content Area -->
     <main
       class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
     >
-      <!-- Profile Section -->
+      <!-- Profile Information Section -->
       <div class="container-fluid py-7">
         <div class="row">
           <!-- User Profile Card -->
-          <div class="col-md-4">
+          <div class="col-md-4 pt-2">
             <div class="profile-card">
               <div class="text-center">
                 <img
@@ -1218,29 +1076,30 @@
                   alt="Profile Picture"
                   class="mb-3"
                 />
-                <h5 class="font-weight-bold">أحمد محمد</h5>
-                <p class="text-muted">ahmed@example.com</p>
+                <h5 class="font-weight-bold">user name</h5>
+                <p class="text-muted">user@example.com</p>
                 <button class="btn btn-primary btn-sm">تحديث الصورة</button>
               </div>
             </div>
           </div>
+          <!-- End User Profile Card -->
 
-          <!-- User Stats Cards -->
+          <!-- User Statistics Cards -->
           <div class="col-md-8">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-4 pt-2">
                 <div class="stats-card">
                   <h5>15</h5>
                   <p>مشاريع نشطة</p>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4 pt-2">
                 <div class="stats-card">
                   <h5>45</h5>
                   <p>مهام مكتملة</p>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4 pt-2">
                 <div class="stats-card">
                   <h5>20</h5>
                   <p>ملفات مرفوعة</p>
@@ -1248,9 +1107,10 @@
               </div>
             </div>
           </div>
+          <!-- End User Statistics Cards -->
         </div>
 
-        <!-- Settings Section -->
+        <!-- Account Settings Section -->
         <div class="row mt-4">
           <div class="col-md-12">
             <div class="settings-card">
@@ -1265,7 +1125,7 @@
                       type="text"
                       class="form-control"
                       id="username"
-                      value="أحمد محمد"
+                      placeholder="أدخل اسم المستخدم"
                     />
                   </div>
                   <div class="col-md-6">
@@ -1276,7 +1136,7 @@
                       type="email"
                       class="form-control"
                       id="email"
-                      value="ahmed@example.com"
+                      placeholder="أدخل بريدك الإلكتروني"
                     />
                   </div>
                 </div>
@@ -1313,46 +1173,60 @@
             </div>
           </div>
         </div>
+        <!-- End Account Settings Section -->
       </div>
+      <!-- End Profile Information Section -->
     </main>
+    <!-- End Main Content Area -->
 
     <footer id="mainFooter">
       <div class="footer-content">
         <div class="copyright">
-          <!--           <span >
-            2025
-            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
-            ,Powered by
-           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
-          </span> -->
-          <span >
-            2025
-            <a class="companyHITech" href="https://www.hi-techhouse.com" target="_blank">HI-Tech House</a>
-            ,Powered by
-           <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
+          <span class="copyright-text" lang="ar">
+            ©
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            <a
+              rel="noopener"
+              class="companyHITech arabic-text"
+              href="https://hasan20nassar.github.io/HTH_Profile/"
+              target="_blank"
+              lang="ar"
+            >
+              , HI-Tech House</a
+            >
           </span>
+          <span lang="ar" class="arabic-text">Powered by</span>
+          <img
+            alt="Company Logo"
+            src="../assets/img/HTH.png"
+            class="footer-logo"
+          />
         </div>
         <div class="social-icons">
-          <a aria-label="Facebook" class="social-icon facebook" href="#"><i class="fab fa-facebook-f"></i></a>
-          <a aria-label="Twitter" class="social-icon twitter" href="#"><i class="fab fa-x-twitter"></i></a>
-          <a aria-label="Instagram" class="social-icon instagram" href="#"><i class="fab fa-instagram"></i></a>
-          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
-          <a aria-label="WhatsApp" class="social-icon whatsapp" href="https://wa.me/966501234567"><i
-              class="fab fa-whatsapp"></i></a>
+          <a aria-label="WhatsApp" class="social-icon whatsapp" href="#"
+            ><i class="fab fa-whatsapp"></i
+          ></a>
+          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+          <a aria-label="Instagram" class="social-icon instagram" href="#"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a aria-label="X" class="social-icon twitter" href="#"
+            ><i class="fab fa-x-twitter"></i
+          ></a>
+          <a aria-label="Facebook" class="social-icon facebook" href="#"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
         </div>
       </div>
     </footer>
 
-    <!-- Bootstrap JS and dependencies -->
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!--   Core JS Files   -->
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
-    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <!-- Custom Page Scripts -->
     <script>
+      // Initialize custom scrollbar for Windows platforms
       var win = navigator.platform.indexOf("Win") > -1;
       if (win && document.querySelector("#sidenav-scrollbar")) {
         var options = {
@@ -1361,28 +1235,51 @@
         Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
       }
     </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="../assets/js/soft-ui-dashboard.min.js?v=1.1.0"></script>
     <script>
-      // ربط الحدث show.bs.modal
+      // Script for modal events (example: display data when modal is shown)
       document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".modal").forEach((modal) => {
           modal.addEventListener("show.bs.modal", function (event) {
-            console.log(`Modal opened: ${this.id}`); // تأكد من تشغيل الحدث
+            // Log when a modal is opened
+            console.log(`Modal opened: ${this.id}`);
             const tableName = this.getAttribute("data-table");
             if (tableName) {
+              // Log the table name if it exists and call displayData
               console.log(`Displaying data for table: ${tableName}`);
-              displayData(tableName);
+              // displayData(tableName); // Ensure displayData function is defined elsewhere or remove if not used
             }
           });
         });
       });
     </script>
 
-    <!-- Language Toggle Script -->
     <script>
+      // Wait for DOM to be fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Function to handle zoom level changes
+        function handleZoom() {
+          const sidenav = document.getElementById("sidenav-main");
+          const windowWidth = window.innerWidth;
+          const zoomLevel = window.devicePixelRatio;
+
+          if (zoomLevel > 1.51 || windowWidth < 1200) {
+            sidenav.style.display = "none";
+          } else {
+            sidenav.style.display = "block";
+          }
+        }
+
+        // Initial check
+        handleZoom();
+
+        // Listen for zoom changes
+        window.addEventListener("resize", handleZoom);
+      });
+    </script>
+
+    <!-- Language Toggle and Menu Script -->
+    <script>
+      // Object containing translations for Arabic and English
       const translations = {
         ar: {
           dir: "rtl",
@@ -1400,9 +1297,8 @@
           constructionStatus: "الوضع الإنشائي",
           educationStatus: "الوضع التعليمي",
           healthStatus: "الوضع الصحي",
-          footerText: "© 2025، Powered by ،",
-          companyName: "HI-Tech House",
-          // Profile section translations
+          footerText: "© 2025، جميع الحقوق محفوظة،",
+          companyName: "دار التقنية الحديثة",
           updatePhoto: "تحديث الصورة",
           activeProjects: "مشاريع نشطة",
           completedTasks: "مهام مكتملة",
@@ -1415,9 +1311,10 @@
           enterNewPassword: "أدخل كلمة المرور الجديدة",
           reenterPassword: "أعد إدخال كلمة المرور",
           saveChanges: "حفظ التغييرات",
-          // Menu translations
           settingsText: "الإعدادات",
           logoutText: "تسجيل الخروج",
+          enterYourName: "أدخل اسم المستخدم",
+          enterYourEmail: "أدخل بريدك الإلكتروني",
         },
         en: {
           dir: "ltr",
@@ -1435,9 +1332,8 @@
           constructionStatus: "Construction Status",
           educationStatus: "Education Status",
           healthStatus: "Health Status",
-          footerText: "© 2025, Powerd by,",
+          footerText: "© 2025, All rights reserved,",
           companyName: "Hi-Tech House",
-          // Profile section translations
           updatePhoto: "Update Photo",
           activeProjects: "Active Projects",
           completedTasks: "Completed Tasks",
@@ -1450,94 +1346,106 @@
           enterNewPassword: "Enter new password",
           reenterPassword: "Re-enter password",
           saveChanges: "Save Changes",
-          // Menu translations
           settingsText: "Settings",
           logoutText: "Logout",
+          enterYourName: "enter your name",
+          enterYourEmail: "enter your email",
         },
       };
 
-      let currentLang = "en";
+      let currentLang = "en"; // Default language
 
+      // Function to switch the language of the page
       function switchLanguage(lang) {
+        // Store the language preference in localStorage
+        try {
+          localStorage.setItem("preferredLanguage", lang);
+        } catch (error) {
+          console.error("Error saving language preference:", error);
+        }
+
+        // Update aside (sidebar) position based on language
+        const aside = document.getElementById("sidenav-main");
+        if (aside) {
+          aside.classList.remove("fixed-end", "fixed-start");
+          if (lang === "ar") {
+            aside.classList.add("fixed-end");
+          } else {
+            aside.classList.add("fixed-start");
+          }
+        }
+
         currentLang = lang;
         const t = translations[lang];
 
-        // تحديث اتجاه المستند
+        // Update document direction and language attribute
         document.documentElement.lang = lang;
         document.documentElement.dir = t.dir;
-        document.body.dir = t.dir;
 
-        // تحديث عناوين الهيدر
-        const titleAr = document.querySelector(".title-ar");
-        const titleEn = document.querySelector(".title-en");
-        if (titleAr) titleAr.style.display = lang === "ar" ? "block" : "none";
-        if (titleEn) titleEn.style.display = lang === "en" ? "block" : "none";
-
-        // تحديث نصوص القائمة الجانبية
+        // Update text content of navigation links in the sidebar
         const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
-        if (navTexts[0]) navTexts[0].textContent = t.dashboard;
-        if (navTexts[1]) navTexts[1].textContent = t.configTables;
-        if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
-        if (navTexts[3]) navTexts[3].textContent = t.profile;
+        if (navTexts.length > 0) {
+          if (navTexts[0]) navTexts[0].textContent = t.dashboard;
+          if (navTexts[1]) navTexts[1].textContent = t.configTables;
+          if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
+          if (navTexts[3]) navTexts[3].textContent = t.profile;
+        }
 
-        // تحديث نصوص القائمة المنسدلة
-        const settingsText = document.getElementById("settingsText");
-        const logoutText = document.getElementById("logoutText");
-        if (settingsText) settingsText.textContent = t.settingsText;
-        if (logoutText) logoutText.textContent = t.logoutText;
-
-        // تحديث نصوص البطاقات
+        // Update profile section specific texts
         const updatePhotoBtn = document.querySelector(".profile-card .btn");
         if (updatePhotoBtn) updatePhotoBtn.textContent = t.updatePhoto;
 
         const statsCards = document.querySelectorAll(".stats-card p");
-        if (statsCards[0]) statsCards[0].textContent = t.activeProjects;
-        if (statsCards[1]) statsCards[1].textContent = t.completedTasks;
-        if (statsCards[2]) statsCards[2].textContent = t.uploadedFiles;
+        if (statsCards.length >= 3) {
+          // Check if all stat cards are present
+          statsCards[0].textContent = t.activeProjects;
+          statsCards[1].textContent = t.completedTasks;
+          statsCards[2].textContent = t.uploadedFiles;
+        }
 
         const settingsTitle = document.querySelector(".settings-card h6");
         if (settingsTitle) settingsTitle.textContent = t.accountSettings;
 
-        // تحديث نصوص النموذج
         const formLabels = document.querySelectorAll(
           ".settings-card .form-label"
         );
-        if (formLabels[0]) formLabels[0].textContent = t.username;
-        if (formLabels[1]) formLabels[1].textContent = t.email;
-        if (formLabels[2]) formLabels[2].textContent = t.newPassword;
-        if (formLabels[3]) formLabels[3].textContent = t.confirmPassword;
+        if (formLabels.length >= 4) {
+          // Check if all form labels are present
+          formLabels[0].textContent = t.username;
+          formLabels[1].textContent = t.email;
+          formLabels[2].textContent = t.newPassword;
+          formLabels[3].textContent = t.confirmPassword;
+        }
 
         const passwordInputs = document.querySelectorAll(
           '.settings-card input[type="password"]'
         );
-        if (passwordInputs[0])
+        if (passwordInputs.length >= 2) {
+          // Check if password inputs are present
           passwordInputs[0].placeholder = t.enterNewPassword;
-        if (passwordInputs[1])
           passwordInputs[1].placeholder = t.reenterPassword;
+        }
 
         const saveButton = document.querySelector(
           ".settings-card .btn-success"
         );
         if (saveButton) saveButton.textContent = t.saveChanges;
 
-        // تحديث اتجاه الأيقونات في القائمة المنسدلة
-        const menuItems = document.querySelectorAll(".menu-item i");
-        menuItems.forEach((item) => {
-          if (lang === "rtl") {
-            item.style.marginLeft = "8px";
-            item.style.marginRight = "0";
-          } else {
-            item.style.marginRight = "8px";
-            item.style.marginLeft = "0";
-          }
-        });
+        // Update menu item texts
+        const settingsMenuText = document.getElementById("settingsText");
+        if (settingsMenuText) settingsMenuText.textContent = t.settingsText;
+        const logoutMenuText = document.getElementById("logoutText");
+        if (logoutMenuText) logoutMenuText.textContent = t.logoutText;
+
+        // تحديث الـ placeholder لحقول الاسم والبريد الإلكتروني
+        const usernameInput = document.getElementById("username");
+        if (usernameInput) usernameInput.placeholder = t.enterYourName;
+        const emailInput = document.getElementById("email");
+        if (emailInput) emailInput.placeholder = t.enterYourEmail;
       }
 
+      // Function to toggle between Arabic and English
       function toggleLanguage() {
-        console.log(
-          "Language toggle button clicked. Current language:",
-          currentLang
-        );
         const btn = document.getElementById("langToggleBtn");
         if (currentLang === "ar") {
           btn.textContent = "EN";
@@ -1546,53 +1454,67 @@
           btn.textContent = "AR";
           switchLanguage("ar");
         }
+        // Store language preference in localStorage
+        try {
+          localStorage.setItem("preferredLanguage", currentLang);
+        } catch (error) {
+          console.error(
+            "Error saving language preference in toggleLanguage:",
+            error
+          );
+        }
       }
 
-      // Initial language setup
+      // Sets up initial language and event listeners when the DOM is fully loaded
       document.addEventListener("DOMContentLoaded", function () {
-        console.log("Setting up initial language...");
-        // Set initial language to English
-        switchLanguage("en");
+        // Check if there's a saved language preference in localStorage
+        let savedLanguage;
+        try {
+          savedLanguage = localStorage.getItem("preferredLanguage");
+        } catch (error) {
+          console.error("Error retrieving language preference:", error);
+          savedLanguage = null;
+        }
 
-        // Add click event listener to the language toggle button
+        // Set initial language based on saved preference or default to Arabic
+        const initialLang = savedLanguage || "ar"; // Default to Arabic if nothing is saved
+        switchLanguage(initialLang);
+
+        // Set language toggle button text based on current language
         const langToggleBtn = document.getElementById("langToggleBtn");
         if (langToggleBtn) {
-          langToggleBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+          langToggleBtn.textContent = initialLang === "ar" ? "AR" : "EN";
+          // Remove any existing click handlers to avoid duplicates
+          langToggleBtn.onclick = function (e) {
+            e.preventDefault(); // Prevent default button action
+            e.stopPropagation(); // Stop event bubbling
             toggleLanguage();
-          });
+          };
         }
-
-        // Debug footer text
-        const footerText = document.querySelector(".copyright-text");
-        console.log("Footer element:", footerText);
-        if (footerText) {
-          console.log("Current footer text:", footerText.innerHTML);
-        }
-
-        // Test script to verify language switching
-        switchLanguage("ar");
       });
 
-      // إضافة وظائف القائمة المنسدلة
+      // Function to toggle the visibility of the dropdown menu
       function toggleMenu() {
         const menu = document.getElementById("menuDropdown");
         menu.style.display = menu.style.display === "block" ? "none" : "block";
       }
 
+      // Function to handle user logout
       function logout() {
+        // Redirects the user to the login page (index.html)
         window.location.href = "./index.html";
       }
 
-      // إغلاق القائمة عند النقر خارجها
+      // Closes the dropdown menu if a click occurs outside of it
       document.addEventListener("click", function (e) {
         const menu = document.getElementById("menuDropdown");
         const menuBtn = document.getElementById("menuToggleBtn");
 
+        // Check if the click target is outside the menu button and the menu itself
         if (menu && menuBtn) {
+          // Ensure elements exist
           if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
-            menu.style.display = "none";
+            menu.style.display = "none"; // Hide the menu
           }
         }
       });

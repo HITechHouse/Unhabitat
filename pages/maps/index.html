@@ -179,7 +179,7 @@
         width: 100%;
         height: 50px;
         /* Adjust as needed */
-        background: #007bff;
+        background: #00b2e3;
         color: white;
         z-index: 1000;
         display: flex;
@@ -191,10 +191,9 @@
         bottom: 0;
         width: 100%;
         height: 50px;
-        /* Adjust as needed */
-        background: #3066ff;
+        background: #00b2e3;
         color: white;
-        z-index: 1000;
+        z-index: 2000; /* أقل من التبويبات */
         display: flex;
         align-items: center;
       }
@@ -1015,9 +1014,17 @@
     </style>
     <style>
       .tabs-container {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 50px; /* نفس ارتفاع الفوتر */
+        z-index: 2001; /* أكبر من الفوتر */
         background: #fff;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+        width: 100%;
+        max-width: 100vw;
         border: 1px solid #ccc;
-        border-radius: 8px 8px 0 0;
         overflow-x: auto;
         white-space: nowrap;
       }
@@ -1165,7 +1172,7 @@
         top: 0;
         width: 100%;
         z-index: 1000;
-        background-color: #007bff;
+        background-color: #00b2e3;
         color: white;
         display: flex;
         align-items: center;
@@ -1253,7 +1260,7 @@
         height: 44px;
         font-size: 1.3rem;
         cursor: pointer;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         transition: background 0.2s;
       }
       .map-toolbar button:hover {
@@ -1266,7 +1273,7 @@
         right: 70px;
         background: #fff;
         border-radius: 10px;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
         z-index: 1300;
         padding: 16px;
         width: 350px;
@@ -1309,7 +1316,10 @@
       }
     </style>
     <!-- Leaflet Measure CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css"
+    />
     <style>
       .tabs-toggle-btn-container {
         position: fixed;
@@ -1331,7 +1341,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
         font-size: 1.6rem;
         border: none;
         cursor: pointer;
@@ -1356,7 +1366,7 @@
         bottom: 60px;
         background: #fff;
         border-radius: 12px;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
         z-index: 1300;
         padding: 8px 12px;
         gap: 10px;
@@ -1393,7 +1403,7 @@
         z-index: 2003;
         background: #fff;
         border-radius: 50%;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1405,86 +1415,103 @@
       }
     </style>
     <!-- Measurement Type Modal -->
-    <div id="measure-type-modal" class="measure-type-modal" style="display:none;">
+    <div
+      id="measure-type-modal"
+      class="measure-type-modal"
+      style="display: none"
+    >
       <div class="measure-type-content">
         <h3>اختر نوع القياس</h3>
-        <button id="measure-distance-btn" class="measure-type-btn">قياس مسافة</button>
-        <button id="measure-area-btn" class="measure-type-btn">قياس مساحة</button>
-        <button id="measure-cancel-btn" class="measure-type-cancel">إلغاء</button>
+        <button id="measure-distance-btn" class="measure-type-btn">
+          قياس مسافة
+        </button>
+        <button id="measure-area-btn" class="measure-type-btn">
+          قياس مساحة
+        </button>
+        <button id="measure-cancel-btn" class="measure-type-cancel">
+          إلغاء
+        </button>
       </div>
     </div>
     <style>
-    .measure-type-modal {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.25);
-      z-index: 3000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .measure-type-content {
-      background: #fff;
-      border-radius: 12px;
-      padding: 2rem 2.5rem 1.5rem 2.5rem;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-      text-align: center;
-      min-width: 220px;
-    }
-    .measure-type-content h3 {
-      margin-bottom: 1.2rem;
-      color: #1e40af;
-      font-size: 1.2rem;
-    }
-    .measure-type-btn {
-      background: #2196f3;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 0.7rem 1.5rem;
-      margin: 0 0.5rem 0.5rem 0.5rem;
-      font-size: 1rem;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.2s;
-    }
-    .measure-type-btn:hover {
-      background: #1769aa;
-    }
-    .measure-type-cancel {
-      background: #eee;
-      color: #333;
-      border: none;
-      border-radius: 8px;
-      padding: 0.5rem 1.2rem;
-      font-size: 0.95rem;
-      cursor: pointer;
-      margin-top: 0.5rem;
-    }
-    .measure-type-cancel:hover {
-      background: #ddd;
-    }
+      .measure-type-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.25);
+        z-index: 3000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .measure-type-content {
+        background: #fff;
+        border-radius: 12px;
+        padding: 2rem 2.5rem 1.5rem 2.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+        text-align: center;
+        min-width: 220px;
+      }
+      .measure-type-content h3 {
+        margin-bottom: 1.2rem;
+        color: #1e40af;
+        font-size: 1.2rem;
+      }
+      .measure-type-btn {
+        background: #2196f3;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 0.7rem 1.5rem;
+        margin: 0 0.5rem 0.5rem 0.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        font-family: inherit;
+        transition: background 0.2s;
+      }
+      .measure-type-btn:hover {
+        background: #1769aa;
+      }
+      .measure-type-cancel {
+        background: #eee;
+        color: #333;
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.95rem;
+        cursor: pointer;
+        margin-top: 0.5rem;
+      }
+      .measure-type-cancel:hover {
+        background: #ddd;
+      }
     </style>
     <!-- Measurement Result Floating Box -->
-    <div id="measure-result-box" class="measure-result-box" style="display:none;"></div>
+    <div
+      id="measure-result-box"
+      class="measure-result-box"
+      style="display: none"
+    ></div>
     <style>
-    .measure-result-box {
-      position: fixed;
-      top: 80px;
-      right: 30px;
-      background: #fff;
-      color: #1e40af;
-      border-radius: 10px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
-      padding: 1rem 1.5rem;
-      font-size: 1.1rem;
-      font-weight: bold;
-      z-index: 3001;
-      min-width: 120px;
-      text-align: center;
-      border: 2px solid #2196f3;
-      transition: opacity 0.3s;
-    }
+      .measure-result-box {
+        position: fixed;
+        top: 80px;
+        right: 30px;
+        background: #fff;
+        color: #1e40af;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        z-index: 3001;
+        min-width: 120px;
+        text-align: center;
+        border: 2px solid #2196f3;
+        transition: opacity 0.3s;
+      }
     </style>
     <!-- html2canvas for screenshot -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -1563,6 +1590,7 @@
     <div class="mainContent">
       <div class="main-content">
         <div class="map-container">
+          <div id="map"></div>
           <div class="tabs-container">
             <div class="tabs-header">
               <button class="tab-button active" data-tab="التدخلات_الإنسانية">
@@ -1633,13 +1661,27 @@
 
           <!-- Map Toolbar -->
           <div class="map-toolbar">
-            <button id="zoom-in-btn" title="Zoom In"><i class="fas fa-search-plus"></i></button>
-            <button id="zoom-out-btn" title="Zoom Out"><i class="fas fa-search-minus"></i></button>
-            <button id="home-btn" title="Home"><i class="fas fa-home"></i></button>
-            <button id="layers-btn" title="Basemap Gallery"><i class="fas fa-layer-group"></i></button>
-            <button id="measure-btn" title="Measure"><i class="fas fa-ruler"></i></button>
-            <button id="draw-btn" title="Draw"><i class="fas fa-pencil-alt"></i></button>
-            <button id="printMapBtn" title="Print Map"><i class="fas fa-print"></i></button>
+            <button id="zoom-in-btn" title="Zoom In">
+              <i class="fas fa-search-plus"></i>
+            </button>
+            <button id="zoom-out-btn" title="Zoom Out">
+              <i class="fas fa-search-minus"></i>
+            </button>
+            <button id="home-btn" title="Home">
+              <i class="fas fa-home"></i>
+            </button>
+            <button id="layers-btn" title="Basemap Gallery">
+              <i class="fas fa-layer-group"></i>
+            </button>
+            <button id="measure-btn" title="Measure">
+              <i class="fas fa-ruler"></i>
+            </button>
+            <button id="draw-btn" title="Draw">
+              <i class="fas fa-pencil-alt"></i>
+            </button>
+            <button id="printMapBtn" title="Print Map">
+              <i class="fas fa-print"></i>
+            </button>
           </div>
           <!-- Basemap Gallery Modal -->
           <div id="basemap-gallery" class="basemap-gallery-modal"></div>
@@ -1667,7 +1709,7 @@
               height: 44px;
               font-size: 1.3rem;
               cursor: pointer;
-              box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+              box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
               transition: background 0.2s;
             }
             .map-toolbar button:hover {
@@ -1680,7 +1722,7 @@
               right: 70px;
               background: #fff;
               border-radius: 10px;
-              box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+              box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
               z-index: 1300;
               padding: 16px;
               width: 350px;
@@ -1733,7 +1775,6 @@
             <button id="close-info-panel" class="close-btn">&times;</button>
             <h3 id="info-title"></h3>
             <div id="info-content"></div>
-            
           </div>
         </div>
       </div>
@@ -1753,7 +1794,6 @@
         </div>
         <div class="sidebar-content" style="margin-bottom: 110px">
           <!-- Base Layers Section -->
-      
 
           <div class="sidebar-section">
             <h4>الطبقات</h4>
@@ -2156,7 +2196,7 @@
       document.addEventListener("click", function (e) {
         if (e.target && (e.target.id === "map" || e.target.closest("#map"))) {
           setTimeout(function () {
-            if (window.map && typeof window.map.invalidateSize === 'function') {
+            if (window.map && typeof window.map.invalidateSize === "function") {
               window.map.invalidateSize(true);
             }
           }, 100);
@@ -2366,30 +2406,32 @@
         document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
 
         // Apply fixed direction to no-translate elements
-        document.querySelectorAll('.no-translate').forEach(element => {
+        document.querySelectorAll(".no-translate").forEach((element) => {
           // Keep header and footer with fixed direction regardless of language
           element.style.direction = "rtl"; // Always keep RTL for header and footer
 
           // Ensure the layout doesn't change when switching languages
-          if (element.id === 'mainHeader') {
+          if (element.id === "mainHeader") {
             // Fix header elements
-            const rightLogos = element.querySelector('.header-logos.right-logos');
-            const leftControls = element.querySelector('div:first-child');
-            const title = element.querySelector('.header-title');
+            const rightLogos = element.querySelector(
+              ".header-logos.right-logos"
+            );
+            const leftControls = element.querySelector("div:first-child");
+            const title = element.querySelector(".header-title");
 
-            if (rightLogos) rightLogos.style.right = '20px';
-            if (leftControls) leftControls.style.left = '20px';
+            if (rightLogos) rightLogos.style.right = "20px";
+            if (leftControls) leftControls.style.left = "20px";
             if (title) {
-              title.style.left = '50%';
-              title.style.transform = 'translateX(-50%)';
+              title.style.left = "50%";
+              title.style.transform = "translateX(-50%)";
             }
-          } else if (element.id === 'mainFooter') {
+          } else if (element.id === "mainFooter") {
             // Fix footer elements
-            const copyright = element.querySelector('.copyright');
-            const socialIcons = element.querySelector('.social-icons');
+            const copyright = element.querySelector(".copyright");
+            const socialIcons = element.querySelector(".social-icons");
 
-            if (copyright) copyright.style.left = '20px';
-            if (socialIcons) socialIcons.style.right = '20px';
+            if (copyright) copyright.style.left = "20px";
+            if (socialIcons) socialIcons.style.right = "20px";
           }
         });
 
@@ -2398,7 +2440,7 @@
         document.title = t.title;
 
         // Skip translation for elements with no-translate class
-        const noTranslateElements = document.querySelectorAll('.no-translate');
+        const noTranslateElements = document.querySelectorAll(".no-translate");
 
         // تحديث القائمة - only if not in a no-translate container
         const settingsText = document.getElementById("settingsText");
@@ -2448,8 +2490,12 @@
         const layersToggleAfter = document.querySelector(
           ".leaflet-control-layers-toggle::after"
         );
-        if (layersToggleAfter && t.mapControls && t.mapControls.layers &&
-            !isInNoTranslateContainer(layersToggleAfter)) {
+        if (
+          layersToggleAfter &&
+          t.mapControls &&
+          t.mapControls.layers &&
+          !isInNoTranslateContainer(layersToggleAfter)
+        ) {
           document.documentElement.style.setProperty(
             "--layers-text",
             `"${t.mapControls.layers}"`
@@ -2462,7 +2508,10 @@
           const layersManagementTitle = document.querySelector(
             "#leftSidebar .sidebar-header h3"
           );
-          if (layersManagementTitle && !isInNoTranslateContainer(layersManagementTitle)) {
+          if (
+            layersManagementTitle &&
+            !isInNoTranslateContainer(layersManagementTitle)
+          ) {
             layersManagementTitle.textContent = t.sidebar.layersManagement;
           }
 
@@ -2852,7 +2901,7 @@
       function isInNoTranslateContainer(element) {
         let parent = element.parentElement;
         while (parent) {
-          if (parent.classList && parent.classList.contains('no-translate')) {
+          if (parent.classList && parent.classList.contains("no-translate")) {
             return true;
           }
           parent = parent.parentElement;
@@ -2885,16 +2934,16 @@
         localStorage.setItem("selectedLanguage", "ar");
 
         // Apply fixed styles to header and footer to prevent layout shifts
-        document.querySelectorAll('.no-translate').forEach(element => {
+        document.querySelectorAll(".no-translate").forEach((element) => {
           element.style.direction = "rtl";
 
           // Make sure both titles are visible in the header
-          if (element.id === 'mainHeader') {
-            const titleAr = element.querySelector('.title-ar');
-            const titleEn = element.querySelector('.title-en');
+          if (element.id === "mainHeader") {
+            const titleAr = element.querySelector(".title-ar");
+            const titleEn = element.querySelector(".title-en");
 
-            if (titleAr) titleAr.style.display = 'block';
-            if (titleEn) titleEn.style.display = 'block';
+            if (titleAr) titleAr.style.display = "block";
+            if (titleEn) titleEn.style.display = "block";
           }
         });
 
@@ -2970,6 +3019,18 @@
               window.mapLayerToggle("neighborhoods", this.checked);
             }
           });
+        }
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var tabs = document.querySelector(".tabs-container");
+        if (tabs) {
+          tabs.classList.remove("collapsed");
+          tabs.style.display = "flex";
+          tabs.style.visibility = "visible";
+          tabs.style.opacity = "1";
+          tabs.style.zIndex = "3000";
         }
       });
     </script>

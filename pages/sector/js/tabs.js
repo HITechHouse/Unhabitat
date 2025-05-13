@@ -1329,7 +1329,7 @@ function setupEditableFields() {
       position: fixed !important;
       left: 0;
       right: 0;
-      bottom: 70px !important; /* المسافة من أسفل الصفحة */
+      bottom: 50px !important; /* المسافة من أسفل الصفحة */
       z-index: 1200;
       /* يمكنك إضافة أو تعديل بقية التنسيقات هنا */
     }

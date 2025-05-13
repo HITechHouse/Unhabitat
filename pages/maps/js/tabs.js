@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function () {
   setupDraggablePanel();
   createModalBackdrop();
   createWarningMessage();
-  createTabsToggleButton();
+ // createTabsToggleButton();
 });
 
 function createWarningMessage() {

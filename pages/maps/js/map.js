@@ -1852,24 +1852,33 @@ window.highlightServiceSector = highlightServiceSector;
 window.initMap = initMap; // Export initMap function
 
 // Add event listeners for panel buttons
-document.getElementById('close-info-panel').addEventListener('click', function () {
-  document.getElementById('info-panel').classList.remove('show');
-  document.getElementById('modal-backdrop').style.display = 'none';
-  resetPanelState();
-});
+var closeInfoPanelBtn = document.getElementById('close-info-panel');
+if (closeInfoPanelBtn) {
+  closeInfoPanelBtn.addEventListener('click', function () {
+    document.getElementById('info-panel').classList.remove('show');
+    document.getElementById('modal-backdrop').style.display = 'none';
+    resetPanelState();
+  });
+}
 
-document.getElementById('cancel-changes').addEventListener('click', function () {
-  document.getElementById('info-panel').classList.remove('show');
-  document.getElementById('modal-backdrop').style.display = 'none';
-  resetPanelState();
-});
+var cancelChangesBtn = document.getElementById('cancel-changes');
+if (cancelChangesBtn) {
+  cancelChangesBtn.addEventListener('click', function () {
+    document.getElementById('info-panel').classList.remove('show');
+    document.getElementById('modal-backdrop').style.display = 'none';
+    resetPanelState();
+  });
+}
 
-document.getElementById('save-changes').addEventListener('click', function () {
-  // Here you can add your save logic
-  document.getElementById('info-panel').classList.remove('show');
-  document.getElementById('modal-backdrop').style.display = 'none';
-  resetPanelState();
-});
+var saveChangesBtn = document.getElementById('save-changes');
+if (saveChangesBtn) {
+  saveChangesBtn.addEventListener('click', function () {
+    // Here you can add your save logic
+    document.getElementById('info-panel').classList.remove('show');
+    document.getElementById('modal-backdrop').style.display = 'none';
+    resetPanelState();
+  });
+}
 
 function resetPanelState() {
   // Reset all editable fields to their original values

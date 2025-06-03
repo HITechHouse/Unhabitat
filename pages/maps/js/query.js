@@ -1193,7 +1193,7 @@ function printQueryResults() {
       <title>نتائج الاستعلام - طباعة</title>
       <style>
         body {
-          font-family: 'Arial', sans-serif;
+          font-family: 'Noto Naskh Arabic', sans-serif;
           padding: 20px;
           direction: rtl;
         }

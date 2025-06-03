@@ -11,14 +11,14 @@ const tablesData = {
     fields: [
       { name: "رمز الحي", key: "id", editable: false },
       { name: "اسم الحي", key: "name", editable: false},
-      { name: "الصحة", key: "health", editable: true, type: "select",options: ["جيد", "مقبول", "ضعيف"]},
-      { name: "الغذاء", key: "food", editable: true, type: "select",options: ["جيد", "مقبول", "ضعيف"] },
-      { name: "اللباس والمعونات السكنية", key: "clothes", editable: true,type: "select",options: ["جيد", "مقبول", "ضعيف"] },
-      { name: "الايواء والسكن", key: "housing", editable: true,type: "select",options: ["جيد", "مقبول", "ضعيف"] },
-      { name: "التعليم", key: "edu", editable: true, type: "select",options: ["جيد", "مقبول", "ضعيف"] },
-      { name: "الدعم النفسي والاسري", key: "learning", editable: true, type: "select",options: ["جيد", "مقبول", "ضعيف"] },
-      { name: "مشاريع تحسين سبل العيش", key: "incom_improve", editable: true, type: "select",options: ["جيد", "مقبول", "ضعيف"] },
-      { name: "ملاحظات", key: "needs", editable: true, type: "textarea" },
+      { name: "الصحة", key: "health", editable: false, type: "text"},
+      { name: "الغذاء", key: "food", editable: false, type: "text" },
+      { name: "اللباس والمعونات السكنية", key: "clothes", editable: false, type: "text" },
+      { name: "الايواء والسكن", key: "housing", editable: false, type: "text" },
+      { name: "التعليم", key: "edu", editable: false, type: "text" },
+      { name: "الدعم النفسي والاسري", key: "learning", editable: false, type: "text" },
+      { name: "مشاريع تحسين سبل العيش", key: "incom_improve", editable: false, type: "text" },
+      { name: "ملاحظات", key: "needs", editable: false, type: "textarea" },
 
     ],
     sampleData: {
@@ -38,12 +38,12 @@ const tablesData = {
     fields: [
       { name: "رمز الحي", key: "id", editable: false },
       { name: "اسم الحي", key: "neighborhood_id", editable: false},
-      { name: "نوع السوق", key: "type", editable: true, type: "select", options: ["تجاري تقليدي", "حرفي", "غذائيات"] },
-      { name: "المنطقة الخدمية", key: "reigon", editable: true, type: "text" },
-      { name: "حالة التشغيل", key: "status", editable: true, type: "select", options: ["يعمل بشكل اعتيادي", "يعمل بشكل مقبول", "يعمل بشكل متقطع", "لا يعمل (معدوم)"] },
-      { name: "عدد المحلات", key: "shops", editable: true, type: "number", min: 0 },
-      { name: "وصف الاحتياج", key: "descrip", editable: true, type: "text" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "نوع السوق", key: "type", editable: false, type: "select", options: ["تجاري تقليدي", "حرفي", "غذائيات"] },
+      { name: "المنطقة الخدمية", key: "reigon", editable: false, type: "text" },
+      { name: "حالة التشغيل", key: "status", editable: false, type: "select", options: ["يعمل بشكل اعتيادي", "يعمل بشكل مقبول", "يعمل بشكل متقطع", "لا يعمل (معدوم)"] },
+      { name: "عدد المحلات", key: "shops", editable: false, type: "number", min: 0 },
+      { name: "وصف الاحتياج", key: "descrip", editable: false, type: "text" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
       id: "MKT-001",
@@ -60,12 +60,12 @@ const tablesData = {
     fields: [
       { name: "رمز الحي", key: "id", editable: false },
       { name: "اسم الحي", key: "neighborhood_id", editable: false},
-      { name: "مكبات عشوائية", key: "dumping_sites", editable: true, type: "select", options: ["يوجد", "لا يوجد"] },
-      { name: "مستوى نظافة الشوارع", key: "cleanliness", editable: true, type: "select", options: ["جيدة", "مقبول", "ضعيف", "معدوم"] },
-      { name: "مكافحة القوارض", key: "pest_control", editable: true, type: "select", options: ["دائما", "احيانا", "لا يوجد"]},
-      { name: "ترحيل الركام", key: "rubble_removal", editable: true, type: "select", options: ["بشكل دائم", "بشكل جزئي", "لا يوجد ترحيل"] },
-      { name: "وصف الاحتياجات", key: "needs", editable: true, type: "textarea" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "مكبات عشوائية", key: "dumping_sites", editable: false, type: "select", options: ["يوجد", "لا يوجد"] },
+      { name: "مستوى نظافة الشوارع", key: "cleanliness", editable: false, type: "select", options: ["جيدة", "مقبول", "ضعيف", "معدوم"] },
+      { name: "مكافحة القوارض", key: "pest_control", editable: false, type: "select", options: ["دائما", "احيانا", "لا يوجد"]},
+      { name: "ترحيل الركام", key: "rubble_removal", editable: false, type: "select", options: ["بشكل دائم", "بشكل جزئي", "لا يوجد ترحيل"] },
+      { name: "وصف الاحتياجات", key: "needs", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
       id: "WSM-001",
@@ -81,16 +81,16 @@ const tablesData = {
   الحدائق_والمساحات_المعيشية: {
     fields: [
       { name: "الرمز", key: "id", editable: false },
-      { name: "الاسم", key: "name", editable: true },
-      { name: "منطقة الخدمة", key: "coverage", editable: true, type: "text" },
+      { name: "الاسم", key: "name", editable: false },
+      { name: "منطقة الخدمة", key: "coverage", editable: false, type: "text" },
 
-      { name: "توفر المياه", key: "water", editable: true, type: "select", options: ["متضرر كليا", "متضرر جزئيا", "غير متضرر"] },
-      { name: "الإضاءة", key: "lighting", editable: true, type: "select", options: ["متضرر كليا", "متضرر جزئيا", "غير متضرر"] },
-      { name: "أثاث الحدائق", key: "furniture", editable: true, type: "select", options: ["متضرر كليا", "متضرر جزئيا", "غير متضرر"] },
+      { name: "توفر المياه", key: "water", editable: false, type: "select", options: ["متضرر كليا", "متضرر جزئيا", "غير متضرر"] },
+      { name: "الإضاءة", key: "lighting", editable: false, type: "select", options: ["متضرر كليا", "متضرر جزئيا", "غير متضرر"] },
+      { name: "أثاث الحدائق", key: "furniture", editable: false, type: "select", options: ["متضرر كليا", "متضرر جزئيا", "غير متضرر"] },
 
-      { name: "حالة التشغيل", key: "status", editable: true, type: "select", options: ["يعمل بشكل اعتيادي", "يعمل بشكل مقبول", "يعمل بشكل متقطع", "لا يعمل (معدوم)"] },
-      { name: "وصف الاحتياجات", key: "needs", editable: true, type: "textarea" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "حالة التشغيل", key: "status", editable: false, type: "select", options: ["يعمل بشكل اعتيادي", "يعمل بشكل مقبول", "يعمل بشكل متقطع", "لا يعمل (معدوم)"] },
+      { name: "وصف الاحتياجات", key: "needs", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
       id: "PK-001",
@@ -108,14 +108,14 @@ const tablesData = {
     fields: [
       { name: "معرف المركز", key: "id", editable: false },
       { name: "رمز المركز", key: "neighborhood_id", editable: false },
-      { name: "اسم المركز", key: "name", editable: true, type: "text" },
-      { name: "منطقة الخدمة", key: "coverage", editable: true, type: "text" },
-      { name: "حالة البنية التحتية", key: "infrastructure", editable: true, type: "select", options: ["متضرر كليا", "متضرر جزئيا", "غير متضرر"] },
-      { name: "حالة الموظفين", key: "staff", editable: true, type: "select", options: ["متاح", "متاح بحدود", "غير متاح"] },
-      { name: "حالة المستهلكات", key: "supplies", editable: true, type: "select", options: ["متاح", "متاح بحدود", "غير متاح"] },
-      { name: "حالة التشغيل", key: "status", editable: true, type: "select", options: ["يعمل بشكل اعتيادي", "يعمل بشكل مقبول", "يعمل بشكل متقطع", "لا يعمل (معدوم)"] },
-      { name: "وصف الاحتياجات", key: "needs", editable: true, type: "textarea" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "اسم المركز", key: "name", editable: false, type: "text" },
+      { name: "منطقة الخدمة", key: "coverage", editable: false, type: "text" },
+      { name: "حالة البنية التحتية", key: "infrastructure", editable: false, type: "select", options: ["متضرر كليا", "متضرر جزئيا", "غير متضرر"] },
+      { name: "حالة الموظفين", key: "staff", editable: false, type: "select", options: ["متاح", "متاح بحدود", "غير متاح"] },
+      { name: "حالة المستهلكات", key: "supplies", editable: false, type: "select", options: ["متاح", "متاح بحدود", "غير متاح"] },
+      { name: "حالة التشغيل", key: "status", editable: false, type: "select", options: ["يعمل بشكل اعتيادي", "يعمل بشكل مقبول", "يعمل بشكل متقطع", "لا يعمل (معدوم)"] },
+      { name: "وصف الاحتياجات", key: "needs", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
       id: "HC-001",
@@ -134,14 +134,14 @@ const tablesData = {
     fields: [
       { name: "معرف المركز", key: "id", editable: false },
       { name: "رمز المركز", key: "neighborhood_id", editable: false },
-      { name: "اسم المركز", key: "name", editable: true, type: "text" },
-      { name: "منطقة الخدمة", key: "coverage", editable: true, type: "text" },
-      { name: "حالة البنية التحتية", key: "infrastructure", editable: true, type: "select", options: ["متضرر كليا", "متضرر جزئيا", "غير متضرر"] },
-      { name: "حالة الموظفين", key: "staff", editable: true, type: "select", options: ["متاح", "متاح بحدود", "غير متاح"] },
-      { name: "حالة المستهلكات", key: "supplies", editable: true, type: "select", options: ["متاح", "متاح بحدود", "غير متاح"] },
-      { name: "حالة التشغيل", key: "status", editable: true, type: "select", options: ["يعمل بشكل اعتيادي", "يعمل بشكل مقبول", "يعمل بشكل متقطع", "لا يعمل (معدوم)"] },
-      { name: "وصف الاحتياجات", key: "needs", editable: true, type: "textarea" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "اسم المركز", key: "name", editable: false, type: "text" },
+      { name: "منطقة الخدمة", key: "coverage", editable: false, type: "text" },
+      { name: "حالة البنية التحتية", key: "infrastructure", editable: false, type: "select", options: ["متضرر كليا", "متضرر جزئيا", "غير متضرر"] },
+      { name: "حالة الموظفين", key: "staff", editable: false, type: "select", options: ["متاح", "متاح بحدود", "غير متاح"] },
+      { name: "حالة المستهلكات", key: "supplies", editable: false, type: "select", options: ["متاح", "متاح بحدود", "غير متاح"] },
+      { name: "حالة التشغيل", key: "status", editable: false, type: "select", options: ["يعمل بشكل اعتيادي", "يعمل بشكل مقبول", "يعمل بشكل متقطع", "لا يعمل (معدوم)"] },
+      { name: "وصف الاحتياجات", key: "needs", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
       id: "HC-001",
@@ -160,12 +160,12 @@ const tablesData = {
     fields: [
       { name: "معرف الشبكة", key: "id", editable: false },
       { name: "معرف الحي", key: "neighborhood_id", editable: false },
-      { name: "اسم الحي", key: "neighborhood_name", type: "text", editable: true },
-      { name: "ضرر المحول", key: "transformer_damage", editable: true, type: "select", options: ["شديد", "متوسط", "خفيف", "معدوم"] },
-      { name: "ضرر الخط", key: "line_damage", editable: true, type: "select",  options: ["شديد", "متوسط", "خفيف", "معدوم"] },
-      { name: "حالة الشبكة", key: "status", editable: true, type: "select", options: ["تعمل", "تعمل جزئيا", "لا تعمل"] },
-      { name: "وصف الاحتياجات", key: "needs", editable: true, type: "textarea" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "اسم الحي", key: "neighborhood_name", type: "text", editable: false },
+      { name: "ضرر المحول", key: "transformer_damage", editable: false, type: "select", options: ["شديد", "متوسط", "خفيف", "معدوم"] },
+      { name: "ضرر الخط", key: "line_damage", editable: false, type: "select",  options: ["شديد", "متوسط", "خفيف", "معدوم"] },
+      { name: "حالة الشبكة", key: "status", editable: false, type: "select", options: ["تعمل", "تعمل جزئيا", "لا تعمل"] },
+      { name: "وصف الاحتياجات", key: "needs", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
       priority: '1',
@@ -182,16 +182,16 @@ const tablesData = {
     fields: [
       { name: "معرف الشبكة", key: "id", editable: false },
       { name: "معرف الحي", key: "neighborhood_id", editable: false },
-      { name: "اسم الحي", key: "neighborhood_name", type: "text", editable: true },
-      { name: "ضرر المحول", key: "transformer_damage", editable: true, type: "select", options: ["شديد", "متوسط", "خفيف", "معدوم"] },
-      { name: "ضرر الخط", key: "line_damage", editable: true, type: "select",  options: ["شديد", "متوسط", "خفيف", "معدوم"] },
-      { name: "حالة الشبكة", key: "status", editable: true, type: "select", options: ["تعمل", "تعمل جزئيا", "لا تعمل"] },
-      { name: "وصف الاحتياجات", key: "needs", editable: true, type: "textarea" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "اسم الحي", key: "neighborhood_name", type: "text", editable: false },
+      { name: "ضرر المحول", key: "transformer_damage", editable: false, type: "select", options: ["شديد", "متوسط", "خفيف", "معدوم"] },
+      { name: "ضرر الخط", key: "line_damage", editable: false, type: "select",  options: ["شديد", "متوسط", "خفيف", "معدوم"] },
+      { name: "حالة الشبكة", key: "status", editable: false, type: "select", options: ["تعمل", "تعمل جزئيا", "لا تعمل"] },
+      { name: "وصف الاحتياجات", key: "needs", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
       priority: '1',
-      id: "TEL-001",
+      id: "ELE-001",
       neighborhood_id: "",
       neighborhood_name:"",
       transformer_damage: "خفيف",
@@ -204,14 +204,14 @@ const tablesData = {
     fields: [
       { name: "معرف الشبكة", key: "id", editable: false },
       { name: "معرف الحي", key: "neighborhood_id", editable: false },
-      { name: "اسم الحي", key: "neighborhood_name", type: "text", editable: true },
-      { name: "متصل بالشبكة", key: "connected", editable: true, type: "select", options: ["نعم", "لا"] },
-      { name: "الضرر", key: "main_damage", editable: true, type: "select", options: ["منخفض", "متوسط", "مرتفع", "عالٍ جداً"] },
-      { name: "نسبة الضرر", key: "damag_ratio", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]},
-      { name: "التشغيل", key: "main_status", editable: true, type: "select", options: ["يعمل كاملاً", "يعمل جزئياً", "متوقف"] },
-      { name: "نسبة التشغيل", key: "secondary_status", editable: true, type: "select",options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]},
-      { name: "الاحتياجات", key: "needs", editable: true, type: "textarea" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "اسم الحي", key: "neighborhood_name", type: "text", editable: false },
+      { name: "متصل بالشبكة", key: "connected", editable: false, type: "select", options: ["نعم", "لا"] },
+      { name: "الضرر", key: "main_damage", editable: false, type: "select", options: ["منخفض", "متوسط", "مرتفع", "عالٍ جداً"] },
+      { name: "نسبة الضرر", key: "damag_ratio", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]},
+      { name: "التشغيل", key: "main_status", editable: false, type: "select", options: ["يعمل كاملاً", "يعمل جزئياً", "متوقف"] },
+      { name: "نسبة التشغيل", key: "secondary_status", editable: false, type: "select",options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]},
+      { name: "الاحتياجات", key: "needs", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
       id: "WTR-001",
@@ -230,17 +230,17 @@ const tablesData = {
     fields: [
       { name: "معرف الشبكة", key: "id", editable: false },
       { name: "معرف الحي", key: "neighborhood_id", editable: false },
-      { name: "اسم الحي", key: "neighborhood_name", type: "text", editable: true },
-      { name: "متصل بالشبكة", key: "connected", editable: true, type: "select", options: ["نعم", "لا"] },
-      { name: "الضرر", key: "main_damage", editable: true, type: "select", options: ["منخفض", "متوسط", "مرتفع", "عالٍ جداً"] },
-      { name: "نسبة الضرر", key: "damag_ratio", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]},
-      { name: "التشغيل", key: "main_status", editable: true, type: "select", options: ["يعمل كاملاً", "يعمل جزئياً", "متوقف"] },
-      { name: "نسبة التشغيل", key: "secondary_status", editable: true, type: "select",options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]},
-      { name: "الاحتياجات", key: "needs", editable: true, type: "textarea" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "اسم الحي", key: "neighborhood_name", type: "text", editable: false },
+      { name: "متصل بالشبكة", key: "connected", editable: false, type: "select", options: ["نعم", "لا"] },
+      { name: "الضرر", key: "main_damage", editable: false, type: "select", options: ["منخفض", "متوسط", "مرتفع", "عالٍ جداً"] },
+      { name: "نسبة الضرر", key: "damag_ratio", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]},
+      { name: "التشغيل", key: "main_status", editable: false, type: "select", options: ["يعمل كاملاً", "يعمل جزئياً", "متوقف"] },
+      { name: "نسبة التشغيل", key: "secondary_status", editable: false, type: "select",options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]},
+      { name: "الاحتياجات", key: "needs", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
-      id: "SEW-001",
+      id: "WTR-001",
       neighborhood_id: "",
       neighborhood_name:"",
       connected: "نعم",
@@ -257,16 +257,16 @@ const tablesData = {
       { name: "معرف السجل", key: "id", editable: false },
       { name: "معرف الحي", key: "neighborhood_id", editable: false },
       { name: "اسم الحي", key: "neighborhood_name", type: "text" },
-      { name: "إجمالي الوحدات", key: "units_total", editable: true, type: "number", min: 0 },
-      { name: "الوحدات الشاغرة", key: "vacant_units", editable: true, type: "number", min: 0 },
-      { name: "نمط الملكية السائد", key: "documentaion_type", editable: true, type: "select", options: ["طابو زراعي", "طابو نظامي", "كاتب عدل", "غير ذلك"] },
-      { name: "التوثيق والحماية", key: "documentaion", editable: true, type: "select", options: ["محمى كلي", "محمي جزئي", "غير محمي"] },
-      { name: "ضرر شديد", key: "severe_damage", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
-      { name: "ضرر متوسط", key: "medium_damage", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
-      { name: "ضرر خفيف", key: "light_damage", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
-      { name: "وحدات سليمة", key: "undamaged_units", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
-      { name: "الملاحظات", key: "notes", editable: true, type: "textarea" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "إجمالي الوحدات", key: "units_total", editable: false, type: "number", min: 0 },
+      { name: "الوحدات الشاغرة", key: "vacant_units", editable: false, type: "number", min: 0 },
+      { name: "نمط الملكية السائد", key: "documentaion_type", editable: false, type: "select", options: ["طابو زراعي", "طابو نظامي", "كاتب عدل", "غير ذلك"] },
+      { name: "التوثيق والحماية", key: "documentaion", editable: false, type: "select", options: ["محمى كلي", "محمي جزئي", "غير محمي"] },
+      { name: "ضرر شديد", key: "severe_damage", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
+      { name: "ضرر متوسط", key: "medium_damage", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
+      { name: "ضرر خفيف", key: "light_damage", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
+      { name: "وحدات سليمة", key: "undamaged_units", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
+      { name: "الملاحظات", key: "notes", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
       id: "HSD-001",
@@ -288,14 +288,14 @@ const tablesData = {
     fields: [
       { name: "معرف السجل", key: "id", editable: false },
       { name: "معرف الحي", key: "neighborhood_id", editable: false },
-      { name: " اسم الحي", key: "urban_area", editable: true, type: "text" },
-      { name: " المساحة العمرانية", key: "texture_status", editable: true, type: "number", },
-      { name: "الحالة العمرانية", key: "urbn_status", editable: true, type: "select", options: ["منظم", "عشوائي", "بلدة قديمة", "مختلط"] },
-      { name: "السكن العشوائي", key: "informal_percent", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
-      { name: "نسبة المساكن الطابقية", key: "highrise_percent", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
-      { name: "نسبة المساكن التقليدية", key: "traditional_percent", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
-      { name: "الوظيفة العمرانية السائدة", key: "urbn_func", editable: true, type: "select", options: ["سكني", "سكني تجاري", "تجاري", "خدمي", "إداري", "سياحي", "حرفي", "مختلط"] },
-      { name: "ملاحظات", key: "notes", editable: true, type: "textarea" },
+      { name: " اسم الحي", key: "urban_area", editable: false, type: "text" },
+      { name: " المساحة العمرانية", key: "texture_status", editable: false, type: "number", },
+      { name: "الحالة العمرانية", key: "urbn_status", editable: false, type: "select", options: ["منظم", "عشوائي", "بلدة قديمة", "مختلط"] },
+      { name: "السكن العشوائي", key: "informal_percent", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
+      { name: "نسبة المساكن الطابقية", key: "highrise_percent", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
+      { name: "نسبة المساكن التقليدية", key: "traditional_percent", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
+      { name: "الوظيفة العمرانية السائدة", key: "urbn_func", editable: false, type: "select", options: ["سكني", "سكني تجاري", "تجاري", "خدمي", "إداري", "سياحي", "حرفي", "مختلط"] },
+      { name: "ملاحظات", key: "notes", editable: false, type: "textarea" },
     ],
     sampleData: {
       id: "URB-001",
@@ -314,11 +314,11 @@ const tablesData = {
     fields: [
       { name: "معرف السجل", key: "id", editable: false },
       { name: "معرف الحي", key: "neighborhood_id", editable: false },
-      { name: "عدد السكان", key: "population", editable: true, type: "number", min: 0 },
-      { name: "نسبة المهاجرين", key: "migrants", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
-      { name: "نسبة العائدين", key: "returnees", editable: true, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
-      { name: "الاحتياجات", key: "needs", editable: true, type: "textarea" },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: "عدد السكان", key: "population", editable: false, type: "number", min: 0 },
+      { name: "نسبة المهاجرين", key: "migrants", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
+      { name: "نسبة العائدين", key: "returnees", editable: false, type: "select", options: ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"] },
+      { name: "الاحتياجات", key: "needs", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
     ],
     sampleData: {
       priority: '1',
@@ -330,7 +330,46 @@ const tablesData = {
       needs: "دعم الإسكان والخدمات العامة",
     },
   },
-
+  "أعضاء لجنة الحي": {
+    fields: [
+      { name: "معرف مميز", key: "id", editable: false },
+      { name: "معرف الحي", key: "neighborhood_id", editable: false },
+      { name: "اسم المختار", key: "mukhtar_name", editable: false, type: "text" },
+      { name: "عدد الأعضاء", key: "members_count", editable: false, type: "number", min: 0, max: 100 },
+      { name: "اسم أمين السر", key: "secretary_name", editable: false, type: "text" },
+      { name: "نسبة الذكور من الأعضاء", key: "male_percentage", editable: false, type: "select", options: ["30%", "40%", "50%", "60%", "70%", "80%", "90%"] },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
+    ],
+    sampleData: {
+      priority: '1',
+      id: "POP-001",
+      neighborhood_id: "",
+      mukhtar_name: "عمر بو فاعور",
+      members_count: "8",
+      secretary_name: "يسار",
+      male_percentage: "60%",
+    },
+  },
+  "معلومات التواصل مع لجنة الحي": {
+    fields: [
+      { name: "معرف مميز", key: "id", editable: false },
+      { name: "معرف الحي", key: "neighborhood_id", editable: false },
+      { name: "وسيلة التنسيق والتواصل", key: "population", editable: false, type: "select", options: ["عن طريق المختار", "عن طريق أمين السر", "عن طريق الاجتماعات", "عن طريق الهاتف", "عن طريق البريد الإلكتروني"] },
+      { name: "رقم الهاتف", key: "migrants", editable: false, type: "tel", pattern: "[0-9]{10}" },
+      { name: "تواجد المقر", key: "returnees", editable: false, type: "select", options: ["نعم", "لا"] },
+      { name: "الاحتياجات", key: "needs", editable: false, type: "textarea" },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'select', options: ['1', '2', '3'] }
+    ],
+    sampleData: {
+      priority: '1',
+      id: "POP-001",
+      neighborhood_id: "",
+      population: "عن طريق المختار",
+      migrants: "0999222333",
+      returnees: "نعم",
+      needs: "دعم الإسكان والخدمات العامة",
+    },
+  },
 };
 
 window.tablesData = tablesData;
@@ -691,7 +730,6 @@ function renderInfoPanel(tabId, neighborhoodId) {
 
   // Create table with border
   const tableElement = document.createElement("table");
-  tableElement.className = "info-table";
   tableElement.style.border = "2px solid #ddd";
   tableElement.style.borderRadius = "8px";
   tableElement.style.overflow = "hidden";
@@ -755,9 +793,13 @@ function renderInfoPanel(tabId, neighborhoodId) {
     // Create label cell
     const labelCell = document.createElement("td");
     labelCell.textContent = fieldName;
+    labelCell.style.fontWeight = "600";
+    labelCell.style.padding = "2px 10px";
+    labelCell.style.borderRight = "1px solid #ddd";
 
     // Create value cell
     const valueCell = document.createElement("td");
+    valueCell.style.padding = "2px 10px";
 
     // Create input element
     let inputElement;
@@ -835,32 +877,7 @@ function renderInfoPanel(tabId, neighborhoodId) {
     if (field.editable) {
       inputElement.addEventListener('change', function () {
         this.dataset.changed = 'true';
-
-        // تحديث القيم في واجهة حساب المركبة إذا كانت مفتوحة
-        updateCompositeFromInfoPanel(this);
       });
-
-      // إضافة event listener للتحديث الفوري أثناء الكتابة (للحقول النصية والرقمية)
-      if (field.type !== 'select') {
-        inputElement.addEventListener('input', function () {
-          updateCompositeFromInfoPanel(this);
-        });
-      }
-    }
-
-    // دالة مساعدة لتحديث واجهة حساب المركبة
-    function updateCompositeFromInfoPanel(inputElement) {
-      if (typeof window.updateCompositeValuesFromInfoPanel === 'function') {
-        // تحديث البيانات في tablesData
-        const currentTabId = inputElement.dataset.table;
-        const currentFieldKey = inputElement.dataset.field;
-        if (window.tablesData && window.tablesData[currentTabId] && window.tablesData[currentTabId].sampleData) {
-          window.tablesData[currentTabId].sampleData[currentFieldKey] = inputElement.value;
-        }
-
-        // تحديث واجهة حساب المركبة
-        window.updateCompositeValuesFromInfoPanel();
-      }
     }
 
     // Add input to value cell

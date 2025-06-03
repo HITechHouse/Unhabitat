@@ -76,12 +76,12 @@ const fieldTranslations = {
     population: "عدد السكان",
     migrants: "نسبة المهاجرين",
     returnees: "نسبة العائدين",
-    
+
     // أعضاء لجنة الحي
-    population: "اسم المختار",
-    migrants: "عدد الأعضاء",
-    returnees: "اسم أمين السر",
-    needs: "نسبة الذكور من الأعضاء",
+    mukhtar_name: "اسم المختار",
+    members_count: "عدد الأعضاء",
+    secretary_name: "اسم أمين السر",
+    male_percentage: "نسبة الذكور من الأعضاء",
   },
   en: {
     // Common fields
@@ -154,12 +154,12 @@ const fieldTranslations = {
     population: "Population",
     migrants: "Migrants Percentage",
     returnees: "Returnees Percentage",
-    
+
     // أعضاء لجنة الحي (Neighborhood Committee Members)
-    population: "Mukhtar Name",
-    migrants: "Number of Members",
-    returnees: "Secretary Name",
-    needs: "Male Members Percentage",
+    mukhtar_name: "Mukhtar Name",
+    members_count: "Number of Members",
+    secretary_name: "Secretary Name",
+    male_percentage: "Male Members Percentage",
   }
 };
 

@@ -12,6 +12,18 @@ const AUTO_CLOSE_DELAY = 2000; // 2 seconds
 
 // تهيئة الأشرطة الجانبية عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
+  // تعيين حالة التثبيت الافتراضية
+  const leftSidebar = document.getElementById('leftSidebar');
+  const rightSidebar = document.getElementById('rightSidebar');
+  
+  if (leftSidebar) {
+    leftSidebar.setAttribute('data-pinned', 'false');
+  }
+  
+  if (rightSidebar) {
+    rightSidebar.setAttribute('data-pinned', 'false');
+  }
+  
   initSidebars();
 });
 
@@ -26,6 +38,10 @@ function initSidebars() {
   // أزرار التبديل في الشريطين الجانبيين
   const toggleLeftSidebar = document.getElementById('toggleLeftSidebar');
   const toggleRightSidebar = document.getElementById('toggleRightSidebar');
+  
+  // أزرار التثبيت في الشريطين الجانبيين
+  const pinLeftSidebar = document.getElementById('pinLeftSidebar');
+  const pinRightSidebar = document.getElementById('pinRightSidebar');
 
   // أزرار التبديل في الهيدر
   const toggleLeftSidebarBtn = document.getElementById('toggleLeftSidebarBtn');
@@ -378,6 +394,11 @@ function setupAutoCloseSidebars(leftSidebar, rightSidebar) {
     });
 
     leftSidebar.addEventListener('mouseleave', function() {
+      // تحقق مما إذا كان الشريط مثبتًا
+      if (leftSidebar.getAttribute('data-pinned') === 'true') {
+        return; // تجاهل الإغلاق التلقائي إذا كان مثبتًا
+      }
+      
       // بدء المؤقت عند خروج المؤشر من الشريط الجانبي
       if (leftSidebarActive && !leftSidebar.classList.contains('collapsed')) {
         // إظهار المؤشر
@@ -386,11 +407,14 @@ function setupAutoCloseSidebars(leftSidebar, rightSidebar) {
         }
 
         leftSidebarTimer = setTimeout(function() {
-          toggleSidebar('left');
+          // تحقق مرة أخرى في حالة تغيير حالة التثبيت أثناء المهلة
+          if (leftSidebar.getAttribute('data-pinned') !== 'true') {
+            toggleSidebar('left');
 
-          // إخفاء المؤشر بعد الإغلاق
-          if (leftIndicator) {
-            leftIndicator.classList.remove('show');
+            // إخفاء المؤشر بعد الإغلاق
+            if (leftIndicator) {
+              leftIndicator.classList.remove('show');
+            }
           }
         }, AUTO_CLOSE_DELAY);
       }
@@ -413,6 +437,11 @@ function setupAutoCloseSidebars(leftSidebar, rightSidebar) {
     });
 
     rightSidebar.addEventListener('mouseleave', function() {
+      // تحقق مما إذا كان الشريط مثبتًا
+      if (rightSidebar.getAttribute('data-pinned') === 'true') {
+        return; // تجاهل الإغلاق التلقائي إذا كان مثبتًا
+      }
+      
       // بدء المؤقت عند خروج المؤشر من الشريط الجانبي
       if (rightSidebarActive && !rightSidebar.classList.contains('collapsed')) {
         // إظهار المؤشر
@@ -421,11 +450,14 @@ function setupAutoCloseSidebars(leftSidebar, rightSidebar) {
         }
 
         rightSidebarTimer = setTimeout(function() {
-          toggleSidebar('right');
+          // تحقق مرة أخرى في حالة تغيير حالة التثبيت أثناء المهلة
+          if (rightSidebar.getAttribute('data-pinned') !== 'true') {
+            toggleSidebar('right');
 
-          // إخفاء المؤشر بعد الإغلاق
-          if (rightIndicator) {
-            rightIndicator.classList.remove('show');
+            // إخفاء المؤشر بعد الإغلاق
+            if (rightIndicator) {
+              rightIndicator.classList.remove('show');
+            }
           }
         }, AUTO_CLOSE_DELAY);
       }

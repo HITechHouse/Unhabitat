@@ -7,12 +7,12 @@
   overflow: hidden !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
   background: #fff !important;
-  font-family: "Cairo", sans-serif !important;
+  font-family: "Noto Naskh Arabic", sans-serif;
 }
 
 .neighborhood-popup h3 {
   margin: 0 !important;
-  font-size: 18px !important;
+  font-size: 14px !important;
   color: #fff !important;
   padding: 14px 15px !important;
   background: linear-gradient(135deg, #007bff, #3066ff) !important;

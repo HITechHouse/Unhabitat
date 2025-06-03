@@ -6,9 +6,10 @@
   right: 0;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  padding: 0 0.5rem;
+  /* padding: 0 0.5rem; */
   display: flex;
   flex-wrap: wrap; /* Permitir que las pestañas se envuelvan en múltiples filas */
   justify-content: center; /* Centrar las pestañas */
@@ -61,6 +62,7 @@
   min-width: 100px; /* Reducir el ancho mínimo */
   justify-content: center;
   margin: 0.2rem; /* Añadir un pequeño margen */
+  font-family: "Noto Naskh Arabic", sans-serif !important;
 }
 
 .tab-button:hover {
@@ -198,17 +200,6 @@
   border-left: 2px solid #1e40af;
 }
 
-/* Tab overflow indicator */
-/* .tabs-container::before,
-.tabs-container::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 20px;
-  pointer-events: none;
-  z-index: 1;
-} */
 
 .tabs-container::before {
   left: 0;
@@ -278,19 +269,17 @@
   margin: 0;
   padding: 20px;
   border-bottom: 1px solid #eee;
-  font-size: 18px;
+  font-size: 14px;
   color: #333;
 }
 
 #info-content {
-  padding: 20px;
   overflow-y: auto;
   flex: 1;
 }
 
 /* Info Form Styles */
 .info-form {
-  padding: 1rem;
   width: 100%;
 }
 
@@ -339,9 +328,7 @@
 }
 
 .info-table td {
-  padding: 10px !important;
   vertical-align: middle;
-  border: 1.5px solid #1e40af !important;
 }
 
 .info-table td:first-child {

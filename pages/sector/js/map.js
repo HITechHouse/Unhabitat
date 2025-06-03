@@ -95,6 +95,7 @@ window.addEventListener('DOMContentLoaded', function () {
   const layersBtn = document.getElementById('layers-btn');
   const measureBtn = document.getElementById('measure-btn');
   const drawBtn = document.getElementById('draw-btn');
+  const fullscreenPopupBtn = document.getElementById('fullscreen-popup-btn');
   const basemapGallery = document.getElementById('basemap-gallery');
 
   // Measurement modal elements
@@ -151,6 +152,39 @@ window.addEventListener('DOMContentLoaded', function () {
     if (measureTypeModal) measureTypeModal.style.display = 'flex';
   };
 
+  // Full screen popup toggle
+  if (fullscreenPopupBtn) {
+    fullscreenPopupBtn.addEventListener('click', function () {
+      showFullscreenPopup();
+    });
+  }
+
+  // Full screen popup elements and event listeners
+  const fullscreenPopup = document.getElementById('fullscreen-popup');
+  const fullscreenPopupClose = document.getElementById('fullscreen-popup-close');
+
+  if (fullscreenPopupClose) {
+    fullscreenPopupClose.addEventListener('click', function () {
+      hideFullscreenPopup();
+    });
+  }
+
+  // Close popup when clicking outside content area
+  if (fullscreenPopup) {
+    fullscreenPopup.addEventListener('click', function (e) {
+      if (e.target === fullscreenPopup) {
+        hideFullscreenPopup();
+      }
+    });
+  }
+
+  // Close popup with Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && fullscreenPopup && fullscreenPopup.classList.contains('show')) {
+      hideFullscreenPopup();
+    }
+  });
+
   // Drawing tool toggle
   drawnItems = new L.FeatureGroup();
   map.addLayer(drawnItems);
@@ -173,7 +207,7 @@ window.addEventListener('DOMContentLoaded', function () {
     drawTypeModal.style.zIndex = '2000';
     drawTypeModal.innerHTML = `
       <div style="background:#fff;padding:32px 24px;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.18);min-width:320px;text-align:center;direction:rtl;">
-        <div style="font-size:18px;font-weight:600;margin-bottom:18px;">اختر نوع الشكل المراد رسمه</div>
+        <div style="font-size:14px;font-weight:600;margin-bottom:18px;">اختر نوع الشكل المراد رسمه</div>
         <div style="display:flex;flex-direction:column;gap:12px;">
           <button id="draw-polyline-btn" style="padding:10px 0;font-size:15px;border:none;background:#e3f2fd;border-radius:8px;cursor:pointer;">رسم خط</button>
           <button id="draw-polygon-btn" style="padding:10px 0;font-size:15px;border:none;background:#e3f2fd;border-radius:8px;cursor:pointer;">رسم مضلع</button>
@@ -194,37 +228,37 @@ window.addEventListener('DOMContentLoaded', function () {
   };
 
   // Modal button handlers
-  drawTypeModal.querySelector('#draw-polyline-btn').onclick = function() {
+  drawTypeModal.querySelector('#draw-polyline-btn').onclick = function () {
     drawTypeModal.style.display = 'none';
     if (activeDrawShape) activeDrawShape.disable();
     activeDrawShape = new L.Draw.Polyline(map, { shapeOptions: { color: '#db4a29', weight: 4 } });
     activeDrawShape.enable();
   };
-  drawTypeModal.querySelector('#draw-polygon-btn').onclick = function() {
+  drawTypeModal.querySelector('#draw-polygon-btn').onclick = function () {
     drawTypeModal.style.display = 'none';
     if (activeDrawShape) activeDrawShape.disable();
     activeDrawShape = new L.Draw.Polygon(map, { shapeOptions: { color: '#2196f3', weight: 3 } });
     activeDrawShape.enable();
   };
-  drawTypeModal.querySelector('#draw-rectangle-btn').onclick = function() {
+  drawTypeModal.querySelector('#draw-rectangle-btn').onclick = function () {
     drawTypeModal.style.display = 'none';
     if (activeDrawShape) activeDrawShape.disable();
     activeDrawShape = new L.Draw.Rectangle(map, { shapeOptions: { color: '#43a047', weight: 3 } });
     activeDrawShape.enable();
   };
-  drawTypeModal.querySelector('#draw-circle-btn').onclick = function() {
+  drawTypeModal.querySelector('#draw-circle-btn').onclick = function () {
     drawTypeModal.style.display = 'none';
     if (activeDrawShape) activeDrawShape.disable();
     activeDrawShape = new L.Draw.Circle(map, { shapeOptions: { color: '#fbc02d', weight: 3 } });
     activeDrawShape.enable();
   };
-  drawTypeModal.querySelector('#draw-marker-btn').onclick = function() {
+  drawTypeModal.querySelector('#draw-marker-btn').onclick = function () {
     drawTypeModal.style.display = 'none';
     if (activeDrawShape) activeDrawShape.disable();
     activeDrawShape = new L.Draw.Marker(map, {});
     activeDrawShape.enable();
   };
-  drawTypeModal.querySelector('#draw-cancel-btn').onclick = function() {
+  drawTypeModal.querySelector('#draw-cancel-btn').onclick = function () {
     drawTypeModal.style.display = 'none';
     if (activeDrawShape) activeDrawShape.disable();
   };
@@ -248,7 +282,7 @@ window.addEventListener('DOMContentLoaded', function () {
     deleteButton.style.cursor = 'pointer';
     deleteButton.style.marginTop = '5px';
     deleteButton.style.width = '100%';
-    deleteButton.onclick = function() {
+    deleteButton.onclick = function () {
       if (drawnItems) {
         drawnItems.removeLayer(layer);
       }
@@ -276,7 +310,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   // أضف مستمع zoomend بعد تهيئة الخريطة
   if (map) {
-    map.on('zoomend', function() {
+    map.on('zoomend', function () {
       const zoom = map.getZoom();
       if (zoom >= 14) {
         if (neighborhoodsLayer && !map.hasLayer(neighborhoodsLayer)) map.addLayer(neighborhoodsLayer);
@@ -432,7 +466,7 @@ function initMap() {
     popupContent.className = 'measurement-popup';
     popupContent.style.padding = '10px';
     popupContent.style.textAlign = 'center';
-    
+
     // Add measurement result
     const resultDiv = document.createElement('div');
     resultDiv.style.marginBottom = '10px';
@@ -452,13 +486,13 @@ function initMap() {
     deleteButton.style.cursor = 'pointer';
     deleteButton.style.marginTop = '5px';
     deleteButton.style.width = '100%';
-    
-    deleteButton.onclick = function() {
+
+    deleteButton.onclick = function () {
       if (drawnItems) {
         drawnItems.removeLayer(layer);
       }
     };
-    
+
     popupContent.appendChild(deleteButton);
 
     // Bind the custom popup to the layer
@@ -467,11 +501,11 @@ function initMap() {
 
     // Add the layer to drawnItems
     if (drawnItems) drawnItems.addLayer(layer);
-    
+
     // Disable the draw control
     if (activeDraw) { activeDraw.disable(); }
     measureMode = null;
-    
+
     // Show result in floating box
     showMeasureResultBox(result);
   });
@@ -544,34 +578,34 @@ function initMap() {
     layersBtn.style.transition = 'all 0.3s ease';
     layersBtn.style.width = '48px';
     layersBtn.style.height = '48px';
-    
+
     // Add hover effect
-    layersBtn.onmouseover = function() {
+    layersBtn.onmouseover = function () {
       this.style.transform = 'scale(1.1)';
       this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.4)';
     };
-    layersBtn.onmouseout = function() {
+    layersBtn.onmouseout = function () {
       this.style.transform = 'scale(1)';
       this.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
     };
-    
+
     // Add image to button
     const layersIcon = document.createElement('img');
     layersIcon.src = '../maps/assets/img/images.jpg';
     layersIcon.alt = 'Layers';
     layersIcon.style.width = '24px';
     layersIcon.style.height = '24px';
-    
+
     // Clear existing content and add new content
     layersBtn.innerHTML = '';
     layersBtn.appendChild(layersIcon);
-    
+
     // Update basemap gallery position and style
     const basemapGallery = document.getElementById('basemap-gallery');
     if (basemapGallery) {
       // Reset any existing styles
       basemapGallery.style.cssText = '';
-      
+
       // Apply new styles
       Object.assign(basemapGallery.style, {
         position: 'fixed',
@@ -663,12 +697,12 @@ function initMap() {
         option.appendChild(label);
 
         // Add hover effect
-        option.onmouseover = function() {
+        option.onmouseover = function () {
           this.style.transform = 'translateY(-2px)';
           this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
           this.style.backgroundColor = '#f1f3f5';
         };
-        option.onmouseout = function() {
+        option.onmouseout = function () {
           this.style.transform = 'translateY(0)';
           this.style.boxShadow = 'none';
           if (!this.classList.contains('selected')) {
@@ -677,7 +711,7 @@ function initMap() {
         };
 
         // Add click handler
-        option.onclick = function() {
+        option.onclick = function () {
           // Remove selected class from all options
           optionsContainer.querySelectorAll('div').forEach(opt => {
             opt.classList.remove('selected');
@@ -718,14 +752,14 @@ function initMap() {
         fontFamily: 'Cairo, sans-serif'
       });
 
-      closeButton.onmouseover = function() {
+      closeButton.onmouseover = function () {
         this.style.color = '#333';
       };
-      closeButton.onmouseout = function() {
+      closeButton.onmouseout = function () {
         this.style.color = '#666';
       };
 
-      closeButton.onclick = function(e) {
+      closeButton.onclick = function (e) {
         e.stopPropagation();
         basemapGallery.style.opacity = '0';
         basemapGallery.style.transform = 'translateY(20px)';
@@ -738,7 +772,7 @@ function initMap() {
 
       // Add click handler for layers button (show/hide gallery with animation)
       if (layersBtn) {
-        layersBtn.addEventListener('click', function(e) {
+        layersBtn.addEventListener('click', function (e) {
           e.stopPropagation();
           const isOpen = basemapGallery.style.display === 'block';
           if (isOpen) {
@@ -757,7 +791,7 @@ function initMap() {
         });
       }
       // Close gallery when clicking outside
-      document.addEventListener('click', function(e) {
+      document.addEventListener('click', function (e) {
         if (basemapGallery && !basemapGallery.contains(e.target) && e.target !== layersBtn) {
           basemapGallery.style.opacity = '0';
           basemapGallery.style.transform = 'translateY(20px)';
@@ -770,7 +804,7 @@ function initMap() {
   }
 
   // بعد تحميل طبقة الأحياء وطبقة التسميات، أضفهم إلى لوحة التحكم
-  setTimeout(function() {
+  setTimeout(function () {
     if (neighborhoodsLayer) overlays["طبقة الأحياء"] = neighborhoodsLayer;
     if (neighborhoodLabelsLayer) overlays["مسميات الأحياء"] = neighborhoodLabelsLayer;
     if (serviceSectorsLayer) overlays["دوائر الخدمات"] = serviceSectorsLayer;
@@ -880,13 +914,13 @@ function loadNeighborhoodsLayer() {
       let label = L.marker([centerLat, centerLng], {
         icon: L.divIcon({
           className: 'neighborhood-label',
-          html: `<div style="background:rgba(255,255,255,0.85);border-radius:8px;padding:2px 10px;font-size:13px;font-weight:600;color:#3066ff;box-shadow:0 2px 8px rgba(0,0,0,0.08);font-family:'Cairo',sans-serif;">${name}</div>`,
+          html: `<div style="background:rgba(255,255,255,0.85);border-radius:8px;padding:2px 10px;font-size:13px;font-weight:600;color:#3066ff;box-shadow:0 2px 8px rgba(0,0,0,0.08);font-family:'Noto Naskh Arabic',sans-serif;">${name}</div>`,
           iconSize: [100, 24],
           iconAnchor: [50, 12]
         })
       });
       neighborhoodLabelsLayer.addLayer(label);
-    } catch (e) {}
+    } catch (e) { }
   });
 
   // إعادة إنشاء لوحة التحكم بالطبقات بعد إنشاء طبقة المسميات
@@ -935,7 +969,7 @@ function createNeighborhoodPopup(feature, layer) {
   const header = document.createElement('h3');
   header.textContent = name;
   header.style.margin = '0';
-  header.style.fontSize = '18px';
+  header.style.fontSize = '14px';
   header.style.color = '#fff';
   header.style.padding = '14px 15px';
   header.style.background = 'linear-gradient(135deg, #007bff, #3066ff)';
@@ -1541,25 +1575,25 @@ function showMeasureResultBox(result) {
 // Add clear measurements button to the map
 function addClearMeasurementsButton() {
   const clearButton = L.control({ position: 'topright' });
-  
-  clearButton.onAdd = function(map) {
+
+  clearButton.onAdd = function (map) {
     const div = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
     div.innerHTML = `
       <a href="#" title="مسح جميع القياسات" style="background-color: #fff; color: #333; padding: 6px 10px; display: block; text-decoration: none; font-size: 14px;">
         <i class="fas fa-trash"></i> مسح القياسات
       </a>
     `;
-    
-    div.onclick = function(e) {
+
+    div.onclick = function (e) {
       e.preventDefault();
       if (drawnItems) {
         drawnItems.clearLayers();
       }
     };
-    
+
     return div;
   };
-  
+
   clearButton.addTo(map);
 }
 
@@ -1896,24 +1930,33 @@ window.highlightServiceSector = highlightServiceSector;
 window.initMap = initMap; // Export initMap function
 
 // Add event listeners for panel buttons
-document.getElementById('close-info-panel').addEventListener('click', function () {
-  document.getElementById('info-panel').classList.remove('show');
-  document.getElementById('modal-backdrop').style.display = 'none';
-  resetPanelState();
-});
+const closeInfoPanelBtn = document.getElementById('close-info-panel');
+if (closeInfoPanelBtn) {
+  closeInfoPanelBtn.addEventListener('click', function () {
+    document.getElementById('info-panel').classList.remove('show');
+    document.getElementById('modal-backdrop').style.display = 'none';
+    resetPanelState();
+  });
+}
 
-document.getElementById('cancel-changes').addEventListener('click', function () {
-  document.getElementById('info-panel').classList.remove('show');
-  document.getElementById('modal-backdrop').style.display = 'none';
-  resetPanelState();
-});
+const cancelChangesBtn = document.getElementById('cancel-changes');
+if (cancelChangesBtn) {
+  cancelChangesBtn.addEventListener('click', function () {
+    document.getElementById('info-panel').classList.remove('show');
+    document.getElementById('modal-backdrop').style.display = 'none';
+    resetPanelState();
+  });
+}
 
-document.getElementById('save-changes').addEventListener('click', function () {
-  // Here you can add your save logic
-  document.getElementById('info-panel').classList.remove('show');
-  document.getElementById('modal-backdrop').style.display = 'none';
-  resetPanelState();
-});
+const saveChangesBtn = document.getElementById('save-changes');
+if (saveChangesBtn) {
+  saveChangesBtn.addEventListener('click', function () {
+    // Here you can add your save logic
+    document.getElementById('info-panel').classList.remove('show');
+    document.getElementById('modal-backdrop').style.display = 'none';
+    resetPanelState();
+  });
+}
 
 function resetPanelState() {
   // Reset all editable fields to their original values
@@ -2074,7 +2117,7 @@ function createServiceSectorPopup(feature, layer) {
   const header = document.createElement('h3');
   header.textContent = name;
   header.style.margin = '0';
-  header.style.fontSize = '18px';
+  header.style.fontSize = '14px';
   header.style.color = '#fff';
   header.style.padding = '14px 15px';
   header.style.background = 'linear-gradient(135deg, #007bff, #3066ff)';
@@ -2255,3 +2298,638 @@ function createServiceSectorPopup(feature, layer) {
 
   layer.bindPopup(popupContent);
 }
+
+/**
+ * Show fullscreen popup with animation and load content
+ */
+function showFullscreenPopup() {
+  const fullscreenPopup = document.getElementById('fullscreen-popup');
+  if (fullscreenPopup) {
+    // Show the popup
+    fullscreenPopup.style.display = 'flex';
+
+    // Force a reflow to ensure the display change takes effect
+    fullscreenPopup.offsetHeight;
+
+    // Add the show class to trigger animations
+    fullscreenPopup.classList.add('show');
+
+    // Prevent body scrolling when popup is open
+    document.body.style.overflow = 'hidden';
+
+    // Load content from window.html
+    loadWindowContent();
+
+    console.log('Fullscreen popup opened');
+  }
+}
+
+/**
+ * Load content from window.html into the popup
+ */
+function loadWindowContent() {
+  const loadingDiv = document.getElementById('popup-loading');
+  const contentContainer = document.getElementById('popup-content-container');
+
+  // Show loading spinner
+  loadingDiv.style.display = 'flex';
+  contentContainer.style.display = 'none';
+
+  // Add external dependencies first
+  addExternalDependencies();
+
+  // Simulate loading delay for better UX
+  setTimeout(() => {
+    // Embed the window.html content directly
+    const windowContent = getWindowHtmlContent();
+    contentContainer.innerHTML = windowContent;
+
+    // Add the window.html styles
+    addWindowStyles();
+
+    // Initialize the window functionality
+    setTimeout(() => {
+      initializeWindowFunctionality();
+
+      // Hide loading and show content
+      loadingDiv.style.display = 'none';
+      contentContainer.style.display = 'block';
+    }, 100);
+
+  }, 500);
+}
+
+/**
+ * Add external dependencies (Bootstrap CSS and Chart.js)
+ */
+function addExternalDependencies() {
+  // Add Bootstrap CSS if not already present
+  if (!document.querySelector('link[href*="bootstrap"]')) {
+    const bootstrapLink = document.createElement('link');
+    bootstrapLink.href = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css';
+    bootstrapLink.rel = 'stylesheet';
+    document.head.appendChild(bootstrapLink);
+  }
+
+  // Add Chart.js if not already present
+  if (!window.Chart) {
+    const chartScript = document.createElement('script');
+    chartScript.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+    document.head.appendChild(chartScript);
+  }
+}
+
+/**
+ * Get the HTML content optimized for popup window
+ */
+function getWindowHtmlContent() {
+  return `
+    <div class="popup-window-container">
+      <div class="popup-window-row">
+        <div class="popup-controls-panel">
+          <div class="controls-header">
+            <h4>تحكم في توزيع القيم</h4>
+          </div>
+          <div class="controls-body">
+            <div class="sliders-container" id="sliderFields">
+              <!-- Sliders will be added here -->
+            </div>
+            <div class="validation-area">
+              <div class="validation-message" id="validationMessage"></div>
+            </div>
+            <div class="controls-footer">
+              <button type="button" class="popup-btn popup-btn-primary" onclick="handleSubmit()">حساب</button>
+              <button type="button" class="popup-btn popup-btn-secondary" onclick="resetSliders()">إعادة الضبط</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="popup-chart-panel">
+          <div class="chart-container">
+            <canvas id="doughnutChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Add CSS styles from window.html
+ */
+function addWindowStyles() {
+  const styleId = 'window-popup-styles';
+
+  // Remove existing styles if present
+  const existingStyle = document.getElementById(styleId);
+  if (existingStyle) {
+    existingStyle.remove();
+  }
+
+  const style = document.createElement('style');
+  style.id = styleId;
+  style.textContent = `
+    /* Popup Window Container */
+    .popup-window-container {
+      width: 100%;
+      height: 100%;
+      font-family: 'Cairo', 'Noto Naskh Arabic', sans-serif;
+      direction: rtl;
+      background: #f8f9fa;
+    }
+
+    .popup-window-row {
+      display: flex;
+      height: 100%;
+      gap: 15px;
+      padding: 15px;
+    }
+
+    /* Controls Panel (Left Side) */
+    .popup-controls-panel {
+      flex: 0 0 35%;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .controls-header {
+      background: linear-gradient(135deg,rgb(13, 126, 158) 0%,rgb(17, 100, 172) 100%);
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .controls-header h4 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .controls-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      overflow: hidden;
+    }
+
+    .sliders-container {
+      flex: 1;
+      overflow-y: auto;
+      padding-left: 5px;
+      margin-bottom: 10px;
+    }
+
+    /* Custom Scrollbar */
+    .sliders-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .sliders-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    .sliders-container::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 3px;
+    }
+
+    .sliders-container::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
+    }
+
+    /* Slider Item */
+    .slider-item {
+      margin-bottom: 12px;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+    }
+
+    .slider-label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #495057;
+      margin-bottom: 6px;
+    }
+
+    .slider-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider-range {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: #ddd;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .slider-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .slider-range::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .slider-input {
+      width: 70px;
+      padding: 4px 6px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      text-align: center;
+      background: white;
+    }
+
+    .slider-input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    }
+
+    /* Validation Area */
+    .validation-area {
+      min-height: 25px;
+      margin-bottom: 10px;
+    }
+
+    .validation-message {
+      color: #dc3545;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 5px;
+      border-radius: 4px;
+      background: rgba(220, 53, 69, 0.1);
+      display: none;
+    }
+
+    .validation-message.show {
+      display: block;
+    }
+
+    /* Controls Footer */
+    .controls-footer {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .popup-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 80px;
+    }
+
+    .popup-btn-primary {
+      background: linear-gradient(135deg,rgb(13, 126, 158) 0%,rgb(17, 100, 172) 100%);
+      color: white;
+    }
+
+    .popup-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .popup-btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .popup-btn-secondary:hover {
+      background: #5a6268;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+    }
+
+    /* Chart Panel (Right Side) */
+    .popup-chart-panel {
+      flex: 1;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chart-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      min-height: 400px;
+    }
+
+    #doughnutChart {
+      max-width: 100% !important;
+      max-height: 100% !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .popup-window-row {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .popup-controls-panel {
+        flex: 0 0 40%;
+      }
+
+      .popup-chart-panel {
+        flex: 1;
+        padding: 15px;
+      }
+
+      .chart-container {
+        min-height: 300px;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .popup-window-container {
+      animation: fadeIn 0.5s ease-out;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+/**
+ * Initialize the window functionality (sliders, chart, etc.)
+ */
+function initializeWindowFunctionality() {
+  // Wait for Chart.js to load if not already loaded
+  const initChart = () => {
+    if (!window.Chart) {
+      setTimeout(initChart, 100);
+      return;
+    }
+
+    const form = document.getElementById("slidersForm");
+    const sliderFields = document.getElementById("sliderFields");
+    const chartCanvas = document.getElementById("doughnutChart");
+    const validationMessage = document.getElementById("validationMessage");
+    const fieldCount = 9;
+    const labels = [];
+    const values = [];
+    const tabsNames = [
+      "التزود الأساسي",
+      "الخدمة الصحية المركزية",
+      "البنية التحتية",
+      "الخدمات الإدارية",
+      "الخدمات الأخرى",
+      "قسم النظافة",
+      "المنشآت والفعاليات الاقتصادية الأساسية",
+      "الاقتصاد الزراعي",
+      "تحليل علاقة الشركاء الفاعلين"
+    ];
+
+    // Create input fields (sliders and number boxes)
+    for (let i = 0; i < fieldCount; i++) {
+      labels.push(tabsNames[i]);
+      values.push(0);
+      const sliderItem = document.createElement("div");
+      sliderItem.className = "slider-item";
+      sliderItem.innerHTML = `
+        <label class="slider-label" for="slider${i}">${tabsNames[i]}</label>
+        <div class="slider-controls">
+          <input type="range" class="slider-range" min="0" max="1" step="0.01" value="0" id="slider${i}" oninput="updateSlider(${i}, this.value, true)">
+          <input type="number" class="slider-input" step="0.01" min="0" max="1" value="0" id="input${i}" onchange="updateSlider(${i}, this.value, false)">
+        </div>
+      `;
+      sliderFields.appendChild(sliderItem);
+    }
+
+    // Center text plugin for donut chart
+    const centerTextPlugin = {
+      id: 'centerText',
+      afterDraw: function (chart) {
+        if (chart.config.type !== 'doughnut') return;
+
+        const ctx = chart.ctx;
+        const width = chart.width;
+        const height = chart.height;
+        const total = chart.config.data.datasets[0].data.reduce((a, b) => a + b, 0);
+
+        ctx.restore();
+        const fontSize = (height / 100).toFixed(2);
+        ctx.font = fontSize + "em Cairo, sans-serif";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#007bff";
+
+        const text = `${Math.round(total.toFixed(2) * 100)}%`;
+        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+        const textY = height / 2.2;
+
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+      }
+    };
+
+    // Initialize donut chart
+    const chart = new Chart(chartCanvas, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: values,
+          backgroundColor: [...Array(fieldCount)].map((_, i) => `hsl(${i * 360 / fieldCount}, 70%, 60%)`),
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: 10
+        },
+        animation: {
+          animateRotate: true,
+          animateScale: true
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              boxWidth: 8,
+              padding: 8,
+              font: {
+                size: 10
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                let label = context.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed !== null) {
+                  label += context.parsed.toFixed(2);
+                }
+                return label;
+              }
+            }
+          }
+        },
+        cutout: '50%'
+      },
+      plugins: [centerTextPlugin]
+    });
+
+    // Global functions for the window functionality
+    window.updateSlider = function (index, value, fromSlider = true) {
+      value = parseFloat(value);
+      if (isNaN(value)) value = 0;
+
+      const oldValue = values[index];
+      const newTotal = values.reduce((sum, v, i) => (i === index ? value : v) + sum, 0);
+
+      if (newTotal > 1.0000005) {
+        if (fromSlider) {
+          document.getElementById(`slider${index}`).value = oldValue;
+        } else {
+          document.getElementById(`input${index}`).value = oldValue;
+        }
+        validationMessage.textContent = `المجموع أكبر من 1! الرجاء التعديل.`;
+        validationMessage.classList.add("show");
+        return;
+      }
+
+      values[index] = Math.max(0, Math.min(1, value));
+      document.getElementById(`slider${index}`).value = values[index];
+      document.getElementById(`input${index}`).value = values[index];
+      validationMessage.textContent = "";
+      validationMessage.classList.remove("show");
+
+      chart.data.datasets[0].data = values;
+      chart.update();
+    };
+
+    window.handleSubmit = function () {
+      const total = values.reduce((a, b) => a + b, 0);
+      if (total > 1.005) {
+        alert("المجموع أكبر من 1! لا يمكن الحساب.");
+      } else {
+        alert(`تم الحساب بنجاح! المجموع الحالي: ${total.toFixed(2)}`);
+      }
+    };
+
+    window.resetSliders = function () {
+      for (let i = 0; i < fieldCount; i++) {
+        document.getElementById(`slider${i}`).value = 0;
+        document.getElementById(`input${i}`).value = 0;
+        values[i] = 0;
+      }
+      validationMessage.textContent = "";
+      validationMessage.classList.remove("show");
+      chart.data.datasets[0].data = values;
+      chart.update();
+    };
+  };
+
+  initChart();
+}
+
+/**
+ * Hide fullscreen popup with animation
+ */
+function hideFullscreenPopup() {
+  const fullscreenPopup = document.getElementById('fullscreen-popup');
+  if (fullscreenPopup) {
+    // Remove the show class to trigger exit animation
+    fullscreenPopup.classList.remove('show');
+
+    // Wait for animation to complete before hiding
+    setTimeout(() => {
+      fullscreenPopup.style.display = 'none';
+      // Restore body scrolling
+      document.body.style.overflow = '';
+
+      // Clean up loaded content
+      cleanupLoadedContent();
+    }, 400); // Match the CSS transition duration
+
+    console.log('Fullscreen popup closed');
+  }
+}
+
+/**
+ * Clean up loaded content and reset popup state
+ */
+function cleanupLoadedContent() {
+  const loadingDiv = document.getElementById('popup-loading');
+  const contentContainer = document.getElementById('popup-content-container');
+
+  if (loadingDiv) {
+    loadingDiv.style.display = 'flex';
+    loadingDiv.innerHTML = `
+      <div class="loading-spinner"></div>
+      <p>جاري التحميل...</p>
+    `;
+  }
+
+  if (contentContainer) {
+    contentContainer.style.display = 'none';
+    contentContainer.innerHTML = '';
+  }
+
+  // Remove added styles
+  const windowStyles = document.getElementById('window-popup-styles');
+  if (windowStyles) {
+    windowStyles.remove();
+  }
+
+  // Clean up global functions
+  if (window.updateSlider) delete window.updateSlider;
+  if (window.handleSubmit) delete window.handleSubmit;
+  if (window.resetSliders) delete window.resetSliders;
+}
+
+// Export functions for external use
+window.showFullscreenPopup = showFullscreenPopup;
+window.hideFullscreenPopup = hideFullscreenPopup;

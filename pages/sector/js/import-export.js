@@ -624,7 +624,7 @@ function printQueryResults() {
       <title>نتائج الاستعلام - تحليل أحياء حلب</title>
       <style>
         body {
-          font-family: 'Cairo', sans-serif;
+          font-family: 'Noto Naskh Arabic', sans-serif;
           padding: 20px;
           direction: rtl;
         }

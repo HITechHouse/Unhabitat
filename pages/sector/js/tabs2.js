@@ -16,10 +16,10 @@ const tablesData = {
     fields: [
       { name: 'معرف السجل', key: 'id', editable: false },
       { name: 'اسم المدينة', key: 'city', editable: false },
-      { name: 'المؤن والبضائع', key: 'supply_type', editable: true, type: 'select', options: ['المواد الغذائية الأساسية', 'اللقاحات والأدوية', 'حوامل الطاقة', 'مواد البناء'] },
-      { name: 'الحالة', key: 'operation_status', editable: true, type: 'select', options: ['متوفر بشكل اعتيادي','متوفر بشكل مقبول','متوفر بشكل متقطع','غير متوفر (معدوم)'] },
-      { name: 'وصف الاحتياج', key: 'need_description', editable: true, type: 'textarea',placeholder: 'ادخل قيمة' },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3'] }
+      { name: 'المؤن والبضائع', key: 'supply_type', editable: false, type: 'text', options: ['المواد الغذائية الأساسية', 'اللقاحات والأدوية', 'حوامل الطاقة', 'مواد البناء'] },
+      { name: 'الحالة', key: 'operation_status', editable: false, type: 'text', options: ['متوفر بشكل اعتيادي','متوفر بشكل مقبول','متوفر بشكل متقطع','غير متوفر (معدوم)'] },
+      { name: 'وصف الاحتياج', key: 'need_description', editable: false, type: 'textarea',placeholder: 'ادخل قيمة' },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'text', options: ['1', '2', '3'] }
     ],
     sampleData: {
       id: '1',
@@ -33,14 +33,14 @@ const tablesData = {
     fields: [
       { name: 'معرف السجل', key: 'id', editable: false },
       { name: 'اسم المدينة', key: 'city', editable: false },
-      { name: 'مرافق الخدمة الصحية', key: 'health_facility', editable: true, type: 'select', options: ['مديرية الصحة', 'المشفى المركزي (الوطني)', 'الصيدلية المركزية','بنك الدم']},
-      { name: 'البنية التحتية الإنشائية', key: 'construction_status', editable: true, type: 'select', options: ['متضرر كليا', 'متضرر جزئيا', 'غير متضرر'] },
-      { name: 'البنية التحتية المعمارية', key: 'building_status', editable: true, type: 'select', options: ['متضرر بشدة', 'متضرر بشكل خفيف', 'غير متضرر'] },
-      { name: 'حالة الكادر', key: 'workers_status', editable: true, type: 'select', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
-      { name: 'حالة المستهلكات', key: 'consumables_status', editable: true, type: 'select', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
-      { name: 'حالة التشغيل', key: 'operation_status', editable: true, type: 'select', options: ['يعمل بشكل اعتيادي', 'يعمل بشكل مقبول', 'يعمل بشكل متقطع','لا يعمل (معدوم)'] },
-      { name: 'وصف الاحتياج', key: 'need_description', editable: true, type: 'textarea', placeholder: 'ادخل قيمة' },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3']  }
+      { name: 'مرافق الخدمة الصحية', key: 'health_facility', editable: false, type: 'text', options: ['مديرية الصحة', 'المشفى المركزي (الوطني)', 'الصيدلية المركزية','بنك الدم']},
+      { name: 'البنية التحتية الإنشائية', key: 'construction_status', editable: false, type: 'text', options: ['متضرر كليا', 'متضرر جزئيا', 'غير متضرر'] },
+      { name: 'البنية التحتية المعمارية', key: 'building_status', editable: false, type: 'text', options: ['متضرر بشدة', 'متضرر بشكل خفيف', 'غير متضرر'] },
+      { name: 'حالة الكادر', key: 'workers_status', editable: false, type: 'text', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
+      { name: 'حالة المستهلكات', key: 'consumables_status', editable: false, type: 'text', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
+      { name: 'حالة التشغيل', key: 'operation_status', editable: false, type: 'text', options: ['يعمل بشكل اعتيادي', 'يعمل بشكل مقبول', 'يعمل بشكل متقطع','لا يعمل (معدوم)'] },
+      { name: 'وصف الاحتياج', key: 'need_description', editable: false, type: 'textarea', placeholder: 'ادخل قيمة' },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'text', options: ['1', '2', '3']  }
     ],
     sampleData: {
       id: '1',
@@ -59,13 +59,13 @@ const tablesData = {
     fields: [
       { name: 'معرف السجل', key: 'id', editable: false },
       { name: 'اسم المدينة', key: 'city', editable: false },
-      { name: 'مرافق البنية التحتية', key: 'infrastructure_facility', editable: true, type: 'select', options: ['مديرية المياه', 'محطة تحلية مياه الشرب', 'محطة معالجة مياه الصرف','مديرية الكهرباء','محطة التحويل الأساسية','محطة التوليد الأساسية','وحدة الاتصالات الأرضية']},
-      { name: 'البنية التحتية', key: 'construction_status', editable: true, type: 'select', options: ['متضرر كليا', 'متضرر جزئيا', 'غير متضرر'] },
-      { name: 'حالة الكادر', key: 'workers_status', editable: true, type: 'select', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
-      { name: 'حالة المستهلكات', key: 'consumables_status', editable: true, type: 'select', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
-      { name: 'حالة التشغيل', key: 'operation_status', editable: true, type: 'select', options: ['يعمل بشكل اعتيادي', 'يعمل بشكل مقبول', 'يعمل بشكل متقطع','لا يعمل (معدوم)'] },
-      { name: 'وصف الاحتياج', key: 'need_description', editable: true, type: 'textarea', placeholder: 'ادخل قيمة' },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3']  }
+      { name: 'مرافق البنية التحتية', key: 'infrastructure_facility', editable: false, type: 'text', options: ['مديرية المياه', 'محطة تحلية مياه الشرب', 'محطة معالجة مياه الصرف','مديرية الكهرباء','محطة التحويل الأساسية','محطة التوليد الأساسية','وحدة الاتصالات الأرضية']},
+      { name: 'البنية التحتية', key: 'construction_status', editable: false, type: 'text', options: ['متضرر كليا', 'متضرر جزئيا', 'غير متضرر'] },
+      { name: 'حالة الكادر', key: 'workers_status', editable: false, type: 'text', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
+      { name: 'حالة المستهلكات', key: 'consumables_status', editable: false, type: 'text', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
+      { name: 'حالة التشغيل', key: 'operation_status', editable: false, type: 'text', options: ['يعمل بشكل اعتيادي', 'يعمل بشكل مقبول', 'يعمل بشكل متقطع','لا يعمل (معدوم)'] },
+      { name: 'وصف الاحتياج', key: 'need_description', editable: false, type: 'textarea', placeholder: 'ادخل قيمة' },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'text', options: ['1', '2', '3']  }
     ],
     sampleData: {
       id: '1',
@@ -83,13 +83,13 @@ const tablesData = {
     fields: [
       { name: 'معرف السجل', key: 'id', editable: false },
       { name: 'اسم المدينة', key: 'city', editable: false },
-      { name: 'الخدمات الإدارية', key: 'administrative_service', editable: true, type: 'select', options: ['القضاء والمحاكم','قسم الشرطة','مديرية السجل المدني','مديرية السجل العقاري (المؤقت)','مديرية السجل العقاري (الدائم)','مديرية المصالح العقارية','المديرية المالية','مديرية الزراعة','الوحدة الإرشادية','مركز الدفاع المدني (الإطفاء)']},
-      { name: 'البنية التحتية', key: 'construction_status', editable: true, type: 'select', options: ['متضرر كليا', 'متضرر جزئيا', 'غير متضرر'] },
-      { name: 'حالة الكادر', key: 'workers_status', editable: true, type: 'select', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
-      { name: 'حالة المستهلكات', key: 'consumables_status', editable: true, type: 'select', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
-      { name: 'حالة التشغيل', key: 'operation_status', editable: true, type: 'select', options: ['يعمل بشكل اعتيادي', 'يعمل بشكل مقبول', 'يعمل بشكل متقطع','لا يعمل (معدوم)'] },
-      { name: 'وصف الاحتياج', key: 'need_description', editable: true, type: 'textarea', placeholder: 'ادخل قيمة' },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3']  }
+      { name: 'الخدمات الإدارية', key: 'administrative_service', editable: false, type: 'text', options: ['القضاء والمحاكم','قسم الشرطة','مديرية السجل المدني','مديرية السجل العقاري (المؤقت)','مديرية السجل العقاري (الدائم)','مديرية المصالح العقارية','المديرية المالية','مديرية الزراعة','الوحدة الإرشادية','مركز الدفاع المدني (الإطفاء)']},
+      { name: 'البنية التحتية', key: 'construction_status', editable: false, type: 'text', options: ['متضرر كليا', 'متضرر جزئيا', 'غير متضرر'] },
+      { name: 'حالة الكادر', key: 'workers_status', editable: false, type: 'text', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
+      { name: 'حالة المستهلكات', key: 'consumables_status', editable: false, type: 'text', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
+      { name: 'حالة التشغيل', key: 'operation_status', editable: false, type: 'text', options: ['يعمل بشكل اعتيادي', 'يعمل بشكل مقبول', 'يعمل بشكل متقطع','لا يعمل (معدوم)'] },
+      { name: 'وصف الاحتياج', key: 'need_description', editable: false, type: 'textarea', placeholder: 'ادخل قيمة' },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'text', options: ['1', '2', '3']  }
     ],
     sampleData: {
       id: '1',
@@ -107,13 +107,13 @@ const tablesData = {
     fields: [
       { name: 'معرف السجل', key: 'id', editable: false },
       { name: 'اسم المدينة', key: 'city', editable: false },
-      { name: 'الخدمات الأخرى', key: 'other_service', editable: true, type: 'select', options: ['سوق الهال المركزي','المخابز الآلية والإحتياطية','المدينة / المنطقة الصناعية والحرفية','المركز الثقافي','الحديقة المركزية في التجمع','الآبدة الأثرية','مكب النفايات الصلبة','مكب الأنقاض المعتمد',]},
-      { name: 'البنية التحتية', key: 'construction_status', editable: true, type: 'select', options: ['متضرر كليا', 'متضرر جزئيا', 'غير متضرر'] },
-      { name: 'حالة الكادر', key: 'workers_status', editable: true, type: 'select', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
-      { name: 'حالة المستهلكات', key: 'consumables_status', editable: true, type: 'select', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
-      { name: 'حالة التشغيل', key: 'operation_status', editable: true, type: 'select', options: ['يعمل بشكل اعتيادي', 'يعمل بشكل مقبول', 'يعمل بشكل متقطع','لا يعمل (معدوم)'] },
-      { name: 'وصف الاحتياج', key: 'need_description', editable: true, type: 'textarea', placeholder: 'ادخل قيمة' },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3']  }
+      { name: 'الخدمات الأخرى', key: 'other_service', editable: false, type: 'text', options: ['سوق الهال المركزي','المخابز الآلية والإحتياطية','المدينة / المنطقة الصناعية والحرفية','المركز الثقافي','الحديقة المركزية في التجمع','الآبدة الأثرية','مكب النفايات الصلبة','مكب الأنقاض المعتمد',]},
+      { name: 'البنية التحتية', key: 'construction_status', editable: false, type: 'text', options: ['متضرر كليا', 'متضرر جزئيا', 'غير متضرر'] },
+      { name: 'حالة الكادر', key: 'workers_status', editable: false, type: 'text', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
+      { name: 'حالة المستهلكات', key: 'consumables_status', editable: false, type: 'text', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
+      { name: 'حالة التشغيل', key: 'operation_status', editable: false, type: 'text', options: ['يعمل بشكل اعتيادي', 'يعمل بشكل مقبول', 'يعمل بشكل متقطع','لا يعمل (معدوم)'] },
+      { name: 'وصف الاحتياج', key: 'need_description', editable: false, type: 'textarea', placeholder: 'ادخل قيمة' },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'text', options: ['1', '2', '3']  }
     ],
     sampleData: {
       id: '1',
@@ -131,10 +131,10 @@ const tablesData = {
     fields: [
       { name: 'معرف السجل', key: 'id', editable: false },
       { name: 'اسم المدينة', key: 'city', editable: false },
-      { name: 'واقع الكادر الفني والتشغيلي', key: 'technical_staff_status', editable: true, type: 'text', placeholder: 'ادخل قيمة' },
-      { name: 'حالة الآليات', key: 'machinery_status', editable: true, type: 'text', placeholder: 'ادخل قيمة' },
-      { name: 'الأنقاض', key: 'rubble_status', editable: true, type: 'text', placeholder: 'ادخل قيمة' },
-      { name: 'وصف الاحتياج', key: 'need_description', editable: true, type: 'textarea', placeholder: 'ادخل قيمة' },
+      { name: 'واقع الكادر الفني والتشغيلي', key: 'technical_staff_status', editable: false, type: 'text', placeholder: 'ادخل قيمة' },
+      { name: 'حالة الآليات', key: 'machinery_status', editable: false, type: 'text', placeholder: 'ادخل قيمة' },
+      { name: 'الأنقاض', key: 'rubble_status', editable: false, type: 'text', placeholder: 'ادخل قيمة' },
+      { name: 'وصف الاحتياج', key: 'need_description', editable: false, type: 'textarea', placeholder: 'ادخل قيمة' },
 
     ],
     sampleData: {
@@ -150,14 +150,14 @@ const tablesData = {
     fields: [
       { name: 'معرف السجل', key: 'id', editable: false },
       { name: 'اسم المدينة', key: 'city', editable: false },
-      { name: 'اسم المنشأة', key: 'facility_name', editable: true, type: 'text', placeholder: 'ادخل قيمة' },
-      { name: 'نوع المنشأة', key: 'facility_type', editable: true, type: 'text', placeholder: 'ادخل قيمة' },
-      { name: 'البنية التحتية', key: 'construction_status', editable: true, type: 'select', options: ['متضرر كليا', 'متضرر جزئيا', 'غير متضرر'] },
-      { name: 'حالة الكادر', key: 'workers_status', editable: true, type: 'select', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
-      { name: 'حالة المستهلكات', key: 'consumables_status', editable: true, type: 'select', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
-      { name: 'حالة التشغيل', key: 'operation_status', editable: true, type: 'select', options: ['يعمل بشكل اعتيادي', 'يعمل بشكل مقبول', 'يعمل بشكل متقطع','لا يعمل (معدوم)'] },
-      { name: 'وصف الاحتياج', key: 'need_description', editable: true, type: 'textarea', placeholder: 'ادخل قيمة' },
-      { name: 'أولوية التدخل', key: 'priority', editable: true, type: 'select', options: ['1', '2', '3']  }
+      { name: 'اسم المنشأة', key: 'facility_name', editable: false, type: 'text', placeholder: 'ادخل قيمة' },
+      { name: 'نوع المنشأة', key: 'facility_type', editable: false, type: 'text', placeholder: 'ادخل قيمة' },
+      { name: 'البنية التحتية', key: 'construction_status', editable: false, type: 'text', options: ['متضرر كليا', 'متضرر جزئيا', 'غير متضرر'] },
+      { name: 'حالة الكادر', key: 'workers_status', editable: false, type: 'text', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
+      { name: 'حالة المستهلكات', key: 'consumables_status', editable: false, type: 'text', options: ['متاح', 'متاح بحدود', 'غير متاح'] },
+      { name: 'حالة التشغيل', key: 'operation_status', editable: false, type: 'text', options: ['يعمل بشكل اعتيادي', 'يعمل بشكل مقبول', 'يعمل بشكل متقطع','لا يعمل (معدوم)'] },
+      { name: 'وصف الاحتياج', key: 'need_description', editable: false, type: 'textarea', placeholder: 'ادخل قيمة' },
+      { name: 'أولوية التدخل', key: 'priority', editable: false, type: 'text', options: ['1', '2', '3']  }
     ],
     sampleData: {
       id: '1',
@@ -176,13 +176,13 @@ const tablesData = {
     fields: [
       { name: 'معرف السجل', key: 'id', editable: false },
       { name: 'اسم المدينة', key: 'city', editable: false },
-      { name: 'المساحة المزروعة', key: 'planted_area', editable: true, type: 'number', placeholder: 'ادخل قيمة' },
-      { name: 'عدد الأسر العاملة', key: 'working_families', editable: true, type: 'number', placeholder: 'ادخل قيمة' },
-      { name: 'نوع الزراعة الرئيسية', key: 'main_agriculture_type', editable: true, type: 'text', placeholder: 'ادخل قيمة' },
-      { name: 'طرق الري', key: 'irrigation_methods', editable: true, type: 'text', placeholder: 'ادخل قيمة' },
-      { name: 'الإنتاج الحيواني', key: 'animal_production', editable: true, type: 'text', placeholder: 'ادخل قيمة' },
-      { name: 'تصريف المنتجات', key: 'product_disposal', editable: true, type: 'text', placeholder: 'ادخل قيمة' },
-      { name: 'وصف الاحتياج', key: 'need_description', editable: true, type: 'textarea', placeholder: 'ادخل قيمة' },
+      { name: 'المساحة المزروعة', key: 'planted_area', editable: false, type: 'number', placeholder: 'ادخل قيمة' },
+      { name: 'عدد الأسر العاملة', key: 'working_families', editable: false, type: 'number', placeholder: 'ادخل قيمة' },
+      { name: 'نوع الزراعة الرئيسية', key: 'main_agriculture_type', editable: false, type: 'text', placeholder: 'ادخل قيمة' },
+      { name: 'طرق الري', key: 'irrigation_methods', editable: false, type: 'text', placeholder: 'ادخل قيمة' },
+      { name: 'الإنتاج الحيواني', key: 'animal_production', editable: false, type: 'text', placeholder: 'ادخل قيمة' },
+      { name: 'تصريف المنتجات', key: 'product_disposal', editable: false, type: 'text', placeholder: 'ادخل قيمة' },
+      { name: 'وصف الاحتياج', key: 'need_description', editable: false, type: 'textarea', placeholder: 'ادخل قيمة' },
     ],
     sampleData: {
       id: '1',
@@ -200,8 +200,8 @@ const tablesData = {
     fields: [
       { name: 'معرف السجل', key: 'id', editable: false },
       { name: 'اسم المدينة', key: 'city', editable: false },
-      { name: 'الشريك المحتمل للوحدة الإدارية', key: 'potential_partner', editable: true,  type: 'select', options: ['نقابة المهندسين (العمال)','غرفة السياحة','غرفة التجارة','غرفة الصناعة','الشركات والمؤسسات العامة','شركات القطاع الخاص','الجمعيات السكنية التعاونية','جمعيات أو منظمات غير حكومية','منظمات دولية',] },
-      { name: 'نوع المشاركة', key: 'share_type', editable: true, type: 'multiselect', options: ['شراكة','تشاور','إعلام','مراقبة','لا يوجد']},
+      { name: 'الشريك المحتمل للوحدة الإدارية', key: 'potential_partner', editable: false,  type: 'text', options: ['نقابة المهندسين (العمال)','غرفة السياحة','غرفة التجارة','غرفة الصناعة','الشركات والمؤسسات العامة','شركات القطاع الخاص','الجمعيات السكنية التعاونية','جمعيات أو منظمات غير حكومية','منظمات دولية',] },
+      { name: 'نوع المشاركة', key: 'share_type', editable: false, type: 'text', options: ['شراكة','تشاور','إعلام','مراقبة','لا يوجد']},
     ],
     sampleData: {
       id: '1',

@@ -708,12 +708,13 @@
       }
 
       .info-panel #cancel-changes {
+        display: none;
         background-color: #f3f4f6;
         color: #4b5563;
-        margin-top: 20px;
       }
-
+      
       .info-panel #save-changes {
+        display: none;
         background-color: #1e40af;
         color: white;
       }
@@ -2979,7 +2980,7 @@
     <script src="js/hydraulic-billing.js"></script>
     <script src="js/import-export.js"></script>
     <script src="js/features.js"></script>
-    <script src="js/tabs.js"></script>
+    <script src="js/tabs2.js"></script>
     <script src="js/info-panel-formatter.js"></script>
     <script>
       // Fix for white space issue when clicking on the map
@@ -3010,6 +3011,7 @@
           continue: "متابعة",
           cancel: "إلغاء",
           successMessage: "تم تحديث جميع البيانات بنجاح!",
+
           // Tab names
           tabs: {
             "التزود الأساسي": "التزود الأساسي",
@@ -3022,6 +3024,7 @@
             "الاقتصاد الزراعي": "الاقتصاد الزراعي",
             "تحليل علاقة الشركاء الفاعلين": "تحليل علاقة الشركاء الفاعلين",
           },
+
 
           // Sidebar labels
           sidebar: {
@@ -4144,5 +4147,3 @@
 
   </body>
 </html>
-
-

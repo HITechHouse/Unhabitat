@@ -5,17 +5,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="shortcut icon" href="../assets/img/UN_Habitat_Icon.svg" type="image/x-icon" />
-  <title>Dashboard</title>
+  <title>Empty</title>
   <!-- Simplified Arabic Font -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet">
   <!-- Font Awesome Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     /* General body styles and font setup */
     body {
@@ -81,7 +78,7 @@
     }
 
     #mainHeader .title-en {
-      font-size: 0.7rem !important;
+      font-size: 0.9rem !important;
       opacity: 0.9 !important;
     }
 
@@ -349,113 +346,6 @@
       visibility: visible !important;
     }
   </style>
-
-  <style>
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-      width: 100%;
-    }
-
-    .card-box {
-      min-width: 250px;
-      transition: all 0.4s ease-in-out;
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-      animation: fadeIn 0.5s ease-in;
-      grid-column: auto;
-      grid-row: auto;
-    }
-
-    .card-box.active {
-      z-index: 10;
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-
-    .card-body-extra {
-      display: none;
-      margin-top: 2rem;
-      background-color: #e9ecef;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      animation: slideDown 0.4s ease forwards;
-      color: black;
-    }
-
-    .card-box.active .card-body-extra {
-      display: block;
-    }
-
-    .card-box.inactive {
-      filter: brightness(95%) saturate(90%);
-      opacity: 1;
-      /* Add transform for animation */
-      transform: translate(0, 0);
-      transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out,
-        filter 0.4s ease-in-out;
-    }
-
-    .card-box.inactive.moving {
-      transition: transform 0.4s ease-in-out;
-    }
-
-    @media (max-width: 768px) {
-      .dashboard {
-        grid-template-columns: 1fr;
-      }
-
-      .card-box.active {
-        grid-column: 1;
-        grid-row: span 2;
-      }
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    .scrollable-table {
-      max-height: 200px;
-      overflow-y: auto;
-    }
-
-    .explore-btn {
-      background-color: #fff;
-      color: #000;
-      border: 2px solid #000;
-      border-radius: 8px;
-      padding: 8px 20px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-    }
-
-    .explore-btn:hover {
-      background-color: #000;
-      color: #fff;
-    }
-  </style>
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
@@ -627,184 +517,14 @@
     <div class="sidenav-footer mx-3"></div>
   </aside>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg mt-4">
-    <div class="container py-5">
-      <!-- <h2 class="text-center mb-4">لوحة التحكم</h2> -->
-      <div class="dashboard" id="dashboard">
-        <!-- Population Box -->
-        <div class="card card-box bg-primary text-white" onclick="expandCard(this, 'sakanExtra')">
-          <div class="card-body text-center">
-            <h5 class="card-title" id="sakanTitle">السكان</h5>
-            <p class="card-text" id="sakanCount">عدد السكان: 100</p>
-            <div class="card-body-extra" id="sakanExtra">
-              <p id="sakanFamilies">عدد الأسر: 37</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Housing Box -->
-        <div class="card card-box bg-success text-white" onclick="expandCard(this, 'maskanChartContainer')">
-          <div class="card-body text-center">
-            <h5 class="card-title" id="maskanTitle">المساكن</h5>
-            <p class="card-text" id="maskanCount">عدد المساكن: 300</p>
-            <div class="card-body-extra" id="maskanChartContainer">
-              <canvas id="maskanChart"></canvas>
-            </div>
-          </div>
-        </div>
-
-        <!-- Neighborhoods Box -->
-        <div class="card card-box bg-warning text-dark" onclick="expandCard(this, 'hayTable')">
-          <div class="card-body text-center">
-            <h5 class="card-title" id="hayTitle">الأحياء</h5>
-            <p class="card-text" id="hayCount">عدد الأحياء: 20</p>
-            <div class="card-body-extra" id="hayTable">
-              <div class="scrollable-table">
-                <table class="table table-bordered table-striped bg-white text-black">
-                  <thead>
-                    <tr>
-                      <th id="hayNameHeader">اسم الحي</th>
-                      <th id="hayResponsibleHeader">المسؤول</th>
-                      <th id="hayPhoneHeader">الهاتف</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><i class="fas fa-house me-1"></i>حي الزهور</td>
-                      <td><i class="fas fa-user me-1"></i>أحمد العلي</td>
-                      <td><i class="fas fa-phone me-1"></i>0912345678</td>
-                    </tr>
-                    <tr>
-                      <td><i class="fas fa-house me-1"></i>حي الربيع</td>
-                      <td><i class="fas fa-user me-1"></i>منى خالد</td>
-                      <td><i class="fas fa-phone me-1"></i>0945678912</td>
-                    </tr>
-                    <tr>
-                      <td><i class="fas fa-house me-1"></i>حي النور</td>
-                      <td><i class="fas fa-user me-1"></i>سامي محمد</td>
-                      <td><i class="fas fa-phone me-1"></i>0998765432</td>
-                    </tr>
-                    <tr>
-                      <td><i class="fas fa-house me-1"></i>حي الشام</td>
-                      <td><i class="fas fa-user me-1"></i>ليلى يوسف</td>
-                      <td><i class="fas fa-phone me-1"></i>0987654321</td>
-                    </tr>
-                    <tr>
-                      <td><i class="fas fa-house me-1"></i>حي الثورة</td>
-                      <td><i class="fas fa-user me-1"></i>علي حسن</td>
-                      <td><i class="fas fa-phone me-1"></i>0934567890</td>
-                    </tr>
-                    <tr>
-                      <td><i class="fas fa-house me-1"></i>حي الجلاء</td>
-                      <td><i class="fas fa-user me-1"></i>هند سالم</td>
-                      <td><i class="fas fa-phone me-1"></i>0954321876</td>
-                    </tr>
-                    <tr>
-                      <td><i class="fas fa-house me-1"></i>حي الفتح</td>
-                      <td><i class="fas fa-user me-1"></i>باسل محمود</td>
-                      <td><i class="fas fa-phone me-1"></i>0923456789</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Service Departments Box -->
-        <div class="card card-box bg-danger text-white" onclick="expandCard(this, 'serviceList')">
-          <div class="card-body text-center">
-            <h5 class="card-title" id="serviceTitle">دوائر الخدمات</h5>
-            <p class="card-text" id="serviceCount">عدد الدوائر: 15</p>
-            <div class="card-body-extra" id="serviceList">
-              <div class="scrollable-table">
-                <table class="table table-bordered table-striped bg-white text-black">
-                  <thead>
-                    <tr>
-                      <th id="serviceNameHeader">اسم الدائرة</th>
-                      <th id="serviceManagerHeader">اسم المدير</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <i class="fas fa-building me-1"></i>دائرة الكهرباء
-                      </td>
-                      <td><i class="fas fa-user me-1"></i>علي يوسف</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <i class="fas fa-building me-1"></i>دائرة المياه
-                      </td>
-                      <td><i class="fas fa-user me-1"></i>سالم نادر</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <i class="fas fa-building me-1"></i>دائرة النظافة
-                      </td>
-                      <td><i class="fas fa-user me-1"></i>منى سالم</td>
-                    </tr>
-                    <tr>
-                      <td><i class="fas fa-building me-1"></i>دائرة الطرق</td>
-                      <td><i class="fas fa-user me-1"></i>رامي خالد</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <i class="fas fa-building me-1"></i>دائرة الزراعة
-                      </td>
-                      <td><i class="fas fa-user me-1"></i>أحمد منصور</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <i class="fas fa-building me-1"></i>دائرة التعليم
-                      </td>
-                      <td><i class="fas fa-user me-1"></i>هدى خليل</td>
-                    </tr>
-                    <tr>
-                      <td><i class="fas fa-building me-1"></i>دائرة الصحة</td>
-                      <td><i class="fas fa-user me-1"></i>باسل فادي</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <i class="fas fa-building me-1"></i>دائرة الإسكان
-                      </td>
-                      <td><i class="fas fa-user me-1"></i>رنا يوسف</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <i class="fas fa-building me-1"></i>دائرة الإطفاء
-                      </td>
-                      <td><i class="fas fa-user me-1"></i>مروان عبد</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <i class="fas fa-building me-1"></i>دائرة المرور
-                      </td>
-                      <td><i class="fas fa-user me-1"></i>حسام علي</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Urban Area Box -->
-        <div class="card card-box bg-secondary text-white" onclick="expandCard(this, 'masahaChartContainer')">
-          <div class="card-body text-center">
-            <h5 class="card-title" id="masahaTitle">المساحة العمرانية</h5>
-            <p class="card-text" id="masahaText">نسبة التنظيم</p>
-            <div class="card-body-extra" id="masahaChartContainer">
-              <canvas id="masahaChart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="container-fluid">
+      <h1 class="text-center mt-4" id="pageTitle">صفحة فارغة</h1>
     </div>
   </main>
   <footer id="mainFooter">
     <div class="footer-content">
-      <div class="copyright" style="font-size: 12px">
-        <span class="copyright-text" lang="ar" style="font-size: 12px">
+      <div class="copyright">
+        <span class="copyright-text" lang="ar">
           ©
           <script>
             document.write(new Date().getFullYear());
@@ -814,11 +534,7 @@
             , HI-Tech House</a>
         </span>
         <span lang="ar" class="arabic-text">Powered by</span>
-        <!-- <img
-            alt="Company Logo"
-            src="../assets/img/HTH.png"
-            class="footer-logo"
-          />-->
+        <img alt="Company Logo" src="../assets/img/HTH.png" class="footer-logo" />
       </div>
       <div class="social-icons">
         <a aria-label="WhatsApp" class="social-icon whatsapp" href="#"><i class="fab fa-whatsapp"></i></a>
@@ -853,23 +569,7 @@
         profile: "الملف الشخصي",
         settingsText: "الإعدادات",
         logoutText: "تسجيل الخروج",
-        pageTitle: "صفحة فارغة",
-        sakanTitle: "السكان",
-        sakanCount: "عدد السكان: ",
-        sakanFamilies: "عدد الأسر: ",
-        maskanTitle: "المساكن",
-        maskanCount: "عدد المساكن: ",
-        hayTitle: "الأحياء",
-        hayCount: "عدد الأحياء: ",
-        hayNameHeader: "اسم الحي",
-        hayResponsibleHeader: "المسؤول",
-        hayPhoneHeader: "الهاتف",
-        serviceTitle: "دوائر الخدمات",
-        serviceCount: "عدد الدوائر: ",
-        serviceNameHeader: "اسم الدائرة",
-        serviceManagerHeader: "اسم المدير",
-        masahaTitle: "المساحة العمرانية",
-        masahaText: "نسبة التنظيم",
+        pageTitle: "صفحة فارغة"
       },
       en: {
         dir: "ltr",
@@ -879,24 +579,8 @@
         profile: "Profile",
         settingsText: "Settings",
         logoutText: "Logout",
-        pageTitle: "Empty Page",
-        sakanTitle: "Population",
-        sakanCount: "Population Count: ",
-        sakanFamilies: "Number of Families: ",
-        maskanTitle: "Housing",
-        maskanCount: "Housing Units: ",
-        hayTitle: "Neighborhoods",
-        hayCount: "Number of Neighborhoods: ",
-        hayNameHeader: "Neighborhood Name",
-        hayResponsibleHeader: "Responsible",
-        hayPhoneHeader: "Phone",
-        serviceTitle: "Service Departments",
-        serviceCount: "Number of Departments: ",
-        serviceNameHeader: "Department Name",
-        serviceManagerHeader: "Manager Name",
-        masahaTitle: "Urban Area",
-        masahaText: "Organization Ratio",
-      },
+        pageTitle: "Empty Page"
+      }
     };
 
     let currentLang = "ar";
@@ -920,12 +604,6 @@
         helpButton.style.right = lang === "ar" ? "auto" : "20px";
       }
 
-      // Update main content direction
-      const mainContent = document.querySelector(".main-content");
-      if (mainContent) {
-        mainContent.style.direction = translations[lang].dir;
-      }
-
       currentLang = lang;
       const t = translations[lang];
 
@@ -946,53 +624,6 @@
 
       const pageTitle = document.getElementById("pageTitle");
       if (pageTitle) pageTitle.textContent = t.pageTitle;
-
-      // Update dashboard card texts
-      if (document.getElementById("sakanTitle"))
-        document.getElementById("sakanTitle").textContent = t.sakanTitle;
-      if (document.getElementById("sakanCount"))
-        document.getElementById("sakanCount").textContent =
-          t.sakanCount + "100"; // Assuming count is static for now
-      if (document.getElementById("sakanFamilies"))
-        document.getElementById("sakanFamilies").textContent =
-          t.sakanFamilies + "37"; // Assuming count is static for now
-
-      if (document.getElementById("maskanTitle"))
-        document.getElementById("maskanTitle").textContent = t.maskanTitle;
-      if (document.getElementById("maskanCount"))
-        document.getElementById("maskanCount").textContent =
-          t.maskanCount + "300"; // Assuming count is static for now
-
-      if (document.getElementById("hayTitle"))
-        document.getElementById("hayTitle").textContent = t.hayTitle;
-      if (document.getElementById("hayCount"))
-        document.getElementById("hayCount").textContent = t.hayCount + "20"; // Assuming count is static for now
-      if (document.getElementById("hayNameHeader"))
-        document.getElementById("hayNameHeader").textContent =
-          t.hayNameHeader;
-      if (document.getElementById("hayResponsibleHeader"))
-        document.getElementById("hayResponsibleHeader").textContent =
-          t.hayResponsibleHeader;
-      if (document.getElementById("hayPhoneHeader"))
-        document.getElementById("hayPhoneHeader").textContent =
-          t.hayPhoneHeader;
-
-      if (document.getElementById("serviceTitle"))
-        document.getElementById("serviceTitle").textContent = t.serviceTitle;
-      if (document.getElementById("serviceCount"))
-        document.getElementById("serviceCount").textContent =
-          t.serviceCount + "15"; // Assuming count is static for now
-      if (document.getElementById("serviceNameHeader"))
-        document.getElementById("serviceNameHeader").textContent =
-          t.serviceNameHeader;
-      if (document.getElementById("serviceManagerHeader"))
-        document.getElementById("serviceManagerHeader").textContent =
-          t.serviceManagerHeader;
-
-      if (document.getElementById("masahaTitle"))
-        document.getElementById("masahaTitle").textContent = t.masahaTitle;
-      if (document.getElementById("masahaText"))
-        document.getElementById("masahaText").textContent = t.masahaText;
     }
 
     function toggleLanguage() {
@@ -1015,12 +646,7 @@
     document.addEventListener("click", function (e) {
       const menu = document.getElementById("menuDropdown");
       const menuBtn = document.getElementById("menuToggleBtn");
-      if (
-        menu &&
-        menuBtn &&
-        !menuBtn.contains(e.target) &&
-        !menu.contains(e.target)
-      ) {
+      if (menu && menuBtn && !menuBtn.contains(e.target) && !menu.contains(e.target)) {
         menu.style.display = "none";
       }
     });
@@ -1057,8 +683,7 @@
         const zoomLevel = window.devicePixelRatio;
 
         if (sidenav) {
-          sidenav.style.display =
-            zoomLevel > 1.51 || windowWidth < 1200 ? "none" : "block";
+          sidenav.style.display = (zoomLevel > 1.51 || windowWidth < 1200) ? "none" : "block";
         }
       }
 
@@ -1066,80 +691,6 @@
       window.addEventListener("resize", handleZoom);
     });
   </script>
-
-  <script>
-    function expandCard(card, id) {
-      const cards = document.querySelectorAll(".card-box");
-      cards.forEach((c) => {
-        if (c !== card) {
-          c.classList.remove("active");
-          c.classList.add("inactive");
-        } else {
-          c.classList.add("active");
-          c.classList.remove("inactive");
-        }
-      });
-
-      if (id === "maskanChartContainer")
-        initChart(
-          "maskanChart",
-          ["متضرر", "سليمة", "إصلاح", "إزالة"],
-          [30, 40, 14, 16],
-          ["#dc3545", "#198754", "#ffc107", "#6c757d"]
-        );
-      if (id === "masahaChartContainer")
-        initChart(
-          "masahaChart",
-          ["عشوائيات", "منظم"],
-          [39, 61],
-          ["#6610f2", "#0d6efd"]
-        );
-    }
-
-    function initChart(id, labels, data, colors) {
-      const ctx = document.getElementById(id);
-      if (!ctx.dataset.chart) {
-        const chart = new Chart(ctx, {
-          type: "pie",
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                data: data,
-                backgroundColor: colors,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: { position: "bottom" },
-              datalabels: {
-                formatter: (value, context) => {
-                  const total = context.chart.data.datasets[0].data.reduce(
-                    (sum, current) => sum + current,
-                    0
-                  );
-                  const percentage = ((value / total) * 100).toFixed(1) + "%";
-                  return percentage;
-                },
-                color: "#fff",
-                font: {
-                  weight: "bold",
-                  size: 14,
-                },
-              },
-            },
-          },
-          plugins: [ChartDataLabels],
-        });
-        ctx.dataset.chart = true;
-      }
-    }
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 </body>
 
 </html>

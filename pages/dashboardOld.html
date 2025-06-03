@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="shortcut icon" href="../assets/img/UN_Habitat_Icon.svg" type="image/x-icon" />
-  <title>Dashboard</title>
+  <title>Empty</title>
   <!-- Simplified Arabic Font -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
@@ -471,8 +471,8 @@
         </button>
       </div>
       <div class="menu-dropdown">
-        <button title="toggle language" class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()"
-          style="background-image: url('../assets/img/user1.jpg'); background-size: cover; background-position: center;">
+        <button title="toggle language" class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()">
+          <i class="fas fa-ellipsis-v"></i>
         </button>
         <div class="menu-dropdown-content" id="menuDropdown">
           <a href="#" class="menu-item" id="settingsBtn" onclick="window.location.href = './profile.html';">
@@ -630,7 +630,7 @@
     <div class="container py-5">
       <!-- <h2 class="text-center mb-4">لوحة التحكم</h2> -->
       <div class="dashboard" id="dashboard">
-        <!-- Population Box -->
+        <!-- مربع السكان -->
         <div class="card card-box bg-primary text-white" onclick="expandCard(this, 'sakanExtra')">
           <div class="card-body text-center">
             <h5 class="card-title" id="sakanTitle">السكان</h5>
@@ -641,7 +641,7 @@
           </div>
         </div>
 
-        <!-- Housing Box -->
+        <!-- مربع المساكن -->
         <div class="card card-box bg-success text-white" onclick="expandCard(this, 'maskanChartContainer')">
           <div class="card-body text-center">
             <h5 class="card-title" id="maskanTitle">المساكن</h5>
@@ -652,7 +652,7 @@
           </div>
         </div>
 
-        <!-- Neighborhoods Box -->
+        <!-- مربع الاحياء -->
         <div class="card card-box bg-warning text-dark" onclick="expandCard(this, 'hayTable')">
           <div class="card-body text-center">
             <h5 class="card-title" id="hayTitle">الأحياء</h5>
@@ -710,7 +710,7 @@
           </div>
         </div>
 
-        <!-- Service Departments Box -->
+        <!-- دوائر الخدمات -->
         <div class="card card-box bg-danger text-white" onclick="expandCard(this, 'serviceList')">
           <div class="card-body text-center">
             <h5 class="card-title" id="serviceTitle">دوائر الخدمات</h5>
@@ -788,13 +788,29 @@
           </div>
         </div>
 
-        <!-- Urban Area Box -->
-        <div class="card card-box bg-secondary text-white" onclick="expandCard(this, 'masahaChartContainer')">
+        <!-- المساحة العمرانية -->
+        <div class="card card-box bg-info text-white" onclick="expandCard(this, 'masahaChartContainer')">
           <div class="card-body text-center">
             <h5 class="card-title" id="masahaTitle">المساحة العمرانية</h5>
             <p class="card-text" id="masahaText">نسبة التنظيم</p>
             <div class="card-body-extra" id="masahaChartContainer">
               <canvas id="masahaChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- مرافق المدينة -->
+        <div class="card card-box bg-secondary text-white" onclick="expandCard(this, 'cityFacilities')">
+          <div class="card-body text-center">
+            <h5 class="card-title" id="cityFacilitiesTitle">مرافق المدينة</h5>
+            <p class="card-text" id="cityFacilitiesText">
+              مرافق على مستوى المدينة
+            </p>
+            <div class="card-body-extra" id="cityFacilities">
+              <button class="explore-btn" onclick="window.location.href='https://www.google.com'"
+                id="exploreFacilitiesBtn">
+                استكشف المرافق
+              </button>
             </div>
           </div>
         </div>
@@ -870,6 +886,9 @@
         serviceManagerHeader: "اسم المدير",
         masahaTitle: "المساحة العمرانية",
         masahaText: "نسبة التنظيم",
+        cityFacilitiesTitle: "مرافق المدينة",
+        cityFacilitiesText: "مرافق على مستوى المدينة",
+        exploreFacilitiesBtn: "استكشف المرافق",
       },
       en: {
         dir: "ltr",
@@ -896,6 +915,9 @@
         serviceManagerHeader: "Manager Name",
         masahaTitle: "Urban Area",
         masahaText: "Organization Ratio",
+        cityFacilitiesTitle: "City Facilities",
+        cityFacilitiesText: "City Level Facilities",
+        exploreFacilitiesBtn: "Explore Facilities",
       },
     };
 
@@ -993,6 +1015,16 @@
         document.getElementById("masahaTitle").textContent = t.masahaTitle;
       if (document.getElementById("masahaText"))
         document.getElementById("masahaText").textContent = t.masahaText;
+
+      if (document.getElementById("cityFacilitiesTitle"))
+        document.getElementById("cityFacilitiesTitle").textContent =
+          t.cityFacilitiesTitle;
+      if (document.getElementById("cityFacilitiesText"))
+        document.getElementById("cityFacilitiesText").textContent =
+          t.cityFacilitiesText;
+      if (document.getElementById("exploreFacilitiesBtn"))
+        document.getElementById("exploreFacilitiesBtn").textContent =
+          t.exploreFacilitiesBtn;
     }
 
     function toggleLanguage() {

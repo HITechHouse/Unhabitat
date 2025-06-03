@@ -1,1493 +1,1250 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link
-      rel="shortcut icon"
-      href="../assets/img/UN_Habitat_Icon.svg"
-      type="image/x-icon"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      href="../assets/img/UN_Habitat_Icon.svg"
-    />
-    <title>Manage Users</title>
 
-    <!-- Fonts and Icons -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome Icons -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <!-- CSS Files -->
-    <link
-      id="pagestyle"
-      href="../assets/css/soft-ui-dashboard.css?v=1.1.0"
-      rel="stylesheet"
-    />
-    <!-- Google Fonts - Inter -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Google Fonts - Tajawal (for Arabic) -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="shortcut icon" href="../assets/img/UN_Habitat_Icon.svg" type="image/x-icon" />
+  <link rel="icon" type="image/png" href="../assets/img/UN_Habitat_Icon.svg" />
+  <title>Manage Users</title>
 
-    <!-- Nepcha Analytics (third-party analytics script) -->
-    <script
-      defer
-      data-site="YOUR_DOMAIN_HERE"
-      src="https://api.nepcha.com/js/nepcha-analytics.js"
-    ></script>
+  <!-- Fonts and Icons -->
+  <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
 
-    <!-- Custom Inline Styles from dashboard.html and ManageUsers.html -->
-    <style>
-      /* General body styles and font setup */
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Tajawal", "Inter", sans-serif;
-        /* Combined from dashboard */
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        overflow-x: hidden;
-        overflow-y: auto;
-        background-color: #f8f9fa;
-      }
 
-      /* Arabic font for RTL and specific elements */
-      :lang(ar),
-      [lang="ar"],
-      .arabic-text,
-      .copyright-text,
-      .social-icons,
-      .btn,
-      label,
-      input,
-      .header-title,
-      .title-ar,
-      .title-en,
-      .header-title div {
-        font-family: "Tajawal", sans-serif !important;
-      }
+  <!-- Simplified Arabic Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
-      body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
-        font-family: "Tajawal", "Inter", sans-serif !important;
-      }
+  <!-- Nepcha Analytics (third-party analytics script) -->
+  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 
-      /* Header styles from dashboard.html */
-      #mainHeader {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 5000;
-        background-color: #00b2e3;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 4px 16px;
-        height: 50px;
-        /* from dashboard */
-        box-sizing: border-box;
-        direction: rtl !important;
-        /* from dashboard */
-      }
+  <!-- Custom Inline Styles from dashboard.html and ManageUsers.html -->
+  <style>
+    /* General body styles and font setup */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Noto Naskh Arabic", sans-serif;
+      /* Combined from dashboard */
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background-color: #f8f9fa;
+    }
 
-      .header-title {
-        /* Combined from dashboard and ManageUsers, dashboard takes precedence */
-        flex: 1;
-        text-align: center;
-        font-weight: bold;
-        font-size: 1.4rem;
-        line-height: 1.4;
-      }
+    /* Arabic font for RTL and specific elements */
+    :lang(ar),
+    [lang="ar"],
+    .arabic-text,
+    .copyright-text,
+    .social-icons,
+    .btn,
+    label,
+    input,
+    .header-title,
+    .title-ar,
+    .title-en,
+    .header-title div {
+      font-family: "Noto Naskh Arabic", sans-serif;
+    }
 
-      .title-ar {
-        /* Combined from dashboard and ManageUsers, dashboard takes precedence */
-        font-size: 1.1rem;
-        /* from dashboard */
-        line-height: 1.2;
-        font-weight: bold;
-        white-space: normal;
-      }
+    body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
+      font-family: "Noto Naskh Arabic", sans-serif;
+    }
 
-      .title-en {
-        /* Combined from dashboard and ManageUsers, dashboard takes precedence */
-        font-size: 1.2rem;
-        /* from dashboard */
-        line-height: 1.2;
-        font-weight: bold;
-        white-space: normal;
-      }
+    /* Header styles from dashboard.html */
+    #mainHeader {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 5000;
+      background-color: #00b2e3;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 16px;
+      height: 50px;
+      /* from dashboard */
+      box-sizing: border-box;
+      direction: rtl !important;
+      /* from dashboard */
+    }
 
-      .header-logo {
-        /* Combined from dashboard and ManageUsers */
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        object-fit: contain;
-      }
+    .header-title {
+      /* Combined from dashboard and ManageUsers, dashboard takes precedence */
+      flex: 1;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.4rem;
+      line-height: 1.4;
+    }
 
-      .header-logos {
-        /* Combined from dashboard and ManageUsers */
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 5px;
-      }
+    #mainHeader .title-ar {
+      font-size: 1.1rem !important;
+      margin-bottom: 2px !important;
+    }
 
-      /* Language and menu buttons from dashboard.html */
-      .language-dropdown {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        z-index: 1031;
-      }
+    #mainHeader .title-en {
+      font-size: 0.7rem !important;
+      opacity: 0.9 !important;
+    }
 
-      .language-toggle {
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.18);
-        color: #fff;
-        font-weight: bold;
-        font-size: 1.1rem;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        outline: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        transition: 0.2s, border 0.2s, box-shadow 0.2s;
-        /* dashboard has shorter transition */
-        position: relative;
-        z-index: 5000;
-      }
+    .header-logo {
+      /* Combined from dashboard and ManageUsers */
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      object-fit: contain;
+    }
 
-      .language-toggle:hover {
-        background: rgba(255, 255, 255, 0.3);
-      }
+    .header-logos {
+      /* Combined from dashboard and ManageUsers */
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 5px;
+    }
 
-      .language-toggle:active {
-        background: rgba(255, 255, 255, 0.4);
-      }
+    /* Language and menu buttons from dashboard.html */
+    .language-dropdown {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1031;
+    }
 
-      .menu-dropdown {
-        position: relative;
-        display: inline-block;
-      }
+    .language-toggle {
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      outline: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: 0.2s, border 0.2s, box-shadow 0.2s;
+      /* dashboard has shorter transition */
+      position: relative;
+      z-index: 5000;
+    }
 
-      .menu-toggle {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.18);
-        color: #fff;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-      }
+    .language-toggle:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
 
-      .menu-toggle:hover {
-        background: rgba(255, 255, 255, 0.32);
-        transform: scale(1.05);
-      }
+    .language-toggle:active {
+      background: rgba(255, 255, 255, 0.4);
+    }
 
-      .menu-dropdown-content {
-        display: none;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: white;
-        min-width: 160px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        z-index: 1000;
-        margin-top: 5px;
-      }
+    .menu-dropdown {
+      position: relative;
+      display: inline-block;
+    }
 
-      .menu-item {
-        display: flex;
-        align-items: center;
-        padding: 12px 16px;
-        text-decoration: none;
-        color: #333;
-        transition: background-color 0.3s ease;
-      }
+    .menu-toggle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
 
-      .menu-item i {
-        margin-left: 8px;
-        width: 20px;
-        text-align: center;
-      }
+    .menu-toggle:hover {
+      background: rgba(255, 255, 255, 0.32);
+      transform: scale(1.05);
+    }
 
-      .menu-item:hover {
-        background-color: #f5f5f5;
-      }
+    .menu-dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      z-index: 1000;
+      margin-top: 5px;
+    }
 
-      body[dir="ltr"] .menu-dropdown-content {
-        right: auto;
-        left: 0;
-      }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      transition: background-color 0.3s ease;
+    }
 
-      body[dir="ltr"] .menu-item i {
-        margin-left: 0;
-        margin-right: 8px;
-      }
+    .menu-item i {
+      margin-left: 8px;
+      width: 20px;
+      text-align: center;
+    }
 
-      /* Sidebar styles from dashboard.html */
-      #sidenav-main .navbar-nav {
-        padding-inline-start: 0 !important;
-      }
+    .menu-item:hover {
+      background-color: #f5f5f5;
+    }
 
-      .sidenav-header {
-        /* Combined */
-        padding-top: 20px;
-        margin-bottom: 10px;
-      }
+    body[dir="ltr"] .menu-dropdown-content {
+      right: auto;
+      left: 0;
+    }
 
-      .navbar-brand {
-        /* Combined */
-        margin-top: 20px !important;
-        display: block;
-        padding: 10px 0;
-      }
+    body[dir="ltr"] .menu-item i {
+      margin-left: 0;
+      margin-right: 8px;
+    }
 
-      .navbar-brand-img {
-        /* Combined */
-        max-height: 35px;
-        width: auto;
-      }
+    /* Sidebar styles from dashboard.html */
+    #sidenav-main .navbar-nav {
+      padding-inline-start: 0 !important;
+    }
 
-      /* Footer styles from dashboard.html */
-      #mainFooter {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100vw;
-        z-index: 1000;
-        background-color: #00b2e3;
-        padding: 4px 16px;
-        height: 50px;
-        /* from dashboard */
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        direction: rtl !important;
-        /* from dashboard */
-      }
+    .sidenav-header {
+      /* Combined */
+      padding-top: 20px;
+      margin-bottom: 10px;
+    }
 
-      .footer-content {
-        /* Combined */
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 1rem;
-        color: white;
-      }
+    .navbar-brand {
+      /* Combined */
+      margin-top: 20px !important;
+      display: block;
+      padding: 10px 0;
+    }
 
-      .footer-logo {
-        /* Combined, dashboard has margin-right: 8px only */
-        height: 24px;
-        margin-right: 8px;
-        vertical-align: middle;
-        display: inline-block !important;
-      }
+    .navbar-brand-img {
+      /* Combined */
+      max-height: 35px;
+      width: auto;
+    }
 
-      /* Footer Copyright Image Style from dashboard.html */
-      footer .copyright img {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        background-color: white;
-        padding: 2px;
-        object-fit: contain;
-        background-clip: content-box;
-        vertical-align: middle;
-        margin-right: 8px;
-      }
+    /* Footer styles from dashboard.html */
+    #mainFooter {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      z-index: 1000;
+      background-color: #00b2e3;
+      padding: 4px 16px;
+      height: 50px;
+      /* from dashboard */
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      direction: rtl !important;
+      /* from dashboard */
+    }
 
-      .companyHITech {
-        /* Combined */
-        color: white !important;
-        text-decoration: none;
-        transition: color 0.3s ease;
-        display: inline-block;
-        margin: 0 8px;
-      }
+    .footer-content {
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+      color: white;
+    }
 
-      .companyHITech:hover {
-        /* Combined */
-        color: #f0f0f0 !important;
-        text-decoration: underline;
-      }
+    .footer-logo {
+      /* Combined, dashboard has margin-right: 8px only */
+      height: 24px;
+      margin-right: 8px;
+      vertical-align: middle;
+      display: inline-block !important;
+    }
 
-      .copyright-text {
-        /* Combined */
-        color: white;
-        display: inline-block;
-        margin-right: 8px;
-        font-size: 14px;
-      }
+    /* Footer Copyright Image Style from dashboard.html */
+    footer .copyright img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      background-color: white;
+      padding: 2px;
+      object-fit: contain;
+      background-clip: content-box;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
 
-      .social-icon {
-        /* Combined */
-        color: #fff;
-        font-size: 1.2rem;
-        margin-left: 1rem;
-        transition: color 0.3s ease;
-      }
+    .companyHITech {
+      /* Combined */
+      color: white !important;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      display: inline-block;
+      margin: 0 8px;
+    }
 
-      .social-icon:hover {
-        /* Combined */
-        color: #3498db;
-      }
+    .companyHITech:hover {
+      /* Combined */
+      color: #f0f0f0 !important;
+      text-decoration: underline;
+    }
 
-      body[dir="rtl"] .footer-content,
-      body[dir="ltr"] .footer-content {
-        /* Combined */
-        flex-direction: row;
-      }
+    .copyright-text {
+      /* Combined */
+      color: white;
+      display: inline-block;
+      margin-right: 8px;
+      font-size: 14px;
+    }
 
-      body[dir="rtl"] .footer-logo {
-        /* Combined */
-        margin-right: 8px;
-        margin-left: 0;
-      }
+    .social-icon {
+      /* Combined */
+      color: #fff;
+      font-size: 1.2rem;
+      margin-left: 1rem;
+      transition: color 0.3s ease;
+    }
 
-      body[dir="ltr"] .footer-logo {
-        /* Combined */
-        margin-left: 8px;
-        margin-right: 0;
-      }
+    .social-icon:hover {
+      /* Combined */
+      color: #3498db;
+    }
 
-      body[dir="rtl"] .social-icon {
-        /* Combined */
-        margin-left: 1rem;
-        margin-right: 0;
-      }
+    body[dir="rtl"] .footer-content,
+    body[dir="ltr"] .footer-content {
+      /* Combined */
+      flex-direction: row;
+    }
 
-      body[dir="ltr"] .social-icon {
-        /* Combined */
-        margin-right: 1rem;
-        margin-left: 0;
-      }
+    body[dir="rtl"] .footer-logo {
+      /* Combined */
+      margin-right: 8px;
+      margin-left: 0;
+    }
 
-      /* Card and chart styles from dashboard.html (might affect ManageUsers cards) */
-      .card {
-        border-radius: 1rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        background-color: linear-gradient(135deg, #e3f2fd, #ffffff);
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
+    body[dir="ltr"] .footer-logo {
+      /* Combined */
+      margin-left: 8px;
+      margin-right: 0;
+    }
 
-      .card-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 200px;
-        /* from dashboard, ManageUsers had this too */
-        padding: 1.5rem;
-      }
+    body[dir="rtl"] .social-icon {
+      /* Combined */
+      margin-left: 1rem;
+      margin-right: 0;
+    }
 
-      .card-title {
-        margin-bottom: 1rem;
-      }
+    body[dir="ltr"] .social-icon {
+      /* Combined */
+      margin-right: 1rem;
+      margin-left: 0;
+    }
 
-      .card-text {
-        /* ManageUsers had more specific align/justify center */
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        margin: 0;
-      }
+    /* Card and chart styles from dashboard.html (might affect ManageUsers cards) */
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      background-color: linear-gradient(135deg, #e3f2fd, #ffffff);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-      /* Styles from ManageUsers.html not directly overridden by dashboard.html */
-      .grid-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-      }
+    .card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 200px;
+      /* from dashboard, ManageUsers had this too */
+      padding: 1.5rem;
+    }
 
-      .grid-item {
-        background: linear-gradient(135deg, #e3f2fd, #ffffff);
-        border: 1px solid #e0e0e0;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-        overflow: hidden;
-      }
+    .card-title {
+      margin-bottom: 1rem;
+    }
 
-      .grid-item::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #0d6efd20, #6c757d20);
-        z-index: -1;
-        transition: opacity 0.3s ease;
+    .card-text {
+      /* ManageUsers had more specific align/justify center */
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    /* Styles from ManageUsers.html not directly overridden by dashboard.html */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .grid-item {
+      background: linear-gradient(135deg, #e3f2fd, #ffffff);
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-item::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0d6efd20, #6c757d20);
+      z-index: -1;
+      transition: opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .grid-item:hover::before {
+      opacity: 1;
+    }
+
+    .grid-item h3 {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .grid-item i {
+      font-size: 2.5rem;
+      color: #0d6efd;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table thead {
+      background-color: #f8f9fa;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .table th,
+    .table td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    .table tbody tr:hover {
+      background-color: #1b0e8b;
+    }
+
+    .btn-add {
+      margin-bottom: 20px;
+    }
+
+    .btn-edit {
+      background-color: #ffc107;
+      border-color: #ffc107;
+    }
+
+    .btn-delete {
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .modal-content {
+      border-radius: 16px;
+      border: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #0d6efd, #1a73e8);
+      color: #fff;
+      border-radius: 16px 16px 0 0;
+      padding: 15px 20px;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-footer {
+      border-top: 1px solid #e0e0e0;
+      padding: 15px 20px;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .btn-close {
+      background: #fff;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .btn-close:hover {
+      background: #f0f0f0;
+      transform: scale(1.1);
+    }
+
+    @keyframes fadeIn {
+      from {
         opacity: 0;
+        transform: translateY(-20px);
       }
 
-      .grid-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .grid-item:hover::before {
+      to {
         opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      .grid-item h3 {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 10px;
-      }
+    /* Font Awesome icon styles from dashboard.html */
+    .fa,
+    .fab,
+    .fas,
+    .far,
+    i.fa,
+    i.fab,
+    i.fas,
+    i.far,
+    i.fa-facebook-f,
+    i.fa-x-twitter,
+    i.fa-instagram,
+    i.fa-linkedin-in,
+    i.fa-whatsapp {
+      font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+      display: inline-block !important;
+      visibility: visible !important;
+    }
+  </style>
+</head>
 
-      .grid-item i {
-        font-size: 2.5rem;
-        color: #0d6efd;
-        margin-bottom: 10px;
-        display: block;
-      }
-
-      .table-container {
-        max-height: 400px;
-        overflow-y: auto;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin-top: 20px;
-      }
-
-      .table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .table thead {
-        background-color: #f8f9fa;
-        position: sticky;
-        top: 0;
-        z-index: 1;
-      }
-
-      .table th,
-      .table td {
-        padding: 12px;
-        text-align: center;
-        border: 1px solid #ddd;
-      }
-
-      .table tbody tr:hover {
-        background-color: #1b0e8b;
-      }
-
-      .btn-add {
-        margin-bottom: 20px;
-      }
-
-      .btn-edit {
-        background-color: #ffc107;
-        border-color: #ffc107;
-      }
-
-      .btn-delete {
-        background-color: #dc3545;
-        border-color: #dc3545;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      .modal-content {
-        border-radius: 16px;
-        border: none;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        animation: fadeIn 0.3s ease-in-out;
-      }
-
-      .modal-header {
-        background: linear-gradient(135deg, #0d6efd, #1a73e8);
-        color: #fff;
-        border-radius: 16px 16px 0 0;
-        padding: 15px 20px;
-      }
-
-      .modal-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin: 0;
-      }
-
-      .modal-body {
-        padding: 20px;
-      }
-
-      .modal-footer {
-        border-top: 1px solid #e0e0e0;
-        padding: 15px 20px;
-        border-radius: 0 0 16px 16px;
-      }
-
-      .btn-close {
-        background: #fff;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-      }
-
-      .btn-close:hover {
-        background: #f0f0f0;
-        transform: scale(1.1);
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Font Awesome icon styles from dashboard.html */
-      .fa,
-      .fab,
-      .fas,
-      .far,
-      i.fa,
-      i.fab,
-      i.fas,
-      i.far,
-      i.fa-facebook-f,
-      i.fa-x-twitter,
-      i.fa-instagram,
-      i.fa-linkedin-in,
-      i.fa-whatsapp {
-        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
-        display: inline-block !important;
-        visibility: visible !important;
-      }
-    </style>
-  </head>
-
-  <body class="g-sidenav-show bg-gray-100">
-    <!-- Header from dashboard.html -->
-    <header id="mainHeader">
-      <div style="display: flex; align-items: center; gap: 10px">
-        <a href="./admin.html" title="Go to Admin Page">
-          <img
-            src="../assets/img/unhabitat.jfif"
-            alt="Logo 3"
-            class="header-logo"
-            style="cursor: pointer"
-          />
-        </a>
-        <div class="language-dropdown">
-          <button
-            class="language-toggle"
-            id="langToggleBtn"
-            onclick="toggleLanguage()"
-            aria-label="Toggle Language"
-          >
-            AR
-          </button>
-        </div>
-        <div class="menu-dropdown">
-          <button
-            title="toggle language"
-            class="menu-toggle"
-            id="menuToggleBtn"
-            onclick="toggleMenu()"
-          >
-            <i class="fas fa-ellipsis-v"></i>
-          </button>
-          <div class="menu-dropdown-content" id="menuDropdown">
-            <a
-              href="#"
-              class="menu-item"
-              id="settingsBtn"
-              onclick="window.location.href = './profile.html';"
-            >
-              <i class="fas fa-cog"></i>
-              <span id="settingsText">الإعدادات</span>
-            </a>
-            <a
-              href="#"
-              class="menu-item"
-              id="logoutBtn"
-              onclick="window.location.href = './index.html';"
-            >
-              <i class="fas fa-sign-out-alt"></i>
-              <span id="logoutText">تسجيل الخروج</span>
-            </a>
-          </div>
+<body class="g-sidenav-show bg-gray-100">
+  <!-- Header from dashboard.html -->
+  <header id="mainHeader">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <a href="./admin.html" title="Go to Admin Page">
+        <img src="../assets/img/unhabitat.jfif" alt="Logo 3" class="header-logo" style="cursor: pointer" />
+      </a>
+      <div class="language-dropdown">
+        <button class="language-toggle" id="langToggleBtn" onclick="toggleLanguage()" aria-label="Toggle Language">
+          AR
+        </button>
+      </div>
+      <div class="menu-dropdown">
+        <button title="toggle language" class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()"
+          style="background-image: url('../assets/img/user1.jpg'); background-size: cover; background-position: center;">
+        </button>
+        <div class="menu-dropdown-content" id="menuDropdown">
+          <a href="#" class="menu-item" id="settingsBtn" onclick="window.location.href = './profile.html';">
+            <i class="fas fa-cog"></i>
+            <span id="settingsText">الإعدادات</span>
+          </a>
+          <a href="#" class="menu-item" id="logoutBtn" onclick="window.location.href = './index.html';">
+            <i class="fas fa-sign-out-alt"></i>
+            <span id="logoutText">تسجيل الخروج</span>
+          </a>
         </div>
       </div>
-      <div class="header-title text-center">
-        <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
-        <div class="title-en">
-          Urban Information Management System - Aleppo City
-        </div>
+    </div>
+    <div class="header-title text-center">
+      <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
+      <div class="title-en">
+        Urban Information Management System - Aleppo City
       </div>
-      <div class="header-logos right-logos">
-        <img src="../assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
-        <img src="../assets/img/japan.png" alt="Logo 2" class="header-logo" />
-      </div>
-    </header>
+    </div>
+    <div class="header-logos right-logos">
+      <img src="../assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
+      <img src="../assets/img/japan.png" alt="Logo 2" class="header-logo" />
+    </div>
+  </header>
 
-    <!-- Sidebar from dashboard.html -->
-    <aside
-      class="sidenav navbar navbar-vertical navbar-expand-xs border-0 my-3 fixed-end bg-gray-300"
-      id="sidenav-main"
-      style="max-height: calc(100vh - 66px); overflow-y: visible"
-    >
-      <div class="sidenav-header">
-        <i
-          class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-          aria-hidden="true"
-          id="iconSidenav"
-        ></i>
-        <!-- Sidenav brand link from dashboard.html - Note: dashboard.html had no content in this link -->
-        <a class="navbar-brand m-0" href="#" target="_blank"> </a>
-      </div>
-      <div class="collapse navbar-collapse">
-        <!-- Removed w-auto and style height from ManageUsers -->
-        <ul class="navbar-nav">
-          <!-- Removed padding-bottom from ManageUsers -->
-          <li class="nav-item">
-            <a class="nav-link" href="../pages/dashboard.html">
-              <!-- Removed active class -->
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 45 40"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title>shop</title>
-                  <!-- Title from dashboard -->
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-1716.000000, -439.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(0.000000, 148.000000)">
-                          <path
-                            class="color-background opacity-6"
-                            d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z"
-                          ></path>
-                        </g>
+  <!-- Sidebar from dashboard.html -->
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 my-3 fixed-end bg-gray-300" id="sidenav-main"
+    style="max-height: calc(100vh - 66px); overflow-y: visible">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+        aria-hidden="true" id="iconSidenav"></i>
+      <!-- Sidenav brand link from dashboard.html - Note: dashboard.html had no content in this link -->
+      <a class="navbar-brand m-0" href="#" target="_blank"> </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <!-- Removed w-auto and style height from ManageUsers -->
+      <ul class="navbar-nav">
+        <!-- Removed padding-bottom from ManageUsers -->
+        <li class="nav-item">
+          <a class="nav-link" href="../pages/dashboard.html">
+            <!-- Removed active class -->
+            <div
+              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>shop</title>
+                <!-- Title from dashboard -->
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g transform="translate(0.000000, 148.000000)">
+                        <path class="color-background opacity-6"
+                          d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z">
+                        </path>
+                        <path class="color-background"
+                          d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z">
+                        </path>
                       </g>
                     </g>
                   </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../pages/tables.html">
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 42 42"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title>office</title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-1869.000000, -293.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g
-                          id="office"
-                          transform="translate(153.000000, 2.000000)"
-                        >
-                          <path
-                            class="color-background opacity-6"
-                            d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z"
-                          ></path>
-                        </g>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../pages/tables.html">
+            <div
+              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>office</title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g id="office" transform="translate(153.000000, 2.000000)">
+                        <path class="color-background opacity-6"
+                          d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z">
+                        </path>
+                        <path class="color-background"
+                          d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z">
+                        </path>
                       </g>
                     </g>
                   </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Configuration Tables</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="../pages/ManageUsers.html">
-              <!-- Added active class as it's the current page -->
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 42 42"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title>box-3d-50</title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-2319.000000, -291.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(603.000000, 0.000000)">
-                          <path
-                            class="color-background"
-                            d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z"
-                          ></path>
-                          <path
-                            class="color-background opacity-6"
-                            d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z"
-                          ></path>
-                          <path
-                            class="color-background opacity-6"
-                            d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z"
-                          ></path>
-                        </g>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Configuration Tables</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="../pages/ManageUsers.html">
+            <!-- Added active class as it's the current page -->
+            <div
+              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>box-3d-50</title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g transform="translate(603.000000, 0.000000)">
+                        <path class="color-background"
+                          d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z">
+                        </path>
+                        <path class="color-background opacity-6"
+                          d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z">
+                        </path>
+                        <path class="color-background opacity-6"
+                          d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z">
+                        </path>
                       </g>
                     </g>
                   </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Manage Users</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../pages/profile.html">
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 46 42"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title>customer-support</title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-1717.000000, -291.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(1.000000, 0.000000)">
-                          <path
-                            class="color-background opacity-6"
-                            d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z"
-                          ></path>
-                        </g>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Manage Users</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../pages/profile.html">
+            <div
+              class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center">
+              <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>customer-support</title>
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <g transform="translate(1716.000000, 291.000000)">
+                      <g transform="translate(1.000000, 0.000000)">
+                        <path class="color-background opacity-6"
+                          d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z">
+                        </path>
+                        <path class="color-background"
+                          d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z">
+                        </path>
+                        <path class="color-background"
+                          d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z">
+                        </path>
                       </g>
                     </g>
                   </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Profile</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="sidenav-footer mx-3"></div>
-      <!-- Copied from dashboard -->
-    </aside>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Profile</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="sidenav-footer mx-3"></div>
+    <!-- Copied from dashboard -->
+  </aside>
 
-    <!-- Main Content Area -->
-    <main
-      class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
-    >
-      <div class="container-fluid py-6">
-        <!-- Main content section for user management options -->
-        <div class="col-md-10 main-content">
-          <div class="row">
-            <!-- Users Management Card -->
-            <div class="col-md-4">
-              <div class="card shadow-sm">
-                <div class="card-body text-center">
-                  <i class="fas fa-users fa-3x text-primary mb-3"></i>
-                  <h5 class="card-title">المستخدمين</h5>
-                  <p class="card-text">إدارة جميع المستخدمين المسجلين.</p>
-                  <a href="manage-users.html" class="btn btn-primary"
-                    >عرض التفاصيل</a
-                  >
-                  <a href="assign-user-role.html" class="btn btn-primary"
-                    >ربط المستخدمين بالأدوار
-                  </a>
+  <!-- Main Content Area -->
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+    <div class="container-fluid py-6">
+      <!-- Main content section for user management options -->
+      <div class="col-md-10 main-content">
+        <div class="row">
+          <!-- Users Management Card -->
+          <div class="col-md-4">
+            <div class="card shadow-sm">
+              <div class="card-body text-center">
+                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">المستخدمين</h5>
+                <p class="card-text">إدارة جميع المستخدمين المسجلين.</p>
+                <a href="manage-users.html" class="btn btn-primary">عرض التفاصيل</a>
+                <a href="assign-user-role.html" class="btn btn-primary">ربط المستخدمين بالأدوار
+                </a>
 
-                  <!-- Modal for Users Table -->
-                  <div
-                    class="modal fade"
-                    id="usersModal"
-                    tabindex="-1"
-                    aria-labelledby="usersModalLabel"
-                    aria-hidden="true"
-                  >
-                    <div class="modal-dialog modal-lg">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="usersModalLabel">
-                            إدارة المستخدمين
-                          </h5>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body">
-                          <!-- Users Table -->
-                          <div class="table-responsive">
-                            <table class="table align-items-center mb-0">
-                              <thead>
-                                <tr>
-                                  <th
-                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                                  >
-                                    اسم المستخدم
-                                  </th>
-                                  <th
-                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
-                                  >
-                                    البريد الإلكتروني
-                                  </th>
-                                  <th
-                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                                  >
-                                    الدور
-                                  </th>
-                                  <th
-                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                                  >
-                                    الإجراءات
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <!-- Example User Row 1 -->
-                                <tr>
-                                  <td>
-                                    <div class="d-flex px-2 py-1">
-                                      <div>
-                                        <img
-                                          src="../assets/img/user1.jpg"
-                                          class="avatar avatar-sm me-3"
-                                          alt="user1"
-                                        />
-                                      </div>
-                                      <div
-                                        class="d-flex flex-column justify-content-center"
-                                      >
-                                        <h6 class="mb-0 text-sm">أحمد محمد</h6>
-                                      </div>
+                <!-- Modal for Users Table -->
+                <div class="modal fade" id="usersModal" tabindex="-1" aria-labelledby="usersModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="usersModalLabel">
+                          إدارة المستخدمين
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- Users Table -->
+                        <div class="table-responsive">
+                          <table class="table align-items-center mb-0">
+                            <thead>
+                              <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                  اسم المستخدم
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                  البريد الإلكتروني
+                                </th>
+                                <th
+                                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                  الدور
+                                </th>
+                                <th
+                                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                  الإجراءات
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <!-- Example User Row 1 -->
+                              <tr>
+                                <td>
+                                  <div class="d-flex px-2 py-1">
+                                    <div>
+                                      <img src="../assets/img/user1.jpg" class="avatar avatar-sm me-3" alt="user1" />
                                     </div>
-                                  </td>
-                                  <td>
-                                    <p class="text-xs font-weight-bold mb-0">
-                                      ahmed@example.com
-                                    </p>
-                                  </td>
-                                  <td class="align-middle text-center text-sm">
-                                    <span
-                                      class="badge badge-sm bg-gradient-success"
-                                      >مدير</span
-                                    >
-                                  </td>
-                                  <td class="align-middle text-center">
-                                    <a
-                                      href="#"
-                                      class="btn btn-link text-dark px-3 mb-0"
-                                      data-bs-toggle="modal"
-                                      data-bs-target="#editUserModal"
-                                    >
-                                      <i
-                                        class="fas fa-pencil-alt text-dark me-2"
-                                        aria-hidden="true"
-                                      ></i
-                                      >تعديل
-                                    </a>
-                                    <a
-                                      href="#"
-                                      class="btn btn-link text-danger text-gradient px-3 mb-0"
-                                    >
-                                      <i
-                                        class="far fa-trash-alt me-2"
-                                        aria-hidden="true"
-                                      ></i
-                                      >حذف
-                                    </a>
-                                  </td>
-                                </tr>
-                                <!-- Example User Row 2 -->
-                                <tr>
-                                  <td>
-                                    <div class="d-flex px-2 py-1">
-                                      <div>
-                                        <img
-                                          src="../assets/img/user1.jpg"
-                                          class="avatar avatar-sm me-3"
-                                          alt="user2"
-                                        />
-                                      </div>
-                                      <div
-                                        class="d-flex flex-column justify-content-center"
-                                      >
-                                        <h6 class="mb-0 text-sm">سارة علي</h6>
-                                      </div>
+                                    <div class="d-flex flex-column justify-content-center">
+                                      <h6 class="mb-0 text-sm">أحمد محمد</h6>
                                     </div>
-                                  </td>
-                                  <td>
-                                    <p class="text-xs font-weight-bold mb-0">
-                                      sara@example.com
-                                    </p>
-                                  </td>
-                                  <td class="align-middle text-center text-sm">
-                                    <span
-                                      class="badge badge-sm bg-gradient-info"
-                                      >مستخدم</span
-                                    >
-                                  </td>
-                                  <td class="align-middle text-center">
-                                    <a
-                                      href="#"
-                                      class="btn btn-link text-dark px-3 mb-0"
-                                      data-bs-toggle="modal"
-                                      data-bs-target="#editUserModal"
-                                    >
-                                      <i
-                                        class="fas fa-pencil-alt text-dark me-2"
-                                        aria-hidden="true"
-                                      ></i
-                                      >تعديل
-                                    </a>
-                                    <a
-                                      href="#"
-                                      class="btn btn-link text-danger text-gradient px-3 mb-0"
-                                    >
-                                      <i
-                                        class="far fa-trash-alt me-2"
-                                        aria-hidden="true"
-                                      ></i
-                                      >حذف
-                                    </a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <p class="text-xs font-weight-bold mb-0">
+                                    ahmed@example.com
+                                  </p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <span class="badge badge-sm bg-gradient-success">مدير</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                  <a href="#" class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal"
+                                    data-bs-target="#editUserModal">
+                                    <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>تعديل
+                                  </a>
+                                  <a href="#" class="btn btn-link text-danger text-gradient px-3 mb-0">
+                                    <i class="far fa-trash-alt me-2" aria-hidden="true"></i>حذف
+                                  </a>
+                                </td>
+                              </tr>
+                              <!-- Example User Row 2 -->
+                              <tr>
+                                <td>
+                                  <div class="d-flex px-2 py-1">
+                                    <div>
+                                      <img src="../assets/img/user1.jpg" class="avatar avatar-sm me-3" alt="user2" />
+                                    </div>
+                                    <div class="d-flex flex-column justify-content-center">
+                                      <h6 class="mb-0 text-sm">سارة علي</h6>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <p class="text-xs font-weight-bold mb-0">
+                                    sara@example.com
+                                  </p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <span class="badge badge-sm bg-gradient-info">مستخدم</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                  <a href="#" class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal"
+                                    data-bs-target="#editUserModal">
+                                    <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>تعديل
+                                  </a>
+                                  <a href="#" class="btn btn-link text-danger text-gradient px-3 mb-0">
+                                    <i class="far fa-trash-alt me-2" aria-hidden="true"></i>حذف
+                                  </a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                          >
-                            إغلاق
-                          </button>
-                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                          إغلاق
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- Roles Management Card -->
-            <div class="col-md-4">
-              <div class="card shadow-sm">
-                <div class="card-body text-center">
-                  <i class="fas fa-user-tag fa-3x text-success mb-3"></i>
-                  <h5 class="card-title">الأدوار</h5>
-                  <p class="card-text">إدارة الأدوار المختلفة للمستخدمين.</p>
-                  <a href="manage-roles.html" class="btn btn-success"
-                    >عرض التفاصيل</a
-                  >
-                  <a href="assign-role-permission.html" class="btn btn-success"
-                    >ربط الأدوار بالسماحيات
-                  </a>
-                </div>
+          </div>
+          <!-- Roles Management Card -->
+          <div class="col-md-4">
+            <div class="card shadow-sm">
+              <div class="card-body text-center">
+                <i class="fas fa-user-tag fa-3x text-success mb-3"></i>
+                <h5 class="card-title">الأدوار</h5>
+                <p class="card-text">إدارة الأدوار المختلفة للمستخدمين.</p>
+                <a href="manage-roles.html" class="btn btn-success">عرض التفاصيل</a>
+                <a href="assign-role-permission.html" class="btn btn-success">ربط الأدوار بالسماحيات
+                </a>
               </div>
             </div>
-            <!-- Permissions Management Card -->
-            <div class="col-md-4">
-              <div class="card shadow-sm">
-                <div class="card-body text-center">
-                  <i class="fas fa-lock fa-3x text-danger mb-3"></i>
-                  <h5 class="card-title">السماحيات</h5>
-                  <p class="card-text">إدارة السماحيات الخاصة بالأدوار.</p>
-                  <a href="manage-permissions.html" class="btn btn-danger"
-                    >عرض التفاصيل</a
-                  >
-                </div>
+          </div>
+          <!-- Permissions Management Card -->
+          <div class="col-md-4">
+            <div class="card shadow-sm">
+              <div class="card-body text-center">
+                <i class="fas fa-lock fa-3x text-danger mb-3"></i>
+                <h5 class="card-title">السماحيات</h5>
+                <p class="card-text">إدارة السماحيات الخاصة بالأدوار.</p>
+                <a href="manage-permissions.html" class="btn btn-danger">عرض التفاصيل</a>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Footer from dashboard.html -->
-      <footer id="mainFooter">
-        <div class="footer-content">
-          <div class="copyright">
-            <span class="copyright-text" lang="ar">
-              ©
-              <script>
-                document.write(new Date().getFullYear());
-              </script>
-              <a
-                rel="noopener"
-                class="companyHITech arabic-text"
-                href="https://hasan20nassar.github.io/HTH_Profile/"
-                target="_blank"
-                lang="ar"
-              >
-                , HI-Tech House</a
-              >
-            </span>
-            <span lang="ar" class="arabic-text">Powered by</span>
-            <img
+    <!-- Footer from dashboard.html -->
+    <footer id="mainFooter">
+      <div class="footer-content">
+        <div class="copyright" style="font-size:12px;">
+          <span class="copyright-text" lang="ar" style="font-size:12px;">
+            ©
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            <a rel="noopener" class="companyHITech arabic-text" href="https://hasan20nassar.github.io/HTH_Profile/"
+              target="_blank" lang="ar">
+              , HI-Tech House</a>
+          </span>
+          <span lang="ar" class="arabic-text">Powered by</span>
+          <!-- <img
               alt="Company Logo"
               src="../assets/img/HTH.png"
               class="footer-logo"
-            />
-          </div>
-          <div class="social-icons">
-            <a aria-label="WhatsApp" class="social-icon whatsapp" href="#"
-              ><i class="fab fa-whatsapp"></i
-            ></a>
-            <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
-              ><i class="fab fa-linkedin-in"></i
-            ></a>
-            <a aria-label="Instagram" class="social-icon instagram" href="#"
-              ><i class="fab fa-instagram"></i
-            ></a>
-            <a aria-label="X" class="social-icon twitter" href="#"
-              ><i class="fab fa-x-twitter"></i
-            ></a>
-            <a aria-label="Facebook" class="social-icon facebook" href="#"
-              ><i class="fab fa-facebook-f"></i
-            ></a>
-          </div>
+            /> -->
         </div>
-      </footer>
-
-      <!-- Fixed Plugin/Help Button from dashboard.html -->
-      <div class="fixed-plugin">
-        <a
-          id="helpButton"
-          class="fixed-plugin-button text-dark position-fixed px-3 py-2"
-          style="bottom: 80px; z-index: 6000"
-        >
-          <!-- z-index from dashboard -->
-          <i class="fa fa-question-circle py-2"> </i>
-        </a>
+        <div class="social-icons">
+          <a aria-label="WhatsApp" class="social-icon whatsapp" href="#"><i class="fab fa-whatsapp"></i></a>
+          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a aria-label="Instagram" class="social-icon instagram" href="#"><i class="fab fa-instagram"></i></a>
+          <a aria-label="X" class="social-icon twitter" href="#"><i class="fab fa-x-twitter"></i></a>
+          <a aria-label="Facebook" class="social-icon facebook" href="#"><i class="fab fa-facebook-f"></i></a>
+        </div>
       </div>
-    </main>
+    </footer>
 
-    <!-- Core JS Files -->
-    <!-- Bootstrap Bundle JS (includes Popper) - Ensure only one version, dashboard uses 5.3.2 -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-    <!-- Perfect Scrollbar Plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
-    <!-- Smooth Scrollbar Plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/smooth-scrollbar@8.8.4/dist/smooth-scrollbar.js"></script>
-    <!-- Soft UI Dashboard Theme JS (dashboard uses a CDN version, ManageUsers local) -->
-    <!-- Using local version as per original ManageUsers, ensure it's compatible or update -->
-    <script src="https://cdn.jsdelivr.net/npm/soft-ui-dashboard@1.1.0/assets/js/soft-ui-dashboard.min.js"></script>
-    <!-- Github buttons script -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Chart.js if needed for this page, from dashboard.html -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Fixed Plugin/Help Button from dashboard.html -->
+    <div class="fixed-plugin">
+      <a id="helpButton" class="fixed-plugin-button text-dark position-fixed px-3 py-2"
+        style="bottom: 80px; z-index: 6000">
+        <!-- z-index from dashboard -->
+        <i class="fa fa-question-circle py-2"> </i>
+      </a>
+    </div>
+  </main>
 
-    <!-- Custom JavaScript from dashboard.html (for header/footer/aside) and ManageUsers.html -->
-    <script>
-      // Initialize custom scrollbar (combined logic)
-      var win = navigator.platform.indexOf("Win") > -1;
-      if (win && document.querySelector("#sidenav-scrollbar")) {
-        var options = {
-          damping: "0.5",
-        };
-        Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
-      }
+  <!-- Core JS Files -->
+  <!-- Bootstrap Bundle JS (includes Popper) - Ensure only one version, dashboard uses 5.3.2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+  <!-- Perfect Scrollbar Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+  <!-- Smooth Scrollbar Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/smooth-scrollbar@8.8.4/dist/smooth-scrollbar.js"></script>
+  <!-- Soft UI Dashboard Theme JS (dashboard uses a CDN version, ManageUsers local) -->
+  <!-- Using local version as per original ManageUsers, ensure it's compatible or update -->
+  <script src="https://cdn.jsdelivr.net/npm/soft-ui-dashboard@1.1.0/assets/js/soft-ui-dashboard.min.js"></script>
+  <!-- Github buttons script -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Chart.js if needed for this page, from dashboard.html -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-      // Event listener for when modals are shown (from ManageUsers.html)
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".modal").forEach((modal) => {
-          modal.addEventListener("show.bs.modal", function (event) {
-            console.log(`Modal opened: ${this.id}`);
-            const tableName = this.getAttribute("data-table");
-            if (tableName) {
-              console.log(`Displaying data for table: ${tableName}`);
-              // displayData(tableName); // Ensure displayData is defined if used
-            }
-          });
-        });
-      });
-    </script>
-
-    <script>
-      // Wait for DOM to be fully loaded
-      document.addEventListener("DOMContentLoaded", function () {
-        // Function to handle zoom level changes
-        function handleZoom() {
-          const sidenav = document.getElementById("sidenav-main");
-          const windowWidth = window.innerWidth;
-          const zoomLevel = window.devicePixelRatio;
-
-          if (zoomLevel > 1.51 || windowWidth < 1200) {
-            sidenav.style.display = "none";
-          } else {
-            sidenav.style.display = "block";
-          }
-        }
-
-        // Initial check
-        handleZoom();
-
-        // Listen for zoom changes
-        window.addEventListener("resize", handleZoom);
-      });
-    </script>
-
-    <script>
-      // Language toggle and menu script from dashboard.html
-      const translations = {
-        ar: {
-          dir: "rtl",
-          dashboard: "لوحة التحكم",
-          configTables: "جداول الإعدادات",
-          maps: "الخرائط",
-          manageUsers: "إدارة المستخدمين", // Text for this page
-          profile: "الملف الشخصي",
-          signIn: "تسجيل الدخول",
-          signUp: "إنشاء حساب",
-          footerText: "© 2025، جميع الحقوق محفوظة،", // Simplified for ManageUsers context
-          companyName: "دار التقنية الحديثة",
-          settingsText: "الإعدادات",
-          logoutText: "تسجيل الخروج",
-          // ManageUsers specific translations (can be expanded)
-          usersTitle: "إدارة المستخدمين",
-          usersDescription: "إدارة جميع المستخدمين المسجلين.",
-          viewDetails: "عرض التفاصيل",
-          linkUsersToRoles: "ربط المستخدمين بالأدوار",
-          rolesTitle: "الأدوار",
-          rolesDescription: "إدارة الأدوار المختلفة للمستخدمين.",
-          linkRolesToPermissions: "ربط الأدوار بالسماحيات",
-          permissionsTitle: "السماحيات",
-          permissionsDescription: "إدارة السماحيات الخاصة بالأدوار.",
-        },
-        en: {
-          dir: "ltr",
-          dashboard: "Dashboard",
-          configTables: "Configuration Tables",
-          maps: "Maps",
-          manageUsers: "Manage Users", // Text for this page
-          profile: "Profile",
-          signIn: "Sign In",
-          signUp: "Sign Up",
-          footerText: "© 2025, All rights reserved,", // Simplified for ManageUsers context
-          companyName: "Hi-Tech House",
-          settingsText: "Settings",
-          logoutText: "Logout",
-          // ManageUsers specific translations
-          usersTitle: "Users",
-          usersDescription: "Manage all registered users.",
-          viewDetails: "View Details",
-          linkUsersToRoles: "Link Users to Roles",
-          rolesTitle: "Roles",
-          rolesDescription: "Manage different user roles.",
-          linkRolesToPermissions: "Link Roles to Permissions",
-          permissionsTitle: "Permissions",
-          permissionsDescription: "Manage role-specific permissions.",
-        },
+  <!-- Custom JavaScript from dashboard.html (for header/footer/aside) and ManageUsers.html -->
+  <script>
+    // Initialize custom scrollbar (combined logic)
+    var win = navigator.platform.indexOf("Win") > -1;
+    if (win && document.querySelector("#sidenav-scrollbar")) {
+      var options = {
+        damping: "0.5",
       };
+      Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+    }
 
-      let currentLang = "ar"; // Defaulting to Arabic as per dashboard.html's visual default
-
-      function switchLanguage(lang) {
-        try {
-          localStorage.setItem("preferredLanguage", lang);
-        } catch (error) {
-          console.error("Error saving language preference:", error);
-        }
-
-        const aside = document.getElementById("sidenav-main");
-        const helpButton = document.getElementById("helpButton"); // Assuming helpButton ID from dashboard
-
-        // aside.classList.remove("fixed-end", "fixed-start", "ms-3", "me-3"); // Clear all positioning classes
-        aside.classList.remove("fixed-end", "fixed-start"); // Clear all positioning classes
-
-        if (lang === "ar") {
-          aside.classList.add("fixed-end");
-          // aside.classList.add("me-3"); // Bootstrap 5 for margin-end
-          if (helpButton) {
-            helpButton.style.left = "20px";
-            helpButton.style.right = "auto";
-          }
-        } else {
-          aside.classList.add("fixed-start");
-          // aside.classList.add("ms-3"); // Bootstrap 5 for margin-start
-          if (helpButton) {
-            helpButton.style.right = "20px";
-            helpButton.style.left = "auto";
-          }
-        }
-
-        currentLang = lang;
-        const t = translations[lang];
-
-        document.documentElement.lang = lang;
-        document.documentElement.dir = t.dir;
-
-        const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
-        if (navTexts[0]) navTexts[0].textContent = t.dashboard;
-        if (navTexts[1]) navTexts[1].textContent = t.configTables;
-        if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
-        if (navTexts[3]) navTexts[3].textContent = t.profile;
-
-        const settingsTextEl = document.getElementById("settingsText");
-        if (settingsTextEl) settingsTextEl.textContent = t.settingsText;
-        const logoutTextEl = document.getElementById("logoutText");
-        if (logoutTextEl) logoutTextEl.textContent = t.logoutText;
-
-        // Translate ManageUsers specific content
-        const userCardTitle = document.querySelector(
-          ".col-md-4:nth-child(1) .card-title"
-        );
-        if (userCardTitle) userCardTitle.textContent = t.usersTitle;
-        const userCardText = document.querySelector(
-          ".col-md-4:nth-child(1) .card-text"
-        );
-        if (userCardText) userCardText.textContent = t.usersDescription;
-        const userViewDetailsBtn = document.querySelector(
-          ".col-md-4:nth-child(1) .btn-primary:nth-of-type(1)"
-        );
-        if (userViewDetailsBtn) userViewDetailsBtn.textContent = t.viewDetails;
-        const userLinkRolesBtn = document.querySelector(
-          ".col-md-4:nth-child(1) .btn-primary:nth-of-type(2)"
-        );
-        if (userLinkRolesBtn) userLinkRolesBtn.textContent = t.linkUsersToRoles;
-
-        const rolesCardTitle = document.querySelector(
-          ".col-md-4:nth-child(2) .card-title"
-        );
-        if (rolesCardTitle) rolesCardTitle.textContent = t.rolesTitle;
-        const rolesCardText = document.querySelector(
-          ".col-md-4:nth-child(2) .card-text"
-        );
-        if (rolesCardText) rolesCardText.textContent = t.rolesDescription;
-        const rolesViewDetailsBtn = document.querySelector(
-          ".col-md-4:nth-child(2) .btn-success:nth-of-type(1)"
-        );
-        if (rolesViewDetailsBtn)
-          rolesViewDetailsBtn.textContent = t.viewDetails;
-        const rolesLinkPermissionsBtn = document.querySelector(
-          ".col-md-4:nth-child(2) .btn-success:nth-of-type(2)"
-        );
-        if (rolesLinkPermissionsBtn)
-          rolesLinkPermissionsBtn.textContent = t.linkRolesToPermissions;
-
-        const permissionsCardTitle = document.querySelector(
-          ".col-md-4:nth-child(3) .card-title"
-        );
-        if (permissionsCardTitle)
-          permissionsCardTitle.textContent = t.permissionsTitle;
-        const permissionsCardText = document.querySelector(
-          ".col-md-4:nth-child(3) .card-text"
-        );
-        if (permissionsCardText)
-          permissionsCardText.textContent = t.permissionsDescription;
-        const permissionsViewDetailsBtn = document.querySelector(
-          ".col-md-4:nth-child(3) .btn-danger"
-        );
-        if (permissionsViewDetailsBtn)
-          permissionsViewDetailsBtn.textContent = t.viewDetails;
-      }
-
-      function toggleLanguage() {
-        const btn = document.getElementById("langToggleBtn");
-        if (currentLang === "ar") {
-          btn.textContent = "EN";
-          switchLanguage("en");
-        } else {
-          btn.textContent = "AR";
-          switchLanguage("ar");
-        }
-        try {
-          localStorage.setItem("preferredLanguage", currentLang);
-        } catch (error) {
-          console.error(
-            "Error saving language preference in toggleLanguage:",
-            error
-          );
-        }
-      }
-
-      function toggleMenu() {
-        const menu = document.getElementById("menuDropdown");
-        menu.style.display = menu.style.display === "block" ? "none" : "block";
-      }
-
-      function logout() {
-        // Kept from ManageUsers as it's standard
-        window.location.href = "./index.html";
-      }
-
-      document.addEventListener("DOMContentLoaded", function () {
-        let savedLanguage;
-        try {
-          savedLanguage = localStorage.getItem("preferredLanguage");
-        } catch (error) {
-          console.error("Error retrieving language preference:", error);
-          savedLanguage = null;
-        }
-        const initialLang = savedLanguage || "ar"; // Default to Arabic
-        switchLanguage(initialLang);
-
-        const langToggleBtn = document.getElementById("langToggleBtn");
-        if (langToggleBtn) {
-          langToggleBtn.textContent = initialLang === "ar" ? "AR" : "EN"; // Set button text based on initial language
-          // Ensure no duplicate listeners if this script runs multiple times or is combined.
-          langToggleBtn.onclick = function (e) {
-            // Assign directly to prevent multiple listeners
-            e.preventDefault();
-            e.stopPropagation();
-            toggleLanguage();
-          };
-        }
-
-        // Sidenav active link handling (specific to ManageUsers.html)
-        const currentPath = window.location.pathname.split("/").pop();
-        const navLinks = document.querySelectorAll(".sidenav .nav-link");
-        navLinks.forEach((link) => {
-          if (link.getAttribute("href").includes(currentPath)) {
-            link.classList.add("active");
-          } else {
-            link.classList.remove("active");
-          }
-        });
-        // Ensure the "Manage Users" link is active on this page
-        const manageUsersLink = document.querySelector(
-          'a[href="../pages/ManageUsers.html"]'
-        );
-        if (manageUsersLink) {
-          manageUsersLink.classList.add("active");
-        }
-
-        document.addEventListener("click", function (e) {
-          const menu = document.getElementById("menuDropdown");
-          const menuBtn = document.getElementById("menuToggleBtn");
-          if (menu && menuBtn) {
-            if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
-              menu.style.display = "none";
-            }
+    // Event listener for when modals are shown (from ManageUsers.html)
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".modal").forEach((modal) => {
+        modal.addEventListener("show.bs.modal", function (event) {
+          console.log(`Modal opened: ${this.id}`);
+          const tableName = this.getAttribute("data-table");
+          if (tableName) {
+            console.log(`Displaying data for table: ${tableName}`);
+            // displayData(tableName); // Ensure displayData is defined if used
           }
         });
       });
-    </script>
-  </body>
+    });
+  </script>
+
+  <script>
+    // Wait for DOM to be fully loaded
+    document.addEventListener("DOMContentLoaded", function () {
+      // Function to handle zoom level changes
+      function handleZoom() {
+        const sidenav = document.getElementById("sidenav-main");
+        const windowWidth = window.innerWidth;
+        const zoomLevel = window.devicePixelRatio;
+
+        if (zoomLevel > 1.51 || windowWidth < 1200) {
+          sidenav.style.display = "none";
+        } else {
+          sidenav.style.display = "block";
+        }
+      }
+
+      // Initial check
+      handleZoom();
+
+      // Listen for zoom changes
+      window.addEventListener("resize", handleZoom);
+    });
+  </script>
+
+  <script>
+    // Language toggle and menu script from dashboard.html
+    const translations = {
+      ar: {
+        dir: "rtl",
+        dashboard: "لوحة التحكم",
+        configTables: "جداول الإعدادات",
+        maps: "الخرائط",
+        manageUsers: "إدارة المستخدمين", // Text for this page
+        profile: "الملف الشخصي",
+        signIn: "تسجيل الدخول",
+        signUp: "إنشاء حساب",
+        footerText: "© 2025، جميع الحقوق محفوظة،", // Simplified for ManageUsers context
+        companyName: "دار التقنية الحديثة",
+        settingsText: "الإعدادات",
+        logoutText: "تسجيل الخروج",
+        // ManageUsers specific translations (can be expanded)
+        usersTitle: "إدارة المستخدمين",
+        usersDescription: "إدارة جميع المستخدمين المسجلين.",
+        viewDetails: "عرض التفاصيل",
+        linkUsersToRoles: "ربط المستخدمين بالأدوار",
+        rolesTitle: "الأدوار",
+        rolesDescription: "إدارة الأدوار المختلفة للمستخدمين.",
+        linkRolesToPermissions: "ربط الأدوار بالسماحيات",
+        permissionsTitle: "السماحيات",
+        permissionsDescription: "إدارة السماحيات الخاصة بالأدوار.",
+      },
+      en: {
+        dir: "ltr",
+        dashboard: "Dashboard",
+        configTables: "Configuration Tables",
+        maps: "Maps",
+        manageUsers: "Manage Users", // Text for this page
+        profile: "Profile",
+        signIn: "Sign In",
+        signUp: "Sign Up",
+        footerText: "© 2025, All rights reserved,", // Simplified for ManageUsers context
+        companyName: "Hi-Tech House",
+        settingsText: "Settings",
+        logoutText: "Logout",
+        // ManageUsers specific translations
+        usersTitle: "Users",
+        usersDescription: "Manage all registered users.",
+        viewDetails: "View Details",
+        linkUsersToRoles: "Link Users to Roles",
+        rolesTitle: "Roles",
+        rolesDescription: "Manage different user roles.",
+        linkRolesToPermissions: "Link Roles to Permissions",
+        permissionsTitle: "Permissions",
+        permissionsDescription: "Manage role-specific permissions.",
+      },
+    };
+
+    let currentLang = "ar"; // Defaulting to Arabic as per dashboard.html's visual default
+
+    function switchLanguage(lang) {
+      try {
+        localStorage.setItem("preferredLanguage", lang);
+      } catch (error) {
+        console.error("Error saving language preference:", error);
+      }
+
+      const aside = document.getElementById("sidenav-main");
+      const helpButton = document.getElementById("helpButton"); // Assuming helpButton ID from dashboard
+
+      // aside.classList.remove("fixed-end", "fixed-start", "ms-3", "me-3"); // Clear all positioning classes
+      aside.classList.remove("fixed-end", "fixed-start"); // Clear all positioning classes
+
+      if (lang === "ar") {
+        aside.classList.add("fixed-end");
+        // aside.classList.add("me-3"); // Bootstrap 5 for margin-end
+        if (helpButton) {
+          helpButton.style.left = "20px";
+          helpButton.style.right = "auto";
+        }
+      } else {
+        aside.classList.add("fixed-start");
+        // aside.classList.add("ms-3"); // Bootstrap 5 for margin-start
+        if (helpButton) {
+          helpButton.style.right = "20px";
+          helpButton.style.left = "auto";
+        }
+      }
+
+      currentLang = lang;
+      const t = translations[lang];
+
+      document.documentElement.lang = lang;
+      document.documentElement.dir = t.dir;
+
+      const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
+      if (navTexts[0]) navTexts[0].textContent = t.dashboard;
+      if (navTexts[1]) navTexts[1].textContent = t.configTables;
+      if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
+      if (navTexts[3]) navTexts[3].textContent = t.profile;
+
+      const settingsTextEl = document.getElementById("settingsText");
+      if (settingsTextEl) settingsTextEl.textContent = t.settingsText;
+      const logoutTextEl = document.getElementById("logoutText");
+      if (logoutTextEl) logoutTextEl.textContent = t.logoutText;
+
+      // Translate ManageUsers specific content
+      const userCardTitle = document.querySelector(
+        ".col-md-4:nth-child(1) .card-title"
+      );
+      if (userCardTitle) userCardTitle.textContent = t.usersTitle;
+      const userCardText = document.querySelector(
+        ".col-md-4:nth-child(1) .card-text"
+      );
+      if (userCardText) userCardText.textContent = t.usersDescription;
+      const userViewDetailsBtn = document.querySelector(
+        ".col-md-4:nth-child(1) .btn-primary:nth-of-type(1)"
+      );
+      if (userViewDetailsBtn) userViewDetailsBtn.textContent = t.viewDetails;
+      const userLinkRolesBtn = document.querySelector(
+        ".col-md-4:nth-child(1) .btn-primary:nth-of-type(2)"
+      );
+      if (userLinkRolesBtn) userLinkRolesBtn.textContent = t.linkUsersToRoles;
+
+      const rolesCardTitle = document.querySelector(
+        ".col-md-4:nth-child(2) .card-title"
+      );
+      if (rolesCardTitle) rolesCardTitle.textContent = t.rolesTitle;
+      const rolesCardText = document.querySelector(
+        ".col-md-4:nth-child(2) .card-text"
+      );
+      if (rolesCardText) rolesCardText.textContent = t.rolesDescription;
+      const rolesViewDetailsBtn = document.querySelector(
+        ".col-md-4:nth-child(2) .btn-success:nth-of-type(1)"
+      );
+      if (rolesViewDetailsBtn)
+        rolesViewDetailsBtn.textContent = t.viewDetails;
+      const rolesLinkPermissionsBtn = document.querySelector(
+        ".col-md-4:nth-child(2) .btn-success:nth-of-type(2)"
+      );
+      if (rolesLinkPermissionsBtn)
+        rolesLinkPermissionsBtn.textContent = t.linkRolesToPermissions;
+
+      const permissionsCardTitle = document.querySelector(
+        ".col-md-4:nth-child(3) .card-title"
+      );
+      if (permissionsCardTitle)
+        permissionsCardTitle.textContent = t.permissionsTitle;
+      const permissionsCardText = document.querySelector(
+        ".col-md-4:nth-child(3) .card-text"
+      );
+      if (permissionsCardText)
+        permissionsCardText.textContent = t.permissionsDescription;
+      const permissionsViewDetailsBtn = document.querySelector(
+        ".col-md-4:nth-child(3) .btn-danger"
+      );
+      if (permissionsViewDetailsBtn)
+        permissionsViewDetailsBtn.textContent = t.viewDetails;
+    }
+
+    function toggleLanguage() {
+      const btn = document.getElementById("langToggleBtn");
+      if (currentLang === "ar") {
+        btn.textContent = "EN";
+        switchLanguage("en");
+      } else {
+        btn.textContent = "AR";
+        switchLanguage("ar");
+      }
+      try {
+        localStorage.setItem("preferredLanguage", currentLang);
+      } catch (error) {
+        console.error(
+          "Error saving language preference in toggleLanguage:",
+          error
+        );
+      }
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById("menuDropdown");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    function logout() {
+      // Kept from ManageUsers as it's standard
+      window.location.href = "./index.html";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      let savedLanguage;
+      try {
+        savedLanguage = localStorage.getItem("preferredLanguage");
+      } catch (error) {
+        console.error("Error retrieving language preference:", error);
+        savedLanguage = null;
+      }
+      const initialLang = savedLanguage || "ar"; // Default to Arabic
+      switchLanguage(initialLang);
+
+      const langToggleBtn = document.getElementById("langToggleBtn");
+      if (langToggleBtn) {
+        langToggleBtn.textContent = initialLang === "ar" ? "AR" : "EN"; // Set button text based on initial language
+        // Ensure no duplicate listeners if this script runs multiple times or is combined.
+        langToggleBtn.onclick = function (e) {
+          // Assign directly to prevent multiple listeners
+          e.preventDefault();
+          e.stopPropagation();
+          toggleLanguage();
+        };
+      }
+
+      // Sidenav active link handling (specific to ManageUsers.html)
+      const currentPath = window.location.pathname.split("/").pop();
+      const navLinks = document.querySelectorAll(".sidenav .nav-link");
+      navLinks.forEach((link) => {
+        if (link.getAttribute("href").includes(currentPath)) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+      // Ensure the "Manage Users" link is active on this page
+      const manageUsersLink = document.querySelector(
+        'a[href="../pages/ManageUsers.html"]'
+      );
+      if (manageUsersLink) {
+        manageUsersLink.classList.add("active");
+      }
+
+      document.addEventListener("click", function (e) {
+        const menu = document.getElementById("menuDropdown");
+        const menuBtn = document.getElementById("menuToggleBtn");
+        if (menu && menuBtn) {
+          if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
+            menu.style.display = "none";
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
 </html>

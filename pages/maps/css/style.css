@@ -4,7 +4,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background: white;
-    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     z-index: 1000;
@@ -169,4 +168,193 @@
 
 .save-button.show {
     display: block;
-} 
+}
+
+/* Color Legend Styles */
+.color-legend {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.color-legend h5 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #495057;
+    font-weight: 600;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.legend-item:last-child {
+    margin-bottom: 0;
+}
+
+.legend-color {
+    width: 20px;
+    height: 15px;
+    border-radius: 3px;
+    margin-left: 8px;
+    border: 1px solid #dee2e6;
+    flex-shrink: 0;
+}
+
+.legend-label {
+    color: #495057;
+    font-weight: 500;
+}
+
+.legend-range {
+    color: #6c757d;
+    font-size: 11px;
+    margin-right: 5px;
+}
+
+/* Symbol Editor Enhancements */
+#neighborhoodColoringSection {
+    border-top: 1px solid #e9ecef;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+#colorByColumnSelect {
+    margin-bottom: 10px;
+}
+
+#applyColumnColoringBtn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+#applyColumnColoringBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+#applyColumnColoringBtn:active {
+    transform: translateY(0);
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Sectoral Functionality Table Styles */
+#sectoral-functionality-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#sectoral-functionality-table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 11px;
+    border: 1px solid rgba(255,255,255,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#sectoral-functionality-table td {
+    padding: 8px 6px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+
+#sectoral-functionality-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+#sectoral-functionality-table tbody tr:hover {
+    background-color: #e3f2fd;
+    transition: background-color 0.2s ease;
+}
+
+/* Functionality status badges */
+.functionality-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    display: inline-block;
+    min-width: 40px;
+}
+
+.functionality-badge.excellent {
+    background: #28a745;
+}
+
+.functionality-badge.good {
+    background: #20c997;
+}
+
+.functionality-badge.average {
+    background: #ffc107;
+    color: #333;
+}
+
+.functionality-badge.poor {
+    background: #fd7e14;
+}
+
+.functionality-badge.bad {
+    background: #dc3545;
+}
+
+/* Sectoral functionality container improvements */
+#sectoral-functionality-container {
+    padding: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+#sectoral-functionality-container h3 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+#randomize-functionality-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+#randomize-functionality-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+}

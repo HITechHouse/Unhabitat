@@ -5,9 +5,6 @@
 
 /* Toggle button styles */
 .tabs-toggle-btn {
-  position: absolute;
-  top: -200px;
-  left: 50%;
   transform: translateX(-50%);
   width: 30px;
   height: 30px;
@@ -18,7 +15,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 1010;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border: 2px solid white;
   transition: transform 0.3s ease, background-color 0.3s ease;

@@ -7,7 +7,7 @@
   overflow: hidden !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
   background: #fff !important;
-  font-family: "Cairo", sans-serif !important;
+  font-family: "Noto Naskh Arabic", sans-serif !important;
 }
 
 .neighborhood-popup h3 {
@@ -163,46 +163,6 @@
   }
 }
 
-/* Override Leaflet's default popup styles */
-.leaflet-popup-content-wrapper {
-  border-radius: 10px !important;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  width:250px;
-}
-
-.leaflet-popup-content {
-  margin: 0 !important;
-  width: auto !important;
-  padding: 0 !important;
-}
-
-.leaflet-popup-tip {
-  background: #3066ff !important;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2) !important;
-}
-
-.leaflet-popup-tip-container {
-  margin-top: -1px;
-}
-
-.leaflet-popup-close-button {
-  padding: 8px !important;
-  color: rgba(255,255,255,0.8) !important;
-  font-size: 20px !important;
-  font-weight: normal !important;
-  top: 8px !important;
-  right: 8px !important;
-  z-index: 10;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  transition: all 0.2s ease;
-}
-
-.leaflet-popup-close-button:hover {
-  color: #ffffff !important;
-}
-
 /* Info panel show/hide animation */
 #info-panel {
   transform: translateX(100%);
@@ -211,4 +171,5 @@
 
 #info-panel.show {
   transform: translateX(0);
+  padding: 0;
 }

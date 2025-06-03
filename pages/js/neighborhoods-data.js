@@ -213,7 +213,7 @@ function getAdvancedStatistics(data) {
   // تحليل بحسب القطاع
   const sectorAnalysis = {};
   features.forEach(feature => {
-    const sector = feature.properties.Sector_01 || 'غير محدد';
+    const sector = feature.properties.Sector_01 || '';
     if (!sectorAnalysis[sector]) {
       sectorAnalysis[sector] = {
         count: 0,
@@ -257,7 +257,7 @@ function getOptimalLocations(data) {
   return features.map(feature => {
     const id = feature.properties.ID;
     const name = feature.properties.Names;
-    const sector = feature.properties.Sector_01 || 'غير محدد';
+    const sector = feature.properties.Sector_01 || '';
     const damage = feature.properties.damage_level || 0;
     const density = feature.properties.population_density || 0;
     const priority = feature.properties.priority || 0;

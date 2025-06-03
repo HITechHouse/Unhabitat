@@ -523,11 +523,14 @@
     }
 
     .info-panel #cancel-changes {
+      display: none;
       background-color: #f3f4f6;
       color: #4b5563;
+
     }
 
     .info-panel #save-changes {
+      display: none;
       background-color: #1e40af;
       color: white;
     }
@@ -1254,7 +1257,7 @@
     }
   </style>
 
-
+  /* Ensure icons maintain position in both languages */
   <style>
     body[dir="ltr"] .tab-icon {
       margin-left: 6px !important;
@@ -1692,43 +1695,6 @@
       background: #ddd;
     }
   </style>
-
-  <!-- Container Z-Index Management -->
-  <style>
-    #sectoral-functionality-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      z-index: 1001;
-      overflow-y: auto;
-    }
-
-    #sectoral-mapping-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      z-index: 1002;
-      overflow-y: auto;
-    }
-
-    #popup-content-container {
-      position: relative;
-      z-index: 1000;
-    }
-
-    /* Ensure proper layering */
-    .popup-content-container {
-      position: relative;
-      z-index: 1000;
-    }
-  </style>
-
   <!-- Measurement Result Floating Box -->
   <div id="measure-result-box" class="measure-result-box" style="display: none"></div>
   <style>
@@ -1844,13 +1810,8 @@
     }
 
     @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .popup-content-container {
@@ -1919,7 +1880,6 @@
         opacity: 0;
         transform: scale(0.7) translateY(100px);
       }
-
       to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1986,8 +1946,12 @@
       </div>
       <!-- زر القائمة -->
       <div class="menu-dropdown">
-        <button class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()"
-          style="background-image: url('../../assets/img/user1.jpg'); background-size: cover; background-position: center;">
+        <button
+        class="menu-toggle"
+        id="menuToggleBtn"
+        onclick="toggleMenu()"
+        style="background-image: url('../../assets/img/user1.jpg'); background-size: cover; background-position: center;"
+        >
         </button>
         <div class="menu-dropdown-content" id="menuDropdown">
           <a href="#" class="menu-item" id="settingsBtn">
@@ -2013,7 +1977,7 @@
     <!-- شعاران على اليمين -->
     <div class="header-logos right-logos">
       <img src="assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
-      <img src="assets/img/japan.png" alt="Logo 2" class="header-logo" />
+      <img src="assets/img/japan.png" alt="Logo 2" class="header-logo"  />
     </div>
   </header>
 
@@ -2115,10 +2079,6 @@
           <button id="fullscreen-popup-btn" title="Composite urban efficiency">
             <i class="fas fa-sliders"></i>
           </button>
-          <!-- New button for Urban Sectoral Functionality -->
-          <button id="sectoral-functionality-btn" title="Urban Sectoral Functionality calculation" style="margin-left: 10px;">
-            <i class="fas fa-chart-area"></i> <!-- Using a chart icon, feel free to suggest another -->
-          </button>
         </div>
         <!-- Basemap Gallery Modal -->
         <div id="basemap-gallery" class="basemap-gallery-modal">
@@ -2202,217 +2162,6 @@
               <div id="popup-content-container" class="popup-content-container" style="display: none;">
                 <!-- Content from window.html will be loaded here -->
               </div>
-              <!-- Urban Sectoral Functionality Calculation Container -->
-              <div id="sectoral-functionality-container" class="popup-content-container" style="display: none; flex-direction: column;">
-                <h3>Urban Sectoral Functionality Calculation</h3>
-                <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
-                  <button id="randomize-functionality-btn" class="sidebar-button">
-                    <i class="fas fa-sync-alt"></i> تحديث الفعالية القطاعية
-                  </button>
-                  <button id="apply-sectoral-mapping-btn" class="sidebar-button" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);">
-                    <i class="fas fa-map-marked-alt"></i> تطبيق الفعالية القطاعية على الأحياء
-                  </button>
-                </div>
-                <div style="overflow-y: auto; flex-grow: 1;">
-                  <table id="sectoral-functionality-table" class="info-table">
-                    <thead>
-                      <tr>
-                        <th>Neighborhood Name</th>
-                        <th>Account Date</th>
-                        <th>التدخلات الإنسانية</th>
-                        <th>الأسواق الأساسية</th>
-                        <th>إدارة النفايات الصلبة</th>
-                        <th>الحدائق والمساحات المعيشية</th>
-                        <th>المرافق التعليمية</th>
-                        <th>المراكز الصحية</th>
-                        <th>شبكة الكهرباء</th>
-                        <th>شبكة الاتصالات</th>
-                        <th>إمدادات المياه</th>
-                        <th>شبكة الصرف الصحي</th>
-                        <th>أضرار الإسكان</th>
-                        <th>النسيج الحضري</th>
-                        <th>التغيرات السكانية</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- Table rows will be populated by JavaScript -->
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <!-- Composite Urban Functionality Container -->
-              <div id="composite-functionality-container" class="popup-content-container" style="display: none; flex-direction: column;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #e9ecef; padding-bottom: 15px;">
-                  <h3 style="color: #333; margin: 0;">
-                    <i class="fas fa-calculator" style="color: #28a745;"></i> الفعالية العمرانية المركبة
-                  </h3>
-                </div>
-
-                <!-- Weights Section -->
-                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                  <h4 style="color: #495057; margin-bottom: 15px;">
-                    <i class="fas fa-balance-scale"></i> تحديد أوزان القطاعات
-                  </h4>
-                  <div id="weightsGrid" style="
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                    gap: 15px;
-                    margin-bottom: 15px;
-                  ">
-                    <!-- Weights will be populated by JavaScript -->
-                  </div>
-
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding: 10px; background: white; border-radius: 8px; border: 1px solid #dee2e6;">
-                    <span style="font-weight: bold; color: #495057;">مجموع الأوزان:</span>
-                    <span id="totalWeight" style="font-size: 18px; font-weight: bold; color: #007bff;">0</span>
-                    <span style="color: #6c757d;">/ 100</span>
-                  </div>
-
-                  <div style="text-align: center; margin-top: 15px;">
-                    <button id="calculateCompositeBtn" class="sidebar-button" style="
-                      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-                      color: white;
-                      border: none;
-                      padding: 12px 30px;
-                      border-radius: 8px;
-                      font-size: 16px;
-                      font-weight: bold;
-                      cursor: pointer;
-                      box-shadow: 0 4px 15px rgba(40,167,69,0.3);
-                      transition: all 0.3s ease;
-                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                      <i class="fas fa-calculator"></i> حساب الفعالية المركبة
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Results Section -->
-                <div id="compositeResultsSection" style="display: none;">
-                  <h4 style="color: #495057; margin-bottom: 15px;">
-                    <i class="fas fa-chart-bar"></i> نتائج الفعالية العمرانية المركبة
-                  </h4>
-
-                  <div style="overflow-y: auto; max-height: 400px; border: 1px solid #dee2e6; border-radius: 8px;">
-                    <table id="composite-results-table" class="info-table">
-                      <thead>
-                        <tr>
-                          <th>اسم الحي</th>
-                          <th>الفعالية المركبة (%)</th>
-                          <th>التصنيف</th>
-                          <th>اللون</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <!-- Results will be populated by JavaScript -->
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div style="text-align: center; margin-top: 15px; display: flex; gap: 10px; justify-content: center; align-items: center;">
-                    <button id="applyCompositeColoringBtn" class="sidebar-button" style="
-                      background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-                      color: white;
-                      border: none;
-                      padding: 12px 30px;
-                      border-radius: 8px;
-                      font-size: 16px;
-                      font-weight: bold;
-                      cursor: pointer;
-                      box-shadow: 0 4px 15px rgba(0,123,255,0.3);
-                      transition: all 0.3s ease;
-                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                      <i class="fas fa-paint-brush"></i> تطبيق التلوين على الخريطة
-                    </button>
-
-                    <!-- Temporary Debug Button -->
-                    <button onclick="window.diagnoseMapLayers()" style="
-                      background: #dc3545;
-                      color: white;
-                      border: none;
-                      padding: 8px 12px;
-                      border-radius: 6px;
-                      font-size: 12px;
-                      cursor: pointer;
-                      transition: all 0.3s ease;
-                    " title="تشخيص طبقات الخريطة (للمطورين)">
-                      <i class="fas fa-bug"></i> تشخيص
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Sectoral Mapping Interface Container -->
-              <div id="sectoral-mapping-container" class="popup-content-container" style="display: none; flex-direction: column;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #e9ecef; padding-bottom: 15px;">
-                  <h3 style="color: #333; margin: 0;">
-                    <i class="fas fa-map-marked-alt" style="color: #007bff;"></i> تطبيق الفعالية القطاعية على الأحياء
-                  </h3>
-                  <button onclick="showSectoralFunctionalityCalculation()" style="
-                    background: #6c757d;
-                    color: white;
-                    border: none;
-                    padding: 8px 16px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    font-size: 14px;
-                  ">
-                    <i class="fas fa-arrow-left"></i> العودة للجدول
-                  </button>
-                </div>
-
-                <div style="flex: 1; overflow-y: auto;">
-                  <!-- Sector Selection Grid -->
-                  <div id="sectoralMappingGrid" style="
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                    gap: 15px;
-                    padding: 20px;
-                    max-height: 70vh;
-                    overflow-y: auto;
-                  ">
-                    <!-- Sectoral mapping cards will be populated by JavaScript -->
-                  </div>
-
-                  <!-- Legend for Blue Gradient -->
-                  <div id="blueGradientLegend" style="
-                    position: fixed;
-                    bottom: 20px;
-                    right: 20px;
-                    background: white;
-                    padding: 15px;
-                    border-radius: 8px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                    border: 1px solid #dee2e6;
-                    display: none;
-                    z-index: 1000;
-                  ">
-                    <h5 style="margin: 0 0 10px 0; color: #495057; text-align: center;">مفتاح الألوان</h5>
-                    <div style="display: flex; flex-direction: column; gap: 5px;">
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 20px; height: 15px; background: #0d47a1; border-radius: 3px;"></div>
-                        <span style="font-size: 12px;">ممتاز (80%+)</span>
-                      </div>
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 20px; height: 15px; background: #1976d2; border-radius: 3px;"></div>
-                        <span style="font-size: 12px;">جيد (65-79%)</span>
-                      </div>
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 20px; height: 15px; background: #42a5f5; border-radius: 3px;"></div>
-                        <span style="font-size: 12px;">متوسط (50-64%)</span>
-                      </div>
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 20px; height: 15px; background: #90caf9; border-radius: 3px;"></div>
-                        <span style="font-size: 12px;">ضعيف (30-49%)</span>
-                      </div>
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 20px; height: 15px; background: #e3f2fd; border-radius: 3px;"></div>
-                        <span style="font-size: 12px;">سيء (أقل من 30%)</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -2466,408 +2215,6 @@
               transform: translate(-50%, -50%) scale(1);
             }
           }
-
-          /* Mini Map Styles */
-          .sectoral-mapping-card-with-map {
-            transition: all 0.3s ease;
-          }
-
-          .sectoral-mapping-card-with-map:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,123,255,0.15) !important;
-          }
-
-          .mini-map-tooltip {
-            background: rgba(0, 0, 0, 0.8) !important;
-            border: none !important;
-            border-radius: 4px !important;
-            color: white !important;
-            font-size: 11px !important;
-            padding: 5px 8px !important;
-          }
-
-          .mini-map-tooltip .leaflet-tooltip-content {
-            margin: 0 !important;
-            padding: 0 !important;
-          }
-
-          /* Scrollbar styling for sectoral mapping grid */
-          #sectoralMappingGrid::-webkit-scrollbar {
-            width: 8px;
-          }
-
-          #sectoralMappingGrid::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-          }
-
-          #sectoralMappingGrid::-webkit-scrollbar-thumb {
-            background: #007bff;
-            border-radius: 4px;
-          }
-
-          #sectoralMappingGrid::-webkit-scrollbar-thumb:hover {
-            background: #0056b3;
-          }
-
-          /* Mini Map Popup Styles */
-          .mini-map-popup .leaflet-popup-content-wrapper {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border: 2px solid #dee2e6;
-          }
-
-          .mini-map-popup .leaflet-popup-content {
-            margin: 0;
-            padding: 0;
-          }
-
-          .mini-map-popup .leaflet-popup-tip {
-            background: white;
-            border: 2px solid #dee2e6;
-            border-top: none;
-            border-right: none;
-          }
-
-          /* Hover effects for mini map */
-          .leaflet-interactive:hover {
-            cursor: pointer;
-          }
-
-          /* Advanced Layer Management Styles */
-          .layers-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-          }
-
-          .layers-toolbar {
-            display: flex;
-            gap: 5px;
-          }
-
-          .layer-toolbar-btn {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 6px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s ease;
-          }
-
-          .layer-toolbar-btn:hover {
-            background: #0056b3;
-            transform: translateY(-1px);
-          }
-
-          .advanced-layer-list {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            background: white;
-          }
-
-          .layer-group {
-            border-bottom: 1px solid #e9ecef;
-          }
-
-          .layer-group:last-child {
-            border-bottom: none;
-          }
-
-          .layer-group-header {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            gap: 8px;
-          }
-
-          .layer-group-header:hover {
-            background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
-          }
-
-          .layer-group-toggle {
-            background: none;
-            border: none;
-            color: #6c757d;
-            cursor: pointer;
-            padding: 2px;
-            transition: transform 0.2s ease;
-          }
-
-          .layer-group-toggle[data-expanded="false"] i {
-            transform: rotate(-90deg);
-          }
-
-          .layer-group-checkbox input {
-            margin: 0;
-          }
-
-          .layer-group-icon {
-            color: #007bff;
-            font-size: 16px;
-          }
-
-          .layer-group-name {
-            flex: 1;
-            font-weight: 600;
-            color: #333;
-          }
-
-          .layer-group-actions {
-            display: flex;
-            gap: 4px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-          }
-
-          .layer-group-header:hover .layer-group-actions {
-            opacity: 1;
-          }
-
-          .layer-group-content {
-            background: #fafafa;
-            border-top: 1px solid #e9ecef;
-          }
-
-          .layer-group-content[data-collapsed="true"] {
-            display: none;
-          }
-
-          .layer-item {
-            display: flex;
-            align-items: center;
-            padding: 8px 12px;
-            gap: 8px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-          }
-
-          .layer-item:hover {
-            background: #f0f0f0;
-          }
-
-          .layer-item.selected {
-            background: #e3f2fd;
-            border-left: 3px solid #007bff;
-          }
-
-          .layer-item.dragging {
-            opacity: 0.5;
-            transform: rotate(2deg);
-          }
-
-          .layer-indent {
-            width: 20px;
-          }
-
-          .layer-checkbox input {
-            margin: 0;
-          }
-
-          .layer-icon {
-            font-size: 14px;
-          }
-
-          .layer-name {
-            flex: 1;
-            font-size: 13px;
-            color: #495057;
-          }
-
-          .layer-actions {
-            display: flex;
-            gap: 2px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-          }
-
-          .layer-item:hover .layer-actions {
-            opacity: 1;
-          }
-
-          .layer-action-btn {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 4px 6px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 10px;
-            transition: all 0.2s ease;
-          }
-
-          .layer-action-btn:hover {
-            background: #495057;
-            transform: scale(1.1);
-          }
-
-          .layer-drag-handle {
-            background: #adb5bd;
-            color: white;
-            border: none;
-            padding: 4px 6px;
-            border-radius: 3px;
-            cursor: grab;
-            font-size: 10px;
-          }
-
-          .layer-drag-handle:active {
-            cursor: grabbing;
-          }
-
-          /* Import/Export Enhanced Styles */
-          .import-export-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            border-radius: 8px;
-          }
-
-          .section-toggle {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-          }
-
-          .section-toggle:hover {
-            background: rgba(255,255,255,0.3);
-          }
-
-          .data-operation-group {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-          }
-
-          .data-operation-group h5 {
-            margin: 0 0 12px 0;
-            color: #495057;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-          }
-
-          .import-options, .export-options, .print-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-          }
-
-          .import-method {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-          }
-
-          .operation-button {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            text-align: left;
-          }
-
-          .import-btn {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-            color: white;
-          }
-
-          .import-btn:hover {
-            background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
-            transform: translateY(-1px);
-          }
-
-          .export-btn {
-            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
-            color: white;
-          }
-
-          .export-btn:hover {
-            background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
-            transform: translateY(-1px);
-          }
-
-          .print-btn {
-            background: linear-gradient(135deg, #6f42c1 0%, #5a2d91 100%);
-            color: white;
-          }
-
-          .print-btn:hover {
-            background: linear-gradient(135deg, #5a2d91 0%, #4c1d7a 100%);
-            transform: translateY(-1px);
-          }
-
-          .import-formats {
-            font-size: 11px;
-            color: #6c757d;
-            font-style: italic;
-          }
-
-          .export-options-advanced {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 10px;
-            background: white;
-            border-radius: 6px;
-            border: 1px solid #dee2e6;
-          }
-
-          .export-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-          }
-
-          .export-option input[type="checkbox"] {
-            margin: 0;
-          }
-
-          .export-option label {
-            font-size: 12px;
-            color: #495057;
-            margin: 0;
-          }
-
-          .export-actions {
-            display: flex;
-            gap: 10px;
-          }
-
-          .export-actions .operation-button {
-            flex: 1;
-          }
         </style>
       </div>
     </div>
@@ -2892,183 +2239,35 @@
         <!-- Base Layers Section -->
 
         <div class="sidebar-section">
-          <div class="layers-header">
-            <h4><i class="fas fa-layer-group"></i> إدارة الطبقات</h4>
-            <div class="layers-toolbar">
-              <button id="addLayerBtn" class="layer-toolbar-btn" title="إضافة طبقة جديدة">
-                <i class="fas fa-plus"></i>
-              </button>
-              <button id="removeLayerBtn" class="layer-toolbar-btn" title="حذف الطبقة المحددة">
-                <i class="fas fa-trash"></i>
-              </button>
-              <button id="layerPropertiesBtn" class="layer-toolbar-btn" title="خصائص الطبقة">
-                <i class="fas fa-cog"></i>
-              </button>
-            </div>
-          </div>
-
-          <div id="layersList" class="advanced-layer-list">
-            <!-- Advanced layer management will be populated dynamically -->
-
-            <!-- Main Layers Group (Neighborhoods + Service Sectors) -->
-            <div class="layer-group" data-layer-group="main-layers">
-              <div class="layer-group-header">
-                <button class="layer-group-toggle" data-expanded="true">
-                  <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="layer-group-checkbox">
-                  <input type="checkbox" id="group-main-layers" checked />
-                </div>
-                <div class="layer-group-icon">
-                  <i class="fas fa-layer-group"></i>
-                </div>
-                <span class="layer-group-name">الطبقات الرئيسية</span>
-                <div class="layer-group-actions">
-                  <button class="layer-action-btn" data-action="zoom" data-layer="main-layers" title="تكبير للطبقات">
-                    <i class="fas fa-search-plus"></i>
-                  </button>
-                  <button class="layer-action-btn" data-action="properties" data-layer="main-layers" title="خصائص المجموعة">
-                    <i class="fas fa-info-circle"></i>
-                  </button>
-                </div>
+          <h4>الطبقات</h4>
+          <div id="layersList" class="layer-list">
+            <!-- Layers will be populated dynamically -->
+            <div class="layer-item">
+              <div class="layer-toggle">
+                <input type="checkbox" id="layer-neighborhoods" checked />
+                <label for="layer-neighborhoods">الأحياء</label>
               </div>
-
-              <div class="layer-group-content">
-                <!-- Neighborhoods Sub-Group -->
-                <div class="layer-group" data-layer-group="neighborhoods">
-              <div class="layer-group-header">
-                <button class="layer-group-toggle" data-expanded="true">
-                  <i class="fas fa-chevron-down"></i>
+              <div class="layer-actions" title="zoom" class="layer-action-btn" data-action="zoom"
+                data-layer="neighborhoods">
+                <i class="fas fa-search-plus"></i>
+                <button title="search" class="layer-action-btn" data-action="info" data-layer="neighborhoods">
+                  <i class="fas fa-info-circle"></i>
                 </button>
-                <div class="layer-group-checkbox">
-                  <input type="checkbox" id="group-neighborhoods" checked />
-                </div>
-                <div class="layer-group-icon">
-                  <i class="fas fa-home"></i>
-                </div>
-                <span class="layer-group-name">الأحياء</span>
-                <div class="layer-group-actions">
-                  <button class="layer-action-btn" data-action="zoom" data-layer="neighborhoods" title="تكبير للطبقة">
-                    <i class="fas fa-search-plus"></i>
-                  </button>
-                  <button class="layer-action-btn" data-action="properties" data-layer="neighborhoods" title="خصائص الطبقة">
-                    <i class="fas fa-info-circle"></i>
-                  </button>
-                  <button class="layer-drag-handle" title="سحب لإعادة الترتيب">
-                    <i class="fas fa-grip-vertical"></i>
-                  </button>
-                </div>
-              </div>
-
-              <div class="layer-group-content">
-                <!-- Neighborhoods sub-layers -->
-                <div class="layer-item" data-layer="neighborhoods-polygons" draggable="true">
-                  <div class="layer-indent"></div>
-                  <div class="layer-checkbox">
-                    <input type="checkbox" id="layer-neighborhoods-polygons" checked />
-                  </div>
-                  <div class="layer-icon">
-                    <i class="fas fa-vector-square" style="color: #1e40af;"></i>
-                  </div>
-                  <span class="layer-name">حدود الأحياء</span>
-                  <div class="layer-actions">
-                    <button class="layer-action-btn" data-action="style" data-layer="neighborhoods-polygons" title="تنسيق الطبقة">
-                      <i class="fas fa-palette"></i>
-                    </button>
-                    <button class="layer-action-btn" data-action="table" data-layer="neighborhoods-polygons" title="جدول البيانات">
-                      <i class="fas fa-table"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="layer-item" data-layer="neighborhoods-labels" draggable="true">
-                  <div class="layer-indent"></div>
-                  <div class="layer-checkbox">
-                    <input type="checkbox" id="layer-neighborhoods-labels" checked />
-                  </div>
-                  <div class="layer-icon">
-                    <i class="fas fa-font" style="color: #059669;"></i>
-                  </div>
-                  <span class="layer-name">مسميات الأحياء</span>
-                  <div class="layer-actions">
-                    <button class="layer-action-btn" data-action="style" data-layer="neighborhoods-labels" title="تنسيق النصوص">
-                      <i class="fas fa-text-height"></i>
-                    </button>
-                    <button class="layer-action-btn" data-action="visibility" data-layer="neighborhoods-labels" title="إعدادات الرؤية">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
-
-            <!-- Service Sectors Layer Group -->
-            <div class="layer-group" data-layer-group="service-sectors">
-              <div class="layer-group-header">
-                <button class="layer-group-toggle" data-expanded="true">
-                  <i class="fas fa-chevron-down"></i>
+            <div class="layer-item">
+              <div class="layer-toggle">
+                <input type="checkbox" id="layer-service-sectors" checked />
+                <label for="layer-service-sectors">دوائر الخدمات</label>
+              </div>
+              <div class="layer-actions">
+                <button title="layer action" class="layer-action-btn" data-action="zoom" data-layer="service-sectors">
+                  <i class="fas fa-search-plus"></i>
                 </button>
-                <div class="layer-group-checkbox">
-                  <input type="checkbox" id="group-service-sectors" checked />
-                </div>
-                <div class="layer-group-icon">
-                  <i class="fas fa-cogs"></i>
-                </div>
-                <span class="layer-group-name">دوائر الخدمات</span>
-                <div class="layer-group-actions">
-                  <button class="layer-action-btn" data-action="zoom" data-layer="service-sectors" title="تكبير للطبقة">
-                    <i class="fas fa-search-plus"></i>
-                  </button>
-                  <button class="layer-action-btn" data-action="properties" data-layer="service-sectors" title="خصائص الطبقة">
-                    <i class="fas fa-info-circle"></i>
-                  </button>
-                  <button class="layer-drag-handle" title="سحب لإعادة الترتيب">
-                    <i class="fas fa-grip-vertical"></i>
-                  </button>
-                </div>
-              </div>
-
-              <div class="layer-group-content">
-                <!-- Service sectors sub-layers -->
-                <div class="layer-item" data-layer="service-sectors-polygons" draggable="true">
-                  <div class="layer-indent"></div>
-                  <div class="layer-checkbox">
-                    <input type="checkbox" id="layer-service-sectors-polygons" checked />
-                  </div>
-                  <div class="layer-icon">
-                    <i class="fas fa-vector-square" style="color: #dc2626;"></i>
-                  </div>
-                  <span class="layer-name">حدود دوائر الخدمات</span>
-                  <div class="layer-actions">
-                    <button class="layer-action-btn" data-action="style" data-layer="service-sectors-polygons" title="تنسيق الطبقة">
-                      <i class="fas fa-palette"></i>
-                    </button>
-                    <button class="layer-action-btn" data-action="table" data-layer="service-sectors-polygons" title="جدول البيانات">
-                      <i class="fas fa-table"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="layer-item" data-layer="service-sectors-labels" draggable="true">
-                  <div class="layer-indent"></div>
-                  <div class="layer-checkbox">
-                    <input type="checkbox" id="layer-service-sectors-labels" checked />
-                  </div>
-                  <div class="layer-icon">
-                    <i class="fas fa-font" style="color: #7c3aed;"></i>
-                  </div>
-                  <span class="layer-name">مسميات دوائر الخدمات</span>
-                  <div class="layer-actions">
-                    <button class="layer-action-btn" data-action="style" data-layer="service-sectors-labels" title="تنسيق النصوص">
-                      <i class="fas fa-text-height"></i>
-                    </button>
-                    <button class="layer-action-btn" data-action="visibility" data-layer="service-sectors-labels" title="إعدادات الرؤية">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+                <button title="layer action btn" class="layer-action-btn" data-action="info"
+                  data-layer="service-sectors">
+                  <i class="fas fa-info-circle"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -3094,122 +2293,38 @@
           </div>
         </div>
         <div class="sidebar-section">
-          <div class="import-export-header">
-            <h4><i class="fas fa-exchange-alt"></i> إدارة البيانات</h4>
-            <button id="dataManagerToggle" class="section-toggle" title="توسيع/طي القسم">
-              <i class="fas fa-chevron-down"></i>
-            </button>
-          </div>
-
+          <h4>تصدير / استيراد</h4>
           <div class="import-export-controls">
-            <!-- Import Section -->
-            <div class="data-operation-group">
-              <h5><i class="fas fa-file-import"></i> استيراد البيانات</h5>
-              <div class="import-options">
-                <div class="import-method">
-                  <button id="importLayerBtn" class="operation-button import-btn">
-                    <i class="fas fa-upload"></i>
-                    <span>استيراد ملف</span>
-                  </button>
-                  <div class="import-formats">
-                    <small>الصيغ المدعومة: GeoJSON, KML, Shapefile, CSV</small>
-                  </div>
-                </div>
+            <button id="importLayerBtn" class="sidebar-button">
+              <i class="fas fa-file-import"></i> استيراد طبقة
+            </button>
+            <input type="file" id="layerFileInput" accept=".geojson,.kml,.shp,.zip" style="display: none" />
 
-                <div class="import-method">
-                  <button id="importFromUrlBtn" class="operation-button import-btn">
-                    <i class="fas fa-link"></i>
-                    <span>استيراد من رابط</span>
-                  </button>
-                </div>
+            <button id="exportLayerBtn" class="sidebar-button">
+              <i class="fas fa-file-export"></i> تصدير طبقة
+            </button>
 
-                <div class="import-method">
-                  <button id="importFromServiceBtn" class="operation-button import-btn">
-                    <i class="fas fa-server"></i>
-                    <span>استيراد من خدمة</span>
-                  </button>
-                </div>
-              </div>
+            <button id="printMapBtn" class="sidebar-button">
+              <i class="fas fa-print"></i> طباعة الخريطة
+            </button>
 
-              <!-- Hidden file inputs -->
-              <input type="file" id="layerFileInput" accept=".geojson,.kml,.shp,.zip,.csv" style="display: none" />
-              <input type="file" id="multipleFilesInput" accept=".geojson,.kml,.shp,.zip,.csv" multiple style="display: none" />
+            <div class="layer-selector">
+              <label for="exportLayerSelect">اختر الطبقة:</label>
+              <select id="exportLayerSelect" class="sidebar-select">
+                <option value="neighborhoods">الأحياء</option>
+                <option value="service-sectors">القطاعات الخدمية</option>
+                <option value="neighborhood-labels">مسميات الأحياء</option>
+              </select>
             </div>
 
-            <!-- Export Section -->
-            <div class="data-operation-group">
-              <h5><i class="fas fa-file-export"></i> تصدير البيانات</h5>
-
-              <div class="export-options">
-                <div class="layer-selector">
-                  <label for="exportLayerSelect">اختر الطبقة للتصدير:</label>
-                  <select id="exportLayerSelect" class="sidebar-select">
-                    <option value="">-- اختر طبقة --</option>
-                    <option value="neighborhoods">الأحياء (حدود)</option>
-                    <option value="neighborhoods-labels">الأحياء (مسميات)</option>
-                    <option value="service-sectors">دوائر الخدمات (حدود)</option>
-                    <option value="service-sectors-labels">دوائر الخدمات (مسميات)</option>
-                    <option value="all-layers">جميع الطبقات</option>
-                  </select>
-                </div>
-
-                <div class="format-selector">
-                  <label for="exportFormat">صيغة التصدير:</label>
-                  <select id="exportFormat" class="sidebar-select">
-                    <option value="geojson">GeoJSON</option>
-                    <option value="kml">KML</option>
-                    <option value="shp">Shapefile (ZIP)</option>
-                    <option value="csv">CSV (جدول البيانات)</option>
-                    <option value="excel">Excel (XLSX)</option>
-                    <option value="pdf">PDF (خريطة)</option>
-                  </select>
-                </div>
-
-                <div class="export-options-advanced">
-                  <div class="export-option">
-                    <input type="checkbox" id="includeAttributes" checked />
-                    <label for="includeAttributes">تضمين البيانات الوصفية</label>
-                  </div>
-                  <div class="export-option">
-                    <input type="checkbox" id="includeStyles" />
-                    <label for="includeStyles">تضمين التنسيقات</label>
-                  </div>
-                  <div class="export-option">
-                    <input type="checkbox" id="exportVisibleOnly" />
-                    <label for="exportVisibleOnly">الطبقات المرئية فقط</label>
-                  </div>
-                </div>
-
-                <div class="export-actions">
-                  <button id="exportLayerBtn" class="operation-button export-btn">
-                    <i class="fas fa-download"></i>
-                    <span>تصدير الطبقة</span>
-                  </button>
-                  <button id="exportSelectedBtn" class="operation-button export-btn">
-                    <i class="fas fa-check-square"></i>
-                    <span>تصدير المحدد</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Print Section -->
-            <div class="data-operation-group">
-              <h5><i class="fas fa-print"></i> طباعة وحفظ</h5>
-              <div class="print-options">
-                <button id="printMapBtn" class="operation-button print-btn">
-                  <i class="fas fa-print"></i>
-                  <span>طباعة الخريطة</span>
-                </button>
-                <button id="saveMapImageBtn" class="operation-button print-btn">
-                  <i class="fas fa-image"></i>
-                  <span>حفظ كصورة</span>
-                </button>
-                <button id="generateReportBtn" class="operation-button print-btn">
-                  <i class="fas fa-file-pdf"></i>
-                  <span>تقرير PDF</span>
-                </button>
-              </div>
+            <div class="format-selector">
+              <label for="exportFormat">صيغة التصدير:</label>
+              <select id="exportFormat" class="sidebar-select">
+                <option value="geojson">GeoJSON</option>
+                <option value="kml">KML</option>
+                <option value="shp">Shapefile (ZIP)</option>
+                <option value="csv">CSV</option>
+              </select>
             </div>
           </div>
         </div>
@@ -3224,21 +2339,6 @@
             </select>
 
             <div class="style-options" id="styleOptions">
-              <!-- تلوين الأحياء حسب العمود -->
-              <div class="style-option" id="neighborhoodColoringSection" style="display: none;">
-                <label>تلوين حسب العمود:</label>
-                <select id="colorByColumnSelect" class="sidebar-select">
-                  <option value="">اختر عمود...</option>
-                </select>
-                <button id="applyColumnColoringBtn" class="sidebar-button">
-                  <i class="fas fa-palette"></i> تطبيق التلوين
-                </button>
-                <div id="colorLegend" class="color-legend" style="display: none;">
-                  <h5>مفتاح الألوان:</h5>
-                  <div id="legendItems"></div>
-                </div>
-              </div>
-
               <div class="style-option">
                 <label>اللون:</label>
                 <input title="layer color" type="color" id="layerColor" value="#1e40af" />
@@ -3581,9 +2681,8 @@
   <script src="js/hydraulic-billing.js"></script>
   <script src="js/import-export.js"></script>
   <script src="js/features.js"></script>
-  <script src="js/tabs.js"></script>
+  <script src="js/tabs2.js"></script>
   <script src="js/info-panel-formatter.js"></script>
-  <script src="js/advanced-layer-manager.js"></script>
   <script>
     // Fix for white space issue when clicking on the map
     document.addEventListener("click", function (e) {

@@ -11,7 +11,7 @@
       href="assets/img/UN_Habitat_Icon.svg"
       type="image/x-icon"
     />
-    <title>Dashboard</title>
+    <title>Standars</title>
     <!-- Simplified Arabic Font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap"
@@ -28,15 +28,6 @@
       href="assets/css/soft-ui-dashboard.css?v=1.1.0"
       rel="stylesheet"
     />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       /* General body styles and font setup */
       body {
@@ -102,7 +93,7 @@
       }
 
       #mainHeader .title-en {
-        font-size: 0.7rem !important;
+        font-size: 0.9rem !important;
         opacity: 0.9 !important;
       }
 
@@ -369,112 +360,159 @@
         display: inline-block !important;
         visibility: visible !important;
       }
-    </style>
 
-    <style>
-      .dashboard {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
+      /* Styles from eddit.html */
+      :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #50c878;
+        --text-dark: #2c3e50;
+        --text-light: #ecf0f1;
+        --bg-light: #f4f7f6;
+        --card-bg: #ffffff;
+        --border-radius: 10px;
+        --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .data-row {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-light);
+        margin-bottom: 1rem;
         padding: 1rem;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border-right: 3px solid var(--primary-color);
+        display: flex;
+        flex-direction: column;
+        animation-duration: 0.7s;
+      }
+
+      .data-row:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      .row-title-container {
         width: 100%;
+        margin-bottom: 0.8rem;
+        padding-right: 8px;
       }
 
-      .card-box {
-        min-width: 250px;
-        transition: all 0.4s ease-in-out;
-        overflow: hidden;
-        cursor: pointer;
+      .row-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
         position: relative;
-        animation: fadeIn 0.5s ease-in;
-        grid-column: auto;
-        grid-row: auto;
+        padding-bottom: 6px;
+        display: inline-block;
       }
 
-      .card-box.active {
-        z-index: 10;
-        grid-column: span 2;
-        grid-row: span 2;
+      .fields-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
       }
 
-      .card-body-extra {
-        display: none;
-        margin-top: 2rem;
-        background-color: #e9ecef;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        animation: slideDown 0.4s ease forwards;
-        color: black;
+      .field-item {
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        background-color: var(--bg-light);
+        padding: 0.5rem 0.8rem;
+        border-radius: var(--border-radius);
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        flex-grow: 0;
+        flex-shrink: 0;
+        min-width: 120px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        position: relative;
+        user-select: none;
       }
 
-      .card-box.active .card-body-extra {
-        display: block;
+      .field-item:hover {
+        background-color: #e0e6e9;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
-      .card-box.inactive {
-        filter: brightness(95%) saturate(90%);
-        opacity: 1;
-        /* Add transform for animation */
-        transform: translate(0, 0);
-        transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out,
-          filter 0.4s ease-in-out;
+      .field-item:active {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
-      .card-box.inactive.moving {
-        transition: transform 0.4s ease-in-out;
+      .field-label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        margin: 0rem 0.6rem;
+        cursor: pointer;
+        white-space: nowrap;
+        flex: 1;
+      }
+
+      .custom-checkbox {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .custom-checkbox input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      .custom-checkbox span {
+        position: relative;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--primary-color);
+        border-radius: 4px;
+        background-color: var(--card-bg);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        flex-shrink: 0;
+      }
+
+      .custom-checkbox input[type="checkbox"]:checked + span {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        transform: scale(1.1);
+        box-shadow: 0 0 8px rgba(80, 200, 120, 0.4);
+      }
+
+      .custom-checkbox input[type="checkbox"]:checked + span::after {
+        content: "\2713";
+        font-size: 12px;
+        color: var(--text-light);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .custom-checkbox:hover span {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 5px rgba(80, 200, 120, 0.2);
       }
 
       @media (max-width: 768px) {
-        .dashboard {
-          grid-template-columns: 1fr;
+        .data-row {
+          padding: 0.8rem;
         }
-
-        .card-box.active {
-          grid-column: 1;
-          grid-row: span 2;
+        .row-title {
+          font-size: 1.1rem;
         }
-      }
-
-      @keyframes slideDown {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
+        .field-item {
+          width: 100%;
+          justify-content: space-between;
         }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-
-        to {
-          opacity: 1;
-        }
-      }
-
-      .scrollable-table {
-        max-height: 200px;
-        overflow-y: auto;
-      }
-
-      .explore-btn {
-        background-color: #fff;
-        color: #000;
-        border: 2px solid #000;
-        border-radius: 8px;
-        padding: 8px 20px;
-        font-weight: bold;
-        transition: all 0.3s ease;
-      }
-
-      .explore-btn:hover {
-        background-color: #000;
-        color: #fff;
       }
     </style>
   </head>
@@ -564,14 +602,14 @@
 
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav">
-          <li class="nav-item ">
-            <a class="nav-link active" href="../pages/dashboard.html">
+          <li class="nav-item">
+            <a class="nav-link" href="../pages/dashboard.html">
               <div
                 class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <i
                   class="fas fa-tachometer-alt"
-                  style="color: white; font-size: 12px"
+                  style="color: black; font-size: 12px"
                 ></i>
               </div>
               <span class="nav-link-text ms-1">Dashboard</span>
@@ -621,13 +659,13 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="standars.html">
+            <a class="nav-link active" href="standars.html">
               <div
                 class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
               >
                 <i
                   class="fas fa-cogs"
-                  style="color: black; font-size: 12px"
+                  style="color: white; font-size: 12px"
                 ></i>
               </div>
               <span class="nav-link-text ms-1">المعايير</span>
@@ -671,200 +709,9 @@
       </div>
       <div class="sidenav-footer mx-3"></div>
     </aside>
-    <main
-      class="main-content position-relative max-height-vh-100 h-100 border-radius-lg mt-4"
-    >
-      <div class="container py-5">
-        <!-- <h2 class="text-center mb-4">لوحة التحكم</h2> -->
-        <div class="dashboard" id="dashboard">
-          <!-- Population Box -->
-          <div
-            class="card card-box bg-primary text-white"
-            onclick="expandCard(this, 'sakanExtra')"
-          >
-            <div class="card-body text-center">
-              <h5 class="card-title" id="sakanTitle">السكان</h5>
-              <p class="card-text" id="sakanCount">عدد السكان: 1,000,000</p>
-              <div class="card-body-extra" id="sakanExtra">
-                <p id="sakanFamilies">عدد الأسر: 185,185</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Housing Box -->
-          <div
-            class="card card-box bg-success text-white"
-            onclick="expandCard(this, 'maskanChartContainer')"
-          >
-            <div class="card-body text-center">
-              <h5 class="card-title" id="maskanTitle">المساكن</h5>
-              <p class="card-text" id="maskanCount">عدد المساكن: 300</p>
-              <div class="card-body-extra" id="maskanChartContainer">
-                <canvas id="maskanChart"></canvas>
-              </div>
-            </div>
-          </div>
-
-          <!-- Neighborhoods Box -->
-          <div
-            class="card card-box bg-warning text-dark"
-            onclick="expandCard(this, 'hayTable')"
-          >
-            <div class="card-body text-center">
-              <h5 class="card-title" id="hayTitle">الأحياء</h5>
-              <p class="card-text" id="hayCount">عدد الأحياء: 20</p>
-              <div class="card-body-extra" id="hayTable">
-                <div class="scrollable-table">
-                  <table
-                    class="table table-bordered table-striped bg-white text-black"
-                  >
-                    <thead>
-                      <tr>
-                        <th id="hayNameHeader">اسم الحي</th>
-                        <th id="hayResponsibleHeader">المسؤول</th>
-                        <th id="hayPhoneHeader">الهاتف</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><i class="fas fa-house me-1"></i>حي الزهور</td>
-                        <td><i class="fas fa-user me-1"></i>أحمد العلي</td>
-                        <td><i class="fas fa-phone me-1"></i>0912345678</td>
-                      </tr>
-                      <tr>
-                        <td><i class="fas fa-house me-1"></i>حي الربيع</td>
-                        <td><i class="fas fa-user me-1"></i>منى خالد</td>
-                        <td><i class="fas fa-phone me-1"></i>0945678912</td>
-                      </tr>
-                      <tr>
-                        <td><i class="fas fa-house me-1"></i>حي النور</td>
-                        <td><i class="fas fa-user me-1"></i>سامي محمد</td>
-                        <td><i class="fas fa-phone me-1"></i>0998765432</td>
-                      </tr>
-                      <tr>
-                        <td><i class="fas fa-house me-1"></i>حي الشام</td>
-                        <td><i class="fas fa-user me-1"></i>ليلى يوسف</td>
-                        <td><i class="fas fa-phone me-1"></i>0987654321</td>
-                      </tr>
-                      <tr>
-                        <td><i class="fas fa-house me-1"></i>حي الثورة</td>
-                        <td><i class="fas fa-user me-1"></i>علي حسن</td>
-                        <td><i class="fas fa-phone me-1"></i>0934567890</td>
-                      </tr>
-                      <tr>
-                        <td><i class="fas fa-house me-1"></i>حي الجلاء</td>
-                        <td><i class="fas fa-user me-1"></i>هند سالم</td>
-                        <td><i class="fas fa-phone me-1"></i>0954321876</td>
-                      </tr>
-                      <tr>
-                        <td><i class="fas fa-house me-1"></i>حي الفتح</td>
-                        <td><i class="fas fa-user me-1"></i>باسل محمود</td>
-                        <td><i class="fas fa-phone me-1"></i>0923456789</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Service Departments Box -->
-          <div
-            class="card card-box bg-danger text-white"
-            onclick="expandCard(this, 'serviceList')"
-          >
-            <div class="card-body text-center">
-              <h5 class="card-title" id="serviceTitle">دوائر الخدمات</h5>
-              <p class="card-text" id="serviceCount">عدد الدوائر: 15</p>
-              <div class="card-body-extra" id="serviceList">
-                <div class="scrollable-table">
-                  <table
-                    class="table table-bordered table-striped bg-white text-black"
-                  >
-                    <thead>
-                      <tr>
-                        <th id="serviceNameHeader">اسم الدائرة</th>
-                        <th id="serviceManagerHeader">اسم المدير</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <i class="fas fa-building me-1"></i>دائرة الكهرباء
-                        </td>
-                        <td><i class="fas fa-user me-1"></i>علي يوسف</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <i class="fas fa-building me-1"></i>دائرة المياه
-                        </td>
-                        <td><i class="fas fa-user me-1"></i>سالم نادر</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <i class="fas fa-building me-1"></i>دائرة النظافة
-                        </td>
-                        <td><i class="fas fa-user me-1"></i>منى سالم</td>
-                      </tr>
-                      <tr>
-                        <td><i class="fas fa-building me-1"></i>دائرة الطرق</td>
-                        <td><i class="fas fa-user me-1"></i>رامي خالد</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <i class="fas fa-building me-1"></i>دائرة الزراعة
-                        </td>
-                        <td><i class="fas fa-user me-1"></i>أحمد منصور</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <i class="fas fa-building me-1"></i>دائرة التعليم
-                        </td>
-                        <td><i class="fas fa-user me-1"></i>هدى خليل</td>
-                      </tr>
-                      <tr>
-                        <td><i class="fas fa-building me-1"></i>دائرة الصحة</td>
-                        <td><i class="fas fa-user me-1"></i>باسل فادي</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <i class="fas fa-building me-1"></i>دائرة الإسكان
-                        </td>
-                        <td><i class="fas fa-user me-1"></i>رنا يوسف</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <i class="fas fa-building me-1"></i>دائرة الإطفاء
-                        </td>
-                        <td><i class="fas fa-user me-1"></i>مروان عبد</td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <i class="fas fa-building me-1"></i>دائرة المرور
-                        </td>
-                        <td><i class="fas fa-user me-1"></i>حسام علي</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Urban Area Box -->
-          <div
-            class="card card-box bg-secondary text-white"
-            onclick="expandCard(this, 'masahaChartContainer')"
-          >
-            <div class="card-body text-center">
-              <h5 class="card-title" id="masahaTitle">المساحة العمرانية</h5>
-              <p class="card-text" id="masahaText">نسبة التنظيم</p>
-              <div class="card-body-extra" id="masahaChartContainer">
-                <canvas id="masahaChart"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
+    <main class="main-content position-relative border-radius-lg my-4">
+      <div>
+        <div class="container my-5" id="data-container"></div>
       </div>
     </main>
     <footer id="mainFooter">
@@ -938,26 +785,10 @@
           profile: "الملف الشخصي",
           settingsText: "الإعدادات",
           logoutText: "تسجيل الخروج",
-          pageTitle: "صفحة فارغة",
+          pageTitle: "لوحة تحكم بيانات الخدمات",
           standards: "المعايير",
           neighborhoodCommittees: "إدارة لجان الأحياء",
           developmentCommittees: "إدارة لجان التنمية",
-          sakanTitle: "السكان",
-          sakanCount: "عدد السكان: ",
-          sakanFamilies: "عدد الأسر: ",
-          maskanTitle: "المساكن",
-          maskanCount: "عدد المساكن: ",
-          hayTitle: "الأحياء",
-          hayCount: "عدد الأحياء: ",
-          hayNameHeader: "اسم الحي",
-          hayResponsibleHeader: "المسؤول",
-          hayPhoneHeader: "الهاتف",
-          serviceTitle: "دوائر الخدمات",
-          serviceCount: "عدد الدوائر: ",
-          serviceNameHeader: "اسم الدائرة",
-          serviceManagerHeader: "اسم المدير",
-          masahaTitle: "المساحة العمرانية",
-          masahaText: "نسبة التنظيم",
         },
         en: {
           dir: "ltr",
@@ -967,30 +798,341 @@
           profile: "Profile",
           settingsText: "Settings",
           logoutText: "Logout",
-          pageTitle: "Empty Page",
+          pageTitle: "Services Data Control Panel",
           standards: "Standards",
           neighborhoodCommittees: "Neighborhood Comm",
           developmentCommittees: "Development Comm",
-          sakanTitle: "Population",
-          sakanCount: "Population Count: ",
-          sakanFamilies: "Number of Families: ",
-          maskanTitle: "Housing",
-          maskanCount: "Housing Units: ",
-          hayTitle: "Neighborhoods",
-          hayCount: "Number of Neighborhoods: ",
-          hayNameHeader: "Neighborhood Name",
-          hayResponsibleHeader: "Responsible",
-          hayPhoneHeader: "Phone",
-          serviceTitle: "Service Departments",
-          serviceCount: "Number of Departments: ",
-          serviceNameHeader: "Department Name",
-          serviceManagerHeader: "Manager Name",
-          masahaTitle: "Urban Area",
-          masahaText: "Organization Ratio",
         },
       };
 
       let currentLang = "ar";
+
+      const tablesDataSummary = [
+        {
+          title: {
+            ar: "التدخلات الإنسانية",
+            en: "Humanitarian Interventions",
+          },
+          fields: [
+            {
+              ar: "الصحة",
+              en: "Health",
+            },
+            {
+              ar: "الغذاء",
+              en: "Food",
+            },
+            {
+              ar: "اللباس والمعونات السكنية",
+              en: "Clothing and Housing Aid",
+            },
+            {
+              ar: "الايواء والسكن",
+              en: "Shelter and Housing",
+            },
+            {
+              ar: "التعليم",
+              en: "Education",
+            },
+            {
+              ar: "الدعم النفسي والاسري",
+              en: "Psychological and Family Support",
+            },
+            {
+              ar: "مشاريع تحسين سبل العيش",
+              en: "Livelihood Improvement Projects",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "الأسواق الأساسية",
+            en: "Essential Markets",
+          },
+          fields: [
+            {
+              ar: "نوع السوق",
+              en: "Market Type",
+            },
+            {
+              ar: "المنطقة الخدمية",
+              en: "Service Area",
+            },
+            {
+              ar: "حالة التشغيل",
+              en: "Operation Status",
+            },
+            {
+              ar: "عدد المحلات",
+              en: "Number of Shops",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "إدارة النفايات الصلبة",
+            en: "Solid Waste Management",
+          },
+          fields: [
+            {
+              ar: "مكبات عشوائية",
+              en: "Random Dumps",
+            },
+            {
+              ar: "مستوى نظافة الشوارع",
+              en: "Street Cleanliness Level",
+            },
+            {
+              ar: "مكافحة القوارض",
+              en: "Pest Control",
+            },
+            {
+              ar: "ترحيل الركام",
+              en: "Debris Removal",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "شبكة الكهرباء",
+            en: "Electricity Network",
+          },
+          fields: [
+            {
+              ar: "ضرر المحول",
+              en: "Transformer Damage",
+            },
+            {
+              ar: "ضرر الخط",
+              en: "Line Damage",
+            },
+            {
+              ar: "حالة الشبكة",
+              en: "Network Status",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "شبكة الاتصالات",
+            en: "Telecommunications Network",
+          },
+          fields: [
+            {
+              ar: "اسم الحي",
+              en: "Neighborhood Name",
+            },
+            {
+              ar: "ضرر المحول",
+              en: "Transformer Damage",
+            },
+            {
+              ar: "ضرر الخط",
+              en: "Line Damage",
+            },
+            {
+              ar: "حالة الشبكة",
+              en: "Network Status",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "إمدادات المياه",
+            en: "Water Supply",
+          },
+          fields: [
+            {
+              ar: "متصل بالشبكة",
+              en: "Connected to Network",
+            },
+            {
+              ar: "الضرر",
+              en: "Damage",
+            },
+            {
+              ar: "نسبة الضرر",
+              en: "Damage Percentage",
+            },
+            {
+              ar: "التشغيل",
+              en: "Operation",
+            },
+            {
+              ar: "نسبة التشغيل",
+              en: "Operation Percentage",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "شبكة الصرف الصحي",
+            en: "Sewage Network",
+          },
+          fields: [
+            {
+              ar: "متصل بالشبكة",
+              en: "Connected to Network",
+            },
+            {
+              ar: "الضرر",
+              en: "Damage",
+            },
+            {
+              ar: "نسبة الضرر",
+              en: "Damage Percentage",
+            },
+            {
+              ar: "التشغيل",
+              en: "Operation",
+            },
+            {
+              ar: "نسبة التشغيل",
+              en: "Operation Percentage",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "أضرار الإسكان",
+            en: "Housing Damage",
+          },
+          fields: [
+            {
+              ar: "إجمالي الوحدات",
+              en: "Total Units",
+            },
+            {
+              ar: "الوحدات الشاغرة",
+              en: "Vacant Units",
+            },
+            {
+              ar: "نمط الملكية السائد",
+              en: "Prevailing Ownership Pattern",
+            },
+            {
+              ar: "التوثيق والحماية",
+              en: "Documentation and Protection",
+            },
+            {
+              ar: "ضرر شديد",
+              en: "Severe Damage",
+            },
+            {
+              ar: "ضرر متوسط",
+              en: "Moderate Damage",
+            },
+            {
+              ar: "ضرر خفيف",
+              en: "Light Damage",
+            },
+            {
+              ar: "وحدات سليمة",
+              en: "Intact Units",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "النسيج الحضري",
+            en: "Urban Fabric",
+          },
+          fields: [
+            {
+              ar: "المساحة العمرانية",
+              en: "Urban Area",
+            },
+            {
+              ar: "الحالة العمرانية",
+              en: "Urban Status",
+            },
+            {
+              ar: "السكن العشوائي",
+              en: "Informal Housing",
+            },
+            {
+              ar: "نسبة المساكن الطابقية",
+              en: "Percentage of Multi-story Housing",
+            },
+            {
+              ar: "نسبة المساكن التقليدية",
+              en: "Percentage of Traditional Housing",
+            },
+            {
+              ar: "الوظيفة العمرانية السائدة",
+              en: "Prevailing Urban Function",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "التغيرات السكانية",
+            en: "Population Changes",
+          },
+          fields: [
+            {
+              ar: "عدد السكان",
+              en: "Population Number",
+            },
+            {
+              ar: "نسبة المهاجرين",
+              en: "Migration Rate",
+            },
+            {
+              ar: "نسبة العائدين",
+              en: "Return Rate",
+            },
+          ],
+        },
+      ];
+
+      function updateContent(lang) {
+        const dataContainer = document.getElementById("data-container");
+        if (!dataContainer) return;
+
+        dataContainer.innerHTML = "";
+        tablesDataSummary.forEach((category, index) => {
+          const rowElement = document.createElement("section");
+          rowElement.classList.add(
+            "data-row",
+            "animate__animated",
+            "animate__fadeInUp"
+          );
+          rowElement.style.setProperty("--animate-delay", `${0.1 * index}s`);
+
+          // Title Section
+          const titleContainer = document.createElement("div");
+          titleContainer.classList.add("row-title-container");
+          titleContainer.innerHTML = `<h2 class="row-title">${category.title[lang]}</h2>`;
+          rowElement.appendChild(titleContainer);
+
+          // Fields Section
+          const fieldsContainerWrapper = document.createElement("div");
+          fieldsContainerWrapper.classList.add("fields-container-wrapper");
+
+          const fieldsContainer = document.createElement("div");
+          fieldsContainer.classList.add("fields-container");
+
+          category.fields.forEach((field, fieldIndex) => {
+            const fieldItem = document.createElement("div");
+            fieldItem.classList.add("field-item", "custom-checkbox");
+
+            const checkboxId = `checkbox-${index}-${fieldIndex}`;
+
+            fieldItem.innerHTML = `
+            <input type="checkbox" id="${checkboxId}">
+            <span></span>
+            <label for="${checkboxId}" class="field-label">${field[lang]}</label>
+          `;
+            fieldsContainer.appendChild(fieldItem);
+          });
+
+          fieldsContainerWrapper.appendChild(fieldsContainer);
+          rowElement.appendChild(fieldsContainerWrapper);
+
+          dataContainer.appendChild(rowElement);
+        });
+      }
 
       function switchLanguage(lang) {
         try {
@@ -1009,12 +1151,6 @@
         if (helpButton) {
           helpButton.style.left = lang === "ar" ? "20px" : "auto";
           helpButton.style.right = lang === "ar" ? "auto" : "20px";
-        }
-
-        // Update main content direction
-        const mainContent = document.querySelector(".main-content");
-        if (mainContent) {
-          mainContent.style.direction = translations[lang].dir;
         }
 
         currentLang = lang;
@@ -1041,52 +1177,8 @@
         const pageTitle = document.getElementById("pageTitle");
         if (pageTitle) pageTitle.textContent = t.pageTitle;
 
-        // Update dashboard card texts
-        if (document.getElementById("sakanTitle"))
-          document.getElementById("sakanTitle").textContent = t.sakanTitle;
-        if (document.getElementById("sakanCount"))
-          document.getElementById("sakanCount").textContent =
-            t.sakanCount + "1,000,000"; // Assuming count is static for now
-        if (document.getElementById("sakanFamilies"))
-          document.getElementById("sakanFamilies").textContent =
-            t.sakanFamilies + "185,185"; // Assuming count is static for now
-
-        if (document.getElementById("maskanTitle"))
-          document.getElementById("maskanTitle").textContent = t.maskanTitle;
-        if (document.getElementById("maskanCount"))
-          document.getElementById("maskanCount").textContent =
-            t.maskanCount + "90,000"; // Assuming count is static for now
-
-        if (document.getElementById("hayTitle"))
-          document.getElementById("hayTitle").textContent = t.hayTitle;
-        if (document.getElementById("hayCount"))
-          document.getElementById("hayCount").textContent = t.hayCount + "111"; // Assuming count is static for now
-        if (document.getElementById("hayNameHeader"))
-          document.getElementById("hayNameHeader").textContent =
-            t.hayNameHeader;
-        if (document.getElementById("hayResponsibleHeader"))
-          document.getElementById("hayResponsibleHeader").textContent =
-            t.hayResponsibleHeader;
-        if (document.getElementById("hayPhoneHeader"))
-          document.getElementById("hayPhoneHeader").textContent =
-            t.hayPhoneHeader;
-
-        if (document.getElementById("serviceTitle"))
-          document.getElementById("serviceTitle").textContent = t.serviceTitle;
-        if (document.getElementById("serviceCount"))
-          document.getElementById("serviceCount").textContent =
-            t.serviceCount + "15"; // Assuming count is static for now
-        if (document.getElementById("serviceNameHeader"))
-          document.getElementById("serviceNameHeader").textContent =
-            t.serviceNameHeader;
-        if (document.getElementById("serviceManagerHeader"))
-          document.getElementById("serviceManagerHeader").textContent =
-            t.serviceManagerHeader;
-
-        if (document.getElementById("masahaTitle"))
-          document.getElementById("masahaTitle").textContent = t.masahaTitle;
-        if (document.getElementById("masahaText"))
-          document.getElementById("masahaText").textContent = t.masahaText;
+        // Update the main content
+        updateContent(lang);
       }
 
       function toggleLanguage() {
@@ -1105,20 +1197,6 @@
         menu.style.display = menu.style.display === "block" ? "none" : "block";
       }
 
-      // Close menu when clicking outside
-      document.addEventListener("click", function (e) {
-        const menu = document.getElementById("menuDropdown");
-        const menuBtn = document.getElementById("menuToggleBtn");
-        if (
-          menu &&
-          menuBtn &&
-          !menuBtn.contains(e.target) &&
-          !menu.contains(e.target)
-        ) {
-          menu.style.display = "none";
-        }
-      });
-
       // Initialize page
       document.addEventListener("DOMContentLoaded", function () {
         const helpButton = document.getElementById("helpButton");
@@ -1136,6 +1214,11 @@
         }
 
         const initialLang = savedLanguage || "ar";
+
+        // Initialize content with the initial language
+        updateContent(initialLang);
+
+        // Then switch language to ensure all UI elements are updated
         switchLanguage(initialLang);
 
         const langToggleBtn = document.getElementById("langToggleBtn");
@@ -1159,80 +1242,20 @@
         handleZoom();
         window.addEventListener("resize", handleZoom);
       });
-    </script>
 
-    <script>
-      function expandCard(card, id) {
-        const cards = document.querySelectorAll(".card-box");
-        cards.forEach((c) => {
-          if (c !== card) {
-            c.classList.remove("active");
-            c.classList.add("inactive");
-          } else {
-            c.classList.add("active");
-            c.classList.remove("inactive");
-          }
-        });
-
-        if (id === "maskanChartContainer")
-          initChart(
-            "maskanChart",
-            ["متضرر", "سليمة", "إصلاح", "إزالة"],
-            [30, 40, 14, 16],
-            ["#dc3545", "#198754", "#ffc107", "#6c757d"]
-          );
-        if (id === "masahaChartContainer")
-          initChart(
-            "masahaChart",
-            ["عشوائيات", "منظم"],
-            [39, 61],
-            ["#6610f2", "#0d6efd"]
-          );
-      }
-
-      function initChart(id, labels, data, colors) {
-        const ctx = document.getElementById(id);
-        if (!ctx.dataset.chart) {
-          const chart = new Chart(ctx, {
-            type: "pie",
-            data: {
-              labels: labels,
-              datasets: [
-                {
-                  data: data,
-                  backgroundColor: colors,
-                },
-              ],
-            },
-            options: {
-              responsive: true,
-              plugins: {
-                legend: { position: "bottom" },
-                datalabels: {
-                  formatter: (value, context) => {
-                    const total = context.chart.data.datasets[0].data.reduce(
-                      (sum, current) => sum + current,
-                      0
-                    );
-                    const percentage = ((value / total) * 100).toFixed(1) + "%";
-                    return percentage;
-                  },
-                  color: "#fff",
-                  font: {
-                    weight: "bold",
-                    size: 14,
-                  },
-                },
-              },
-            },
-            plugins: [ChartDataLabels],
-          });
-          ctx.dataset.chart = true;
+      // Close menu when clicking outside
+      document.addEventListener("click", function (e) {
+        const menu = document.getElementById("menuDropdown");
+        const menuBtn = document.getElementById("menuToggleBtn");
+        if (
+          menu &&
+          menuBtn &&
+          !menuBtn.contains(e.target) &&
+          !menu.contains(e.target)
+        ) {
+          menu.style.display = "none";
         }
-      }
+      });
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
   </body>
 </html>

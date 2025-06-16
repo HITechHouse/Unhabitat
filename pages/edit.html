@@ -1,1771 +1,1675 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <link rel="shortcut icon" href="../assets/img/UN_Habitat_Icon.svg" type="image/x-icon" />
-  <title>Edit</title>
-  <!-- Simplified Arabic Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.1.0" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <style>
-    /* General body styles and font setup */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Noto Naskh Arabic", sans-serif;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      overflow-y: auto;
-      background-color: #f8f9fa;
-    }
-
-    /* Arabic font for RTL and specific elements */
-    :lang(ar),
-    [lang="ar"],
-    .arabic-text,
-    .copyright-text,
-    .social-icons,
-    .btn,
-    label,
-    input,
-    .header-title,
-    .title-ar,
-    .title-en,
-    .header-title div {
-      font-family: "Noto Naskh Arabic", sans-serif !important;
-    }
-
-    body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
-      font-family: "Noto Naskh Arabic", sans-serif !important;
-    }
-
-    /* Header styles */
-    #mainHeader {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 5000;
-      background-color: #00b2e3;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 4px 16px;
-      height: 50px;
-      box-sizing: border-box;
-      direction: rtl !important;
-    }
-
-    .header-title {
-      flex: 1;
-      text-align: center;
-      font-weight: bold;
-      font-size: 1.4rem;
-      line-height: 1.4;
-    }
-
-    #mainHeader .title-ar {
-      font-size: 1.1rem !important;
-      margin-bottom: 2px !important;
-    }
-
-    #mainHeader .title-en {
-      font-size: 0.7rem !important;
-      opacity: 0.9 !important;
-    }
-
-    .header-logo {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      object-fit: contain;
-    }
-
-    .header-logos {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 5px;
-    }
-
-    /* Language and menu buttons */
-    .language-dropdown {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 1031;
-    }
-
-    .language-toggle {
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-      font-weight: bold;
-      font-size: 1.1rem;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      outline: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: 0.2s;
-      position: relative;
-      z-index: 5000;
-    }
-
-    .language-toggle:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .menu-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .menu-toggle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .menu-toggle:hover {
-      background: rgba(255, 255, 255, 0.32);
-      transform: scale(1.05);
-    }
-
-    .menu-dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background-color: white;
-      min-width: 160px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      z-index: 1000;
-      margin-top: 5px;
-    }
-
-    .menu-item {
-      display: flex;
-      align-items: center;
-      padding: 12px 16px;
-      text-decoration: none;
-      color: #333;
-      transition: background-color 0.3s ease;
-    }
-
-    .menu-item i {
-      margin-left: 8px;
-      width: 20px;
-      text-align: center;
-    }
-
-    .menu-item:hover {
-      background-color: #f5f5f5;
-    }
-
-    body[dir="ltr"] .menu-dropdown-content {
-      right: auto;
-      left: 0;
-    }
-
-    body[dir="ltr"] .menu-item i {
-      margin-left: 0;
-      margin-right: 8px;
-    }
-
-    /* Sidebar styles */
-    #sidenav-main {
-      max-height: calc(100vh - 66px);
-      overflow-y: visible;
-    }
-
-    #sidenav-main .navbar-nav {
-      padding-inline-start: 0 !important;
-    }
-
-    .sidenav-header {
-      padding-top: 20px;
-      margin-bottom: 10px;
-    }
-
-    .navbar-brand {
-      margin-top: 20px !important;
-      display: block;
-      padding: 10px 0;
-    }
-
-    .navbar-brand-img {
-      max-height: 35px;
-      width: auto;
-    }
-
-    /* Footer styles */
-    #mainFooter {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100vw;
-      z-index: 1000;
-      background-color: #00b2e3;
-      padding: 4px 16px;
-      height: 50px;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      direction: rtl !important;
-    }
-
-    .footer-content {
-      margin: 0 auto;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 1rem;
-      color: white;
-    }
-
-    .footer-logo {
-      height: 24px;
-      margin-right: 8px;
-      vertical-align: middle;
-      display: inline-block !important;
-    }
-
-    /* Footer Copyright Image Style */
-    footer .copyright img {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      background-color: white;
-      padding: 2px;
-      object-fit: contain;
-      background-clip: content-box;
-      vertical-align: middle;
-      margin-right: 8px;
-      /* Space to the right of the image (RTL) */
-    }
-
-    .companyHITech {
-      color: white !important;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      display: inline-block;
-      margin: 0 8px;
-    }
-
-    .companyHITech:hover {
-      color: #f0f0f0 !important;
-      text-decoration: underline;
-    }
-
-    .copyright-text {
-      color: white;
-      display: inline-block;
-      margin-right: 8px;
-      font-size: 14px;
-    }
-
-    .social-icon {
-      color: #fff;
-      font-size: 1.2rem;
-      margin-left: 1rem;
-      transition: color 0.3s ease;
-    }
-
-    .social-icon:hover {
-      color: #3498db;
-    }
-
-    body[dir="rtl"] .footer-content,
-    body[dir="ltr"] .footer-content {
-      flex-direction: row;
-    }
-
-    body[dir="rtl"] .footer-logo {
-      margin-right: 8px;
-      margin-left: 0;
-    }
-
-    body[dir="ltr"] .footer-logo {
-      margin-left: 8px;
-      margin-right: 0;
-    }
-
-    body[dir="rtl"] .social-icon {
-      margin-left: 1rem;
-      margin-right: 0;
-    }
-
-    body[dir="ltr"] .social-icon {
-      margin-right: 1rem;
-      margin-left: 0;
-    }
-
-    /* Font Awesome icon styles */
-    .fa,
-    .fab,
-    .fas,
-    .far,
-    i.fa,
-    i.fab,
-    i.fas,
-    i.far,
-    i.fa-facebook-f,
-    i.fa-x-twitter,
-    i.fa-instagram,
-    i.fa-linkedin-in,
-    i.fa-whatsapp {
-      font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
-      display: inline-block !important;
-      visibility: visible !important;
-    }
-  </style>
-
-  <style>
-    /* Timeline Styles and Animations */
-    .timeline-container {
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
-      padding: 2rem;
-      border-radius: 15px;
-      overflow-x: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(0, 178, 227, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .timeline-container:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    }
-
-    .timeline-point {
-      text-align: center;
-      flex: 1;
-      position: relative;
-      padding: 0 1rem;
-      min-width: 150px;
-    }
-
-    .timeline-point::before {
-      content: "";
-      position: absolute;
-      top: 30px;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #00b2e3, #0077b6);
-      z-index: 0;
-      transition: all 0.3s ease;
-    }
-
-    .timeline-point:hover::before {
-      height: 6px;
-      background: linear-gradient(90deg, #0077b6, #00b2e3);
-    }
-
-    .timeline-point .circle {
-      width: 30px;
-      height: 30px;
-      background: linear-gradient(45deg, #00b2e3, #0077b6);
-      border-radius: 50%;
-      position: relative;
-      z-index: 1;
-      margin: 0 auto;
-      box-shadow: 0 5px 15px rgba(0, 178, 227, 0.3);
-      transition: all 0.3s ease;
-    }
-
-    .timeline-point:hover .circle {
-      transform: scale(1.2);
-      box-shadow: 0 8px 20px rgba(0, 178, 227, 0.4);
-    }
-
-    .timeline-point small {
-      display: block;
-      margin-top: 10px;
-      font-size: 0.85rem;
-      color: #6c757d;
-      transition: all 0.3s ease;
-    }
-
-    .timeline-point:hover small {
-      color: #00b2e3;
-      transform: translateY(-2px);
-    }
-
-    .timeline-point .icon-label {
-      display: block;
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: #2c3e50;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-
-    .timeline-point:hover .icon-label {
-      color: #0077b6;
-      transform: translateY(-2px);
-    }
-
-    .timeline-point .icon-label i {
-      font-size: 1.2rem;
-      color: #00b2e3;
-      margin-bottom: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .timeline-point:hover .icon-label i {
-      transform: scale(1.2);
-      color: #0077b6;
-    }
-
-    .timeline-event {
-      margin-top: 15px;
-      font-size: 0.85rem;
-      color: #6c757d;
-      padding: 0.5rem;
-      border-radius: 8px;
-      background: rgba(0, 178, 227, 0.05);
-      transition: all 0.3s ease;
-    }
-
-    .timeline-event:hover {
-      background: rgba(0, 178, 227, 0.1);
-      transform: translateY(-2px);
-    }
-
-    /* Scrollbar Styles */
-    .timeline-container::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    .timeline-container::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 4px;
-    }
-
-    .timeline-container::-webkit-scrollbar-thumb {
-      background: linear-gradient(90deg, #00b2e3, #0077b6);
-      border-radius: 4px;
-    }
-
-    .timeline-container::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(90deg, #0077b6, #00b2e3);
-    }
-
-    /* Animation for timeline points */
-    @keyframes timelinePointAppear {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="shortcut icon"
+      href="assets/img/UN_Habitat_Icon.svg"
+      type="image/x-icon"
+    />
+    <title>Edit</title>
+    <!-- Simplified Arabic Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- CSS Files -->
+    <link
+      id="pagestyle"
+      href="assets/css/soft-ui-dashboard.css?v=1.1.0"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      /* General body styles and font setup */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Naskh Arabic", sans-serif;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #f8f9fa;
       }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .timeline-point {
-      animation: timelinePointAppear 0.5s ease forwards;
-      opacity: 0;
-    }
-
-    .timeline-point:nth-child(1) {
-      animation-delay: 0.1s;
-    }
-
-    .timeline-point:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .timeline-point:nth-child(3) {
-      animation-delay: 0.3s;
-    }
-
-    .timeline-point:nth-child(4) {
-      animation-delay: 0.4s;
-    }
-  </style>
-
-  <style>
-    /* Modal Animations and Styles */
-    .modal.fade .modal-dialog {
-      transform: scale(0.8);
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .modal.show .modal-dialog {
-      transform: scale(1);
-    }
-
-    .modal-content {
-      border: none;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .modal-header {
-      border-radius: 15px 15px 0 0;
-      padding: 1.5rem;
-    }
-
-    .modal-body {
-      padding: 2rem;
-    }
-
-    .modal-footer {
-      border-radius: 0 0 15px 15px;
-      padding: 1.5rem;
-    }
-
-    .table {
-      margin-bottom: 0;
-    }
-
-    .table th {
-      font-weight: 600;
-      background-color: #f8f9fa;
-    }
-
-    .animate-row {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.5s ease forwards;
-    }
-
-    .animate-row:nth-child(1) {
-      animation-delay: 0.1s;
-    }
-
-    .animate-row:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .animate-row:nth-child(3) {
-      animation-delay: 0.3s;
-    }
-
-    .animate-row:nth-child(4) {
-      animation-delay: 0.4s;
-    }
-
-    .animate-row:nth-child(5) {
-      animation-delay: 0.5s;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
+      /* Arabic font for RTL and specific elements */
+      :lang(ar),
+      [lang="ar"],
+      .arabic-text,
+      .copyright-text,
+      .social-icons,
+      .btn,
+      label,
+      input,
+      .header-title,
+      .title-ar,
+      .title-en,
+      .header-title div {
+        font-family: "Noto Naskh Arabic", sans-serif !important;
       }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .btn {
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .bg-gradient-primary {
-      background: linear-gradient(45deg, #00b2e3, #0077b6);
-    }
-
-    .table-hover tbody tr:hover {
-      background-color: rgba(0, 178, 227, 0.1);
-      transition: background-color 0.3s ease;
-    }
-  </style>
-
-  <style>
-    /* Table Styles and Animations */
-    .table {
-      border-collapse: separate;
-      border-spacing: 0;
-      width: 100%;
-      margin-bottom: 1rem;
-      background-color: transparent;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .table-header {
-      background: linear-gradient(45deg, #00b2e3, #0077b6);
-      color: white;
-    }
-
-    .table-header th {
-      font-weight: 600;
-      padding: 1rem;
-      border: none;
-      text-align: center;
-      font-size: 0.95rem;
-      letter-spacing: 0.5px;
-    }
-
-    .table tbody tr {
-      transition: all 0.3s ease;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .table tbody tr:hover {
-      background-color: rgba(0, 178, 227, 0.05);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .table tbody td {
-      padding: 1rem;
-      vertical-align: middle;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      font-size: 0.9rem;
-    }
-
-    .table-row-animate {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.5s ease forwards;
-    }
-
-    .table-row-animate:nth-child(1) {
-      animation-delay: 0.1s;
-    }
-
-    .table-row-animate:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .table-row-animate:nth-child(3) {
-      animation-delay: 0.3s;
-    }
-
-    .table-row-animate:nth-child(4) {
-      animation-delay: 0.4s;
-    }
-
-    .table-row-animate:nth-child(5) {
-      animation-delay: 0.5s;
-    }
-
-    .btn-view {
-      background: linear-gradient(45deg, #00b2e3, #0077b6);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-      font-size: 0.85rem;
-    }
-
-    .btn-view:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 178, 227, 0.3);
-      color: white;
-    }
-
-    .table-responsive {
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
+      body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
+        font-family: "Noto Naskh Arabic", sans-serif !important;
       }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Responsive Table Styles */
-    @media (max-width: 768px) {
-      .table-header th {
-        font-size: 0.85rem;
-        padding: 0.75rem;
-      }
-
-      .table tbody td {
-        font-size: 0.8rem;
-        padding: 0.75rem;
-      }
-
-      .btn-view {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-      }
-    }
-  </style>
-
-  <style>
-    /* Edit Form Styles and Animations */
-    .edit-form-container {
-      background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      border: 1px solid rgba(0, 178, 227, 0.1);
-    }
-
-    .edit-form-container:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    }
-
-    .form-header {
-      text-align: center;
-      margin-bottom: 2rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 2px solid rgba(0, 178, 227, 0.1);
-    }
-
-    .form-icon {
-      font-size: 2.5rem;
-      color: #00b2e3;
-      margin-bottom: 1rem;
-      animation: bounce 2s infinite;
-    }
-
-    .form-title {
-      color: #2c3e50;
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-    }
-
-    .form-subtitle {
-      color: #6c757d;
-      font-size: 1rem;
-      margin-bottom: 0;
-    }
-
-    .edit-form {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .form-group {
-      position: relative;
-      margin-bottom: 1.5rem;
-    }
-
-    .form-label {
-      color: #2c3e50;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-
-    .form-select,
-    .form-control {
-      border: 2px solid rgba(0, 178, 227, 0.2);
-      border-radius: 10px;
-      padding: 0.75rem 1rem;
-      transition: all 0.3s ease;
-      font-size: 1rem;
-    }
-
-    .form-select:focus,
-    .form-control:focus {
-      border-color: #00b2e3;
-      box-shadow: 0 0 0 0.2rem rgba(0, 178, 227, 0.25);
-    }
-
-    .form-select option {
-      padding: 1rem;
-    }
-
-    .form-actions {
-      text-align: center;
-      margin-top: 2rem;
-    }
-
-    .btn-primary {
-      background: linear-gradient(45deg, #00b2e3, #0077b6);
-      border: none;
-      padding: 0.75rem 2rem;
-      font-size: 1.1rem;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0, 178, 227, 0.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 178, 227, 0.4);
-    }
-
-    @keyframes bounce {
-
-      0%,
-      20%,
-      50%,
-      80%,
-      100% {
-        transform: translateY(0);
+      /* Header styles */
+      #mainHeader {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 5000;
+        background-color: #00b2e3;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4px 16px;
+        height: 50px;
+        box-sizing: border-box;
+        direction: rtl !important;
       }
 
-      40% {
-        transform: translateY(-10px);
+      .header-title {
+        flex: 1;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.4rem;
+        line-height: 1.4;
       }
 
-      60% {
+      #mainHeader .title-ar {
+        font-size: 1.1rem !important;
+        margin-bottom: 2px !important;
+      }
+
+      #mainHeader .title-en {
+        font-size: 0.7rem !important;
+        opacity: 0.9 !important;
+      }
+
+      .header-logo {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        object-fit: contain;
+      }
+
+      .header-logos {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 5px;
+      }
+
+      /* Language and menu buttons */
+      .language-dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1031;
+      }
+
+      .language-toggle {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.1rem;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: 0.2s;
+        position: relative;
+        z-index: 5000;
+      }
+
+      .language-toggle:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .menu-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .menu-toggle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.32);
+        transform: scale(1.05);
+      }
+
+      .menu-dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1000;
+        margin-top: 5px;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        text-decoration: none;
+        color: #333;
+        transition: background-color 0.3s ease;
+      }
+
+      .menu-item i {
+        margin-left: 8px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .menu-item:hover {
+        background-color: #f5f5f5;
+      }
+
+      body[dir="ltr"] .menu-dropdown-content {
+        right: auto;
+        left: 0;
+      }
+
+      body[dir="ltr"] .menu-item i {
+        margin-left: 0;
+        margin-right: 8px;
+      }
+
+      /* Sidebar styles */
+      #sidenav-main {
+        max-height: calc(100vh - 66px);
+        overflow-y: visible;
+      }
+
+      #sidenav-main .navbar-nav {
+        padding-inline-start: 0 !important;
+      }
+
+      .sidenav-header {
+        padding-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      .navbar-brand {
+        margin-top: 20px !important;
+        display: block;
+        padding: 10px 0;
+      }
+
+      .navbar-brand-img {
+        max-height: 35px;
+        width: auto;
+      }
+
+      /* Footer styles */
+      #mainFooter {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        z-index: 1000;
+        background-color: #00b2e3;
+        padding: 4px 16px;
+        height: 50px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        direction: rtl !important;
+      }
+
+      .footer-content {
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+        color: white;
+      }
+
+      .footer-logo {
+        height: 24px;
+        margin-right: 8px;
+        vertical-align: middle;
+        display: inline-block !important;
+      }
+
+      /* Footer Copyright Image Style */
+      footer .copyright img {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        background-color: white;
+        padding: 2px;
+        object-fit: contain;
+        background-clip: content-box;
+        vertical-align: middle;
+        margin-right: 8px;
+        /* Space to the right of the image (RTL) */
+      }
+
+      .companyHITech {
+        color: white !important;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: inline-block;
+        margin: 0 8px;
+      }
+
+      .companyHITech:hover {
+        color: #f0f0f0 !important;
+        text-decoration: underline;
+      }
+
+      .copyright-text {
+        color: white;
+        display: inline-block;
+        margin-right: 8px;
+        font-size: 14px;
+      }
+
+      .social-icon {
+        color: #fff;
+        font-size: 1.2rem;
+        margin-left: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .social-icon:hover {
+        color: #3498db;
+      }
+
+      body[dir="rtl"] .footer-content,
+      body[dir="ltr"] .footer-content {
+        flex-direction: row;
+      }
+
+      body[dir="rtl"] .footer-logo {
+        margin-right: 8px;
+        margin-left: 0;
+      }
+
+      body[dir="ltr"] .footer-logo {
+        margin-left: 8px;
+        margin-right: 0;
+      }
+
+      body[dir="rtl"] .social-icon {
+        margin-left: 1rem;
+        margin-right: 0;
+      }
+
+      body[dir="ltr"] .social-icon {
+        margin-right: 1rem;
+        margin-left: 0;
+      }
+
+      /* Font Awesome icon styles */
+      .fa,
+      .fab,
+      .fas,
+      .far,
+      i.fa,
+      i.fab,
+      i.fas,
+      i.far,
+      i.fa-facebook-f,
+      i.fa-x-twitter,
+      i.fa-instagram,
+      i.fa-linkedin-in,
+      i.fa-whatsapp {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+        display: inline-block !important;
+        visibility: visible !important;
+      }
+    </style>
+
+    <style>
+      /* Timeline Styles and Animations */
+      .timeline-container {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+        padding: 2rem;
+        border-radius: 15px;
+        overflow-x: auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(0, 178, 227, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .timeline-container:hover {
         transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
       }
-    }
 
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-      .edit-form-container {
+      .timeline-point {
+        text-align: center;
+        flex: 1;
+        position: relative;
+        padding: 0 1rem;
+        min-width: 150px;
+      }
+
+      .timeline-point::before {
+        content: "";
+        position: absolute;
+        top: 30px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #00b2e3, #0077b6);
+        z-index: 0;
+        transition: all 0.3s ease;
+      }
+
+      .timeline-point:hover::before {
+        height: 6px;
+        background: linear-gradient(90deg, #0077b6, #00b2e3);
+      }
+
+      .timeline-point .circle {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(45deg, #00b2e3, #0077b6);
+        border-radius: 50%;
+        position: relative;
+        z-index: 1;
+        margin: 0 auto;
+        box-shadow: 0 5px 15px rgba(0, 178, 227, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .timeline-point:hover .circle {
+        transform: scale(1.2);
+        box-shadow: 0 8px 20px rgba(0, 178, 227, 0.4);
+      }
+
+      .timeline-point small {
+        display: block;
+        margin-top: 10px;
+        font-size: 0.85rem;
+        color: #6c757d;
+        transition: all 0.3s ease;
+      }
+
+      .timeline-point:hover small {
+        color: #00b2e3;
+        transform: translateY(-2px);
+      }
+
+      .timeline-point .icon-label {
+        display: block;
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #2c3e50;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .timeline-point:hover .icon-label {
+        color: #0077b6;
+        transform: translateY(-2px);
+      }
+
+      .timeline-point .icon-label i {
+        font-size: 1.2rem;
+        color: #00b2e3;
+        margin-bottom: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .timeline-point:hover .icon-label i {
+        transform: scale(1.2);
+        color: #0077b6;
+      }
+
+      .timeline-event {
+        margin-top: 15px;
+        font-size: 0.85rem;
+        color: #6c757d;
+        padding: 0.5rem;
+        border-radius: 8px;
+        background: rgba(0, 178, 227, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .timeline-event:hover {
+        background: rgba(0, 178, 227, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Scrollbar Styles */
+      .timeline-container::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .timeline-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+
+      .timeline-container::-webkit-scrollbar-thumb {
+        background: linear-gradient(90deg, #00b2e3, #0077b6);
+        border-radius: 4px;
+      }
+
+      .timeline-container::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(90deg, #0077b6, #00b2e3);
+      }
+
+      /* Animation for timeline points */
+      @keyframes timelinePointAppear {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .timeline-point {
+        animation: timelinePointAppear 0.5s ease forwards;
+        opacity: 0;
+      }
+
+      .timeline-point:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .timeline-point:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .timeline-point:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      .timeline-point:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+    </style>
+
+    <style>
+      /* Modal Animations and Styles */
+      .modal.fade .modal-dialog {
+        transform: scale(0.8);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .modal.show .modal-dialog {
+        transform: scale(1);
+      }
+
+      .modal-content {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .modal-header {
+        border-radius: 15px 15px 0 0;
         padding: 1.5rem;
       }
 
+      .modal-body {
+        padding: 2rem;
+      }
+
+      .modal-footer {
+        border-radius: 0 0 15px 15px;
+        padding: 1.5rem;
+      }
+
+      .table {
+        margin-bottom: 0;
+      }
+
+      .table th {
+        font-weight: 600;
+        background-color: #f8f9fa;
+      }
+
+      .animate-row {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.5s ease forwards;
+      }
+
+      .animate-row:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .animate-row:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .animate-row:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      .animate-row:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      .animate-row:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .btn {
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .bg-gradient-primary {
+        background: linear-gradient(45deg, #00b2e3, #0077b6);
+      }
+
+      .table-hover tbody tr:hover {
+        background-color: rgba(0, 178, 227, 0.1);
+        transition: background-color 0.3s ease;
+      }
+    </style>
+
+    <style>
+      /* Table Styles and Animations */
+      .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .table-header {
+        background: linear-gradient(45deg, #00b2e3, #0077b6);
+        color: white;
+      }
+
+      .table-header th {
+        font-weight: 600;
+        padding: 1rem;
+        border: none;
+        text-align: center;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+      }
+
+      .table tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .table tbody tr:hover {
+        background-color: rgba(0, 178, 227, 0.05);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        font-size: 0.9rem;
+      }
+
+      .table-row-animate {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.5s ease forwards;
+      }
+
+      .table-row-animate:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .table-row-animate:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .table-row-animate:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      .table-row-animate:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      .table-row-animate:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+
+      .btn-view {
+        background: linear-gradient(45deg, #00b2e3, #0077b6);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        font-size: 0.85rem;
+      }
+
+      .btn-view:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 178, 227, 0.3);
+        color: white;
+      }
+
+      .table-responsive {
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive Table Styles */
+      @media (max-width: 768px) {
+        .table-header th {
+          font-size: 0.85rem;
+          padding: 0.75rem;
+        }
+
+        .table tbody td {
+          font-size: 0.8rem;
+          padding: 0.75rem;
+        }
+
+        .btn-view {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+
+    <style>
+      /* Edit Form Styles and Animations */
+      .edit-form-container {
+        background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 178, 227, 0.1);
+      }
+
+      .edit-form-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      }
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid rgba(0, 178, 227, 0.1);
+      }
+
+      .form-icon {
+        font-size: 2.5rem;
+        color: #00b2e3;
+        margin-bottom: 1rem;
+        animation: bounce 2s infinite;
+      }
+
       .form-title {
-        font-size: 1.3rem;
+        color: #2c3e50;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
       }
 
       .form-subtitle {
-        font-size: 0.9rem;
+        color: #6c757d;
+        font-size: 1rem;
+        margin-bottom: 0;
+      }
+
+      .edit-form {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        position: relative;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        color: #2c3e50;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        display: block;
       }
 
       .form-select,
       .form-control {
-        font-size: 0.9rem;
-        padding: 0.6rem 0.8rem;
+        border: 2px solid rgba(0, 178, 227, 0.2);
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .form-select:focus,
+      .form-control:focus {
+        border-color: #00b2e3;
+        box-shadow: 0 0 0 0.2rem rgba(0, 178, 227, 0.25);
+      }
+
+      .form-select option {
+        padding: 1rem;
+      }
+
+      .form-actions {
+        text-align: center;
+        margin-top: 2rem;
       }
 
       .btn-primary {
-        padding: 0.6rem 1.5rem;
-        font-size: 1rem;
-      }
-    }
-  </style>
-
-  <style>
-    /* Modal close button position for RTL/LTR */
-    [dir="rtl"] .modal-close-btn {
-      position: absolute;
-      left: 1rem;
-      right: auto;
-    }
-
-    [dir="ltr"] .modal-close-btn {
-      position: absolute;
-      right: 1rem;
-      left: auto;
-    }
-  </style>
-</head>
-
-<body class="g-sidenav-show bg-gray-100">
-  <!-- Header -->
-  <header id="mainHeader">
-    <div style="display: flex; align-items: center; gap: 10px">
-      <a href="./admin.html" title="Go to Admin Page">
-        <img src="../assets/img/unhabitat.jfif" alt="Logo 3" class="header-logo" style="cursor: pointer" />
-      </a>
-      <div class="language-dropdown">
-        <button class="language-toggle" id="langToggleBtn" onclick="toggleLanguage()" aria-label="Toggle Language">
-          AR
-        </button>
-      </div>
-      <div class="menu-dropdown">
-        <button title="toggle language" class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()"
-          style="background-image: url('../assets/img/user1.jpg'); background-size: cover; background-position: center;">
-        </button>
-        <div class="menu-dropdown-content" id="menuDropdown">
-          <a href="#" class="menu-item" id="settingsBtn" onclick="window.location.href = './profile.html';">
-            <i class="fas fa-cog"></i>
-            <span id="settingsText">الإعدادات</span>
-          </a>
-          <a href="#" class="menu-item" id="logoutBtn" onclick="window.location.href = './index.html';">
-            <i class="fas fa-sign-out-alt"></i>
-            <span id="logoutText">تسجيل الخروج</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="header-title text-center">
-      <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
-      <div class="title-en">
-        Urban Information Management System - Aleppo City
-      </div>
-    </div>
-
-    <div class="header-logos right-logos">
-      <img src="../assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
-      <img src="../assets/img/japan.png" alt="Logo 2" class="header-logo" />
-    </div>
-  </header>
-
-  <!-- <aside
-      class="sidenav navbar navbar-vertical navbar-expand-xs border-0 my-3 fixed-end bg-gray-300"
-      id="sidenav-main"
-      style="max-height: calc(100vh - 66px); overflow-y: visible"
-    >
-      <div class="sidenav-header">
-        <i
-          class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-          aria-hidden="true"
-          id="iconSidenav"
-        ></i>
-      </div>
-
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" href="../pages/dashboard.html">
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 45 40"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title></title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-1716.000000, -439.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(0.000000, 148.000000)">
-                          <path
-                            class="color-background opacity-6"
-                            d="M46.7199583,10.7414583 L40.8449583,0.949791667 C40.4909749,0.360605034 39.8540131,0 39.1666667,0 L7.83333333,0 C7.1459869,0 6.50902508,0.360605034 6.15504167,0.949791667 L0.280041667,10.7414583 C0.0969176761,11.0460037 -1.23209662e-05,11.3946378 -1.23209662e-05,11.75 C-0.00758042603,16.0663731 3.48367543,19.5725301 7.80004167,19.5833333 L7.81570833,19.5833333 C9.75003686,19.5882688 11.6168794,18.8726691 13.0522917,17.5760417 C16.0171492,20.2556967 20.5292675,20.2556967 23.494125,17.5760417 C26.4604562,20.2616016 30.9794188,20.2616016 33.94575,17.5760417 C36.2421905,19.6477597 39.5441143,20.1708521 42.3684437,18.9103691 C45.1927731,17.649886 47.0084685,14.8428276 47.0000295,11.75 C47.0000295,11.3946378 46.9030823,11.0460037 46.7199583,10.7414583 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M39.198,22.4912623 C37.3776246,22.4928106 35.5817531,22.0149171 33.951625,21.0951667 L33.92225,21.1107282 C31.1430221,22.6838032 27.9255001,22.9318916 24.9844167,21.7998837 C24.4750389,21.605469 23.9777983,21.3722567 23.4960833,21.1018359 L23.4745417,21.1129513 C20.6961809,22.6871153 17.4786145,22.9344611 14.5386667,21.7998837 C14.029926,21.6054643 13.533337,21.3722507 13.0522917,21.1018359 C11.4250962,22.0190609 9.63246555,22.4947009 7.81570833,22.4912623 C7.16510551,22.4842162 6.51607673,22.4173045 5.875,22.2911849 L5.875,44.7220845 C5.875,45.9498589 6.7517757,46.9451667 7.83333333,46.9451667 L19.5833333,46.9451667 L19.5833333,33.6066734 L27.4166667,33.6066734 L27.4166667,46.9451667 L39.1666667,46.9451667 C40.2482243,46.9451667 41.125,45.9498589 41.125,44.7220845 L41.125,22.2822926 C40.4887822,22.4116582 39.8442868,22.4815492 39.198,22.4912623 Z"
-                          ></path>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Dashboard</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="../pages/tables.html">
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 42 42"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title>office</title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-1869.000000, -293.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g
-                          id="office"
-                          transform="translate(153.000000, 2.000000)"
-                        >
-                          <path
-                            class="color-background opacity-6"
-                            d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z"
-                          ></path>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">configuration Tables </span>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="../pages/ManageUsers.html">
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 42 42"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title>box-3d-50</title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-2319.000000, -291.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(603.000000, 0.000000)">
-                          <path
-                            class="color-background"
-                            d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z"
-                          ></path>
-                          <path
-                            class="color-background opacity-6"
-                            d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z"
-                          ></path>
-                          <path
-                            class="color-background opacity-6"
-                            d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z"
-                          ></path>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Manage users</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="../pages/profile.html">
-              <div
-                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
-              >
-                <svg
-                  width="12px"
-                  height="12px"
-                  viewBox="0 0 46 42"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                >
-                  <title>customer-support</title>
-                  <g
-                    stroke="none"
-                    stroke-width="1"
-                    fill="none"
-                    fill-rule="evenodd"
-                  >
-                    <g
-                      transform="translate(-1717.000000, -291.000000)"
-                      fill="#FFFFFF"
-                      fill-rule="nonzero"
-                    >
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(1.000000, 0.000000)">
-                          <path
-                            class="color-background opacity-6"
-                            d="M45,0 L26,0 C25.447,0 25,0.447 25,1 L25,20 C25,20.379 25.214,20.725 25.553,20.895 C25.694,20.965 25.848,21 26,21 C26.212,21 26.424,20.933 26.6,20.8 L34.333,15 L45,15 C45.553,15 46,14.553 46,14 L46,1 C46,0.447 45.553,0 45,0 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M22.883,32.86 C20.761,32.012 17.324,31 13,31 C8.676,31 5.239,32.012 3.116,32.86 C1.224,33.619 0,35.438 0,37.494 L0,41 C0,41.553 0.447,42 1,42 L25,42 C25.553,42 26,41.553 26,41 L26,37.494 C26,35.438 24.776,33.619 22.883,32.86 Z"
-                          ></path>
-                          <path
-                            class="color-background"
-                            d="M13,28 C17.432,28 21,22.529 21,18 C21,13.589 17.411,10 13,10 C8.589,10 5,13.589 5,18 C5,22.529 8.568,28 13,28 Z"
-                          ></path>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-              <span class="nav-link-text ms-1">Profile</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="sidenav-footer mx-3"></div>
-    </aside> -->
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg mt-4">
-    <div class="container py-5 fade-in">
-      <!-- Timeline Section -->
-      <h2 class="mb-4 slide-up">المخطط الزمني</h2>
-      <div class="timeline-container mb-5 zoom-in on-scroll" id="timeline"></div>
-
-      <!-- Edit Form Section -->
-      <h2 class="mb-4 slide-up" id="editFormTitle">نموذج التعديل</h2>
-      <div class="edit-form-container mb-5 p-4 bg-white rounded shadow zoom-in on-scroll">
-        <div class="form-header">
-          <i class="fas fa-edit form-icon"></i>
-          <h3 class="form-title">مرحبًا بك في صفحة التعديلات</h3>
-          <p class="form-subtitle">الرجاء تعبئة البيانات التالية:</p>
-        </div>
-        <form action="../pages/maps/index.html" class="edit-form" id="editForm">
-          <div class="form-group mb-4">
-            <label for="reason" class="form-label">
-              <i class="fas fa-tag me-2"></i>
-              سبب التعديل
-            </label>
-            <select class="form-select form-select-lg" id="reason">
-              <option value="" disabled selected>اختر سبب التعديل</option>
-              <option value="periodic">تعديل دوري</option>
-              <option value="update">تحديث بيانات</option>
-              <option value="emergency">تعديل اضطراري</option>
-            </select>
-          </div>
-          <div class="form-group mb-4">
-            <label for="description" class="form-label">
-              <i class="fas fa-align-left me-2"></i>
-              وصف التعديل
-            </label>
-            <textarea class="form-control" id="description" rows="3"
-              placeholder="اكتب وصفًا مختصرًا للتعديل..."></textarea>
-          </div>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary btn-lg">
-              <i class="fas fa-play me-2"></i>
-              ابدأ التعديل
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <!-- Events Table Section -->
-      <h2 class="mb-4 slide-up" id="eventsTableTitle">جدول الأحداث</h2>
-      <div class="table-responsive mb-5 zoom-in on-scroll">
-        <table class="table table-striped table-bordered table-hover" id="eventsTable">
-          <thead class="table-header">
-            <tr>
-              <th class="text-center">تاريخ التعديل</th>
-              <th class="text-center">اسم المستخدم</th>
-              <th class="text-center">سبب التعديل</th>
-              <th class="text-center">وصف التعديل</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="table-row-animate">
-              <td class="text-center">2025-05-20</td>
-              <td class="text-center">أحمد</td>
-              <td class="text-center">تحديث طارئ للبيانات</td>
-              <td class="text-center">تحديث بيانات الأحياء السكنية</td>
-            </tr>
-            <tr class="table-row-animate">
-              <td class="text-center">2025-05-18</td>
-              <td class="text-center">منى</td>
-              <td class="text-center">تعديل دوري للنظام</td>
-              <td class="text-center">تحديث خدمات البنية التحتية</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Modal for details -->
-      <div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header bg-gradient-primary text-white" style="padding: 20px 20px">
-              <h5 class="modal-title">
-                <i class="fas fa-info-circle me-2"></i>
-                تفاصيل التغييرات
-              </h5>
-              <button type="button" class="btn-close btn-close-white modal-close-btn" data-bs-dismiss="modal"
-                aria-label="إغلاق"></button>
-            </div>
-            <div class="modal-body">
-              <div class="table-responsive">
-                <table class="table table-hover table-striped">
-                  <thead class="table-light">
-                    <tr>
-                      <th class="text-center">البند</th>
-                      <th class="text-center">القيمة</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="animate-row">
-                      <td class="text-center">البند 1</td>
-                      <td class="text-center">قيمة 1</td>
-                    </tr>
-                    <tr class="animate-row">
-                      <td class="text-center">البند 2</td>
-                      <td class="text-center">قيمة 2</td>
-                    </tr>
-                    <tr class="animate-row">
-                      <td class="text-center">البند 3</td>
-                      <td class="text-center">قيمة 3</td>
-                    </tr>
-                    <tr class="animate-row">
-                      <td class="text-center">البند 4</td>
-                      <td class="text-center">قيمة 4</td>
-                    </tr>
-                    <tr class="animate-row">
-                      <td class="text-center">البند 5</td>
-                      <td class="text-center">قيمة 5</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="modal-footer bg-light">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                <i class="fas fa-times me-2"></i>إغلاق
-              </button>
-              <button type="button" class="btn btn-primary">
-                <i class="fas fa-download me-2"></i>تحميل التقرير
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-  <footer id="mainFooter">
-    <div class="footer-content">
-      <div class="copyright" style="font-size: 12px;">
-        <span class="copyright-text" lang="ar">
-          ©
-          <script>
-            document.write(new Date().getFullYear());
-          </script>
-          <a rel="noopener" class="companyHITech arabic-text" href="https://hasan20nassar.github.io/HTH_Profile/"
-            target="_blank" lang="ar">
-            , HI-Tech House</a>
-        </span>
-        <span lang="ar" class="arabic-text">Powered by</span>
-        <!-- <img
-            alt="Company Logo"
-            src="../assets/img/HTH.png"
-            class="footer-logo"
-          /> -->
-      </div>
-      <div class="social-icons">
-        <a aria-label="WhatsApp" class="social-icon whatsapp" href="#"><i class="fab fa-whatsapp"></i></a>
-        <a aria-label="LinkedIn" class="social-icon linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
-        <a aria-label="Instagram" class="social-icon instagram" href="#"><i class="fab fa-instagram"></i></a>
-        <a aria-label="X" class="social-icon twitter" href="#"><i class="fab fa-x-twitter"></i></a>
-        <a aria-label="Facebook" class="social-icon facebook" href="#"><i class="fab fa-facebook-f"></i></a>
-      </div>
-    </div>
-  </footer>
-  <div class="fixed-plugin">
-    <a id="helpButton" class="fixed-plugin-button text-dark position-fixed px-3 py-2"
-      style="bottom: 80px; z-index: 6000">
-      <i class="fa fa-question-circle py-2"> </i>
-    </a>
-  </div>
-  <!--   Core JS Files   -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/smooth-scrollbar@8.8.4/dist/smooth-scrollbar.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
-  <!-- Language Toggle Script -->
-  <script>
-    const translations = {
-      ar: {
-        dir: "rtl",
-        dashboard: "لوحة التحكم",
-        configTables: "جداول الإعدادات",
-        manageUsers: "إدارة المستخدمين",
-        profile: "الملف الشخصي",
-        settingsText: "الإعدادات",
-        logoutText: "تسجيل الخروج",
-        pageTitle: "صفحة فارغة",
-        // Timeline Section
-        timelineTitle: "المخطط الزمني",
-        startOfYear: "بداية العام",
-        quarterlyAssessment: "تقييم ربع سنوي",
-        midYearUpdate: "تحديث منتصف العام",
-        annualClosure: "الختام السنوي",
-        daysLeft: "بقي {days} يومًا",
-        daysPassed: "تم تجاوزها",
-        // Edit Form Section
-        editFormTitle: "نموذج التعديل",
-        welcomeMessage: "مرحبًا بك في صفحة التعديلات",
-        formSubtitle: "الرجاء تعبئة البيانات التالية:",
-        editReason: "سبب التعديل",
-        selectReason: "اختر سبب التعديل",
-        periodicEdit: "تعديل دوري",
-        dataUpdate: "تحديث بيانات",
-        emergencyEdit: "تعديل اضطراري",
-        editDescription: "وصف التعديل",
-        descriptionPlaceholder: "اكتب وصفًا مختصرًا للتعديل...",
-        startEdit: "ابدأ التعديل",
-        // Events Table Section
-        eventsTableTitle: "جدول الأحداث",
-        editDate: "تاريخ التعديل",
-        userName: "اسم المستخدم",
-        editReason: "سبب التعديل",
-        actions: "وصف التعديل",
-        view: "استعراض",
-        // Modal Section
-        changeDetails: "تفاصيل التغييرات",
-        item: "البند",
-        value: "القيمة",
-        close: "إغلاق",
-        downloadReport: "تحميل التقرير"
-      },
-      en: {
-        dir: "ltr",
-        dashboard: "Dashboard",
-        configTables: "Configuration Tables",
-        manageUsers: "Manage Users",
-        profile: "Profile",
-        settingsText: "Settings",
-        logoutText: "Logout",
-        pageTitle: "Empty Page",
-        // Timeline Section
-        timelineTitle: "Timeline",
-        startOfYear: "Start of Year",
-        quarterlyAssessment: "Quarterly Assessment",
-        midYearUpdate: "Mid-Year Update",
-        annualClosure: "Annual Closure",
-        daysLeft: "{days} days left",
-        daysPassed: "Passed",
-        // Edit Form Section
-        editFormTitle: "Edit Form",
-        welcomeMessage: "Welcome to the Edit Page",
-        formSubtitle: "Please fill in the following information:",
-        editReason: "Edit Reason",
-        selectReason: "Select Edit Reason",
-        periodicEdit: "Periodic Edit",
-        dataUpdate: "Data Update",
-        emergencyEdit: "Emergency Edit",
-        editDescription: "Edit Description",
-        descriptionPlaceholder: "Write a brief description of the edit...",
-        startEdit: "Start Edit",
-        // Events Table Section
-        eventsTableTitle: "Events Table",
-        editDate: "Edit Date",
-        userName: "User Name",
-        editReason: "Edit Reason",
-        actions: "Edit Description",
-        view: "View",
-        // Modal Section
-        changeDetails: "Change Details",
-        item: "Item",
-        value: "Value",
-        close: "Close",
-        downloadReport: "Download Report"
-      }
-    };
-
-    let currentLang = "ar";
-
-    function switchLanguage(lang) {
-      try {
-        localStorage.setItem("preferredLanguage", lang);
-      } catch (error) {
-        console.error("Error saving language preference:", error);
+        background: linear-gradient(45deg, #00b2e3, #0077b6);
+        border: none;
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 178, 227, 0.3);
       }
 
-      const aside = document.getElementById("sidenav-main");
-      if (aside) {
-        aside.classList.remove("fixed-end", "fixed-start");
-        aside.classList.add(lang === "ar" ? "fixed-end" : "fixed-start");
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 178, 227, 0.4);
       }
 
-      const helpButton = document.getElementById("helpButton");
-      if (helpButton) {
-        helpButton.style.left = lang === "ar" ? "20px" : "auto";
-        helpButton.style.right = lang === "ar" ? "auto" : "20px";
-      }
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
 
-      currentLang = lang;
-      const t = translations[lang];
+        40% {
+          transform: translateY(-10px);
+        }
 
-      document.documentElement.lang = lang;
-      document.documentElement.dir = t.dir;
-
-      // Update navigation texts
-      const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
-      if (navTexts[0]) navTexts[0].textContent = t.dashboard;
-      if (navTexts[1]) navTexts[1].textContent = t.configTables;
-      if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
-      if (navTexts[3]) navTexts[3].textContent = t.profile;
-
-      // Update menu items
-      const settingsText = document.getElementById("settingsText");
-      if (settingsText) settingsText.textContent = t.settingsText;
-
-      const logoutText = document.getElementById("logoutText");
-      if (logoutText) logoutText.textContent = t.logoutText;
-
-      // Update page title
-      const pageTitle = document.getElementById("pageTitle");
-      if (pageTitle) pageTitle.textContent = t.pageTitle;
-
-      // Update timeline section
-      const timelineTitle = document.querySelector('h2.mb-4.slide-up');
-      if (timelineTitle) timelineTitle.textContent = t.timelineTitle;
-
-      // Update edit form section
-      const editFormTitle = document.getElementById('editFormTitle');
-      if (editFormTitle) editFormTitle.textContent = t.editFormTitle;
-      const formTitle = document.querySelector('.form-title');
-      if (formTitle) formTitle.textContent = t.welcomeMessage;
-
-      const formSubtitle = document.querySelector('.form-subtitle');
-      if (formSubtitle) formSubtitle.textContent = t.formSubtitle;
-
-      const reasonLabel = document.querySelector('label[for="reason"]');
-      if (reasonLabel) reasonLabel.innerHTML = `<i class="fas fa-tag me-2"></i>${t.editReason}`;
-
-      const reasonSelect = document.getElementById('reason');
-      if (reasonSelect) {
-        reasonSelect.options[0].text = t.selectReason;
-        reasonSelect.options[1].text = t.periodicEdit;
-        reasonSelect.options[2].text = t.dataUpdate;
-        reasonSelect.options[3].text = t.emergencyEdit;
-      }
-
-      const descriptionLabel = document.querySelector('label[for="description"]');
-      if (descriptionLabel) descriptionLabel.innerHTML = `<i class="fas fa-align-left me-2"></i>${t.editDescription}`;
-
-      const descriptionTextarea = document.getElementById('description');
-      if (descriptionTextarea) descriptionTextarea.placeholder = t.descriptionPlaceholder;
-
-      const startEditBtn = document.querySelector('.btn-primary');
-      if (startEditBtn) startEditBtn.innerHTML = `<i class="fas fa-play me-2"></i>${t.startEdit}`;
-
-      // Update events table section
-      const eventsTableTitle = document.getElementById('eventsTableTitle');
-      if (eventsTableTitle) eventsTableTitle.textContent = t.eventsTableTitle;
-
-      const tableHeaders = document.querySelectorAll('#eventsTable th');
-      if (tableHeaders.length >= 4) {
-        tableHeaders[0].textContent = t.editDate;
-        tableHeaders[1].textContent = t.userName;
-        tableHeaders[2].textContent = t.editReason;
-        tableHeaders[3].textContent = t.actions;
-      }
-
-      const viewButtons = document.querySelectorAll('.btn-view');
-      viewButtons.forEach(btn => {
-        btn.innerHTML = `<i class="fas fa-eye me-1"></i>${t.view}`;
-      });
-
-      // Update modal content
-      const modalTitle = document.querySelector('.modal-title');
-      if (modalTitle) modalTitle.innerHTML = `<i class="fas fa-info-circle me-2"></i>${t.changeDetails}`;
-
-      const modalHeaders = document.querySelectorAll('.modal-body th');
-      if (modalHeaders.length >= 2) {
-        modalHeaders[0].textContent = t.item;
-        modalHeaders[1].textContent = t.value;
-      }
-
-      const modalButtons = document.querySelectorAll('.modal-footer .btn');
-      if (modalButtons.length >= 2) {
-        modalButtons[0].innerHTML = `<i class="fas fa-times me-2"></i>${t.close}`;
-        modalButtons[1].innerHTML = `<i class="fas fa-download me-2"></i>${t.downloadReport}`;
-      }
-
-      // Update timeline points
-      const timelinePoints = document.querySelectorAll('.timeline-point .icon-label');
-      if (timelinePoints.length >= 4) {
-        timelinePoints[0].textContent = t.startOfYear;
-        timelinePoints[1].textContent = t.quarterlyAssessment;
-        timelinePoints[2].textContent = t.midYearUpdate;
-        timelinePoints[3].textContent = t.annualClosure;
-      }
-    }
-
-    function toggleLanguage() {
-      const btn = document.getElementById("langToggleBtn");
-      if (currentLang === "ar") {
-        btn.textContent = "EN";
-        switchLanguage("en");
-      } else {
-        btn.textContent = "AR";
-        switchLanguage("ar");
-      }
-    }
-
-    function toggleMenu() {
-      const menu = document.getElementById("menuDropdown");
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
-
-    // Close menu when clicking outside
-    document.addEventListener("click", function (e) {
-      const menu = document.getElementById("menuDropdown");
-      const menuBtn = document.getElementById("menuToggleBtn");
-      if (
-        menu &&
-        menuBtn &&
-        !menuBtn.contains(e.target) &&
-        !menu.contains(e.target)
-      ) {
-        menu.style.display = "none";
-      }
-    });
-
-    // Initialize page
-    document.addEventListener("DOMContentLoaded", function () {
-      const helpButton = document.getElementById("helpButton");
-      if (helpButton) {
-        helpButton.style.left = "20px";
-        helpButton.style.right = "auto";
-      }
-
-      let savedLanguage;
-      try {
-        savedLanguage = localStorage.getItem("preferredLanguage");
-      } catch (error) {
-        console.error("Error retrieving language preference:", error);
-        savedLanguage = null;
-      }
-
-      const initialLang = savedLanguage || "ar";
-      switchLanguage(initialLang);
-
-      const langToggleBtn = document.getElementById("langToggleBtn");
-      if (langToggleBtn) {
-        langToggleBtn.textContent = initialLang === "ar" ? "AR" : "EN";
-        langToggleBtn.onclick = toggleLanguage;
-      }
-
-      // Handle zoom level changes
-      function handleZoom() {
-        const sidenav = document.getElementById("sidenav-main");
-        const windowWidth = window.innerWidth;
-        const zoomLevel = window.devicePixelRatio;
-
-        if (sidenav) {
-          sidenav.style.display =
-            zoomLevel > 1.51 || windowWidth < 1200 ? "none" : "block";
+        60% {
+          transform: translateY(-5px);
         }
       }
 
-      handleZoom();
-      window.addEventListener("resize", handleZoom);
-    });
-  </script>
+      /* Responsive Styles */
+      @media (max-width: 768px) {
+        .edit-form-container {
+          padding: 1.5rem;
+        }
 
-  <script>
-    // Generate timeline stations with static phases and icons
-    document.addEventListener("DOMContentLoaded", () => {
-      const startDate = new Date("2025-01-01");
-      const now = new Date();
-      const timelineContainer = document.getElementById("timeline");
+        .form-title {
+          font-size: 1.3rem;
+        }
 
-      const stationDescriptions = [
-        translations[currentLang].startOfYear,
-        translations[currentLang].quarterlyAssessment,
-        translations[currentLang].midYearUpdate,
-        translations[currentLang].annualClosure,
-      ];
-      const stationIcons = [
-        "bi bi-flag",
-        "bi bi-graph-up",
-        "bi bi-pencil-square",
-        "bi bi-trophy",
-      ];
+        .form-subtitle {
+          font-size: 0.9rem;
+        }
 
-      const stationDates = [];
-      for (let i = 0; i < 4; i++) {
-        const stationDate = new Date(startDate);
-        stationDate.setMonth(startDate.getMonth() + i * 3);
-        stationDates.push(stationDate);
+        .form-select,
+        .form-control {
+          font-size: 0.9rem;
+          padding: 0.6rem 0.8rem;
+        }
 
-        const diffDays = Math.ceil(
-          (stationDate - now) / (1000 * 60 * 60 * 24)
+        .btn-primary {
+          padding: 0.6rem 1.5rem;
+          font-size: 1rem;
+        }
+      }
+    </style>
+
+    <style>
+      /* Modal close button position for RTL/LTR */
+      [dir="rtl"] .modal-close-btn {
+        position: absolute;
+        left: 1rem;
+        right: auto;
+      }
+
+      [dir="ltr"] .modal-close-btn {
+        position: absolute;
+        right: 1rem;
+        left: auto;
+      }
+    </style>
+  </head>
+
+  <body class="g-sidenav-show bg-gray-100">
+    <!-- Header -->
+    <header id="mainHeader">
+      <div style="display: flex; align-items: center; gap: 10px">
+        <a href="./admin.html" title="Go to Admin Page">
+          <img
+            src="assets/img/unhabitat.jfif"
+            alt="Logo 3"
+            class="header-logo"
+            style="cursor: pointer"
+          />
+        </a>
+        <div class="language-dropdown">
+          <button
+            class="language-toggle"
+            id="langToggleBtn"
+            onclick="toggleLanguage()"
+            aria-label="Toggle Language"
+          >
+            AR
+          </button>
+        </div>
+        <div class="menu-dropdown">
+          <button
+            title="toggle language"
+            class="menu-toggle"
+            id="menuToggleBtn"
+            onclick="toggleMenu()"
+            style="
+              background-image: url('assets/img/user1.jpg');
+              background-size: cover;
+              background-position: center;
+            "
+          ></button>
+          <div class="menu-dropdown-content" id="menuDropdown">
+            <a
+              href="#"
+              class="menu-item"
+              id="settingsBtn"
+              onclick="window.location.href = './profile.html';"
+            >
+              <i class="fas fa-cog"></i>
+              <span id="settingsText">الإعدادات</span>
+            </a>
+            <a
+              href="#"
+              class="menu-item"
+              id="logoutBtn"
+              onclick="window.location.href = './index.html';"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+              <span id="logoutText">تسجيل الخروج</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-title text-center">
+        <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
+        <div class="title-en">
+          Urban Information Management System - Aleppo City
+        </div>
+      </div>
+
+      <div class="header-logos right-logos">
+        <img src="assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
+        <img src="assets/img/japan.png" alt="Logo 2" class="header-logo" />
+      </div>
+    </header>
+    <main
+      class="main-content position-relative max-height-vh-100 h-100 border-radius-lg mt-4"
+    >
+      <div class="container py-5 fade-in">
+        <!-- Timeline Section -->
+        <h2 class="mb-4 slide-up">المخطط الزمني</h2>
+        <div
+          class="timeline-container mb-5 zoom-in on-scroll"
+          id="timeline"
+        ></div>
+
+        <!-- Edit Form Section -->
+        <h2 class="mb-4 slide-up" id="editFormTitle">نموذج التعديل</h2>
+        <div
+          class="edit-form-container mb-5 p-4 bg-white rounded shadow zoom-in on-scroll"
+        >
+          <div class="form-header">
+            <i class="fas fa-edit form-icon"></i>
+            <h3 class="form-title">مرحبًا بك في صفحة التعديلات</h3>
+            <p class="form-subtitle">الرجاء تعبئة البيانات التالية:</p>
+          </div>
+          <form
+            action="../pages/maps/index.html"
+            class="edit-form"
+            id="editForm"
+          >
+            <div class="form-group mb-4">
+              <label for="reason" class="form-label">
+                <i class="fas fa-tag me-2"></i>
+                سبب التعديل
+              </label>
+              <select class="form-select form-select-lg" id="reason">
+                <option value="" disabled selected>اختر سبب التعديل</option>
+                <option value="periodic">تعديل دوري</option>
+                <option value="update">تحديث بيانات</option>
+                <option value="emergency">تعديل اضطراري</option>
+              </select>
+            </div>
+            <div class="form-group mb-4">
+              <label for="description" class="form-label">
+                <i class="fas fa-align-left me-2"></i>
+                وصف التعديل
+              </label>
+              <textarea
+                class="form-control"
+                id="description"
+                rows="3"
+                placeholder="اكتب وصفًا مختصرًا للتعديل..."
+              ></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-play me-2"></i>
+                ابدأ التعديل
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Events Table Section -->
+        <h2 class="mb-4 slide-up" id="eventsTableTitle">جدول الأحداث</h2>
+        <div class="table-responsive mb-5 zoom-in on-scroll">
+          <table
+            class="table table-striped table-bordered table-hover"
+            id="eventsTable"
+          >
+            <thead class="table-header">
+              <tr>
+                <th class="text-center">تاريخ التعديل</th>
+                <th class="text-center">اسم المستخدم</th>
+                <th class="text-center">سبب التعديل</th>
+                <th class="text-center">وصف التعديل</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-row-animate">
+                <td class="text-center">2025-05-20</td>
+                <td class="text-center">أحمد</td>
+                <td class="text-center">تحديث طارئ للبيانات</td>
+                <td class="text-center">تحديث بيانات الأحياء السكنية</td>
+              </tr>
+              <tr class="table-row-animate">
+                <td class="text-center">2025-05-18</td>
+                <td class="text-center">منى</td>
+                <td class="text-center">تعديل دوري للنظام</td>
+                <td class="text-center">تحديث خدمات البنية التحتية</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Modal for details -->
+        <div
+          class="modal fade"
+          id="detailsModal"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div
+                class="modal-header bg-gradient-primary text-white"
+                style="padding: 20px 20px"
+              >
+                <h5 class="modal-title">
+                  <i class="fas fa-info-circle me-2"></i>
+                  تفاصيل التغييرات
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white modal-close-btn"
+                  data-bs-dismiss="modal"
+                  aria-label="إغلاق"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped">
+                    <thead class="table-light">
+                      <tr>
+                        <th class="text-center">البند</th>
+                        <th class="text-center">القيمة</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="animate-row">
+                        <td class="text-center">البند 1</td>
+                        <td class="text-center">قيمة 1</td>
+                      </tr>
+                      <tr class="animate-row">
+                        <td class="text-center">البند 2</td>
+                        <td class="text-center">قيمة 2</td>
+                      </tr>
+                      <tr class="animate-row">
+                        <td class="text-center">البند 3</td>
+                        <td class="text-center">قيمة 3</td>
+                      </tr>
+                      <tr class="animate-row">
+                        <td class="text-center">البند 4</td>
+                        <td class="text-center">قيمة 4</td>
+                      </tr>
+                      <tr class="animate-row">
+                        <td class="text-center">البند 5</td>
+                        <td class="text-center">قيمة 5</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="modal-footer bg-light">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  <i class="fas fa-times me-2"></i>إغلاق
+                </button>
+                <button type="button" class="btn btn-primary">
+                  <i class="fas fa-download me-2"></i>تحميل التقرير
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer id="mainFooter">
+      <div class="footer-content">
+        <div class="copyright" style="font-size: 12px">
+          <span class="copyright-text" lang="ar">
+            ©
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            <a
+              rel="noopener"
+              class="companyHITech arabic-text"
+              href="https://hasan20nassar.github.io/HTH_Profile/"
+              target="_blank"
+              lang="ar"
+            >
+              , HI-Tech House</a
+            >
+          </span>
+          <span lang="ar" class="arabic-text">Powered by</span>
+          <!-- <img
+            alt="Company Logo"
+            src="assets/img/HTH.png"
+            class="footer-logo"
+          /> -->
+        </div>
+        <div class="social-icons">
+          <a aria-label="WhatsApp" class="social-icon whatsapp" href="#"
+            ><i class="fab fa-whatsapp"></i
+          ></a>
+          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+          <a aria-label="Instagram" class="social-icon instagram" href="#"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a aria-label="X" class="social-icon twitter" href="#"
+            ><i class="fab fa-x-twitter"></i
+          ></a>
+          <a aria-label="Facebook" class="social-icon facebook" href="#"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+    <div class="fixed-plugin">
+      <a
+        id="helpButton"
+        class="fixed-plugin-button text-dark position-fixed px-3 py-2"
+        style="bottom: 80px; z-index: 6000"
+      >
+        <i class="fa fa-question-circle py-2"> </i>
+      </a>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/smooth-scrollbar@8.8.4/dist/smooth-scrollbar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- Language Toggle Script -->
+    <script>
+      const translations = {
+        ar: {
+          dir: "rtl",
+          dashboard: "لوحة التحكم",
+          configTables: "جداول الإعدادات",
+          manageUsers: "إدارة المستخدمين",
+          profile: "الملف الشخصي",
+          settingsText: "الإعدادات",
+          logoutText: "تسجيل الخروج",
+          pageTitle: "صفحة فارغة",
+          // Timeline Section
+          timelineTitle: "المخطط الزمني",
+          startOfYear: "بداية العام",
+          quarterlyAssessment: "تقييم ربع سنوي",
+          midYearUpdate: "تحديث منتصف العام",
+          annualClosure: "الختام السنوي",
+          daysLeft: "بقي {days} يومًا",
+          daysPassed: "تم تجاوزها",
+          // Edit Form Section
+          editFormTitle: "نموذج التعديل",
+          welcomeMessage: "مرحبًا بك في صفحة التعديلات",
+          formSubtitle: "الرجاء تعبئة البيانات التالية:",
+          editReason: "سبب التعديل",
+          selectReason: "اختر سبب التعديل",
+          periodicEdit: "تعديل دوري",
+          dataUpdate: "تحديث بيانات",
+          emergencyEdit: "تعديل اضطراري",
+          editDescription: "وصف التعديل",
+          descriptionPlaceholder: "اكتب وصفًا مختصرًا للتعديل...",
+          startEdit: "ابدأ التعديل",
+          // Events Table Section
+          eventsTableTitle: "جدول الأحداث",
+          editDate: "تاريخ التعديل",
+          userName: "اسم المستخدم",
+          editReason: "سبب التعديل",
+          actions: "وصف التعديل",
+          view: "استعراض",
+          // Modal Section
+          changeDetails: "تفاصيل التغييرات",
+          item: "البند",
+          value: "القيمة",
+          close: "إغلاق",
+          downloadReport: "تحميل التقرير",
+        },
+        en: {
+          dir: "ltr",
+          dashboard: "Dashboard",
+          configTables: "Configuration Tables",
+          manageUsers: "Manage Users",
+          profile: "Profile",
+          settingsText: "Settings",
+          logoutText: "Logout",
+          pageTitle: "Empty Page",
+          // Timeline Section
+          timelineTitle: "Timeline",
+          startOfYear: "Start of Year",
+          quarterlyAssessment: "Quarterly Assessment",
+          midYearUpdate: "Mid-Year Update",
+          annualClosure: "Annual Closure",
+          daysLeft: "{days} days left",
+          daysPassed: "Passed",
+          // Edit Form Section
+          editFormTitle: "Edit Form",
+          welcomeMessage: "Welcome to the Edit Page",
+          formSubtitle: "Please fill in the following information:",
+          editReason: "Edit Reason",
+          selectReason: "Select Edit Reason",
+          periodicEdit: "Periodic Edit",
+          dataUpdate: "Data Update",
+          emergencyEdit: "Emergency Edit",
+          editDescription: "Edit Description",
+          descriptionPlaceholder: "Write a brief description of the edit...",
+          startEdit: "Start Edit",
+          // Events Table Section
+          eventsTableTitle: "Events Table",
+          editDate: "Edit Date",
+          userName: "User Name",
+          editReason: "Edit Reason",
+          actions: "Edit Description",
+          view: "View",
+          // Modal Section
+          changeDetails: "Change Details",
+          item: "Item",
+          value: "Value",
+          close: "Close",
+          downloadReport: "Download Report",
+        },
+      };
+
+      let currentLang = "ar";
+
+      function switchLanguage(lang) {
+        try {
+          localStorage.setItem("preferredLanguage", lang);
+        } catch (error) {
+          console.error("Error saving language preference:", error);
+        }
+
+        const aside = document.getElementById("sidenav-main");
+        if (aside) {
+          aside.classList.remove("fixed-end", "fixed-start");
+          aside.classList.add(lang === "ar" ? "fixed-end" : "fixed-start");
+        }
+
+        const helpButton = document.getElementById("helpButton");
+        if (helpButton) {
+          helpButton.style.left = lang === "ar" ? "20px" : "auto";
+          helpButton.style.right = lang === "ar" ? "auto" : "20px";
+        }
+
+        currentLang = lang;
+        const t = translations[lang];
+
+        document.documentElement.lang = lang;
+        document.documentElement.dir = t.dir;
+
+        // Update navigation texts
+        const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
+        if (navTexts[0]) navTexts[0].textContent = t.dashboard;
+        if (navTexts[1]) navTexts[1].textContent = t.configTables;
+        if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
+        if (navTexts[3]) navTexts[3].textContent = t.profile;
+        if (navTexts[4]) navTexts[4].textContent = t.standards;
+        if (navTexts[5]) navTexts[5].textContent = t.neighborhoodCommittees;
+        if (navTexts[6]) navTexts[6].textContent = t.developmentCommittees;
+
+        // Update menu items
+        const settingsText = document.getElementById("settingsText");
+        if (settingsText) settingsText.textContent = t.settingsText;
+
+        const logoutText = document.getElementById("logoutText");
+        if (logoutText) logoutText.textContent = t.logoutText;
+
+        // Update page title
+        const pageTitle = document.getElementById("pageTitle");
+        if (pageTitle) pageTitle.textContent = t.pageTitle;
+
+        // Update timeline section
+        const timelineTitle = document.querySelector("h2.mb-4.slide-up");
+        if (timelineTitle) timelineTitle.textContent = t.timelineTitle;
+
+        // Update edit form section
+        const editFormTitle = document.getElementById("editFormTitle");
+        if (editFormTitle) editFormTitle.textContent = t.editFormTitle;
+        const formTitle = document.querySelector(".form-title");
+        if (formTitle) formTitle.textContent = t.welcomeMessage;
+
+        const formSubtitle = document.querySelector(".form-subtitle");
+        if (formSubtitle) formSubtitle.textContent = t.formSubtitle;
+
+        const reasonLabel = document.querySelector('label[for="reason"]');
+        if (reasonLabel)
+          reasonLabel.innerHTML = `<i class="fas fa-tag me-2"></i>${t.editReason}`;
+
+        const reasonSelect = document.getElementById("reason");
+        if (reasonSelect) {
+          reasonSelect.options[0].text = t.selectReason;
+          reasonSelect.options[1].text = t.periodicEdit;
+          reasonSelect.options[2].text = t.dataUpdate;
+          reasonSelect.options[3].text = t.emergencyEdit;
+        }
+
+        const descriptionLabel = document.querySelector(
+          'label[for="description"]'
         );
-        const point = document.createElement("div");
-        point.className = "timeline-point";
-        point.innerHTML = `
+        if (descriptionLabel)
+          descriptionLabel.innerHTML = `<i class="fas fa-align-left me-2"></i>${t.editDescription}`;
+
+        const descriptionTextarea = document.getElementById("description");
+        if (descriptionTextarea)
+          descriptionTextarea.placeholder = t.descriptionPlaceholder;
+
+        const startEditBtn = document.querySelector(".btn-primary");
+        if (startEditBtn)
+          startEditBtn.innerHTML = `<i class="fas fa-play me-2"></i>${t.startEdit}`;
+
+        // Update events table section
+        const eventsTableTitle = document.getElementById("eventsTableTitle");
+        if (eventsTableTitle) eventsTableTitle.textContent = t.eventsTableTitle;
+
+        const tableHeaders = document.querySelectorAll("#eventsTable th");
+        if (tableHeaders.length >= 4) {
+          tableHeaders[0].textContent = t.editDate;
+          tableHeaders[1].textContent = t.userName;
+          tableHeaders[2].textContent = t.editReason;
+          tableHeaders[3].textContent = t.actions;
+        }
+
+        const viewButtons = document.querySelectorAll(".btn-view");
+        viewButtons.forEach((btn) => {
+          btn.innerHTML = `<i class="fas fa-eye me-1"></i>${t.view}`;
+        });
+
+        // Update modal content
+        const modalTitle = document.querySelector(".modal-title");
+        if (modalTitle)
+          modalTitle.innerHTML = `<i class="fas fa-info-circle me-2"></i>${t.changeDetails}`;
+
+        const modalHeaders = document.querySelectorAll(".modal-body th");
+        if (modalHeaders.length >= 2) {
+          modalHeaders[0].textContent = t.item;
+          modalHeaders[1].textContent = t.value;
+        }
+
+        const modalButtons = document.querySelectorAll(".modal-footer .btn");
+        if (modalButtons.length >= 2) {
+          modalButtons[0].innerHTML = `<i class="fas fa-times me-2"></i>${t.close}`;
+          modalButtons[1].innerHTML = `<i class="fas fa-download me-2"></i>${t.downloadReport}`;
+        }
+
+        // Update timeline points
+        const timelinePoints = document.querySelectorAll(
+          ".timeline-point .icon-label"
+        );
+        if (timelinePoints.length >= 4) {
+          timelinePoints[0].textContent = t.startOfYear;
+          timelinePoints[1].textContent = t.quarterlyAssessment;
+          timelinePoints[2].textContent = t.midYearUpdate;
+          timelinePoints[3].textContent = t.annualClosure;
+        }
+      }
+
+      function toggleLanguage() {
+        const btn = document.getElementById("langToggleBtn");
+        if (currentLang === "ar") {
+          btn.textContent = "EN";
+          switchLanguage("en");
+        } else {
+          btn.textContent = "AR";
+          switchLanguage("ar");
+        }
+      }
+
+      function toggleMenu() {
+        const menu = document.getElementById("menuDropdown");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+      }
+
+      // Close menu when clicking outside
+      document.addEventListener("click", function (e) {
+        const menu = document.getElementById("menuDropdown");
+        const menuBtn = document.getElementById("menuToggleBtn");
+        if (
+          menu &&
+          menuBtn &&
+          !menuBtn.contains(e.target) &&
+          !menu.contains(e.target)
+        ) {
+          menu.style.display = "none";
+        }
+      });
+
+      // Initialize page
+      document.addEventListener("DOMContentLoaded", function () {
+        const helpButton = document.getElementById("helpButton");
+        if (helpButton) {
+          helpButton.style.left = "20px";
+          helpButton.style.right = "auto";
+        }
+
+        let savedLanguage;
+        try {
+          savedLanguage = localStorage.getItem("preferredLanguage");
+        } catch (error) {
+          console.error("Error retrieving language preference:", error);
+          savedLanguage = null;
+        }
+
+        const initialLang = savedLanguage || "ar";
+        switchLanguage(initialLang);
+
+        const langToggleBtn = document.getElementById("langToggleBtn");
+        if (langToggleBtn) {
+          langToggleBtn.textContent = initialLang === "ar" ? "AR" : "EN";
+          langToggleBtn.onclick = toggleLanguage;
+        }
+
+        // Handle zoom level changes
+        function handleZoom() {
+          const sidenav = document.getElementById("sidenav-main");
+          const windowWidth = window.innerWidth;
+          const zoomLevel = window.devicePixelRatio;
+
+          if (sidenav) {
+            sidenav.style.display =
+              zoomLevel > 1.51 || windowWidth < 1200 ? "none" : "block";
+          }
+        }
+
+        handleZoom();
+        window.addEventListener("resize", handleZoom);
+      });
+    </script>
+
+    <script>
+      // Generate timeline stations with static phases and icons
+      document.addEventListener("DOMContentLoaded", () => {
+        const startDate = new Date("2025-01-01");
+        const now = new Date();
+        const timelineContainer = document.getElementById("timeline");
+
+        const stationDescriptions = [
+          translations[currentLang].startOfYear,
+          translations[currentLang].quarterlyAssessment,
+          translations[currentLang].midYearUpdate,
+          translations[currentLang].annualClosure,
+        ];
+        const stationIcons = [
+          "bi bi-flag",
+          "bi bi-graph-up",
+          "bi bi-pencil-square",
+          "bi bi-trophy",
+        ];
+
+        const stationDates = [];
+        for (let i = 0; i < 4; i++) {
+          const stationDate = new Date(startDate);
+          stationDate.setMonth(startDate.getMonth() + i * 3);
+          stationDates.push(stationDate);
+
+          const diffDays = Math.ceil(
+            (stationDate - now) / (1000 * 60 * 60 * 24)
+          );
+          const point = document.createElement("div");
+          point.className = "timeline-point";
+          point.innerHTML = `
           <div class="circle"></div>
           <div class="icon-label">
             <i class="${stationIcons[i]}"></i>
             ${stationDescriptions[i]}
           </div>
-          <small>${diffDays > 0
-            ? translations[currentLang].daysLeft.replace('{days}', diffDays)
-            : translations[currentLang].daysPassed
+          <small>${
+            diffDays > 0
+              ? translations[currentLang].daysLeft.replace("{days}", diffDays)
+              : translations[currentLang].daysPassed
           }</small>
           <div class="timeline-event" id="events-${i}"></div>
         `;
-        timelineContainer.appendChild(point);
-      }
+          timelineContainer.appendChild(point);
+        }
 
-      // Map event rows to timeline based on date
-      const rows = document.querySelectorAll("#eventsTable tbody tr");
-      rows.forEach((row) => {
-        const date = new Date(row.cells[0].innerText);
-        for (let i = 0; i < stationDates.length; i++) {
-          if (date <= stationDates[i]) {
-            const eventContainer = document.getElementById(`events-${i}`);
-            const user = row.cells[1].innerText;
-            const message = row.cells[2].innerText;
-            const p = document.createElement("p");
-            p.textContent = `${date.toISOString().split("T")[0]
+        // Map event rows to timeline based on date
+        const rows = document.querySelectorAll("#eventsTable tbody tr");
+        rows.forEach((row) => {
+          const date = new Date(row.cells[0].innerText);
+          for (let i = 0; i < stationDates.length; i++) {
+            if (date <= stationDates[i]) {
+              const eventContainer = document.getElementById(`events-${i}`);
+              const user = row.cells[1].innerText;
+              const message = row.cells[2].innerText;
+              const p = document.createElement("p");
+              p.textContent = `${
+                date.toISOString().split("T")[0]
               } - ${user}: ${message}`;
-            eventContainer.appendChild(p);
-            break;
+              eventContainer.appendChild(p);
+              break;
+            }
           }
+        });
+      });
+
+      // Scroll animation: show elements when they enter viewport
+      window.addEventListener("scroll", () => {
+        document.querySelectorAll(".on-scroll").forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 100) {
+            el.classList.add("visible");
+          }
+        });
+      });
+    </script>
+
+    <script>
+      // Add this to your existing script section
+      document.addEventListener("DOMContentLoaded", function () {
+        // Reset animations when modal is hidden
+        const detailsModal = document.getElementById("detailsModal");
+        detailsModal.addEventListener("hidden.bs.modal", function () {
+          const rows = this.querySelectorAll(".animate-row");
+          rows.forEach((row) => {
+            row.style.animation = "none";
+            row.offsetHeight; // Trigger reflow
+            row.style.animation = null;
+          });
+        });
+      });
+    </script>
+
+    <script>
+      // Add this to your existing script section
+      document.addEventListener("DOMContentLoaded", function () {
+        // Reset table row animations when table is scrolled into view
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const rows = entry.target.querySelectorAll(".table-row-animate");
+              rows.forEach((row) => {
+                row.style.animation = "none";
+                row.offsetHeight; // Trigger reflow
+                row.style.animation = null;
+              });
+            }
+          });
+        });
+
+        const tableContainer = document.querySelector(".table-responsive");
+        if (tableContainer) {
+          observer.observe(tableContainer);
         }
       });
-    });
+    </script>
 
-    // Scroll animation: show elements when they enter viewport
-    window.addEventListener("scroll", () => {
-      document.querySelectorAll(".on-scroll").forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
-          el.classList.add("visible");
+    <script>
+      // Add this to your existing script section
+      document.addEventListener("DOMContentLoaded", function () {
+        // Form validation and enhancement
+        const form = document.getElementById("editForm");
+        const select = document.getElementById("reason");
+        const description = document.getElementById("description");
+
+        if (form) {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            if (!select.value) {
+              select.classList.add("is-invalid");
+              return;
+            }
+
+            if (!description.value.trim()) {
+              description.classList.add("is-invalid");
+              return;
+            }
+
+            // Get mapType from localStorage and redirect accordingly
+            const mapType = localStorage.getItem("mapType");
+            if (mapType === "neighborhood") {
+              window.location.href = "./maps/index.html";
+            } else if (mapType === "city") {
+              window.location.href = "./sector/index.html";
+            }
+          });
+
+          select.addEventListener("change", function () {
+            this.classList.remove("is-invalid");
+          });
+
+          description.addEventListener("input", function () {
+            this.classList.remove("is-invalid");
+          });
         }
       });
-    });
-  </script>
-
-  <script>
-    // Add this to your existing script section
-    document.addEventListener('DOMContentLoaded', function () {
-      // Reset animations when modal is hidden
-      const detailsModal = document.getElementById('detailsModal');
-      detailsModal.addEventListener('hidden.bs.modal', function () {
-        const rows = this.querySelectorAll('.animate-row');
-        rows.forEach(row => {
-          row.style.animation = 'none';
-          row.offsetHeight; // Trigger reflow
-          row.style.animation = null;
-        });
-      });
-    });
-  </script>
-
-  <script>
-    // Add this to your existing script section
-    document.addEventListener('DOMContentLoaded', function () {
-      // Reset table row animations when table is scrolled into view
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const rows = entry.target.querySelectorAll('.table-row-animate');
-            rows.forEach(row => {
-              row.style.animation = 'none';
-              row.offsetHeight; // Trigger reflow
-              row.style.animation = null;
-            });
-          }
-        });
-      });
-
-      const tableContainer = document.querySelector('.table-responsive');
-      if (tableContainer) {
-        observer.observe(tableContainer);
-      }
-    });
-  </script>
-
-  <script>
-    // Add this to your existing script section
-    document.addEventListener('DOMContentLoaded', function () {
-      // Form validation and enhancement
-      const form = document.getElementById('editForm');
-      const select = document.getElementById('reason');
-      const description = document.getElementById('description');
-
-      if (form) {
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-
-          if (!select.value) {
-            select.classList.add('is-invalid');
-            return;
-          }
-
-          if (!description.value.trim()) {
-            description.classList.add('is-invalid');
-            return;
-          }
-
-          // Get mapType from localStorage and redirect accordingly
-          const mapType = localStorage.getItem('mapType');
-          if (mapType === 'neighborhood') {
-            window.location.href = './maps/index.html';
-          } else if (mapType === 'city') {
-            window.location.href = './sector/index.html';
-          }
-        });
-
-        select.addEventListener('change', function () {
-          this.classList.remove('is-invalid');
-        });
-
-        description.addEventListener('input', function () {
-          this.classList.remove('is-invalid');
-        });
-      }
-    });
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

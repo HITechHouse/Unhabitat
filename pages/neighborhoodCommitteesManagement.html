@@ -1,0 +1,2630 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="shortcut icon"
+      href="assets/img/UN_Habitat_Icon.svg"
+      type="image/x-icon"
+    />
+    <title>Neighborhood Committees Management</title>
+    <!-- Simplified Arabic Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- CSS Files -->
+    <link
+      id="pagestyle"
+      href="assets/css/soft-ui-dashboard.css?v=1.1.0"
+      rel="stylesheet"
+    />
+    <style>
+      /* General body styles and font setup */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Naskh Arabic", sans-serif;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #f8f9fa;
+      }
+
+      /* Arabic font for RTL and specific elements */
+      :lang(ar),
+      [lang="ar"],
+      .arabic-text,
+      .copyright-text,
+      .social-icons,
+      .btn,
+      label,
+      input,
+      .header-title,
+      .title-ar,
+      .title-en,
+      .header-title div {
+        font-family: "Noto Naskh Arabic", sans-serif !important;
+      }
+
+      body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
+        font-family: "Noto Naskh Arabic", sans-serif !important;
+      }
+
+      /* Header styles */
+      #mainHeader {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 5000;
+        background-color: #00b2e3;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4px 16px;
+        height: 50px;
+        box-sizing: border-box;
+        direction: rtl !important;
+      }
+
+      .header-title {
+        flex: 1;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.4rem;
+        line-height: 1.4;
+      }
+
+      #mainHeader .title-ar {
+        font-size: 1.1rem !important;
+        margin-bottom: 2px !important;
+      }
+
+      #mainHeader .title-en {
+        font-size: 0.9rem !important;
+        opacity: 0.9 !important;
+      }
+
+      .header-logo {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        object-fit: contain;
+      }
+
+      .header-logos {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 5px;
+      }
+
+      /* Language and menu buttons */
+      .language-dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1031;
+      }
+
+      .language-toggle {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.1rem;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: 0.2s;
+        position: relative;
+        z-index: 5000;
+      }
+
+      .language-toggle:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .menu-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .menu-toggle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.32);
+        transform: scale(1.05);
+      }
+
+      .menu-dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1000;
+        margin-top: 5px;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        text-decoration: none;
+        color: #333;
+        transition: background-color 0.3s ease;
+      }
+
+      .menu-item i {
+        margin-left: 8px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .menu-item:hover {
+        background-color: #f5f5f5;
+      }
+
+      body[dir="ltr"] .menu-dropdown-content {
+        right: auto;
+        left: 0;
+      }
+
+      body[dir="ltr"] .menu-item i {
+        margin-left: 0;
+        margin-right: 8px;
+      }
+
+      /* Sidebar styles */
+      #sidenav-main {
+        max-height: calc(100vh - 66px);
+        overflow-y: visible;
+      }
+
+      #sidenav-main .navbar-nav {
+        padding-inline-start: 0 !important;
+      }
+
+      .sidenav-header {
+        padding-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      .navbar-brand {
+        margin-top: 20px !important;
+        display: block;
+        padding: 10px 0;
+      }
+
+      .navbar-brand-img {
+        max-height: 35px;
+        width: auto;
+      }
+
+      /* Footer styles */
+      #mainFooter {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        z-index: 1000;
+        background-color: #00b2e3;
+        padding: 4px 16px;
+        height: 50px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        direction: rtl !important;
+      }
+
+      .footer-content {
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+        color: white;
+      }
+
+      .footer-logo {
+        height: 24px;
+        margin-right: 8px;
+        vertical-align: middle;
+        display: inline-block !important;
+      }
+
+      /* Footer Copyright Image Style */
+      footer .copyright img {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        background-color: white;
+        padding: 2px;
+        object-fit: contain;
+        background-clip: content-box;
+        vertical-align: middle;
+        margin-right: 8px;
+        /* Space to the right of the image (RTL) */
+      }
+
+      .companyHITech {
+        color: white !important;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: inline-block;
+        margin: 0 8px;
+      }
+
+      .companyHITech:hover {
+        color: #f0f0f0 !important;
+        text-decoration: underline;
+      }
+
+      .copyright-text {
+        color: white;
+        display: inline-block;
+        margin-right: 8px;
+        font-size: 14px;
+      }
+
+      .social-icon {
+        color: #fff;
+        font-size: 1.2rem;
+        margin-left: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .social-icon:hover {
+        color: #3498db;
+      }
+
+      body[dir="rtl"] .footer-content,
+      body[dir="ltr"] .footer-content {
+        flex-direction: row;
+      }
+
+      body[dir="rtl"] .footer-logo {
+        margin-right: 8px;
+        margin-left: 0;
+      }
+
+      body[dir="ltr"] .footer-logo {
+        margin-left: 8px;
+        margin-right: 0;
+      }
+
+      body[dir="rtl"] .social-icon {
+        margin-left: 1rem;
+        margin-right: 0;
+      }
+
+      body[dir="ltr"] .social-icon {
+        margin-right: 1rem;
+        margin-left: 0;
+      }
+
+      /* Font Awesome icon styles */
+      .fa,
+      .fab,
+      .fas,
+      .far,
+      i.fa,
+      i.fab,
+      i.fas,
+      i.far,
+      i.fa-facebook-f,
+      i.fa-x-twitter,
+      i.fa-instagram,
+      i.fa-linkedin-in,
+      i.fa-whatsapp {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+        display: inline-block !important;
+        visibility: visible !important;
+      }
+
+      /* Styles from eddit.html */
+      :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #50c878;
+        --text-dark: #2c3e50;
+        --text-light: #ecf0f1;
+        --bg-light: #f4f7f6;
+        --card-bg: #ffffff;
+        --border-radius: 10px;
+        --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .data-row {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-light);
+        margin-bottom: 1rem;
+        padding: 1rem;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border-right: 3px solid var(--primary-color);
+        display: flex;
+        flex-direction: column;
+        animation-duration: 0.7s;
+      }
+
+      .data-row:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-hover);
+      }
+
+      .row-title-container {
+        width: 100%;
+        margin-bottom: 0.8rem;
+        padding-right: 8px;
+      }
+
+      .row-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        position: relative;
+        padding-bottom: 6px;
+        display: inline-block;
+      }
+
+      .fields-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
+      }
+
+      .field-item {
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        background-color: var(--bg-light);
+        padding: 0.5rem 0.8rem;
+        border-radius: var(--border-radius);
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        flex-grow: 0;
+        flex-shrink: 0;
+        min-width: 120px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        position: relative;
+        user-select: none;
+      }
+
+      .field-item:hover {
+        background-color: #e0e6e9;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .field-item:active {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .field-label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        margin: 0rem 0.6rem;
+        cursor: pointer;
+        white-space: nowrap;
+        flex: 1;
+      }
+
+      .custom-checkbox {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .custom-checkbox input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      .custom-checkbox span {
+        position: relative;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--primary-color);
+        border-radius: 4px;
+        background-color: var(--card-bg);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        flex-shrink: 0;
+      }
+
+      .custom-checkbox input[type="checkbox"]:checked + span {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        transform: scale(1.1);
+        box-shadow: 0 0 8px rgba(80, 200, 120, 0.4);
+      }
+
+      .custom-checkbox input[type="checkbox"]:checked + span::after {
+        content: "\2713";
+        font-size: 12px;
+        color: var(--text-light);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .custom-checkbox:hover span {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 5px rgba(80, 200, 120, 0.2);
+      }
+
+      @media (max-width: 768px) {
+        .data-row {
+          padding: 0.8rem;
+        }
+        .row-title {
+          font-size: 1.1rem;
+        }
+        .field-item {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+
+      /* Styles for neighborhood management from z.html */
+      .action-icons i {
+        cursor: pointer;
+        margin: 0 6px;
+        transition: transform 0.2s;
+        font-size: 1.2rem;
+      }
+      .action-icons i:hover {
+        transform: scale(1.3);
+      }
+
+      /* Enhanced Modal Styles */
+      .modal-dialog {
+        margin: 4rem auto;
+        max-width: 400px;
+      }
+
+      .modal-content {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+      }
+
+      .modal-header {
+        background: linear-gradient(135deg, #0d6efd, #1a73e8);
+        color: white;
+        border-bottom: none;
+        padding: 0.5rem !important ;
+        text-align: center;
+        position: relative;
+      }
+
+      .modal-title {
+        color: white;
+        font-weight: 600;
+        font-size: 1.25rem;
+        margin: 0;
+      }
+
+      /* Fix modal close button positioning for RTL/LTR */
+      .modal-header .btn-close {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+        padding: 0.5rem;
+        z-index: 1060;
+      }
+
+      /* RTL positioning */
+      body[dir="rtl"] .modal-header .btn-close {
+        left: 1rem;
+        right: auto;
+      }
+
+      /* LTR positioning */
+      body[dir="ltr"] .modal-header .btn-close {
+        right: 1rem;
+        left: auto;
+      }
+
+      /* Ensure close button is visible on all modal types */
+      #formModal .modal-header .btn-close,
+      #detailsModal .modal-header .btn-close,
+      #memberFormModal .modal-header .btn-close {
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        opacity: 1;
+      }
+
+      .modal-body {
+        /*padding: 2rem;*/
+        background-color: #f8f9fa;
+      }
+
+      .modal-footer {
+        background-color: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        padding: 0;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .modal-footer .btn {
+        min-width: 120px;
+        border-radius: 25px;
+        font-weight: 500;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .modal-footer .btn-primary {
+        background: linear-gradient(135deg, #0d6efd, #1a73e8);
+        border: none;
+      }
+
+      .modal-footer .btn-primary:hover {
+        transform: translateY(-2px);
+      }
+
+      .modal-footer .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+      }
+
+      .modal-footer .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(108, 117, 125, 0.5);
+      }
+
+      .form-control {
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+      }
+
+      .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+      }
+
+      .table th,
+      .table td {
+        vertical-align: middle !important;
+      }
+
+      /* Enhanced Filter Section */
+      .filter-section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Unified Button Styles */
+      .filter-section .btn {
+        min-width: 140px;
+        height: 45px;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Unified Icon Styles for Filter Section Buttons */
+      .filter-section .btn i {
+        font-size: 1.1rem;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        margin-left: 6px;
+        margin-right: 0;
+        flex-shrink: 0;
+      }
+
+      /* Specific icon adjustments for better visual balance */
+      .filter-section .btn i.bi-arrow-counterclockwise {
+        font-size: 1.15rem;
+      }
+
+      .filter-section .btn i.bi-file-earmark-excel {
+        font-size: 1.1rem;
+      }
+
+      .filter-section .btn i.bi-plus-circle {
+        font-size: 1.2rem;
+      }
+
+      /* RTL support for icon spacing */
+      body[dir="rtl"] .filter-section .btn i {
+        margin-left: 0;
+        margin-right: 6px;
+      }
+
+      /* Button text alignment and spacing */
+      .filter-section .btn {
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Ensure consistent vertical alignment */
+      .filter-section .btn,
+      .filter-section .btn * {
+        vertical-align: middle;
+      }
+
+      /* Enhanced button hover effects with icon scaling */
+      .filter-section .btn:hover i {
+        transform: scale(1.1);
+        transition: transform 0.2s ease;
+      }
+
+      .filter-section .btn-secondary {
+        background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        color: white;
+      }
+
+      .filter-section .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+      }
+
+      .filter-section .btn-success {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+      }
+
+      .filter-section .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+      }
+
+      .filter-section .btn-primary {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white;
+      }
+
+      .filter-section .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+      }
+
+      /* Search Input Enhancement */
+      .filter-section .form-control {
+        /* border-radius: 25px; */
+        border: 2px solid #e9ecef;
+        padding: 0.75rem 1.25rem;
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .filter-section .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        transform: translateY(-1px);
+      }
+
+      /* Date Input Styling */
+      .filter-section label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .filter-section label input[type="date"] {
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        padding: 0.5rem 0.75rem;
+        background-color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Horizontal Date Filter Container */
+      .date-filter-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .date-filter-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0;
+        min-width: 140px;
+      }
+
+      .date-filter-item input[type="date"] {
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        padding: 0.5rem 0.75rem;
+        background-color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .date-filter-item input[type="date"]:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        transform: translateY(-1px);
+      }
+
+      /* RTL support for date filter */
+      body[dir="rtl"] .date-filter-container {
+        direction: rtl;
+      }
+
+      body[dir="ltr"] .date-filter-container {
+        direction: ltr;
+      }
+
+      /* Button Group Container */
+      .filter-section > div:last-child {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      /* Responsive Design for Filter Section */
+      @media (max-width: 768px) {
+        .filter-section {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .filter-section > div:last-child {
+          justify-content: center;
+        }
+
+        .filter-section .btn {
+          min-width: 120px;
+        }
+
+        /* Stack date filters vertically on mobile */
+        .date-filter-container {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0.75rem;
+        }
+
+        .date-filter-item {
+          min-width: auto;
+          width: 100%;
+        }
+      }
+
+      /* Enhanced Details Modal */
+      .modal-dialog.modal-lg {
+        max-width: 800px;
+      }
+
+      #detailsModal .modal-content {
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      #detailsModal .modal-header {
+        background: linear-gradient(135deg, #0d6efd, #1a73e8);
+        padding: 2rem;
+      }
+
+      #detailsModal .table-responsive {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      #detailsModal .table {
+        margin-bottom: 0;
+      }
+
+      #detailsModal .table thead th {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border: none;
+        font-weight: 600;
+        color: #495057;
+        padding: 1rem;
+      }
+
+      #detailsModal .table tbody td {
+        padding: 1rem;
+        border-color: #e9ecef;
+      }
+
+      #addMemberBtn {
+        background-color:#f97316;
+        border: none;
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      #addMemberBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.5);
+      }
+
+      /* Enhanced Table Styling */
+      .table-bordered {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .table-dark th {
+        background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+        border: none;
+        font-weight: 600;
+        padding: 1.25rem 1rem;
+      }
+
+      .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 123, 255, 0.05);
+      }
+
+      .table tbody td {
+        padding: 1rem;
+        border-color: #e9ecef;
+      }
+
+      /* Enhanced Page Header */
+      .text-center.mb-4 {
+        background: linear-gradient(135deg, #0d6efd, #1a73e8);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 20px;
+        margin-bottom: 2rem !important;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+      }
+
+      .text-center.mb-4 h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: white;
+      }
+
+      .text-center.mb-4 .lead {
+        font-size: 1.2rem;
+        opacity: 0.95;
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+
+      /* Container Enhancement */
+      .container.mt-5 {
+        padding: 0 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .text-center.mb-4 h1 {
+          font-size: 2rem;
+        }
+
+        .text-center.mb-4 .lead {
+          font-size: 1rem;
+        }
+
+        .text-center.mb-4 {
+          padding: 2rem 1rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="g-sidenav-show bg-gray-100">
+    <!-- Header -->
+    <header id="mainHeader">
+      <div style="display: flex; align-items: center; gap: 10px">
+        <a href="./admin.html" title="Go to Admin Page">
+          <img
+            src="assets/img/unhabitat.jfif"
+            alt="Logo 3"
+            class="header-logo"
+            style="cursor: pointer"
+          />
+        </a>
+        <div class="language-dropdown">
+          <button
+            class="language-toggle"
+            id="langToggleBtn"
+            onclick="toggleLanguage()"
+            aria-label="Toggle Language"
+          >
+            AR
+          </button>
+        </div>
+        <div class="menu-dropdown">
+          <button
+            title="toggle language"
+            class="menu-toggle"
+            id="menuToggleBtn"
+            onclick="toggleMenu()"
+            style="
+              background-image: url('assets/img/user1.jpg');
+              background-size: cover;
+              background-position: center;
+            "
+          ></button>
+          <div class="menu-dropdown-content" id="menuDropdown">
+            <a
+              href="#"
+              class="menu-item"
+              id="settingsBtn"
+              onclick="window.location.href = './profile.html';"
+            >
+              <i class="fas fa-cog"></i>
+              <span id="settingsText">الإعدادات</span>
+            </a>
+            <a
+              href="#"
+              class="menu-item"
+              id="logoutBtn"
+              onclick="window.location.href = './index.html';"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+              <span id="logoutText">تسجيل الخروج</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-title text-center">
+        <div class="title-ar">نظام إدارة المعلومات الحضرية _ مدينة حلب</div>
+        <div class="title-en">
+          Urban Information Management System - Aleppo City
+        </div>
+      </div>
+
+      <div class="header-logos right-logos">
+        <img src="assets/img/aleppo.jfif" alt="Logo 1" class="header-logo" />
+        <img src="assets/img/japan.png" alt="Logo 2" class="header-logo" />
+      </div>
+    </header>
+
+    <aside
+      class="sidenav navbar navbar-vertical navbar-expand-xs border-0 my-3 fixed-end bg-gray-300"
+      id="sidenav-main"
+      style="max-height: calc(100vh - 66px); overflow-y: visible"
+    >
+      <div class="sidenav-header">
+        <i
+          class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+          aria-hidden="true"
+          id="iconSidenav"
+        ></i>
+      </div>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="../pages/dashboard.html">
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
+              >
+                <i
+                  class="fas fa-tachometer-alt"
+                  style="color: black; font-size: 12px"
+                ></i>
+              </div>
+              <span class="nav-link-text ms-1">Dashboard</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../pages/tables.html">
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
+              >
+                <i
+                  class="fas fa-table"
+                  style="color: black; font-size: 12px"
+                ></i>
+              </div>
+              <span class="nav-link-text ms-1">configuration Tables </span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../pages/ManageUsers.html">
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
+              >
+                <i
+                  class="fas fa-users-cog"
+                  style="color: black; font-size: 12px"
+                ></i>
+              </div>
+              <span class="nav-link-text ms-1">Manage users</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../pages/profile.html">
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
+              >
+                <i
+                  class="fas fa-user"
+                  style="color: black; font-size: 12px"
+                ></i>
+              </div>
+              <span class="nav-link-text ms-1">Profile</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="standars.html">
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
+              >
+                <i
+                  class="fas fa-cogs"
+                  style="color: black; font-size: 12px"
+                ></i>
+              </div>
+              <span class="nav-link-text ms-1">المعايير</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              href="../pages/neighborhoodCommitteesManagement.html"
+            >
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
+              >
+                <i
+                  class="fas fa-users"
+                  style="color: white; font-size: 12px"
+                ></i>
+              </div>
+              <span class="nav-link-text ms-1">إدارة لجان الأحياء</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="../pages/developmentCommitteesManagement.html"
+            >
+              <div
+                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 ms-2 d-flex align-items-center justify-content-center"
+              >
+                <i
+                  class="fas fa-chart-line"
+                  style="color: black; font-size: 12px"
+                ></i>
+              </div>
+              <span class="nav-link-text ms-1">إدارة لجان التنمية</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="sidenav-footer mx-3"></div>
+    </aside>
+    <main class="main-content position-relative border-radius-lg mt-6">
+        <div class="filter-section no-print card p-3 shadow-sm ">
+          <input
+            id="searchInput"
+            class="form-control"
+            placeholder="ابحث باسم الحي أو المختار..."
+            onkeyup="filterTable()"
+            style="max-width: 250px"
+          />
+          <div class="date-filter-container">
+            <label class="date-filter-item">
+              <span id="dateFromLabel">تاريخ من:</span>
+              <input
+                type="date"
+                id="dateFrom"
+                class="form-control form-control-sm"
+                onchange="filterTable()"
+            /></label>
+            <label class="date-filter-item">
+              <span id="dateToLabel">إلى:</span>
+              <input
+                type="date"
+                id="dateTo"
+                class="form-control form-control-sm"
+                onchange="filterTable()"
+            /></label>
+          </div>
+          <div>
+            <button class="btn btn-secondary" onclick="resetFilters()">
+              <i class="bi bi-arrow-counterclockwise"></i>
+              <span id="resetFiltersBtn">إعادة تعيين</span>
+            </button>
+            <button class="btn btn-success" onclick="exportToCSV()">
+              <i class="bi bi-file-earmark-excel"></i>
+              <span id="exportBtn">تصدير</span>
+            </button>
+            <button class="btn" style="background-color:#f97316 ; color:white;" onclick="openAddModal()">
+              <i class="bi bi-plus-circle"></i>
+              <span id="addNewNeighborhoodBtn">أضف لجنة جديدة</span>
+            </button>
+          </div>
+        </div>
+
+        <table
+          class="table table-bordered table-striped bg-white text-center shadow-sm mb-6"
+        >
+          <thead class="table-dark">
+            <tr>
+              <th id="neighborhoodNameHeader">اسم الحي</th>
+              <th id="mukhtarNameHeader">اسم المختار</th>
+              <th id="formationDateHeader">تاريخ التشكيل</th>
+              <th class="no-print" id="actionsHeader">الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="neighborhoodTable"></tbody>
+        </table>
+      </div>
+
+      <div
+        class="modal fade"
+        id="formModal"
+        tabindex="-1"
+        aria-labelledby="formModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="formModalLabel">إضافة حي جديد</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="neighborhoodForm">
+                <input type="hidden" id="editIndex" />
+                <div>
+                  <label
+                    for="name"
+                    class="form-label"
+                    id="neighborhoodNameLabel"
+                    >اسم الحي</label
+                  ><input type="text" class="form-control" id="name" required />
+                </div>
+                <div>
+                  <label for="mukhtar" class="form-label" id="mukhtarNameLabel"
+                    >اسم المختار</label
+                  ><input
+                    type="text"
+                    class="form-control"
+                    id="mukhtar"
+                    required
+                  />
+                </div>
+                <div>
+                  <label for="date" class="form-label" id="formationDateLabel"
+                    >تاريخ التشكيل</label
+                  ><input type="date" class="form-control" id="date" required />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                id="closeBtn1"
+              >
+                إغلاق
+              </button>
+              <button
+                type="button"
+                class="btn"
+                style="background-color:#f97316 ; color:white;"
+                onclick="saveNeighborhood()"
+                id="saveDataBtn"
+              >
+                حفظ البيانات
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="detailsModal"
+        tabindex="-1"
+        aria-labelledby="detailsModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="detailsModalLabel">
+                تفاصيل أعضاء اللجنة
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <h5 id="detailsNeighborhoodName"></h5>
+              <button class="btn btn-success" id="addMemberBtn">
+                <i class="bi bi-plus-circle"></i>
+                <span id="addNewMemberBtn">إضافة</span>
+              </button>
+              <div class="table-responsive">
+                <table class="table table-sm table-bordered">
+                  <thead class="table-light">
+                    <tr>
+                      <th id="memberNameHeader">اسم العضو</th>
+                      <th id="phoneNumberHeader">رقم الهاتف</th>
+                      <th id="locationHeader">مكان التواجد</th>
+                      <th id="memberActionsHeader">إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="membersTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="memberFormModal"
+        tabindex="-1"
+        aria-labelledby="memberFormModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="memberFormModalLabel">إضافة عضو</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="memberForm">
+                <input type="hidden" id="memberEditNeighborhoodId" />
+                <input type="hidden" id="memberEditId" />
+                <div>
+                  <label
+                    for="memberName"
+                    class="form-label"
+                    id="memberNameLabelForm"
+                    >اسم العضو</label
+                  ><input
+                    type="text"
+                    class="form-control"
+                    id="memberName"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    for="memberPhone"
+                    class="form-label"
+                    id="phoneNumberLabelForm"
+                    >رقم الهاتف</label
+                  ><input
+                    type="tel"
+                    class="form-control"
+                    id="memberPhone"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    for="memberLocation"
+                    class="form-label"
+                    id="locationLabelForm"
+                    >مكان التواجد</label
+                  ><input
+                    type="text"
+                    class="form-control"
+                    id="memberLocation"
+                    required
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                id="closeBtn2"
+              >
+                إغلاق
+              </button>
+              <button
+                type="button"
+                class="btn"
+                style="background-color:#f97316 ; color:white;"
+                onclick="saveMember()"
+                id="saveBtn"
+              >
+                حفظ
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer id="mainFooter">
+      <div class="footer-content">
+        <div class="copyright" style="font-size: 12px">
+          <span class="copyright-text" lang="ar" style="font-size: 12px">
+            ©
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            <a
+              rel="noopener"
+              class="companyHITech arabic-text"
+              href="https://hasan20nassar.github.io/HTH_Profile/"
+              target="_blank"
+              lang="ar"
+            >
+              , HI-Tech House</a
+            >
+          </span>
+          <span lang="ar" class="arabic-text">Powered by</span>
+          <!-- <img
+            alt="Company Logo"
+            src="assets/img/HTH.png"
+            class="footer-logo"
+          />-->
+        </div>
+        <div class="social-icons">
+          <a aria-label="WhatsApp" class="social-icon whatsapp" href="#"
+            ><i class="fab fa-whatsapp"></i
+          ></a>
+          <a aria-label="LinkedIn" class="social-icon linkedin" href="#"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+          <a aria-label="Instagram" class="social-icon instagram" href="#"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a aria-label="X" class="social-icon twitter" href="#"
+            ><i class="fab fa-x-twitter"></i
+          ></a>
+          <a aria-label="Facebook" class="social-icon facebook" href="#"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+    <div class="fixed-plugin">
+      <a
+        id="helpButton"
+        class="fixed-plugin-button text-dark position-fixed px-3 py-2"
+        style="bottom: 80px; z-index: 6000"
+      >
+        <i class="fa fa-question-circle py-2"> </i>
+      </a>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.5/dist/perfect-scrollbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/smooth-scrollbar@8.8.4/dist/smooth-scrollbar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- Language Toggle Script -->
+    <script>
+      const translations = {
+        ar: {
+          dir: "rtl",
+          dashboard: "لوحة التحكم",
+          configTables: "جداول الإعدادات",
+          manageUsers: "إدارة المستخدمين",
+          profile: "الملف الشخصي",
+          settingsText: "الإعدادات",
+          logoutText: "تسجيل الخروج",
+          pageTitle: "لوحة تحكم بيانات الخدمات",
+          standards: "المعايير",
+          neighborhoodCommittees: "إدارة لجان الأحياء",
+          developmentCommittees: "إدارة لجان التنمية",
+          // Page content translations
+          searchPlaceholder: "ابحث باسم الحي أو المختار...",
+          dateFrom: "تاريخ من:",
+          dateTo: "إلى:",
+          resetFilters: "إعادة تعيين",
+          export: "تصدير",
+          addNewNeighborhood: "أضف لجنة",
+          // Table headers
+          neighborhoodName: "اسم الحي",
+          mukhtarName: "اسم المختار",
+          formationDate: "تاريخ التشكيل",
+          actions: "الإجراءات",
+          // Modal titles and content
+          addNeighborhoodTitle: "إضافة حي جديد",
+          editNeighborhoodTitle: "تعديل بيانات الحي",
+          committeeMembersTitle: "تفاصيل أعضاء اللجنة",
+          addMemberTitle: "إضافة عضو",
+          editMemberTitle: "تعديل بيانات العضو",
+          // Form labels
+          neighborhoodNameLabel: "اسم الحي",
+          mukhtarNameLabel: "اسم المختار",
+          formationDateLabel: "تاريخ التشكيل",
+          memberNameLabel: "اسم العضو",
+          phoneNumberLabel: "رقم الهاتف",
+          locationLabel: "مكان التواجد",
+          // Buttons
+          close: "إغلاق",
+          saveData: "حفظ البيانات",
+          save: "حفظ",
+          addNewMember: "إضافة",
+          // Member table headers
+          memberName: "اسم العضو",
+          phoneNumber: "رقم الهاتف",
+          location: "مكان التواجد",
+          memberActions: "إجراءات",
+        },
+        en: {
+          dir: "ltr",
+          dashboard: "Dashboard",
+          configTables: "Configuration Tables",
+          manageUsers: "Manage Users",
+          profile: "Profile",
+          settingsText: "Settings",
+          logoutText: "Logout",
+          pageTitle: "Services Data Control Panel",
+          standards: "Standards",
+          neighborhoodCommittees: "Neighborhood Comm",
+          developmentCommittees: "Development Comm",
+          // Page content translations
+          searchPlaceholder: "Search by neighborhood or mukhtar name...",
+          dateFrom: "Date From:",
+          dateTo: "To:",
+          resetFilters: "Reset Filters",
+          export: "Export",
+          addNewNeighborhood: "Add Committee",
+          // Table headers
+          neighborhoodName: "Neighborhood Name",
+          mukhtarName: "Mukhtar Name",
+          formationDate: "Formation Date",
+          actions: "Actions",
+          // Modal titles and content
+          addNeighborhoodTitle: "Add New Neighborhood",
+          editNeighborhoodTitle: "Edit Neighborhood Data",
+          committeeMembersTitle: "Committee Members Details",
+          addMemberTitle: "Add Member",
+          editMemberTitle: "Edit Member Data",
+          // Form labels
+          neighborhoodNameLabel: "Neighborhood Name",
+          mukhtarNameLabel: "Mukhtar Name",
+          formationDateLabel: "Formation Date",
+          memberNameLabel: "Member Name",
+          phoneNumberLabel: "Phone Number",
+          locationLabel: "Location",
+          // Buttons
+          close: "Close",
+          saveData: "Save Data",
+          save: "Save",
+          addNewMember: "Add New ",
+          // Member table headers
+          memberName: "Member Name",
+          phoneNumber: "Phone Number",
+          location: "Location",
+          memberActions: "Actions",
+        },
+      };
+
+      let currentLang = "ar";
+
+      const tablesDataSummary = [
+        {
+          title: {
+            ar: "التدخلات الإنسانية",
+            en: "Humanitarian Interventions",
+          },
+          fields: [
+            {
+              ar: "الصحة",
+              en: "Health",
+            },
+            {
+              ar: "الغذاء",
+              en: "Food",
+            },
+            {
+              ar: "اللباس والمعونات السكنية",
+              en: "Clothing and Housing Aid",
+            },
+            {
+              ar: "الايواء والسكن",
+              en: "Shelter and Housing",
+            },
+            {
+              ar: "التعليم",
+              en: "Education",
+            },
+            {
+              ar: "الدعم النفسي والاسري",
+              en: "Psychological and Family Support",
+            },
+            {
+              ar: "مشاريع تحسين سبل العيش",
+              en: "Livelihood Improvement Projects",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "الأسواق الأساسية",
+            en: "Essential Markets",
+          },
+          fields: [
+            {
+              ar: "نوع السوق",
+              en: "Market Type",
+            },
+            {
+              ar: "المنطقة الخدمية",
+              en: "Service Area",
+            },
+            {
+              ar: "حالة التشغيل",
+              en: "Operation Status",
+            },
+            {
+              ar: "عدد المحلات",
+              en: "Number of Shops",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "إدارة النفايات الصلبة",
+            en: "Solid Waste Management",
+          },
+          fields: [
+            {
+              ar: "مكبات عشوائية",
+              en: "Random Dumps",
+            },
+            {
+              ar: "مستوى نظافة الشوارع",
+              en: "Street Cleanliness Level",
+            },
+            {
+              ar: "مكافحة القوارض",
+              en: "Pest Control",
+            },
+            {
+              ar: "ترحيل الركام",
+              en: "Debris Removal",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "شبكة الكهرباء",
+            en: "Electricity Network",
+          },
+          fields: [
+            {
+              ar: "ضرر المحول",
+              en: "Transformer Damage",
+            },
+            {
+              ar: "ضرر الخط",
+              en: "Line Damage",
+            },
+            {
+              ar: "حالة الشبكة",
+              en: "Network Status",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "شبكة الاتصالات",
+            en: "Telecommunications Network",
+          },
+          fields: [
+            {
+              ar: "اسم الحي",
+              en: "Neighborhood Name",
+            },
+            {
+              ar: "ضرر المحول",
+              en: "Transformer Damage",
+            },
+            {
+              ar: "ضرر الخط",
+              en: "Line Damage",
+            },
+            {
+              ar: "حالة الشبكة",
+              en: "Network Status",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "إمدادات المياه",
+            en: "Water Supply",
+          },
+          fields: [
+            {
+              ar: "متصل بالشبكة",
+              en: "Connected to Network",
+            },
+            {
+              ar: "الضرر",
+              en: "Damage",
+            },
+            {
+              ar: "نسبة الضرر",
+              en: "Damage Percentage",
+            },
+            {
+              ar: "التشغيل",
+              en: "Operation",
+            },
+            {
+              ar: "نسبة التشغيل",
+              en: "Operation Percentage",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "شبكة الصرف الصحي",
+            en: "Sewage Network",
+          },
+          fields: [
+            {
+              ar: "متصل بالشبكة",
+              en: "Connected to Network",
+            },
+            {
+              ar: "الضرر",
+              en: "Damage",
+            },
+            {
+              ar: "نسبة الضرر",
+              en: "Damage Percentage",
+            },
+            {
+              ar: "التشغيل",
+              en: "Operation",
+            },
+            {
+              ar: "نسبة التشغيل",
+              en: "Operation Percentage",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "أضرار الإسكان",
+            en: "Housing Damage",
+          },
+          fields: [
+            {
+              ar: "إجمالي الوحدات",
+              en: "Total Units",
+            },
+            {
+              ar: "الوحدات الشاغرة",
+              en: "Vacant Units",
+            },
+            {
+              ar: "نمط الملكية السائد",
+              en: "Prevailing Ownership Pattern",
+            },
+            {
+              ar: "التوثيق والحماية",
+              en: "Documentation and Protection",
+            },
+            {
+              ar: "ضرر شديد",
+              en: "Severe Damage",
+            },
+            {
+              ar: "ضرر متوسط",
+              en: "Moderate Damage",
+            },
+            {
+              ar: "ضرر خفيف",
+              en: "Light Damage",
+            },
+            {
+              ar: "وحدات سليمة",
+              en: "Intact Units",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "النسيج الحضري",
+            en: "Urban Fabric",
+          },
+          fields: [
+            {
+              ar: "المساحة العمرانية",
+              en: "Urban Area",
+            },
+            {
+              ar: "الحالة العمرانية",
+              en: "Urban Status",
+            },
+            {
+              ar: "السكن العشوائي",
+              en: "Informal Housing",
+            },
+            {
+              ar: "نسبة المساكن الطابقية",
+              en: "Percentage of Multi-story Housing",
+            },
+            {
+              ar: "نسبة المساكن التقليدية",
+              en: "Percentage of Traditional Housing",
+            },
+            {
+              ar: "الوظيفة العمرانية السائدة",
+              en: "Prevailing Urban Function",
+            },
+          ],
+        },
+        {
+          title: {
+            ar: "التغيرات السكانية",
+            en: "Population Changes",
+          },
+          fields: [
+            {
+              ar: "عدد السكان",
+              en: "Population Number",
+            },
+            {
+              ar: "نسبة المهاجرين",
+              en: "Migration Rate",
+            },
+            {
+              ar: "نسبة العائدين",
+              en: "Return Rate",
+            },
+          ],
+        },
+      ];
+
+      function updateContent(lang) {
+        const dataContainer = document.getElementById("data-container");
+        if (!dataContainer) return;
+
+        dataContainer.innerHTML = "";
+        tablesDataSummary.forEach((category, index) => {
+          const rowElement = document.createElement("section");
+          rowElement.classList.add(
+            "data-row",
+            "animate__animated",
+            "animate__fadeInUp"
+          );
+          rowElement.style.setProperty("--animate-delay", `${0.1 * index}s`);
+
+          // Title Section
+          const titleContainer = document.createElement("div");
+          titleContainer.classList.add("row-title-container");
+          titleContainer.innerHTML = `<h2 class="row-title">${category.title[lang]}</h2>`;
+          rowElement.appendChild(titleContainer);
+
+          // Fields Section
+          const fieldsContainerWrapper = document.createElement("div");
+          fieldsContainerWrapper.classList.add("fields-container-wrapper");
+
+          const fieldsContainer = document.createElement("div");
+          fieldsContainer.classList.add("fields-container");
+
+          category.fields.forEach((field, fieldIndex) => {
+            const fieldItem = document.createElement("div");
+            fieldItem.classList.add("field-item", "custom-checkbox");
+
+            const checkboxId = `checkbox-${index}-${fieldIndex}`;
+
+            fieldItem.innerHTML = `
+            <input type="checkbox" id="${checkboxId}">
+            <span></span>
+            <label for="${checkboxId}" class="field-label">${field[lang]}</label>
+          `;
+            fieldsContainer.appendChild(fieldItem);
+          });
+
+          fieldsContainerWrapper.appendChild(fieldsContainer);
+          rowElement.appendChild(fieldsContainerWrapper);
+
+          dataContainer.appendChild(rowElement);
+        });
+      }
+
+      function switchLanguage(lang) {
+        try {
+          localStorage.setItem("preferredLanguage", lang);
+        } catch (error) {
+          console.error("Error saving language preference:", error);
+        }
+
+        const aside = document.getElementById("sidenav-main");
+        if (aside) {
+          aside.classList.remove("fixed-end", "fixed-start");
+          aside.classList.add(lang === "ar" ? "fixed-end" : "fixed-start");
+        }
+
+        const helpButton = document.getElementById("helpButton");
+        if (helpButton) {
+          helpButton.style.left = lang === "ar" ? "20px" : "auto";
+          helpButton.style.right = lang === "ar" ? "auto" : "20px";
+        }
+
+        currentLang = lang;
+        const t = translations[lang];
+
+        document.documentElement.lang = lang;
+        document.documentElement.dir = t.dir;
+        document.body.setAttribute("dir", t.dir);
+
+        // Update navigation
+        const navTexts = document.querySelectorAll(".nav-link .nav-link-text");
+        if (navTexts[0]) navTexts[0].textContent = t.dashboard;
+        if (navTexts[1]) navTexts[1].textContent = t.configTables;
+        if (navTexts[2]) navTexts[2].textContent = t.manageUsers;
+        if (navTexts[3]) navTexts[3].textContent = t.profile;
+        if (navTexts[4]) navTexts[4].textContent = t.standards;
+        if (navTexts[5]) navTexts[5].textContent = t.neighborhoodCommittees;
+        if (navTexts[6]) navTexts[6].textContent = t.developmentCommittees;
+        if (navTexts[5]) navTexts[5].textContent = t.neighborhoodCommittees;
+        if (navTexts[6]) navTexts[6].textContent = t.developmentCommittees;
+
+        const settingsText = document.getElementById("settingsText");
+        if (settingsText) settingsText.textContent = t.settingsText;
+
+        const logoutText = document.getElementById("logoutText");
+        if (logoutText) logoutText.textContent = t.logoutText;
+
+        const pageTitle = document.getElementById("pageTitle");
+        if (pageTitle) pageTitle.textContent = t.pageTitle;
+
+        // Update main page content
+        const searchInput = document.getElementById("searchInput");
+        if (searchInput) searchInput.placeholder = t.searchPlaceholder;
+
+        // Update filter section
+        const dateFromLabel = document.getElementById("dateFromLabel");
+        if (dateFromLabel) dateFromLabel.textContent = t.dateFrom;
+
+        const dateToLabel = document.getElementById("dateToLabel");
+        if (dateToLabel) dateToLabel.textContent = t.dateTo;
+
+        const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+        if (resetFiltersBtn) resetFiltersBtn.textContent = t.resetFilters;
+
+        const exportBtn = document.getElementById("exportBtn");
+        if (exportBtn) exportBtn.textContent = t.export;
+
+        const addNewNeighborhoodBtn = document.getElementById(
+          "addNewNeighborhoodBtn"
+        );
+        if (addNewNeighborhoodBtn)
+          addNewNeighborhoodBtn.textContent = t.addNewNeighborhood;
+
+        // Update table headers
+        const neighborhoodNameHeader = document.getElementById(
+          "neighborhoodNameHeader"
+        );
+        if (neighborhoodNameHeader)
+          neighborhoodNameHeader.textContent = t.neighborhoodName;
+
+        const mukhtarNameHeader = document.getElementById("mukhtarNameHeader");
+        if (mukhtarNameHeader) mukhtarNameHeader.textContent = t.mukhtarName;
+
+        const formationDateHeader = document.getElementById(
+          "formationDateHeader"
+        );
+        if (formationDateHeader)
+          formationDateHeader.textContent = t.formationDate;
+
+        const actionsHeader = document.getElementById("actionsHeader");
+        if (actionsHeader) actionsHeader.textContent = t.actions;
+
+        // Update modal content
+        updateModalTranslations(t);
+
+        // Update the main content
+        updateContent(lang);
+      }
+
+      function updateModalTranslations(t) {
+        // Update form modal
+        const formModalLabel = document.getElementById("formModalLabel");
+        if (formModalLabel) {
+          // Check if we're in edit mode or add mode
+          const editIndex = document.getElementById("editIndex");
+          const isEditMode = editIndex && editIndex.value;
+          formModalLabel.textContent = isEditMode
+            ? t.editNeighborhoodTitle
+            : t.addNeighborhoodTitle;
+        }
+
+        const neighborhoodNameLabel = document.getElementById(
+          "neighborhoodNameLabel"
+        );
+        if (neighborhoodNameLabel)
+          neighborhoodNameLabel.textContent = t.neighborhoodNameLabel;
+
+        const mukhtarNameLabel = document.getElementById("mukhtarNameLabel");
+        if (mukhtarNameLabel) mukhtarNameLabel.textContent = t.mukhtarNameLabel;
+
+        const formationDateLabel =
+          document.getElementById("formationDateLabel");
+        if (formationDateLabel)
+          formationDateLabel.textContent = t.formationDateLabel;
+
+        const closeBtn1 = document.getElementById("closeBtn1");
+        if (closeBtn1) closeBtn1.textContent = t.close;
+
+        const saveDataBtn = document.getElementById("saveDataBtn");
+        if (saveDataBtn) saveDataBtn.textContent = t.saveData;
+
+        // Update details modal
+        const detailsModalLabel = document.getElementById("detailsModalLabel");
+        if (detailsModalLabel)
+          detailsModalLabel.textContent = t.committeeMembersTitle;
+
+        const addNewMemberBtn = document.getElementById("addNewMemberBtn");
+        if (addNewMemberBtn) addNewMemberBtn.textContent = t.addNewMember;
+
+        // Update member table headers
+        const memberNameHeader = document.getElementById("memberNameHeader");
+        if (memberNameHeader) memberNameHeader.textContent = t.memberName;
+
+        const phoneNumberHeader = document.getElementById("phoneNumberHeader");
+        if (phoneNumberHeader) phoneNumberHeader.textContent = t.phoneNumber;
+
+        const locationHeader = document.getElementById("locationHeader");
+        if (locationHeader) locationHeader.textContent = t.location;
+
+        const memberActionsHeader = document.getElementById(
+          "memberActionsHeader"
+        );
+        if (memberActionsHeader)
+          memberActionsHeader.textContent = t.memberActions;
+
+        // Update member form modal
+        const memberFormModalLabel = document.getElementById(
+          "memberFormModalLabel"
+        );
+        if (memberFormModalLabel) {
+          // Check if we're in edit mode or add mode
+          const memberEditId = document.getElementById("memberEditId");
+          const isEditMode = memberEditId && memberEditId.value;
+          memberFormModalLabel.textContent = isEditMode
+            ? t.editMemberTitle
+            : t.addMemberTitle;
+        }
+
+        const memberNameLabelForm = document.getElementById(
+          "memberNameLabelForm"
+        );
+        if (memberNameLabelForm)
+          memberNameLabelForm.textContent = t.memberNameLabel;
+
+        const phoneNumberLabelForm = document.getElementById(
+          "phoneNumberLabelForm"
+        );
+        if (phoneNumberLabelForm)
+          phoneNumberLabelForm.textContent = t.phoneNumberLabel;
+
+        const locationLabelForm = document.getElementById("locationLabelForm");
+        if (locationLabelForm) locationLabelForm.textContent = t.locationLabel;
+
+        const closeBtn2 = document.getElementById("closeBtn2");
+        if (closeBtn2) closeBtn2.textContent = t.close;
+
+        const saveBtn = document.getElementById("saveBtn");
+        if (saveBtn) saveBtn.textContent = t.save;
+      }
+
+      function toggleLanguage() {
+        const btn = document.getElementById("langToggleBtn");
+        if (currentLang === "ar") {
+          btn.textContent = "EN";
+          switchLanguage("en");
+        } else {
+          btn.textContent = "AR";
+          switchLanguage("ar");
+        }
+      }
+
+      function toggleMenu() {
+        const menu = document.getElementById("menuDropdown");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+      }
+
+      // Initialize page
+      document.addEventListener("DOMContentLoaded", function () {
+        const helpButton = document.getElementById("helpButton");
+        if (helpButton) {
+          helpButton.style.left = "20px";
+          helpButton.style.right = "auto";
+        }
+
+        let savedLanguage;
+        try {
+          savedLanguage = localStorage.getItem("preferredLanguage");
+        } catch (error) {
+          console.error("Error retrieving language preference:", error);
+          savedLanguage = null;
+        }
+
+        const initialLang = savedLanguage || "ar";
+
+        // Initialize content with the initial language
+        updateContent(initialLang);
+
+        // Then switch language to ensure all UI elements are updated
+        switchLanguage(initialLang);
+
+        const langToggleBtn = document.getElementById("langToggleBtn");
+        if (langToggleBtn) {
+          langToggleBtn.textContent = initialLang === "ar" ? "AR" : "EN";
+          langToggleBtn.onclick = toggleLanguage;
+        }
+
+        // Initialize neighborhood management functionality
+        initializeNeighborhoodModals();
+
+        // Handle zoom level changes
+        function handleZoom() {
+          const sidenav = document.getElementById("sidenav-main");
+          const windowWidth = window.innerWidth;
+          const zoomLevel = window.devicePixelRatio;
+
+          if (sidenav) {
+            sidenav.style.display =
+              zoomLevel > 1.51 || windowWidth < 1200 ? "none" : "block";
+          }
+        }
+
+        handleZoom();
+        window.addEventListener("resize", handleZoom);
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener("click", function (e) {
+        const menu = document.getElementById("menuDropdown");
+        const menuBtn = document.getElementById("menuToggleBtn");
+        if (
+          menu &&
+          menuBtn &&
+          !menuBtn.contains(e.target) &&
+          !menu.contains(e.target)
+        ) {
+          menu.style.display = "none";
+        }
+      });
+
+      // Neighborhood Management JavaScript from z.html
+      let neighborhoods = [
+        {
+          id: 1,
+          name: "حي الزهور",
+          mukhtar: "أبو خالد",
+          date: "2022-03-15",
+          members: [
+            {
+              id: 101,
+              name: "أحمد النجار",
+              phone: "0512345678",
+              location: "المنزل",
+            },
+            {
+              id: 102,
+              name: "سارة العلي",
+              phone: "0587654321",
+              location: "مقر العمل",
+            },
+          ],
+        },
+        {
+          id: 2,
+          name: "حي النور",
+          mukhtar: "أبو علي",
+          date: "2021-07-20",
+          members: [
+            {
+              id: 201,
+              name: "علي حسن",
+              phone: "0511223344",
+              location: "خارج المدينة",
+            },
+          ],
+        },
+        {
+          id: 3,
+          name: "حي الأمل",
+          mukhtar: "أبو فهد",
+          date: "2020-11-30",
+          members: [],
+        },
+      ];
+
+      let filteredNeighborhoods = [...neighborhoods];
+      let formModal, detailsModal, memberFormModal;
+
+      // Initialize neighborhood modals
+      function initializeNeighborhoodModals() {
+        formModal = new bootstrap.Modal(document.getElementById("formModal"));
+        detailsModal = new bootstrap.Modal(
+          document.getElementById("detailsModal")
+        );
+        memberFormModal = new bootstrap.Modal(
+          document.getElementById("memberFormModal")
+        );
+        renderTable();
+      }
+
+      // --- Neighborhood CRUD ---
+      function renderTable() {
+        const table = document.getElementById("neighborhoodTable");
+        if (!table) return;
+
+        table.innerHTML = "";
+        filteredNeighborhoods.forEach((n) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+      <td>${n.name}</td>
+      <td>${n.mukhtar}</td>
+      <td>${n.date}</td>
+      <td class="action-icons no-print">
+        <i title="حذف" class="bi bi-trash-fill text-danger" onclick="deleteNeighborhood(${n.id})"></i>
+        <i title="تعديل" class="bi bi-pencil-square text-primary" onclick="openEditModal(${n.id})"></i>
+        <i title="تفاصيل الأعضاء" class="bi bi-people-fill text-success" onclick="showDetails(${n.id})"></i>
+      </td>
+    `;
+          table.appendChild(row);
+        });
+      }
+
+      function filterTable() {
+        const searchInput = document.getElementById("searchInput");
+        const dateFromInput = document.getElementById("dateFrom");
+        const dateToInput = document.getElementById("dateTo");
+
+        if (!searchInput || !dateFromInput || !dateToInput) return;
+
+        const searchVal = searchInput.value.trim().toLowerCase();
+        const dateFrom = dateFromInput.value;
+        const dateTo = dateToInput.value;
+
+        filteredNeighborhoods = neighborhoods.filter((n) => {
+          const nameMatch = n.name.toLowerCase().includes(searchVal);
+          const mukhtarMatch = n.mukhtar.toLowerCase().includes(searchVal);
+          let dateMatch = true;
+          if (dateFrom) dateMatch = dateMatch && n.date >= dateFrom;
+          if (dateTo) dateMatch = dateMatch && n.date <= dateTo;
+          return (nameMatch || mukhtarMatch) && dateMatch;
+        });
+        renderTable();
+      }
+
+      function resetFilters() {
+        const searchInput = document.getElementById("searchInput");
+        const dateFromInput = document.getElementById("dateFrom");
+        const dateToInput = document.getElementById("dateTo");
+
+        if (searchInput) searchInput.value = "";
+        if (dateFromInput) dateFromInput.value = "";
+        if (dateToInput) dateToInput.value = "";
+
+        filteredNeighborhoods = [...neighborhoods];
+        renderTable();
+      }
+
+      function openAddModal() {
+        const form = document.getElementById("neighborhoodForm");
+        const editIndex = document.getElementById("editIndex");
+        const formModalLabel = document.getElementById("formModalLabel");
+
+        if (!form || !editIndex || !formModalLabel || !formModal) return;
+
+        form.reset();
+        editIndex.value = "";
+        const t = translations[currentLang];
+        formModalLabel.textContent = t.addNeighborhoodTitle;
+        formModal.show();
+      }
+
+      function openEditModal(id) {
+        const neighborhood = neighborhoods.find((n) => n.id === id);
+        if (!neighborhood) return;
+
+        const formModalLabel = document.getElementById("formModalLabel");
+        const editIndex = document.getElementById("editIndex");
+        const nameInput = document.getElementById("name");
+        const mukhtarInput = document.getElementById("mukhtar");
+        const dateInput = document.getElementById("date");
+
+        if (
+          !formModalLabel ||
+          !editIndex ||
+          !nameInput ||
+          !mukhtarInput ||
+          !dateInput ||
+          !formModal
+        )
+          return;
+
+        const t = translations[currentLang];
+        formModalLabel.textContent = t.editNeighborhoodTitle;
+        editIndex.value = id;
+        nameInput.value = neighborhood.name;
+        mukhtarInput.value = neighborhood.mukhtar;
+        dateInput.value = neighborhood.date;
+        formModal.show();
+      }
+
+      function saveNeighborhood() {
+        const form = document.getElementById("neighborhoodForm");
+        if (!form || !form.checkValidity()) {
+          if (form) form.reportValidity();
+          return;
+        }
+
+        const editIndex = document.getElementById("editIndex");
+        const nameInput = document.getElementById("name");
+        const mukhtarInput = document.getElementById("mukhtar");
+        const dateInput = document.getElementById("date");
+
+        if (!editIndex || !nameInput || !mukhtarInput || !dateInput) return;
+
+        const id = editIndex.value;
+        const neighborhoodData = {
+          name: nameInput.value,
+          mukhtar: mukhtarInput.value,
+          date: dateInput.value,
+        };
+
+        if (id) {
+          // Editing
+          const index = neighborhoods.findIndex((n) => n.id == id);
+          neighborhoods[index] = {
+            ...neighborhoods[index],
+            ...neighborhoodData,
+          };
+        } else {
+          // Adding
+          neighborhoodData.id = Date.now();
+          neighborhoodData.members = [];
+          neighborhoods.push(neighborhoodData);
+        }
+        filterTable();
+        if (formModal) formModal.hide();
+      }
+
+      function deleteNeighborhood(id) {
+        if (confirm("هل أنت متأكد من حذف هذا الحي؟ سيتم حذف جميع أعضائه.")) {
+          neighborhoods = neighborhoods.filter((n) => n.id !== id);
+          filterTable();
+        }
+      }
+
+      // --- Member CRUD ---
+      function showDetails(neighborhoodId) {
+        const addMemberBtn = document.getElementById("addMemberBtn");
+        if (addMemberBtn) {
+          addMemberBtn.onclick = () => openMemberAddModal(neighborhoodId);
+        }
+        renderMembersTable(neighborhoodId);
+        if (detailsModal) detailsModal.show();
+      }
+
+      function renderMembersTable(neighborhoodId) {
+        const neighborhood = neighborhoods.find((n) => n.id === neighborhoodId);
+        if (!neighborhood) return;
+
+        const detailsNeighborhoodName = document.getElementById(
+          "detailsNeighborhoodName"
+        );
+        const membersTableBody = document.getElementById("membersTableBody");
+
+        if (!detailsNeighborhoodName || !membersTableBody) return;
+
+        detailsNeighborhoodName.textContent = `أعضاء لجنة: ${neighborhood.name}`;
+        membersTableBody.innerHTML = "";
+
+        if (neighborhood.members && neighborhood.members.length > 0) {
+          neighborhood.members.forEach((member) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${member.name}</td>
+              <td>${member.phone}</td>
+              <td>${member.location}</td>
+              <td class="action-icons">
+                  <i class="bi bi-pencil-square text-primary" title="تعديل" onclick="openMemberEditModal(${neighborhood.id}, ${member.id})"></i>
+                  <i class="bi bi-trash-fill text-danger" title="حذف" onclick="deleteMember(${neighborhood.id}, ${member.id})"></i>
+              </td>
+          `;
+            membersTableBody.appendChild(row);
+          });
+        } else {
+          membersTableBody.innerHTML =
+            '<tr><td colspan="4" class="text-center">لا يوجد أعضاء مسجلون لهذا الحي حالياً.</td></tr>';
+        }
+      }
+
+      function openMemberAddModal(neighborhoodId) {
+        const memberForm = document.getElementById("memberForm");
+        const memberFormModalLabel = document.getElementById(
+          "memberFormModalLabel"
+        );
+        const memberEditNeighborhoodId = document.getElementById(
+          "memberEditNeighborhoodId"
+        );
+        const memberEditId = document.getElementById("memberEditId");
+
+        if (
+          !memberForm ||
+          !memberFormModalLabel ||
+          !memberEditNeighborhoodId ||
+          !memberEditId ||
+          !memberFormModal
+        )
+          return;
+
+        memberForm.reset();
+        const t = translations[currentLang];
+        memberFormModalLabel.textContent = t.addMemberTitle;
+        memberEditNeighborhoodId.value = neighborhoodId;
+        memberEditId.value = "";
+        memberFormModal.show();
+      }
+
+      function openMemberEditModal(neighborhoodId, memberId) {
+        const neighborhood = neighborhoods.find((n) => n.id === neighborhoodId);
+        const member = neighborhood.members.find((m) => m.id === memberId);
+        if (!member) return;
+
+        const memberForm = document.getElementById("memberForm");
+        const memberFormModalLabel = document.getElementById(
+          "memberFormModalLabel"
+        );
+        const memberEditNeighborhoodId = document.getElementById(
+          "memberEditNeighborhoodId"
+        );
+        const memberEditId = document.getElementById("memberEditId");
+        const memberName = document.getElementById("memberName");
+        const memberPhone = document.getElementById("memberPhone");
+        const memberLocation = document.getElementById("memberLocation");
+
+        if (
+          !memberForm ||
+          !memberFormModalLabel ||
+          !memberEditNeighborhoodId ||
+          !memberEditId ||
+          !memberName ||
+          !memberPhone ||
+          !memberLocation ||
+          !memberFormModal
+        )
+          return;
+
+        memberForm.reset();
+        const t = translations[currentLang];
+        memberFormModalLabel.textContent = t.editMemberTitle;
+        memberEditNeighborhoodId.value = neighborhoodId;
+        memberEditId.value = memberId;
+        memberName.value = member.name;
+        memberPhone.value = member.phone;
+        memberLocation.value = member.location;
+        memberFormModal.show();
+      }
+
+      function saveMember() {
+        const form = document.getElementById("memberForm");
+        if (!form || !form.checkValidity()) {
+          if (form) form.reportValidity();
+          return;
+        }
+
+        const memberEditNeighborhoodId = document.getElementById(
+          "memberEditNeighborhoodId"
+        );
+        const memberEditId = document.getElementById("memberEditId");
+        const memberName = document.getElementById("memberName");
+        const memberPhone = document.getElementById("memberPhone");
+        const memberLocation = document.getElementById("memberLocation");
+
+        if (
+          !memberEditNeighborhoodId ||
+          !memberEditId ||
+          !memberName ||
+          !memberPhone ||
+          !memberLocation
+        )
+          return;
+
+        const neighborhoodId = memberEditNeighborhoodId.value;
+        const memberId = memberEditId.value;
+        const neighborhood = neighborhoods.find((n) => n.id == neighborhoodId);
+
+        const memberData = {
+          name: memberName.value,
+          phone: memberPhone.value,
+          location: memberLocation.value,
+        };
+
+        if (memberId) {
+          // Editing
+          const memberIndex = neighborhood.members.findIndex(
+            (m) => m.id == memberId
+          );
+          neighborhood.members[memberIndex] = {
+            ...neighborhood.members[memberIndex],
+            ...memberData,
+          };
+        } else {
+          // Adding
+          memberData.id = Date.now();
+          neighborhood.members.push(memberData);
+        }
+
+        renderMembersTable(neighborhood.id);
+        if (memberFormModal) memberFormModal.hide();
+      }
+
+      function deleteMember(neighborhoodId, memberId) {
+        if (confirm("هل أنت متأكد من حذف هذا العضو؟")) {
+          const neighborhood = neighborhoods.find(
+            (n) => n.id === neighborhoodId
+          );
+          neighborhood.members = neighborhood.members.filter(
+            (m) => m.id !== memberId
+          );
+          renderMembersTable(neighborhoodId);
+        }
+      }
+
+      // --- Exporting ---
+      function exportToCSV() {
+        if (filteredNeighborhoods.length === 0) {
+          alert("لا توجد بيانات للتصدير.");
+          return;
+        }
+
+        const headers = ["اسم الحي", "اسم المختار", "تاريخ التشكيل"];
+        const rows = filteredNeighborhoods.map((n) =>
+          [
+            `"${n.name.replace(/"/g, '""')}"`, // Handle quotes inside data
+            `"${n.mukhtar.replace(/"/g, '""')}"`,
+            `"${n.date}"`,
+          ].join(",")
+        );
+
+        // Add BOM for UTF-8 support in Excel
+        const bom = "\uFEFF";
+        const csvContent = bom + headers.join(",") + "\n" + rows.join("\n");
+
+        // Use Blob for better file handling
+        const blob = new Blob([csvContent], {
+          type: "text/csv;charset=utf-8;",
+        });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "قائمة_الأحياء.csv");
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url); // Clean up
+      }
+    </script>
+  </body>
+</html>

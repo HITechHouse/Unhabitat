@@ -1,259 +1,831 @@
 /**
- * وظائف استيراد وتصدير البيانات وتصفية الأحياء حسب القطاع
+ * وظائف استيراد وتصدير البيانات - نسخة محدثة
+ * يدعم تصدير جميع الطبقات بجميع الصيغ المطلوبة
+ * 
+ * المكتبات المطلوبة (يجب إضافتها في HTML):
+ * 
+ * <!-- للتصدير كـ Excel -->
+ * <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+ * 
+ * <!-- للتصدير كـ PDF -->
+ * <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+ * 
+ * <!-- للتصدير كـ Shapefile -->
+ * <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+ * <script src="https://unpkg.com/shp-write@0.3.2/shp-write.js"></script>
+ * 
+ * استخدام:
+ * 1. تأكد من تحميل بيانات الأحياء (neighborhoodsData) ودوائر الخدمات (serviceSectorsData)
+ * 2. تأكد من وجود العناصر HTML: exportLayerSelect, exportFormat, exportLayerBtn
+ * 3. الملف سيتم تهيئته تلقائياً عند تحميل الصفحة
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
+  // تجنب التهيئة المتكررة
+  if (window.importExportInitialized) {
+    return;
+  }
+  window.importExportInitialized = true;
+  
+  console.log("تهيئة نظام الاستيراد والتصدير...");
+  
   // تهيئة واجهة الاستيراد/التصدير
   initImportExport();
-  
-  // تهيئة واجهة التصفية حسب القطاعات
-  initSectorFilter();
-  
-  // إضافة طبقات مستوردة ديناميكياً إلى قائمة التصدير
-  const exportLayerSelect = document.getElementById('exportLayerSelect');
-  if (exportLayerSelect && window.importedLayers) {
-    Object.keys(window.importedLayers).forEach(layerId => {
-      if (!exportLayerSelect.querySelector(`option[value="${layerId}"]`)) {
-        const opt = document.createElement('option');
-        opt.value = layerId;
-        opt.textContent = `طبقة مستوردة (${layerId})`;
-        exportLayerSelect.appendChild(opt);
-      }
-    });
-  }
 });
 
 /**
  * تهيئة واجهة الاستيراد/التصدير
  */
 function initImportExport() {
-  // عناصر واجهة المستخدم
-  const fileInput = document.getElementById('fileImport');
-  const selectedFileName = document.getElementById('selectedFileName');
-  const importButton = document.getElementById('importFileBtn');
-  const exportLayerSelect = document.getElementById('exportLayerSelect');
-  const exportFormatSelect = document.getElementById('exportFormat');
-  const exportButton = document.getElementById('exportLayerBtn');
+  // التأكد من توفر البيانات كمتغيرات عامة
+  if (typeof neighborhoodsData !== 'undefined' && !window.neighborhoodsData) {
+    window.neighborhoodsData = neighborhoodsData;
+  }
   
-  // إنشاء قائمة اختيار صيغة التصدير إذا لم تكن موجودة
-  if (!exportFormatSelect) {
-    const newSelect = document.createElement('select');
-    newSelect.id = 'exportFormat';
-    newSelect.className = 'sidebar-select';
-    newSelect.innerHTML = `
-      <option value="">اختر صيغة التصدير</option>
-      <option value="geojson">GeoJSON</option>
-      <option value="csv">CSV</option>
-    `;
-    const exportControls = document.querySelector('.import-export-controls');
-    if (exportControls) {
-      exportControls.appendChild(newSelect);
+  if (typeof serviceSectorsData !== 'undefined' && !window.serviceSectorsData) {
+    window.serviceSectorsData = serviceSectorsData;
+  }
+  
+  // الاستماع لحدث تحميل بيانات دوائر الخدمات
+  document.addEventListener('serviceSectorsLoaded', function() {
+    console.log("تم استلام إشعار تحميل بيانات دوائر الخدمات");
+    // تحديث مرجع البيانات في النافذة العامة إذا لم تكن متوفرة
+    if (!window.serviceSectorsData && typeof serviceSectorsData !== 'undefined') {
+      window.serviceSectorsData = serviceSectorsData;
     }
-  }
+  });
   
-  // إظهار اسم الملف المحدد عند اختياره
-  if (fileInput) {
-    fileInput.addEventListener('change', function() {
-      if (this.files && this.files.length > 0) {
-        selectedFileName.textContent = this.files[0].name;
-      } else {
-        selectedFileName.textContent = 'لم يتم اختيار ملف';
-      }
-    });
-  }
-  
-  // زر استيراد الملف
-  if (importButton) {
-    importButton.addEventListener('click', function() {
-      if (fileInput.files && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        importFile(file);
-      } else {
-        alert('الرجاء اختيار ملف للاستيراد');
-      }
-    });
-  }
-  
-  // زر تصدير الطبقة
+  // عناصر واجهة المستخدم
+  const exportLayerSelect = document.getElementById("exportLayerSelect");
+  const exportFormatSelect = document.getElementById("exportFormat");
+  const exportButton = document.getElementById("exportLayerBtn");
+
+  // تهيئة زر التصدير
   if (exportButton) {
-    exportButton.addEventListener('click', function() {
+    // إزالة مستمع الأحداث السابق إن وجد
+    const oldExportHandler = exportButton._exportHandler;
+    if (oldExportHandler) {
+      exportButton.removeEventListener("click", oldExportHandler);
+    }
+    
+    // إنشاء مستمع أحداث جديد
+    const newExportHandler = function () {
       const layerName = exportLayerSelect ? exportLayerSelect.value : null;
       const format = exportFormatSelect ? exportFormatSelect.value : null;
-      
-      if (!layerName) {
-        alert('الرجاء اختيار طبقة للتصدير');
+
+      if (!layerName || layerName.trim() === "" || layerName === "-- اختر طبقة --") {
+        showAlert("الرجاء اختيار طبقة للتصدير", "warning");
         return;
       }
-      
-      if (!format) {
-        alert('الرجاء اختيار صيغة التصدير');
+
+      if (!format || format.trim() === "" || format === "اختر صيغة التصدير") {
+        showAlert("الرجاء اختيار صيغة التصدير", "warning");
         return;
       }
-      
+
       exportLayer(layerName, format);
-    });
+    };
+    
+    // حفظ مرجع للمستمع الجديد
+    exportButton._exportHandler = newExportHandler;
+    exportButton.addEventListener("click", newExportHandler);
+  }
+
+  console.log("تم تهيئة نظام الاستيراد والتصدير بنجاح");
+  
+  // إضافة مستمع لإعادة المحاولة التلقائية عند تحميل البيانات
+  setupAutoRetryOnDataLoad();
+}
+
+/**
+ * إعداد إعادة المحاولة التلقائية عند تحميل البيانات
+ */
+function setupAutoRetryOnDataLoad() {
+  let pendingExport = null;
+  
+  // مستمع للحصول على البيانات المعلقة
+  document.addEventListener('serviceSectorsLoaded', function(event) {
+    console.log("تم تحميل بيانات دوائر الخدمات، فحص الطلبات المعلقة...");
+    
+    if (pendingExport) {
+      console.log(`إعادة محاولة تصدير ${pendingExport.layer} بصيغة ${pendingExport.format}`);
+      
+      setTimeout(() => {
+        try {
+          exportLayer(pendingExport.layer, pendingExport.format);
+          showAlert("تم إعادة محاولة التصدير تلقائياً بعد تحميل البيانات", "success");
+        } catch (error) {
+          console.error("فشلت إعادة المحاولة:", error);
+          showAlert("فشلت إعادة المحاولة: " + error.message, "error");
+        } finally {
+          pendingExport = null;
+        }
+      }, 500); // انتظار قصير للتأكد من استقرار البيانات
+    }
+  });
+  
+  // تحسين معالجة الأخطاء في التصدير
+  const originalExportLayer = window.exportLayer || exportLayer;
+  
+  // التأكد من توفر exportLayer في النطاق العام
+  window.exportLayer = function(layerName, format) {
+    try {
+      return originalExportLayer(layerName, format);
+    } catch (error) {
+      // إذا كان الخطأ متعلقاً بعدم تحميل بيانات دوائر الخدمات
+      if (error.message.includes("لم يتم تحميلها بعد") && 
+         (layerName === "service-sectors" || layerName === "service-sector-labels")) {
+        
+        console.log("حفظ طلب التصدير للمحاولة لاحقاً...");
+        pendingExport = { layer: layerName, format: format };
+        
+        showAlert("جاري تحميل البيانات، سيتم التصدير تلقائياً عند الانتهاء...", "info");
+        return;
+      }
+      
+      // إعادة رمي الخطأ للأخطاء الأخرى
+      throw error;
+    }
+  };
+}
+
+/**
+ * تصدير طبقة معينة بالصيغة المحددة
+ * @param {string} layerName - اسم الطبقة
+ * @param {string} format - صيغة التصدير
+ */
+function exportLayer(layerName, format) {
+  // منع التصدير المتعدد
+  if (window.exportInProgress) {
+    showAlert("جاري تصدير طبقة أخرى، يرجى الانتظار", "info");
+    return;
   }
   
-  // أزرار تصدير النتائج
-  const exportResultsBtn = document.getElementById('exportResultsBtn');
-  if (exportResultsBtn) {
-    exportResultsBtn.addEventListener('click', function() {
-      exportQueryResults();
-    });
-  }
-  
-  const printResultsBtn = document.getElementById('printResultsBtn');
-  if (printResultsBtn) {
-    printResultsBtn.addEventListener('click', function() {
-      printQueryResults();
-    });
-  }
-  
-  const exportFilteredBtn = document.getElementById('exportFilteredBtn');
-  if (exportFilteredBtn) {
-    exportFilteredBtn.addEventListener('click', function() {
-      exportFilteredResults();
-    });
+  window.exportInProgress = true;
+  showAlert("جاري تصدير الطبقة...", "info");
+
+  try {
+    let data = null;
+    let fileName = "";
+
+    // الحصول على بيانات الطبقة المحددة
+    switch (layerName) {
+      case "neighborhoods":
+        data = getNeighborhoodsData();
+        fileName = `neighborhoods_${formatDate()}`;
+        break;
+        
+      case "neighborhood-labels":
+        data = getNeighborhoodLabelsData();
+        fileName = `neighborhood_labels_${formatDate()}`;
+        break;
+        
+      case "service-sectors":
+        // التحقق من حالة التحميل أولاً
+        if (window.serviceSectorsDataLoaded === false) {
+          throw new Error("بيانات دوائر الخدمات لم يتم تحميلها بعد، يرجى المحاولة لاحقاً");
+        }
+        data = getServiceSectorsData();
+        fileName = `service_sectors_${formatDate()}`;
+        break;
+        
+      case "service-sector-labels":
+        // التحقق من حالة التحميل أولاً
+        if (window.serviceSectorsDataLoaded === false) {
+          throw new Error("بيانات دوائر الخدمات لم يتم تحميلها بعد، يرجى المحاولة لاحقاً");
+        }
+        data = getServiceSectorLabelsData();
+        fileName = `service_sector_labels_${formatDate()}`;
+        break;
+        
+      default:
+        throw new Error(`الطبقة "${layerName}" غير مدعومة`);
+    }
+
+    if (!data) {
+      throw new Error("لا توجد بيانات للطبقة المحددة");
+    }
+
+    // تصدير البيانات بالصيغة المطلوبة
+    exportDataInFormat(data, fileName, format);
+    
+    showAlert("تم تصدير الطبقة بنجاح", "success");
+    
+  } catch (error) {
+    console.error("خطأ في تصدير الطبقة:", error);
+    showAlert("حدث خطأ أثناء تصدير الطبقة: " + error.message, "error");
+  } finally {
+    window.exportInProgress = false;
   }
 }
 
 /**
- * استيراد ملف إلى الخريطة
- * @param {File} file - الملف المراد استيراده
+ * الحصول على بيانات الأحياء
  */
-function importFile(file) {
-  const reader = new FileReader();
-  const fileName = file.name.toLowerCase();
+function getNeighborhoodsData() {
+  const neighborhoodsSource = window.neighborhoodsData || 
+                             (typeof neighborhoodsData !== 'undefined' ? neighborhoodsData : null);
   
-  reader.onload = function(e) {
-    try {
-      // التحقق من نوع الملف واستدعاء الدالة المناسبة
-      if (fileName.endsWith('.geojson') || fileName.endsWith('.json')) {
-        // استيراد ملف GeoJSON
-        importGeoJSON(e.target.result);
-      } else if (fileName.endsWith('.kml')) {
-        alert('سيتم دعم استيراد ملفات KML قريباً. يمكنك تحويلها إلى GeoJSON عبر mapshaper.org أو QGIS.');
-      } else if (fileName.endsWith('.gpx')) {
-        alert('سيتم دعم استيراد ملفات GPX قريباً. يمكنك تحويلها إلى GeoJSON عبر mapshaper.org أو QGIS.');
-      } else if (fileName.endsWith('.zip')) {
-        // استيراد ملف Shapefile مضغوط
-        if (typeof shp !== 'undefined') {
-          shp(e.target.result).then(function(geojson) {
-            importGeoJSON(JSON.stringify(geojson));
-          }).catch(function(err) {
-            alert('حدث خطأ أثناء تحويل ملف Shapefile: ' + err.message);
-          });
+  if (!neighborhoodsSource || !neighborhoodsSource.features) {
+    throw new Error("بيانات الأحياء غير متوفرة");
+  }
+  
+  return neighborhoodsSource;
+}
+
+/**
+ * الحصول على بيانات مسميات الأحياء
+ */
+function getNeighborhoodLabelsData() {
+  const neighborhoodsSource = window.neighborhoodsData || 
+                             (typeof neighborhoodsData !== 'undefined' ? neighborhoodsData : null);
+  
+  if (!neighborhoodsSource || !neighborhoodsSource.features) {
+    throw new Error("بيانات الأحياء غير متوفرة لإنشاء المسميات");
+  }
+  
+  // تحويل مضلعات الأحياء إلى نقاط للمسميات
+  const features = neighborhoodsSource.features.map((feature) => {
+    if (!feature.geometry || !feature.geometry.coordinates || !feature.geometry.coordinates[0]) {
+      return null;
+    }
+    
+    const center = calculatePolygonCenter(feature.geometry.coordinates[0]);
+    const name = feature.properties.Names || 
+                 feature.properties.Name_En || 
+                 feature.properties.name || 
+                 feature.properties.NAME || 
+                 "غير معروف";
+    
+    return {
+      type: "Feature",
+      geometry: { 
+        type: "Point", 
+        coordinates: [center.lng, center.lat] 
+      },
+      properties: { 
+        name: name,
+        original_id: feature.properties.OBJECTID || feature.properties.id,
+        ...feature.properties
+      }
+    };
+  }).filter(f => f !== null);
+  
+  return { type: "FeatureCollection", features };
+}
+
+/**
+ * الحصول على بيانات دوائر الخدمات
+ */
+function getServiceSectorsData() {
+  // محاولة الحصول على البيانات من مصادر مختلفة
+  let serviceSectorsSource = window.serviceSectorsData ||
+                            (typeof serviceSectorsData !== 'undefined' ? serviceSectorsData : null);
+  
+  // إذا لم تكن البيانات متوفرة، نتحقق من التحميل المؤجل
+  if (!serviceSectorsSource || !serviceSectorsSource.features) {
+    console.log("بيانات دوائر الخدمات غير متوفرة، محاولة إعادة التحقق...");
+    
+    // التحقق من حالة التحميل
+    if (window.serviceSectorsDataLoaded === false) {
+      throw new Error("بيانات دوائر الخدمات لم يتم تحميلها بعد، يرجى المحاولة لاحقاً");
+    }
+    
+    // إعادة التحقق من المتغيرات العامة
+    if (typeof serviceSectorsData !== 'undefined') {
+      serviceSectorsSource = serviceSectorsData;
+      if (serviceSectorsSource && serviceSectorsSource.features) {
+        window.serviceSectorsData = serviceSectorsData;
+      }
+    }
+  }
+  
+  if (!serviceSectorsSource || !serviceSectorsSource.features) {
+    console.error("فشل في العثور على بيانات دوائر الخدمات");
+    throw new Error("بيانات دوائر الخدمات غير متوفرة");
+  }
+  
+  console.log("تم العثور على بيانات دوائر الخدمات:", serviceSectorsSource.features.length, "عنصر");
+  return serviceSectorsSource;
+}
+
+/**
+ * الحصول على بيانات مسميات دوائر الخدمات
+ */
+function getServiceSectorLabelsData() {
+  // محاولة الحصول على البيانات من مصادر مختلفة
+  let serviceSectorsSource = window.serviceSectorsData ||
+                            (typeof serviceSectorsData !== 'undefined' ? serviceSectorsData : null);
+  
+  // إذا لم تكن البيانات متوفرة، نتحقق من التحميل المؤجل
+  if (!serviceSectorsSource) {
+    console.log("بيانات دوائر الخدمات غير متوفرة لإنشاء المسميات، محاولة إعادة التحقق...");
+    
+    // إعادة التحقق من المتغيرات العامة
+    if (typeof serviceSectorsData !== 'undefined') {
+      serviceSectorsSource = serviceSectorsData;
+      window.serviceSectorsData = serviceSectorsData;
+    }
+  }
+  
+  if (!serviceSectorsSource || !serviceSectorsSource.features) {
+    console.error("فشل في العثور على بيانات دوائر الخدمات لإنشاء المسميات");
+    throw new Error("بيانات دوائر الخدمات غير متوفرة لإنشاء المسميات");
+  }
+  
+  // تحويل مضلعات دوائر الخدمات إلى نقاط للمسميات
+  const features = serviceSectorsSource.features.map((feature) => {
+    if (!feature.geometry || !feature.geometry.coordinates || !feature.geometry.coordinates[0]) {
+      return null;
+    }
+    
+    const center = calculatePolygonCenter(feature.geometry.coordinates[0]);
+    const name = feature.properties.Name || 
+                 feature.properties.Name_En || 
+                 feature.properties.name || 
+                 feature.properties.NAME || 
+                 "غير معروف";
+    
+    return {
+      type: "Feature",
+      geometry: { 
+        type: "Point", 
+        coordinates: [center.lng, center.lat] 
+      },
+      properties: { 
+        name: name,
+        name_en: feature.properties.Name_En,
+        original_id: feature.properties.OBJECTID || feature.properties.id,
+        population: feature.properties.Pop,
+        ...feature.properties
+      }
+    };
+  }).filter(f => f !== null);
+  
+  return { type: "FeatureCollection", features };
+}
+
+/**
+ * حساب مركز المضلع
+ */
+function calculatePolygonCenter(coordinates) {
+  let totalLat = 0;
+  let totalLng = 0;
+  let pointCount = 0;
+  
+  coordinates.forEach((coord) => {
+    totalLng += coord[0];
+    totalLat += coord[1];
+    pointCount++;
+  });
+  
+  return {
+    lat: totalLat / pointCount,
+    lng: totalLng / pointCount
+  };
+}
+
+/**
+ * تصدير البيانات بالصيغة المحددة
+ */
+function exportDataInFormat(data, fileName, format) {
+  let content = "";
+  let contentType = "";
+  let fileExtension = "";
+
+  switch (format) {
+    case "geojson":
+      content = JSON.stringify(data, null, 2);
+      contentType = "application/json";
+      fileExtension = ".geojson";
+      break;
+      
+    case "kml":
+      content = convertToKML(data);
+      contentType = "application/vnd.google-earth.kml+xml";
+      fileExtension = ".kml";
+      break;
+      
+    case "shp":
+      exportAsShapefile(data, fileName);
+      return; // الدالة تتعامل مع التصدير بنفسها
+      
+    case "csv":
+      content = convertToCSV(data);
+      contentType = "text/csv";
+      fileExtension = ".csv";
+      break;
+      
+    case "excel":
+      exportAsExcel(data, fileName);
+      return; // الدالة تتعامل مع التصدير بنفسها
+      
+    case "pdf":
+      exportAsPDF(data, fileName);
+      return; // الدالة تتعامل مع التصدير بنفسها
+      
+    default:
+      throw new Error(`صيغة التصدير "${format}" غير مدعومة`);
+  }
+
+  // تنزيل الملف
+  downloadFile(content, fileName + fileExtension, contentType);
+}
+
+/**
+ * تحويل GeoJSON إلى KML
+ */
+function convertToKML(geoJSON) {
+  let kml = `<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>البيانات المصدرة</name>
+    <description>تم التصدير من نظام الأحياء</description>
+`;
+
+  geoJSON.features.forEach((feature, index) => {
+    const properties = feature.properties;
+    const geometry = feature.geometry;
+    
+    kml += `    <Placemark>
+      <name>${escapeXML(properties.name || properties.Names || properties.Name || `عنصر ${index + 1}`)}</name>
+      <description><![CDATA[`;
+    
+    // إضافة خصائص العنصر
+    Object.keys(properties).forEach(key => {
+      if (properties[key] !== null && properties[key] !== undefined) {
+        kml += `<p><strong>${key}:</strong> ${properties[key]}</p>`;
+      }
+    });
+    
+    kml += `]]></description>`;
+    
+    // إضافة الهندسة
+    if (geometry.type === "Point") {
+      kml += `      <Point>
+        <coordinates>${geometry.coordinates[0]},${geometry.coordinates[1]},0</coordinates>
+      </Point>`;
+    } else if (geometry.type === "Polygon") {
+      kml += `      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>`;
+      geometry.coordinates[0].forEach(coord => {
+        kml += `${coord[0]},${coord[1]},0 `;
+      });
+      kml += `</coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>`;
+    }
+    
+    kml += `    </Placemark>
+`;
+  });
+
+  kml += `  </Document>
+</kml>`;
+
+  return kml;
+}
+
+/**
+ * تحويل GeoJSON إلى CSV
+ */
+function convertToCSV(geoJSON) {
+  if (!geoJSON || !geoJSON.features || !geoJSON.features.length) {
+    return "لا توجد بيانات للتصدير";
+  }
+
+  // جمع جميع خصائص العناصر لإنشاء العناوين
+  const allHeaders = new Set();
+  geoJSON.features.forEach(feature => {
+    Object.keys(feature.properties).forEach(key => {
+      allHeaders.add(key);
+    });
+  });
+
+  // إضافة أعمدة الإحداثيات
+  const headers = Array.from(allHeaders);
+  if (geoJSON.features.some(f => f.geometry && f.geometry.type === "Point")) {
+    headers.push("longitude", "latitude");
+  }
+
+  // إنشاء سطر العناوين
+  let csv = headers.map(h => `"${h}"`).join(",") + "\n";
+
+  // إضافة بيانات كل عنصر
+  geoJSON.features.forEach(feature => {
+    const row = [];
+
+    headers.forEach(header => {
+      if (header === "longitude") {
+        if (feature.geometry && feature.geometry.type === "Point") {
+          row.push(feature.geometry.coordinates[0]);
         } else {
-          alert('مكتبة shpjs غير متوفرة.');
+          row.push("");
+        }
+      } else if (header === "latitude") {
+        if (feature.geometry && feature.geometry.type === "Point") {
+          row.push(feature.geometry.coordinates[1]);
+        } else {
+          row.push("");
         }
       } else {
-        alert('صيغة الملف غير مدعومة. الرجاء استخدام ملفات GeoJSON أو Shapefile (zip). يمكنك تحويل ملفات KML/GPX إلى GeoJSON عبر mapshaper.org.');
+        const value = feature.properties[header] || "";
+        row.push(typeof value === "string" ? `"${value.replace(/"/g, '""')}"` : value);
       }
-    } catch (error) {
-      console.error('خطأ في استيراد الملف:', error);
-      alert('حدث خطأ أثناء استيراد الملف: ' + error.message);
-    }
-  };
-  
-  reader.onerror = function() {
-    alert('حدث خطأ أثناء قراءة الملف');
-  };
-  
-  // قراءة الملف كنص أو ArrayBuffer
-  if (fileName.endsWith('.zip')) {
-    // قراءة الملف كـ ArrayBuffer للملفات المضغوطة
-    reader.readAsArrayBuffer(file);
-  } else {
-    // قراءة الملف كنص لباقي الأنواع
-    reader.readAsText(file);
-  }
+    });
+
+    csv += row.join(",") + "\n";
+  });
+
+  return csv;
 }
 
 /**
- * استيراد بيانات GeoJSON إلى الخريطة
- * @param {string} geoJSONData - بيانات GeoJSON كنص
+ * تصدير كـ Shapefile
  */
-function importGeoJSON(geoJSONData) {
+function exportAsShapefile(geoJSON, fileName) {
   try {
-    // تحويل النص إلى كائن JSON
-    const data = JSON.parse(geoJSONData);
-    
-    // التحقق من أن البيانات هي GeoJSON صالحة
-    if (!data.type || !data.features) {
-      throw new Error('ملف GeoJSON غير صالح');
+    // تحقق من وجود مكتبة shp-write
+    if (typeof shpwrite === 'undefined') {
+      // استخدام طريقة بديلة - تحويل إلى GeoJSON مضغوط
+      const content = JSON.stringify(geoJSON, null, 2);
+      const zip = new JSZip();
+      zip.file(fileName + ".geojson", content);
+      zip.file("README.txt", "هذا ملف GeoJSON بدلاً من Shapefile لأن المكتبة المطلوبة غير متوفرة.");
+      
+      zip.generateAsync({type:"blob"}).then(function(content) {
+        downloadFile(content, fileName + "_geojson.zip", "application/zip");
+      });
+      return;
     }
+
+    // استخدام مكتبة shp-write إذا كانت متوفرة
+    const options = {
+      folder: fileName,
+      types: {
+        point: 'points',
+        polygon: 'polygons',
+        line: 'lines'
+      }
+    };
+
+    const zip = shpwrite.zip(geoJSON, options);
+    downloadFile(zip, fileName + ".zip", "application/zip");
     
-    // استخدام المكتبة المناسبة لإضافة البيانات إلى الخريطة
-    if (typeof L !== 'undefined' && typeof map !== 'undefined') {
-      // إضافة طبقة GeoJSON جديدة إلى الخريطة
-      const importedLayer = L.geoJSON(data, {
-        style: function(feature) {
-          // تعيين نمط افتراضي للطبقة المستوردة
-          return {
-            fillColor: '#00ffff',
-            color: '#ffffff',
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.5
-          };
-        },
-        onEachFeature: function(feature, layer) {
-          // إضافة نافذة منبثقة تعرض خصائص العنصر
-          if (feature.properties) {
-            const popupContent = `
-              <div class="popup-header futuristic">
-                <h3 class="popup-title">${feature.properties.Name || 'عنصر مستورد'}</h3>
-              </div>
-              <div class="popup-body">
-                ${Object.entries(feature.properties).map(([key, value]) => `
-                  <div class="popup-stat">
-                    <span>${key}:</span>
-                    <strong>${value}</strong>
-                  </div>
-                `).join('')}
-              </div>
-            `;
-            layer.bindPopup(popupContent);
-          }
-        }
-      }).addTo(map);
-      
-      // التكبير على الطبقة المستوردة
-      map.fitBounds(importedLayer.getBounds());
-      
-      // إضافة الطبقة إلى قائمة الطبقات
-      addImportedLayerToList(data.name || 'طبقة مستوردة', importedLayer);
-      
-      alert('تم استيراد الطبقة بنجاح');
-    } else {
-      throw new Error('مكتبة Leaflet غير محملة');
-    }
   } catch (error) {
-    console.error('خطأ في استيراد GeoJSON:', error);
-    alert('حدث خطأ أثناء استيراد GeoJSON: ' + error.message);
+    console.error("خطأ في تصدير Shapefile:", error);
+    // تصدير كـ GeoJSON بدلاً من ذلك
+    const content = JSON.stringify(geoJSON, null, 2);
+    downloadFile(content, fileName + ".geojson", "application/json");
+    showAlert("تم التصدير كـ GeoJSON بدلاً من Shapefile", "warning");
   }
 }
 
 /**
- * إضافة الطبقة المستوردة إلى قائمة الطبقات
+ * تصدير كـ Excel
+ */
+function exportAsExcel(geoJSON, fileName) {
+  try {
+    // تحقق من وجود مكتبة XLSX
+    if (typeof XLSX === 'undefined') {
+      // تصدير كـ CSV بدلاً من ذلك
+      const csvContent = convertToCSV(geoJSON);
+      downloadFile(csvContent, fileName + ".csv", "text/csv");
+      showAlert("تم التصدير كـ CSV بدلاً من Excel", "warning");
+      return;
+    }
+
+    // تحويل GeoJSON إلى تنسيق Excel
+    const worksheet_data = [];
+    
+    // إضافة العناوين
+    if (geoJSON.features.length > 0) {
+      const headers = Object.keys(geoJSON.features[0].properties);
+      if (geoJSON.features[0].geometry && geoJSON.features[0].geometry.type === "Point") {
+        headers.push("longitude", "latitude");
+      }
+      worksheet_data.push(headers);
+      
+      // إضافة البيانات
+      geoJSON.features.forEach(feature => {
+        const row = [];
+        Object.keys(feature.properties).forEach(key => {
+          row.push(feature.properties[key]);
+        });
+        
+        if (feature.geometry && feature.geometry.type === "Point") {
+          row.push(feature.geometry.coordinates[0]);
+          row.push(feature.geometry.coordinates[1]);
+        }
+        
+        worksheet_data.push(row);
+      });
+    }
+
+    const ws = XLSX.utils.aoa_to_sheet(worksheet_data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "البيانات");
+    
+    XLSX.writeFile(wb, fileName + ".xlsx");
+    
+  } catch (error) {
+    console.error("خطأ في تصدير Excel:", error);
+    // تصدير كـ CSV بدلاً من ذلك
+    const csvContent = convertToCSV(geoJSON);
+    downloadFile(csvContent, fileName + ".csv", "text/csv");
+    showAlert("تم التصدير كـ CSV بدلاً من Excel", "warning");
+  }
+}
+
+/**
+ * تصدير كـ PDF (خريطة)
+ */
+function exportAsPDF(geoJSON, fileName) {
+  try {
+    // تحقق من وجود مكتبة jsPDF
+    if (typeof jsPDF === 'undefined') {
+      showAlert("مكتبة PDF غير متوفرة، سيتم تصدير كـ GeoJSON", "warning");
+      const content = JSON.stringify(geoJSON, null, 2);
+      downloadFile(content, fileName + ".geojson", "application/json");
+      return;
+    }
+
+    const doc = new jsPDF('landscape', 'mm', 'a4');
+    
+    // إعداد الخط العربي إذا كان متوفراً
+    doc.setFont('Arial', 'normal');
+    
+    // عنوان الخريطة
+    doc.setFontSize(16);
+    doc.text('خريطة البيانات المصدرة', 15, 20);
+    
+    // معلومات أساسية
+    doc.setFontSize(12);
+    doc.text(`تاريخ التصدير: ${new Date().toLocaleDateString('ar-SY')}`, 15, 30);
+    doc.text(`عدد العناصر: ${geoJSON.features.length}`, 15, 40);
+    
+    // رسم خريطة بسيطة إذا كانت البيانات تحتوي على إحداثيات
+    if (geoJSON.features.length > 0 && geoJSON.features[0].geometry) {
+      drawSimpleMap(doc, geoJSON, 15, 50, 260, 150);
+    }
+    
+    // جدول البيانات
+    let yPosition = 210;
+    doc.setFontSize(10);
+    
+    geoJSON.features.slice(0, 10).forEach((feature, index) => {
+      if (yPosition > 280) return; // تجنب تجاوز حدود الصفحة
+      
+      const name = feature.properties.name || 
+                   feature.properties.Names || 
+                   feature.properties.Name || 
+                   `عنصر ${index + 1}`;
+      
+      doc.text(`${index + 1}. ${name}`, 15, yPosition);
+      yPosition += 5;
+    });
+    
+    if (geoJSON.features.length > 10) {
+      doc.text(`... و ${geoJSON.features.length - 10} عنصر آخر`, 15, yPosition);
+    }
+    
+    doc.save(fileName + '.pdf');
+    
+  } catch (error) {
+    console.error("خطأ في تصدير PDF:", error);
+    showAlert("حدث خطأ في تصدير PDF، سيتم تصدير كـ GeoJSON", "warning");
+    const content = JSON.stringify(geoJSON, null, 2);
+    downloadFile(content, fileName + ".geojson", "application/json");
+  }
+}
+
+/**
+ * رسم خريطة بسيطة في PDF
+ */
+function drawSimpleMap(doc, geoJSON, x, y, width, height) {
+  try {
+    // حساب حدود البيانات
+    let minLng = Infinity, maxLng = -Infinity;
+    let minLat = Infinity, maxLat = -Infinity;
+    
+    geoJSON.features.forEach(feature => {
+      if (feature.geometry && feature.geometry.coordinates) {
+        if (feature.geometry.type === "Point") {
+          const [lng, lat] = feature.geometry.coordinates;
+          minLng = Math.min(minLng, lng);
+          maxLng = Math.max(maxLng, lng);
+          minLat = Math.min(minLat, lat);
+          maxLat = Math.max(maxLat, lat);
+        } else if (feature.geometry.type === "Polygon") {
+          feature.geometry.coordinates[0].forEach(coord => {
+            minLng = Math.min(minLng, coord[0]);
+            maxLng = Math.max(maxLng, coord[0]);
+            minLat = Math.min(minLat, coord[1]);
+            maxLat = Math.max(maxLat, coord[1]);
+          });
+        }
+      }
+    });
+    
+    // رسم إطار الخريطة
+    doc.rect(x, y, width, height);
+    
+    // رسم العناصر
+    geoJSON.features.forEach(feature => {
+      if (feature.geometry) {
+        if (feature.geometry.type === "Point") {
+          const [lng, lat] = feature.geometry.coordinates;
+          const screenX = x + ((lng - minLng) / (maxLng - minLng)) * width;
+          const screenY = y + height - ((lat - minLat) / (maxLat - minLat)) * height;
+          doc.circle(screenX, screenY, 1, 'F');
+        }
+      }
+    });
+    
+  } catch (error) {
+    console.error("خطأ في رسم الخريطة:", error);
+  }
+}
+
+/**
+ * تنزيل ملف
+ */
+function downloadFile(content, fileName, contentType) {
+  const blob = new Blob([content], { type: contentType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * تنسيق التاريخ
+ */
+function formatDate() {
+  const now = new Date();
+  return `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+}
+
+/**
+ * تخطي الأحرف الخاصة في XML
+ */
+function escapeXML(str) {
+  if (typeof str !== 'string') return str;
+  return str.replace(/[<>&'"]/g, function (c) {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case "'": return '&apos;';
+      case '"': return '&quot;';
+      default: return c;
+    }
+  });
+}
+
+/**
+ * عرض تنبيه للمستخدم
+ */
+function showAlert(message, type = "info") {
+  // استخدام نظام التنبيهات الموجود أو alert عادي
+  if (typeof showNotification === 'function') {
+    showNotification(message, type);
+  } else {
+    alert(message);
+  }
+  console.log(`${type.toUpperCase()}: ${message}`);
+}
+
+/**
+ * إضافة طبقة مستوردة إلى قائمة الطبقات
  * @param {string} layerName - اسم الطبقة
  * @param {Object} layer - كائن الطبقة
  */
 function addImportedLayerToList(layerName, layer) {
   // الحصول على قائمة الطبقات من الشريط الجانبي
-  const layersList = document.getElementById('layersList');
-  if (!layersList) return;
-  
+  const layersList = document.getElementById("layersList");
+  if (!layersList) {
+    console.warn("لم يتم العثور على قائمة الطبقات");
+    return;
+  }
+
   // إنشاء معرف فريد للطبقة
-  const layerId = 'imported-layer-' + Date.now();
-  
+  const layerId = "imported-layer-" + Date.now();
+
   // حفظ الطبقة في متغير عام للوصول إليها لاحقًا
   window.importedLayers = window.importedLayers || {};
   window.importedLayers[layerId] = layer;
-  
+
   // إنشاء عنصر HTML للطبقة المستوردة
-  const layerItem = document.createElement('div');
-  layerItem.className = 'layer-item imported-layer';
+  const layerItem = document.createElement("div");
+  layerItem.className = "layer-item imported-layer";
   layerItem.innerHTML = `
     <div class="layer-toggle">
       <input type="checkbox" id="${layerId}" checked>
@@ -268,47 +840,52 @@ function addImportedLayerToList(layerName, layer) {
       </button>
     </div>
   `;
-  
+
   // إضافة العنصر إلى القائمة
   layersList.appendChild(layerItem);
-  
+
   // إضافة مستمعات الأحداث
   const checkbox = layerItem.querySelector(`#${layerId}`);
   if (checkbox) {
-    checkbox.addEventListener('change', function() {
+    checkbox.addEventListener("change", function () {
       toggleImportedLayer(layerId, this.checked);
     });
   }
-  
+
   // زر التكبير
   const zoomBtn = layerItem.querySelector('[data-action="zoom"]');
   if (zoomBtn) {
-    zoomBtn.addEventListener('click', function() {
+    zoomBtn.addEventListener("click", function () {
       zoomToImportedLayer(layerId);
     });
   }
-  
+
   // زر الحذف
   const removeBtn = layerItem.querySelector('[data-action="remove"]');
   if (removeBtn) {
-    removeBtn.addEventListener('click', function() {
+    removeBtn.addEventListener("click", function () {
       removeImportedLayer(layerId, layerItem);
       // إزالة الطبقة من قائمة التصدير
-      const exportLayerSelect = document.getElementById('exportLayerSelect');
+      const exportLayerSelect = document.getElementById("exportLayerSelect");
       if (exportLayerSelect) {
-        const opt = exportLayerSelect.querySelector(`option[value="${layerId}"]`);
+        const opt = exportLayerSelect.querySelector(
+          `option[value="${layerId}"]`
+        );
         if (opt) exportLayerSelect.removeChild(opt);
       }
     });
   }
-  
+
   // إضافة الطبقة إلى قائمة التصدير
-  const exportLayerSelect = document.getElementById('exportLayerSelect');
+  const exportLayerSelect = document.getElementById("exportLayerSelect");
   if (exportLayerSelect) {
-    const opt = document.createElement('option');
-    opt.value = layerId;
-    opt.textContent = `${layerName} (مستورد)`;
-    exportLayerSelect.appendChild(opt);
+    // تحقق من عدم وجود الخيار مسبقاً
+    if (!exportLayerSelect.querySelector(`option[value="${layerId}"]`)) {
+      const opt = document.createElement("option");
+      opt.value = layerId;
+      opt.textContent = `${layerName} (مستورد)`;
+      exportLayerSelect.appendChild(opt);
+    }
   }
 }
 
@@ -319,15 +896,15 @@ function addImportedLayerToList(layerName, layer) {
  */
 function toggleImportedLayer(layerId, visible) {
   const layer = window.importedLayers && window.importedLayers[layerId];
-  if (!layer) return;
-  
+  if (!layer || !window.map) return;
+
   if (visible) {
-    if (!map.hasLayer(layer)) {
-      map.addLayer(layer);
+    if (!window.map.hasLayer(layer)) {
+      window.map.addLayer(layer);
     }
   } else {
-    if (map.hasLayer(layer)) {
-      map.removeLayer(layer);
+    if (window.map.hasLayer(layer)) {
+      window.map.removeLayer(layer);
     }
   }
 }
@@ -338,9 +915,11 @@ function toggleImportedLayer(layerId, visible) {
  */
 function zoomToImportedLayer(layerId) {
   const layer = window.importedLayers && window.importedLayers[layerId];
-  if (!layer) return;
-  
-  map.fitBounds(layer.getBounds());
+  if (!layer || !window.map) return;
+
+  if (layer.getBounds) {
+    window.map.fitBounds(layer.getBounds());
+  }
 }
 
 /**
@@ -351,748 +930,27 @@ function zoomToImportedLayer(layerId) {
 function removeImportedLayer(layerId, layerItem) {
   const layer = window.importedLayers && window.importedLayers[layerId];
   if (!layer) return;
-  
+
   // إزالة الطبقة من الخريطة
-  if (map.hasLayer(layer)) {
-    map.removeLayer(layer);
+  if (window.map && window.map.hasLayer && window.map.hasLayer(layer)) {
+    window.map.removeLayer(layer);
   }
-  
+
   // حذف الطبقة من الكائن
   delete window.importedLayers[layerId];
-  
+
   // إزالة العنصر من القائمة
   if (layerItem && layerItem.parentNode) {
     layerItem.parentNode.removeChild(layerItem);
   }
 }
 
-/**
- * تصدير طبقة إلى ملف
- * @param {string} layerName - اسم الطبقة
- * @param {string} format - صيغة التصدير
- */
-function exportLayer(layerName, format) {
-  try {
-    let data;
-    let fileName;
-    let contentType;
-    
-    // الحصول على بيانات الطبقة المطلوبة
-    if (layerName === 'neighborhoods') {
-      if (!window.neighborhoodsData) {
-        throw new Error('بيانات الأحياء غير متوفرة');
-      }
-      data = window.neighborhoodsData;
-      fileName = `aleppo_neighborhoods_${formatDate()}`;
-    } else if (layerName === 'service-sectors') {
-      if (!window.serviceSectorsData) {
-        throw new Error('بيانات القطاعات الخدمية غير متوفرة');
-      }
-      data = window.serviceSectorsData;
-      fileName = `service_directorate_${formatDate()}`;
-    } else if (layerName === 'neighborhood-labels') {
-      if (!window.neighborhoodsData) {
-        throw new Error('بيانات الأحياء غير متوفرة لإنشاء التسميات');
-      }
-      // بناء نقاط GeoJSON لكل حي
-      const features = window.neighborhoodsData.features.map(feature => {
-        let coords = feature.geometry.coordinates[0];
-        let sumLat = 0, sumLng = 0;
-        coords.forEach(coord => {
-          sumLat += coord[1];
-          sumLng += coord[0];
-        });
-        let centerLat = sumLat / coords.length;
-        let centerLng = sumLng / coords.length;
-        let name = feature.properties.Names || feature.properties.name || 'غير معروف';
-        return {
-          type: 'Feature',
-          geometry: { type: 'Point', coordinates: [centerLng, centerLat] },
-          properties: { name }
-        };
-      });
-      data = { type: 'FeatureCollection', features };
-      fileName = `neighborhood_labels_${formatDate()}`;
-    } else if (window.importedLayers && window.importedLayers[layerName]) {
-      // البحث عن الطبقة المستوردة
-      const layer = window.importedLayers[layerName];
-      if (layer && layer.toGeoJSON) {
-        data = layer.toGeoJSON();
-        fileName = `exported_layer_${formatDate()}`;
-      } else {
-        throw new Error('الطبقة المستوردة غير صالحة للتصدير');
-      }
-    } else {
-      throw new Error(`الطبقة "${layerName}" غير متوفرة للتصدير`);
-    }
-    
-    if (!data) {
-      throw new Error('لم يتم العثور على بيانات الطبقة');
-    }
-    
-    // تصدير البيانات بالصيغة المطلوبة
-    if (format === 'geojson') {
-      contentType = 'application/json';
-      data = JSON.stringify(data, null, 2);
-      fileName += '.geojson';
-    } else if (format === 'csv') {
-      contentType = 'text/csv';
-      // تحويل بيانات المسميات إلى CSV
-      if (layerName === 'neighborhood-labels') {
-        let csv = 'name,lat,lng\n';
-        data.features.forEach(f => {
-          csv += `"${f.properties.name}",${f.geometry.coordinates[1]},${f.geometry.coordinates[0]}\n`;
-        });
-        data = csv;
-      } else {
-        // تحويل البيانات إلى CSV (للطبقات الأخرى)
-        data = convertToCSV(data);
-      }
-      fileName += '.csv';
-    } else {
-      throw new Error('صيغة التصدير غير مدعومة');
-    }
-    
-    // إنشاء رابط تنزيل وتفعيله
-    const blob = new Blob([data], { type: contentType });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-  } catch (error) {
-    console.error('خطأ في تصدير الطبقة:', error);
-    alert('حدث خطأ أثناء تصدير الطبقة: ' + error.message);
-  }
-}
-
-/**
- * تنسيق التاريخ الحالي للاستخدام في اسم الملف
- * @return {string} - التاريخ المنسق
- */
-function formatDate() {
-  const now = new Date();
-  return `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}`;
-}
-
-/**
- * تحويل بيانات GeoJSON إلى تنسيق CSV
- * @param {Object} geoJSON - بيانات GeoJSON
- * @return {string} - بيانات CSV
- */
-function convertToCSV(geoJSON) {
-  if (!geoJSON || !geoJSON.features || !geoJSON.features.length) {
-    return '';
-  }
-  
-  // استخراج خصائص العنصر الأول لتحديد العناوين
-  const firstFeature = geoJSON.features[0];
-  const headers = Object.keys(firstFeature.properties);
-  
-  // إضافة أعمدة الإحداثيات
-  headers.push('longitude', 'latitude');
-  
-  // إنشاء سطر العناوين
-  let csv = headers.join(',') + '\n';
-  
-  // إضافة بيانات كل عنصر
-  geoJSON.features.forEach(feature => {
-    const row = [];
-    
-    // إضافة قيم الخصائص
-    headers.forEach(header => {
-      if (header === 'longitude') {
-        // استخراج إحداثيات الطول من الهندسة
-        if (feature.geometry && feature.geometry.type === 'Point') {
-          row.push(feature.geometry.coordinates[0]);
-        } else {
-          row.push('');
-        }
-      } else if (header === 'latitude') {
-        // استخراج إحداثيات العرض من الهندسة
-        if (feature.geometry && feature.geometry.type === 'Point') {
-          row.push(feature.geometry.coordinates[1]);
-        } else {
-          row.push('');
-        }
-      } else {
-        // قيمة الخاصية
-        const value = feature.properties[header] || '';
-        row.push(typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value);
-      }
-    });
-    
-    // إضافة السطر إلى الـ CSV
-    csv += row.join(',') + '\n';
-  });
-  
-  return csv;
-}
-
-/**
- * تصدير نتائج الاستعلام
- */
-function exportQueryResults() {
-  const queryResults = document.getElementById('queryResults');
-  if (!queryResults) return;
-  
-  // التحقق من وجود نتائج
-  if (queryResults.querySelector('.empty-state')) {
-    alert('لا توجد نتائج للتصدير');
-    return;
-  }
-  
-  // تحويل نتائج الاستعلام إلى CSV
-  try {
-    // استرجاع البيانات من نتائج الاستعلام المعروضة
-    const resultItems = queryResults.querySelectorAll('.result-item');
-    if (!resultItems.length) {
-      alert('لا توجد بيانات للتصدير');
-      return;
-    }
-    
-    // استخلاص العناوين من العناصر
-    let csv = '';
-    const headers = ['ID', 'Name', 'Type', 'Details'];
-    csv += headers.join(',') + '\n';
-    
-    // إضافة كل نتيجة
-    resultItems.forEach(item => {
-      const id = item.getAttribute('data-id') || '';
-      const name = item.querySelector('.result-title')?.textContent || '';
-      const type = item.getAttribute('data-type') || '';
-      const details = item.querySelector('.result-details')?.textContent.replace(/,/g, ';') || '';
-      
-      const row = [
-        id,
-        `"${name.replace(/"/g, '""')}"`,
-        type,
-        `"${details.replace(/"/g, '""')}"`
-      ];
-      
-      csv += row.join(',') + '\n';
-    });
-    
-    // إنشاء ملف للتنزيل
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `query_results_${formatDate()}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-  } catch (error) {
-    console.error('خطأ في تصدير نتائج الاستعلام:', error);
-    alert('حدث خطأ أثناء تصدير النتائج: ' + error.message);
-  }
-}
-
-/**
- * طباعة نتائج الاستعلام
- */
-function printQueryResults() {
-  const queryResults = document.getElementById('queryResults');
-  if (!queryResults) return;
-  
-  // التحقق من وجود نتائج
-  if (queryResults.querySelector('.empty-state')) {
-    alert('لا توجد نتائج للطباعة');
-    return;
-  }
-  
-  // إنشاء نافذة الطباعة
-  const printWindow = window.open('', '_blank');
-  if (!printWindow) {
-    alert('يرجى السماح بالنوافذ المنبثقة لهذا الموقع');
-    return;
-  }
-  
-  // إعداد محتوى نافذة الطباعة
-  printWindow.document.write(`
-    <!DOCTYPE html>
-    <html lang="ar" dir="rtl">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>نتائج الاستعلام - تحليل أحياء حلب</title>
-      <style>
-        body {
-          font-family: 'Noto Naskh Arabic', sans-serif;
-          padding: 20px;
-          direction: rtl;
-        }
-        h1 {
-          text-align: center;
-          margin-bottom: 20px;
-        }
-        .result-item {
-          margin-bottom: 15px;
-          padding: 10px;
-          border: 1px solid #ddd;
-          border-radius: 5px;
-        }
-        .result-title {
-          font-weight: bold;
-          font-size: 16px;
-          margin-bottom: 5px;
-        }
-        .result-details {
-          font-size: 14px;
-          color: #555;
-        }
-        .print-footer {
-          margin-top: 30px;
-          text-align: center;
-          font-size: 12px;
-          color: #999;
-        }
-        @media print {
-          body {
-            padding: 0;
-          }
-          .no-print {
-            display: none;
-          }
-        }
-      </style>
-    </head>
-    <body>
-      <h1>نتائج الاستعلام - تحليل أحياء حلب</h1>
-      <div class="results-container">
-        ${queryResults.innerHTML}
-      </div>
-      <div class="print-footer">
-        تم إنشاء هذا التقرير بتاريخ ${new Date().toLocaleDateString('ar-SY')}
-      </div>
-      <div class="no-print">
-        <button onclick="window.print()">طباعة</button>
-        <button onclick="window.close()">إغلاق</button>
-      </div>
-    </body>
-    </html>
-  `);
-  
-  printWindow.document.close();
-}
-
-/**
- * تهيئة واجهة التصفية حسب القطاعات
- */
-function initSectorFilter() {
-  // تعبئة قائمة القطاعات
-  populateSectorFilterSelect();
-  
-  // إضافة المستمع لزر التطبيق
-  const applySectorFilterBtn = document.getElementById('applySectorFilterBtn');
-  if (applySectorFilterBtn) {
-    applySectorFilterBtn.addEventListener('click', function() {
-      filterNeighborhoodsBySector();
-    });
-  }
-  
-  // إضافة المستمع لزر تصدير النتائج المصفاة
-  const exportFilteredBtn = document.getElementById('exportFilteredBtn');
-  if (exportFilteredBtn) {
-    exportFilteredBtn.addEventListener('click', function() {
-      exportFilteredResults();
-    });
-  }
-}
-
-/**
- * تعبئة قائمة القطاعات للتصفية
- */
-function populateSectorFilterSelect() {
-  const sectorFilterSelect = document.getElementById('sectorFilterSelect');
-  if (!sectorFilterSelect) return;
-  
-  // مسح الخيارات السابقة ماعدا الخيار الافتراضي
-  while (sectorFilterSelect.options.length > 1) {
-    sectorFilterSelect.remove(1);
-  }
-  
-  // الحصول على القطاعات من بيانات الأحياء إذا كانت متاحة
-  if (typeof neighborhoodsData !== 'undefined' && neighborhoodsData.features) {
-    // استخراج القطاعات الفريدة
-    const uniqueSectors = new Set();
-    neighborhoodsData.features.forEach(feature => {
-      const sector = feature.properties.Sector_01;
-      if (sector) {
-        uniqueSectors.add(sector);
-      }
-    });
-    
-    // إضافة كل قطاع إلى القائمة
-    uniqueSectors.forEach(sector => {
-      const option = document.createElement('option');
-      option.value = sector;
-      option.textContent = sector;
-      sectorFilterSelect.appendChild(option);
-    });
-  }
-  
-  // إضافة خيارات دوائر الخدمات إذا كانت متاحة
-  if (typeof serviceSectors !== 'undefined' && serviceSectors.length) {
-    // إضافة عنوان المجموعة
-    const optgroup = document.createElement('optgroup');
-    optgroup.label = 'دوائر الخدمات';
-    
-    // إضافة دوائر الخدمات
-    serviceSectors.forEach(sector => {
-      const option = document.createElement('option');
-      option.value = 'service_' + sector.id;
-      option.textContent = sector.name;
-      optgroup.appendChild(option);
-    });
-    
-    sectorFilterSelect.appendChild(optgroup);
-  }
-}
-
-/**
- * تصفية الأحياء حسب القطاع المحدد
- */
-function filterNeighborhoodsBySector() {
-  const sectorFilterSelect = document.getElementById('sectorFilterSelect');
-  const filterResults = document.getElementById('filterResults');
-  
-  if (!sectorFilterSelect || !filterResults) return;
-  
-  const selectedValue = sectorFilterSelect.value;
-  
-  // مسح النتائج السابقة
-  filterResults.innerHTML = '';
-  
-  // إذا لم يتم اختيار قطاع
-  if (!selectedValue) {
-    filterResults.innerHTML = '<div class="empty-state">اختر قطاعًا لعرض الأحياء</div>';
-    return;
-  }
-  
-  // التحقق مما إذا كانت القيمة المحددة هي دائرة خدمات
-  if (selectedValue.startsWith('service_')) {
-    // استخراج معرف دائرة الخدمات
-    const serviceId = parseInt(selectedValue.replace('service_', ''));
-    filterNeighborhoodsByServiceSector(serviceId);
-    return;
-  }
-  
-  // تصفية الأحياء بناءً على القطاع المحدد
-  if (typeof neighborhoodsData !== 'undefined' && neighborhoodsData.features) {
-    // الحصول على الأحياء في القطاع المحدد
-    const filteredNeighborhoods = neighborhoodsData.features.filter(feature => 
-      feature.properties.Sector_01 === selectedValue
-    );
-    
-    // إذا لم يتم العثور على أحياء
-    if (filteredNeighborhoods.length === 0) {
-      filterResults.innerHTML = '<div class="empty-state">لا توجد أحياء في القطاع المحدد</div>';
-      return;
-    }
-    
-    // إنشاء قائمة بالأحياء
-    const resultsList = document.createElement('div');
-    resultsList.className = 'filter-results-list';
-    
-    // إضافة كل حي إلى القائمة
-    filteredNeighborhoods.forEach(neighborhood => {
-      const resultItem = document.createElement('div');
-      resultItem.className = 'filter-result-item';
-      resultItem.setAttribute('data-id', neighborhood.properties.ID);
-      
-      resultItem.innerHTML = `
-        <span>${neighborhood.properties.Names || neighborhood.properties.Name_En || 'حي رقم ' + neighborhood.properties.ID}</span>
-        <button class="zoom-btn" data-id="${neighborhood.properties.ID}" title="التكبير على الحي">
-          <i class="fas fa-search-plus"></i>
-        </button>
-      `;
-      
-      resultsList.appendChild(resultItem);
-      
-      // إضافة مستمع لزر التكبير
-      const zoomBtn = resultItem.querySelector('.zoom-btn');
-      if (zoomBtn) {
-        zoomBtn.addEventListener('click', function() {
-          zoomToNeighborhood(this.getAttribute('data-id'));
-        });
-      }
-    });
-    
-    // إضافة القائمة إلى نتائج التصفية
-    filterResults.appendChild(resultsList);
-    
-    // تسليط الضوء على الأحياء في الخريطة
-    highlightFilteredNeighborhoods(filteredNeighborhoods);
-  } else {
-    filterResults.innerHTML = '<div class="empty-state">بيانات الأحياء غير متاحة</div>';
-  }
-}
-
-/**
- * تصفية الأحياء حسب دائرة الخدمات
- * @param {number} serviceId - معرف دائرة الخدمات
- */
-function filterNeighborhoodsByServiceSector(serviceId) {
-  const filterResults = document.getElementById('filterResults');
-  
-  // التحقق من وجود دائرة الخدمات
-  const serviceSector = serviceSectors.find(s => s.id === serviceId);
-  if (!serviceSector) {
-    filterResults.innerHTML = '<div class="empty-state">لم يتم العثور على دائرة الخدمات</div>';
-    return;
-  }
-  
-  // الحصول على نطاق دائرة الخدمات من طبقة GeoJSON
-  if (typeof serviceSectorsData !== 'undefined' && serviceSectorsData.features) {
-    const serviceSectorFeature = serviceSectorsData.features.find(
-      feature => feature.properties.OBJECTID === serviceId
-    );
-    
-    if (serviceSectorFeature) {
-      // استخدام leaflet لإنشاء حدود الـ bounds
-      try {
-        // إنشاء كائن GeoJSON مؤقت للحصول على الحدود
-        const tempLayer = L.geoJSON({
-          type: 'Feature',
-          geometry: serviceSectorFeature.geometry
-        });
-        
-        // الحصول على حدود دائرة الخدمات
-        const serviceBounds = tempLayer.getBounds();
-        
-        // البحث عن الأحياء الموجودة ضمن حدود دائرة الخدمات
-        const neighborhoodsInService = [];
-        
-        if (typeof neighborhoodsData !== 'undefined' && neighborhoodsData.features) {
-          neighborhoodsData.features.forEach(feature => {
-            // إنشاء كائن GeoJSON مؤقت للحي
-            const neighborhoodLayer = L.geoJSON({
-              type: 'Feature',
-              geometry: feature.geometry
-            });
-            
-            // التحقق من تداخل الحي مع دائرة الخدمات (تقريبي)
-            const neighborhoodBounds = neighborhoodLayer.getBounds();
-            if (serviceBounds.intersects(neighborhoodBounds)) {
-              neighborhoodsInService.push(feature);
-            }
-          });
-        }
-        
-        // عرض الأحياء في القائمة
-        if (neighborhoodsInService.length === 0) {
-          filterResults.innerHTML = `<div class="empty-state">لم يتم العثور على أحياء في دائرة خدمات ${serviceSector.name}</div>`;
-        } else {
-          // إنشاء قائمة بالأحياء
-          const resultsList = document.createElement('div');
-          resultsList.className = 'filter-results-list';
-          
-          // إضافة العنوان
-          const header = document.createElement('div');
-          header.className = 'filter-results-header';
-          header.innerHTML = `<strong>الأحياء في دائرة خدمات ${serviceSector.name}:</strong> (${neighborhoodsInService.length} حي)`;
-          resultsList.appendChild(header);
-          
-          // إضافة كل حي إلى القائمة
-          neighborhoodsInService.forEach(neighborhood => {
-            const resultItem = document.createElement('div');
-            resultItem.className = 'filter-result-item';
-            resultItem.setAttribute('data-id', neighborhood.properties.ID);
-            
-            resultItem.innerHTML = `
-              <span>${neighborhood.properties.Names || neighborhood.properties.Name_En || 'حي رقم ' + neighborhood.properties.ID}</span>
-              <button class="zoom-btn" data-id="${neighborhood.properties.ID}" title="التكبير على الحي">
-                <i class="fas fa-search-plus"></i>
-              </button>
-            `;
-            
-            resultsList.appendChild(resultItem);
-            
-            // إضافة مستمع لزر التكبير
-            const zoomBtn = resultItem.querySelector('.zoom-btn');
-            if (zoomBtn) {
-              zoomBtn.addEventListener('click', function() {
-                zoomToNeighborhood(this.getAttribute('data-id'));
-              });
-            }
-          });
-          
-          // مسح النتائج السابقة وإضافة القائمة الجديدة
-          filterResults.innerHTML = '';
-          filterResults.appendChild(resultsList);
-          
-          // تسليط الضوء على الأحياء في الخريطة
-          highlightFilteredNeighborhoods(neighborhoodsInService);
-          
-          // تسليط الضوء على دائرة الخدمات
-          highlightServiceSector(serviceId);
-        }
-      } catch (error) {
-        console.error('خطأ في تصفية الأحياء حسب دائرة الخدمات:', error);
-        filterResults.innerHTML = `<div class="empty-state">حدث خطأ أثناء تصفية الأحياء: ${error.message}</div>`;
-      }
-    } else {
-      filterResults.innerHTML = '<div class="empty-state">لم يتم العثور على بيانات دائرة الخدمات</div>';
-    }
-  } else {
-    filterResults.innerHTML = '<div class="empty-state">بيانات دوائر الخدمات غير متاحة</div>';
-  }
-}
-
-/**
- * تسليط الضوء على الأحياء المصفاة في الخريطة
- * @param {Array} neighborhoods - قائمة الأحياء المصفاة
- */
-function highlightFilteredNeighborhoods(neighborhoods) {
-  // إزالة التسليط السابق
-  if (window.highlightedFilterLayer && map.hasLayer(window.highlightedFilterLayer)) {
-    map.removeLayer(window.highlightedFilterLayer);
-  }
-  
-  // إنشاء طبقة جديدة للأحياء المسلط عليها الضوء
-  window.highlightedFilterLayer = L.geoJSON({
-    type: 'FeatureCollection',
-    features: neighborhoods
-  }, {
-    style: function() {
-      return {
-        color: '#00ffff',
-        weight: 3,
-        opacity: 1,
-        fillColor: '#00ffff',
-        fillOpacity: 0.3
-      };
-    }
-  }).addTo(map);
-  
-  // التكبير على الأحياء المصفاة
-  map.fitBounds(window.highlightedFilterLayer.getBounds());
-}
-
-/**
- * التكبير على حي محدد
- * @param {string} id - معرف الحي
- */
-function zoomToNeighborhood(id) {
-  if (typeof neighborhoodsData === 'undefined' || !neighborhoodsData.features) {
-    return;
-  }
-  
-  // البحث عن الحي بالمعرف
-  const neighborhood = neighborhoodsData.features.find(
-    feature => feature.properties.ID.toString() === id.toString()
-  );
-  
-  if (!neighborhood) {
-    return;
-  }
-  
-  // إنشاء طبقة مؤقتة للحي
-  const tempLayer = L.geoJSON({
-    type: 'Feature',
-    geometry: neighborhood.geometry
-  });
-  
-  // التكبير على الحي
-  map.fitBounds(tempLayer.getBounds());
-  
-  // تسليط الضوء على الحي لفترة مؤقتة
-  const highlightLayer = L.geoJSON({
-    type: 'Feature',
-    geometry: neighborhood.geometry
-  }, {
-    style: function() {
-      return {
-        color: '#ff00ff',
-        weight: 3,
-        opacity: 1,
-        fillColor: '#ff00ff',
-        fillOpacity: 0.5
-      };
-    }
-  }).addTo(map);
-  
-  // إزالة التسليط بعد 3 ثوانٍ
-  setTimeout(function() {
-    map.removeLayer(highlightLayer);
-  }, 3000);
-}
-
-/**
- * تصدير النتائج المصفاة إلى ملف
- */
-function exportFilteredResults() {
-  const filterResults = document.getElementById('filterResults');
-  
-  if (!filterResults) return;
-  
-  // التحقق من وجود نتائج
-  if (filterResults.querySelector('.empty-state')) {
-    alert('لا توجد نتائج للتصدير');
-    return;
-  }
-  
-  // الحصول على القطاع المحدد
-  const sectorFilterSelect = document.getElementById('sectorFilterSelect');
-  const selectedSector = sectorFilterSelect ? sectorFilterSelect.options[sectorFilterSelect.selectedIndex].text : '';
-  
-  try {
-    // البحث عن الأحياء التي تم تصفيتها
-    const filteredItems = filterResults.querySelectorAll('.filter-result-item');
-    if (!filteredItems.length) {
-      alert('لا توجد بيانات للتصدير');
-      return;
-    }
-    
-    // جمع معرفات الأحياء المصفاة
-    const filteredIds = Array.from(filteredItems).map(item => 
-      item.getAttribute('data-id')
-    ).filter(id => id);
-    
-    // الحصول على بيانات الأحياء المصفاة
-    const filteredNeighborhoods = [];
-    if (typeof neighborhoodsData !== 'undefined' && neighborhoodsData.features) {
-      neighborhoodsData.features.forEach(feature => {
-        if (filteredIds.includes(feature.properties.ID.toString())) {
-          filteredNeighborhoods.push(feature);
-        }
-      });
-    }
-    
-    // إنشاء كائن GeoJSON للتصدير
-    const exportData = {
-      type: 'FeatureCollection',
-      features: filteredNeighborhoods
-    };
-    
-    // تصدير البيانات كملف GeoJSON
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `filtered_neighborhoods_${selectedSector.replace(/\s+/g, '_')}_${formatDate()}.geojson`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-  } catch (error) {
-    console.error('خطأ في تصدير النتائج المصفاة:', error);
-    alert('حدث خطأ أثناء تصدير النتائج: ' + error.message);
-  }
-}
-
-// كشف عن الوظائف المطلوبة للاستخدام العام
-window.importFile = importFile;
+// تصدير الوظائف للاستخدام العام
 window.exportLayer = exportLayer;
-window.exportQueryResults = exportQueryResults;
-window.printQueryResults = printQueryResults;
-window.filterNeighborhoodsBySector = filterNeighborhoodsBySector;
-window.exportFilteredResults = exportFilteredResults;
+window.initImportExport = initImportExport;
+window.addImportedLayerToList = addImportedLayerToList;
+window.toggleImportedLayer = toggleImportedLayer;
+window.zoomToImportedLayer = zoomToImportedLayer;
+window.removeImportedLayer = removeImportedLayer;
+
+console.log("تم تحميل وحدة الاستيراد والتصدير بنجاح");

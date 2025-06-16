@@ -12,7 +12,7 @@
 
 .neighborhood-popup h3 {
   margin: 0 !important;
-  font-size: 14px !important;
+  font-size: 18px !important;
   color: #fff !important;
   padding: 14px 15px !important;
   background: linear-gradient(135deg, #007bff, #3066ff) !important;
@@ -25,7 +25,7 @@
 }
 
 .neighborhood-popup h3::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -36,13 +36,18 @@
 }
 
 .neighborhood-popup h3::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.7), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.7),
+    transparent
+  );
 }
 
 .popup-info {
@@ -122,13 +127,18 @@
 }
 
 .view-details-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   transition: 0.5s;
 }
 
@@ -163,46 +173,6 @@
   }
 }
 
-/* Override Leaflet's default popup styles */
-.leaflet-popup-content-wrapper {
-  border-radius: 10px !important;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  width:250px;
-}
-
-.leaflet-popup-content {
-  margin: 0 !important;
-  width: auto !important;
-  padding: 0 !important;
-}
-
-.leaflet-popup-tip {
-  background: #3066ff !important;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2) !important;
-}
-
-.leaflet-popup-tip-container {
-  margin-top: -1px;
-}
-
-.leaflet-popup-close-button {
-  padding: 8px !important;
-  color: rgba(255,255,255,0.8) !important;
-  font-size: 20px !important;
-  font-weight: normal !important;
-  top: 8px !important;
-  right: 8px !important;
-  z-index: 10;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  transition: all 0.2s ease;
-}
-
-.leaflet-popup-close-button:hover {
-  color: #ffffff !important;
-}
-
 /* Info panel show/hide animation */
 #info-panel {
   transform: translateX(100%);
@@ -212,4 +182,52 @@
 #info-panel.show {
   transform: translateX(0);
   padding: 0;
+}
+
+/* City info panel styles */
+.city-info-panel {
+  font-family: 'Noto Naskh Arabic', sans-serif;
+  direction: rtl;
+}
+
+.city-info-panel .info-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(245, 158, 11, 0.05);
+  border-right: 4px solid #f59e0b;
+  border-radius: 8px;
+}
+
+.city-info-panel .info-section h4 {
+  margin: 0 0 10px 0;
+  color: #f59e0b;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.city-info-panel .info-section h4 i {
+  color: #f59e0b;
+  font-size: 18px;
+}
+
+.city-info-panel .info-section p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.city-info-panel .info-section strong {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+/* Enhanced popup styles for Aleppo city */
+.neighborhood-popup .view-details-btn:hover {
+  background: linear-gradient(to right, #d97706, #b45309) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }

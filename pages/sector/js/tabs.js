@@ -1,14 +1,10 @@
-/**
- * tabs.js
- * يدير وظائف التبويب وعرض البيانات
- */
-
-// متغيرات عامة
-let selectedSectorId = null;
-let selectedSectorName = null;
+// Removed neighborhood-related variables
+let selectedCityId = null; // إضافة متغير للمدينة
+let selectedCityName = null; // إضافة متغير لاسم المدينة
 let isFirstSelection = true;
 let isDragging = false;
 let dragOffset = { x: 0, y: 0 };
+
 
 // بيانات نموذجية للجداول - تشمل بيانات مدينة حلب
 const tablesData = {
@@ -611,212 +607,191 @@ const tablesData = {
       share_type: ["التنمية الاقتصادية", "الخدمات الصحية"],
     },
   },
+  "التدخلات_الإنسانية": {
+    fields: [
+      { name: "معرف السجل", key: "id", editable: false },
+      { name: "اسم المدينة", key: "city", editable: false },
+      {
+        name: "نوع التدخل",
+        key: "intervention_type",
+        editable: true,
+        type: "select",
+        options: [
+          "مساعدات غذائية",
+          "مساعدات طبية",
+          "مساعدات سكنية",
+          "مساعدات تعليمية",
+          "مساعدات اقتصادية",
+        ],
+      },
+      {
+        name: "حالة التدخل",
+        key: "intervention_status",
+        editable: true,
+        type: "select",
+        options: [
+          "مكتمل",
+          "قيد التنفيذ",
+          "مخطط",
+          "معلق",
+        ],
+      },
+      {
+        name: "وصف التدخل",
+        key: "intervention_description",
+        editable: true,
+        type: "textarea",
+        placeholder: "ادخل وصف التدخل",
+      },
+    ],
+    sampleData: {
+      id: "1",
+      city: "حلب",
+      intervention_type: "مساعدات غذائية",
+      intervention_status: "قيد التنفيذ",
+      intervention_description: "",
+    },
+  },
+  "أعضاء لجنة الحي": {
+    fields: [
+      { name: "معرف السجل", key: "id", editable: false },
+      { name: "اسم المدينة", key: "city", editable: false },
+      {
+        name: "عدد الأعضاء",
+        key: "members_count",
+        editable: true,
+        type: "number",
+        placeholder: "ادخل عدد الأعضاء",
+        clickable: true,
+      },
+      {
+        name: "رئيس اللجنة",
+        key: "committee_head",
+        editable: true,
+        type: "text",
+        placeholder: "ادخل اسم رئيس اللجنة",
+      },
+      {
+        name: "رقم هاتف الرئيس",
+        key: "head_phone",
+        editable: true,
+        type: "tel",
+        placeholder: "ادخل رقم الهاتف",
+      },
+    ],
+    sampleData: {
+      id: "1",
+      city: "حلب",
+      members_count: "5",
+      committee_head: "",
+      head_phone: "",
+    },
+    membersData: [
+      { name: "أحمد محمد", phone: "+963-123-456-789", location: "الحي القديم" },
+      { name: "فاطمة علي", phone: "+963-987-654-321", location: "الحي الجديد" },
+      { name: "محمد حسن", phone: "+963-555-123-456", location: "الحي الشرقي" },
+      { name: "عائشة أحمد", phone: "+963-777-888-999", location: "الحي الغربي" },
+      { name: "علي محمود", phone: "+963-111-222-333", location: "الحي الشمالي" },
+    ],
+  },
+  "معلومات التواصل مع لجنة الحي": {
+    fields: [
+      { name: "معرف السجل", key: "id", editable: false },
+      { name: "اسم المدينة", key: "city", editable: false },
+      {
+        name: "عنوان المكتب",
+        key: "office_address",
+        editable: true,
+        type: "text",
+        placeholder: "ادخل عنوان المكتب",
+      },
+      {
+        name: "رقم الهاتف الرئيسي",
+        key: "main_phone",
+        editable: true,
+        type: "tel",
+        placeholder: "ادخل رقم الهاتف الرئيسي",
+      },
+      {
+        name: "البريد الإلكتروني",
+        key: "email",
+        editable: true,
+        type: "email",
+        placeholder: "ادخل البريد الإلكتروني",
+      },
+      {
+        name: "ساعات العمل",
+        key: "working_hours",
+        editable: true,
+        type: "text",
+        placeholder: "ادخل ساعات العمل",
+      },
+    ],
+    sampleData: {
+      id: "1",
+      city: "حلب",
+      office_address: "",
+      main_phone: "",
+      email: "",
+      working_hours: "",
+    },
+  },
+  "لجان_التنمية": {
+    fields: [
+      { name: "معرف السجل", key: "id", editable: false },
+      { name: "اسم المدينة", key: "city", editable: false },
+      {
+        name: "اسم لجنة التنمية",
+        key: "development_committee_name",
+        editable: true,
+        type: "text",
+        placeholder: "ادخل اسم لجنة التنمية",
+      },
+      {
+        name: "نوع اللجنة",
+        key: "committee_type",
+        editable: true,
+        type: "select",
+        options: [
+          "لجنة تنمية اقتصادية",
+          "لجنة تنمية اجتماعية",
+          "لجنة تنمية بيئية",
+          "لجنة تنمية تعليمية",
+          "لجنة تنمية صحية",
+        ],
+      },
+      {
+        name: "عدد الأعضاء",
+        key: "members_count",
+        editable: true,
+        type: "number",
+        placeholder: "ادخل عدد الأعضاء",
+      },
+      {
+        name: "حالة اللجنة",
+        key: "committee_status",
+        editable: true,
+        type: "select",
+        options: [
+          "نشطة",
+          "معلقة",
+          "منحلة",
+          "قيد التأسيس",
+        ],
+      },
+    ],
+    sampleData: {
+      id: "1",
+      city: "حلب",
+      development_committee_name: "",
+      committee_type: "لجنة تنمية اقتصادية",
+      members_count: "",
+      committee_status: "نشطة",
+    },
+  },
 };
 
-// تحديث أسماء الجداول بالعربي
-const tableNames = {
-  التدخلات_الإنسانية: [
-    "معرف التدخل الانساني",
-    "معرف القطاع",
-    "انواع التدخل الانساني",
-    "ملاحظات",
-  ],
-  الأسواق_الأساسية: [
-    "معرف السوق الاساسي",
-    "معرف القطاع",
-    "نوع السوق",
-    "منطقة الخدمة",
-    "عدد المحلات",
-    "حالة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  إدارة_النفايات_الصلبة: [
-    "معرف إدارة النفايات الصلبة",
-    "معرف القطاع",
-    "مواقع التفريغ العشوائي",
-    "مستوى نظافة الشوارع",
-    "مكافحة القوارض",
-    "ازالة الانقاض",
-    "حالة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  الحدائق_والمساحات_المعيشية: [
-    "معرف الحدائق والمساحات المعيشية",
-    "معرف القطاع",
-    "منطقة الخدمة",
-    "توفر المياه",
-    "الاضاءة",
-    "أثاث الحدائق",
-    "حالة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  المرافق_التعليمية: [
-    "معرف المرافق التعليمية",
-    "معرف القطاع",
-    "اسم المرفق",
-    "منطقة الخدمة",
-    "حالة البنية التحتية",
-    "حالة الموظفين",
-    "حالة المستهلكات",
-    "حالة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  المراكز_الصحية: [
-    "معرف المراكز الصحية",
-    "معرف القطاع",
-    "اسم المركز",
-    "منطقة الخدمة",
-    "حالة البنية التحتية",
-    "حالة الموظفين",
-    "حالة المستهلكات",
-    "حالة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  شبكة_الكهرباء: [
-    "معرف شبكة الكهرباء",
-    "معرف القطاع",
-    "مستوى ضرر المحول",
-    "مستوى ضرر الخط",
-    "حالة الشبكة",
-    "وصف الاحتياجات",
-  ],
-  شبكة_الاتصالات: [
-    "معرف شبكة الاتصالات",
-    "معرف القطاع",
-    "مستوى ضرر الخط الارضي",
-    "مستوى ضرر البرج",
-    "حالة الشبكة",
-    "وصف الاحتياجات",
-  ],
-  إمدادات_المياه: [
-    "معرف إمدادات المياه",
-    "معرف القطاع",
-    "متصل بالشبكة",
-    "مستوى ضرر الامداد الرئيسي",
-    "مستوى ضرر الامداد الفرعي",
-    "مستوى تشغيل الامداد الرئيسي",
-    "مستوى تشغيل الامداد الفرعي",
-    "نسبة الضرر",
-    "نسبة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  شبكة_الصرف_الصحي: [
-    "معرف شبكة الصرف الصحي",
-    "معرف القطاع",
-    "متصل بالشبكة",
-    "مستوى ضرر التجميع الرئيسي",
-    "مستوى ضرر التجميع الفرعي",
-    "مستوى تشغيل التجميع الرئيسي",
-    "مستوى تشغيل التجميع الفرعي",
-    "نسبة الضرر",
-    "نسبة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  أضرار_الإسكان: [
-    "معرف أضرار الاسكان",
-    "معرف القطاع",
-    "إجمالي الوحدات",
-    "نسبة الوحدات الشاغرة",
-    "نسبة الضرر الشديد",
-    "نسبة الضرر المتوسط",
-    "نسبة الضرر الخفيف",
-    "نسبة الوحدات بدون ضرر",
-    "وصف الاحتياجات",
-  ],
-  النسيج_الحضري: [
-    "معرف النسيج الحضري",
-    "معرف القطاع",
-    "المنطقة الحضرية",
-    "حالة النسيج الحضري",
-    "نسبة الاسكان غير الرسمي",
-    "نسبة الاسكان العالي الارتفاع",
-    "نسبة الاسكان التقليدي",
-    "ملاحظات",
-  ],
-  التغيرات_السكانية: [
-    "معرف التغيرات السكانية",
-    "معرف القطاع",
-    "عدد السكان",
-    "نسبة المهاجرين",
-    "نسبة العائدين",
-    "وصف الاحتياجات",
-  ],
-  "أعضاء لجنة الحي": [
-    "معرف مميز",
-    "معرف القطاع",
-    "اسم المختار",
-    "عدد الأعضاء",
-    "اسم أمين السر",
-    "نسبة الذكور من الأعضاء",
-  ],
-};
-
-// تعريف أسماء التابات الجديدة حسب الجداول المطلوبة
-const tabNames = [
-  "التزود الأساسي",
-  "الخدمة الصحية المركزية",
-  "البنية التحتية",
-  "الخدمات الإدارية",
-  "الخدمات الأخرى",
-  "قسم النظافة",
-  "المنشآت والفعاليات الاقتصادية الأساسية",
-  "الاقتصاد الزراعي",
-  "تحليل علاقة الشركاء الفاعلين",
-];
-
-// تعريف أسماء التابات الجديدة حسب الجداول المطلوبة مع الأيقونات
-const tabIcons = [
-  "fa-tint", // التزود الأساسي
-  "fa-hospital", // الخدمة الصحية المركزية
-  "fa-industry", // البنية التحتية
-  "fa-briefcase", // الخدمات الإدارية
-  "fa-cogs", // الخدمات الأخرى
-  "fa-broom", // قسم النظافة
-  "fa-store", // المنشآت والفعاليات الاقتصادية الأساسية
-  "fa-tractor", // الاقتصاد الزراعي
-  "fa-users", // تحليل علاقة الشركاء الفاعلين
-];
-
-// دالة إنشاء التابات في الواجهة
-function renderTabs() {
-  const tabsContainer = document.querySelector(".tabs-container");
-  if (!tabsContainer) return;
-
-  // أنشئ عنصر tabs-header إذا لم يكن موجوداً
-  let tabsHeader = tabsContainer.querySelector(".tabs-header");
-  if (!tabsHeader) {
-    tabsHeader = document.createElement("div");
-    tabsHeader.className = "tabs-header";
-    tabsContainer.appendChild(tabsHeader);
-  }
-  tabsHeader.innerHTML = "";
-
-  tabNames.forEach((name, idx) => {
-    const tabBtn = document.createElement("button");
-    tabBtn.className = "tab-button" + (idx === 0 ? " active" : "");
-    // أضف الأيقونة
-    const icon = document.createElement("i");
-    icon.className = `fas ${tabIcons[idx]} tab-icon`;
-    tabBtn.appendChild(icon);
-    // أضف النص
-    const span = document.createElement("span");
-    span.textContent = name;
-    tabBtn.appendChild(span);
-    tabBtn.setAttribute("data-tab", name);
-    tabBtn.onclick = function () {
-      document
-        .querySelectorAll(".tab-button")
-        .forEach((btn) => btn.classList.remove("active"));
-      this.classList.add("active");
-      // هنا يمكنك استدعاء دالة تحميل بيانات التاب حسب الاسم
-      // loadTabData(name);
-    };
-    tabsHeader.appendChild(tabBtn);
-  });
-}
-
-// استدعاء الدالة عند تحميل الصفحة أو عند الحاجة
-renderTabs();
+window.tablesData = tablesData;
 
 // تهيئة التبويبات عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", function () {
@@ -825,14 +800,13 @@ document.addEventListener("DOMContentLoaded", function () {
   setupDraggablePanel();
   createModalBackdrop();
   createWarningMessage();
-  createTabsToggleButton();
 });
 
 function createWarningMessage() {
   const warningDiv = document.createElement("div");
   warningDiv.className = "warning-message";
   warningDiv.id = "warningMessage";
-  warningDiv.textContent = "يرجى اختيار قطاع من الخريطة أولاً";
+  warningDiv.textContent = "يرجى اختيار حي من الخريطة أولاً";
   document.body.appendChild(warningDiv);
 }
 
@@ -922,8 +896,11 @@ function stopDragging() {
 
 function createModalBackdrop() {
   const backdrop = document.createElement("div");
-  backdrop.className = "modal-backdrop";
+  backdrop.className = "modal-backdrop fade";
   document.body.appendChild(backdrop);
+  // إخفاء الـ backdrop تلقائيًا عند فتح info-panel
+  backdrop.style.display = "none";
+  // backdrop.classList.add("show");
 
   backdrop.addEventListener("click", function () {
     hideInfoPanel();
@@ -942,20 +919,27 @@ function initializeTabs() {
       this.classList.add("active");
 
       // Render the info panel with the selected tab's data
-      if (selectedSectorId) {
-        renderInfoPanel(tabId, selectedSectorId);
+      if (selectedCityId) {
+        renderInfoPanelForCity(tabId, selectedCityId);
       } else {
-        // If no sector is selected, show empty state or default content
+        // If no city is selected, show empty state
         const infoPanel = document.getElementById("info-panel");
         const tabContent = infoPanel.querySelector(".tab-content");
         if (tabContent) {
           tabContent.innerHTML = `
             <div class="empty-state">
-              <p>يرجى تحديد قطاع لعرض البيانات</p>
+              <p>يرجى تحديد مدينة لعرض البيانات</p>
             </div>
           `;
         }
       }
+
+      // Update navigation button states after tab change
+      setTimeout(() => {
+        if (window.updateNavigationButtons) {
+          window.updateNavigationButtons();
+        }
+      }, 100);
     });
   });
 }
@@ -997,13 +981,55 @@ function setupEventListeners() {
   }
 }
 
-function renderInfoPanel(tabId, sectorId) {
+// Removed renderInfoPanel function for neighborhoods
+
+function hideInfoPanel() {
+  const infoPanel = document.getElementById("info-panel");
+  const backdrop = document.getElementById("modal-backdrop");
+
+  if (infoPanel) {
+    infoPanel.classList.remove("show");
+  }
+
+  if (backdrop) {
+    backdrop.classList.remove("show");
+  }
+}
+
+// Removed neighborhood selection function
+
+// Function to be called when Aleppo city is selected
+function setSelectedCity(id, name) {
+  selectedCityId = id;
+  selectedCityName = name;
+  isFirstSelection = false;
+
+  // If there's an active tab, update its content for city
+  const activeTab = document.querySelector(".tab-button.active");
+  if (activeTab) {
+    const tabId = activeTab.getAttribute("data-tab");
+    renderInfoPanelForCity(tabId, id);
+  } else {
+    // If no active tab, show the first tab
+    const firstTab = document.querySelector(".tab-button");
+    if (firstTab) {
+      firstTab.click();
+    }
+  }
+}
+
+// Function to render info panel for city (similar to neighborhood)
+function renderInfoPanelForCity(tabId, cityId) {
   const infoPanel = document.getElementById("info-panel");
   const infoTitle = document.getElementById("info-title");
   const infoContent = document.getElementById("info-content");
-  const backdrop = document.querySelector(".modal-backdrop");
+  const backdrop = document.getElementById("modal-backdrop");
 
   if (!infoPanel || !infoTitle || !infoContent) return;
+
+  // Show the backdrop and panel
+  if (backdrop) backdrop.classList.add("show");
+  infoPanel.classList.add("show");
 
   const table = tablesData[tabId];
   if (!table) return;
@@ -1024,7 +1050,7 @@ function renderInfoPanel(tabId, sectorId) {
 
   // Set the title and clear content
   infoTitle.innerHTML = `
-    <span>${tabName} - ${selectedSectorName}</span>
+    <span>${tabName} - ${selectedCityName}</span>
   `;
   infoContent.innerHTML = "";
 
@@ -1035,9 +1061,10 @@ function renderInfoPanel(tabId, sectorId) {
   // Create table with border
   const tableElement = document.createElement("table");
   tableElement.className = "info-table";
-  tableElement.style.width = "100%";
-  tableElement.style.borderCollapse = "collapse";
-  tableElement.style.marginBottom = "1rem";
+  tableElement.style.border = "2px solid #ddd";
+  tableElement.style.borderRadius = "8px";
+  tableElement.style.overflow = "hidden";
+  tableElement.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
 
   // Create table header
   const tableHead = document.createElement("thead");
@@ -1046,19 +1073,21 @@ function renderInfoPanel(tabId, sectorId) {
   // Create header cells
   const identifierHeader = document.createElement("th");
   identifierHeader.textContent = "المعرف";
-  identifierHeader.style.width = "40%";
-  identifierHeader.style.textAlign = "right";
+  identifierHeader.style.fontSize = "1.1rem";
+  identifierHeader.style.fontWeight = "bold";
   identifierHeader.style.padding = "12px 15px";
-  identifierHeader.style.backgroundColor = "#1e40af";
+  identifierHeader.style.backgroundColor = "#ff7800"; // Orange color for city
   identifierHeader.style.color = "white";
+  identifierHeader.style.textAlign = "center";
 
   const valueHeader = document.createElement("th");
   valueHeader.textContent = "القيمة";
-  valueHeader.style.width = "60%";
-  valueHeader.style.textAlign = "right";
+  valueHeader.style.fontSize = "1.1rem";
+  valueHeader.style.fontWeight = "bold";
   valueHeader.style.padding = "12px 15px";
-  valueHeader.style.backgroundColor = "#1e40af";
+  valueHeader.style.backgroundColor = "#ff7800"; // Orange color for city
   valueHeader.style.color = "white";
+  valueHeader.style.textAlign = "center";
 
   // Add header cells to header row
   headerRow.appendChild(identifierHeader);
@@ -1073,17 +1102,18 @@ function renderInfoPanel(tabId, sectorId) {
   // Create table body
   const tableBody = document.createElement("tbody");
 
-  // Get sector-specific data
-  const sectorData = getSectorData(sectorId, tabId);
-
   // Create fields as table rows
   table.fields.forEach((field, index) => {
     // Create table row
     const row = document.createElement("tr");
-    row.style.borderBottom = "1px solid #ddd";
+
+    // Add zebra striping for better readability
     if (index % 2 === 0) {
       row.style.backgroundColor = "#f8fafc";
     }
+
+    // Get current language
+    const currentLang = document.documentElement.lang || "ar";
 
     // Get field name based on current language
     let fieldName = field.name;
@@ -1095,225 +1125,192 @@ function renderInfoPanel(tabId, sectorId) {
       fieldName = window.fieldTranslations[currentLang][field.key];
     }
 
-    // Create label cell (right)
+    // Create label cell
     const labelCell = document.createElement("td");
     labelCell.textContent = fieldName;
-    labelCell.style.fontWeight = "600";
-    labelCell.style.padding = "2px 10px";
-    labelCell.style.borderRight = "1px solid #ddd";
-    labelCell.style.textAlign = "right";
 
-    // Create value cell (left)
+    // Create value cell
     const valueCell = document.createElement("td");
-    valueCell.style.padding = "2px 10px";
 
     // Create input element
     let inputElement;
-    if (field.type === "select") {
-      inputElement = document.createElement("select");
-      inputElement.className = "editable-field";
-      field.options.forEach((option) => {
-        const optionElement = document.createElement("option");
-        optionElement.value = option;
-        optionElement.textContent = option;
-        inputElement.appendChild(optionElement);
-      });
-    } else if (field.type === "multiselect") {
-      // Create multiselect container
-      inputElement = document.createElement("div");
-      inputElement.className = "multiselect-container editable-field";
-      inputElement.style.border = "1px solid #e2e8f0";
-      inputElement.style.borderRadius = "4px";
-      inputElement.style.padding = "6px 8px";
-      inputElement.style.minHeight = "40px";
-      inputElement.style.backgroundColor = "#fff";
-      inputElement.style.cursor = "pointer";
-      inputElement.style.position = "relative";
-      inputElement.style.fontSize = "0.9rem";
-      inputElement.style.transition = "all 0.2s ease";
-      inputElement.style.fontFamily = '"Noto Naskh Arabic", sans-serif';
+    const currentValue = table.sampleData[field.key] || "";
 
-      // Add dropdown arrow like select elements
-      inputElement.style.backgroundImage =
-        'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23555" d="M2 4l4 4 4-4z"/></svg>\')';
-      inputElement.style.backgroundRepeat = "no-repeat";
-      inputElement.style.backgroundPosition = "right 8px center";
-      inputElement.style.paddingRight = "24px";
+    if (field.editable) {
+      if (field.type === "select" && Array.isArray(field.options)) {
+        inputElement = document.createElement("select");
+        inputElement.className = "editable-field";
 
-      // Create selected items display
-      const selectedDisplay = document.createElement("div");
-      selectedDisplay.className = "selected-items";
-      selectedDisplay.style.display = "flex";
-      selectedDisplay.style.flexWrap = "wrap";
-      selectedDisplay.style.gap = "4px";
-      selectedDisplay.style.minHeight = "24px";
-      selectedDisplay.style.marginRight = "20px"; // Space for arrow
+        // Add an empty option first
+        const emptyOption = document.createElement("option");
+        emptyOption.value = "";
+        emptyOption.textContent = "-- اختر --";
+        inputElement.appendChild(emptyOption);
 
-      // Add placeholder
-      const placeholder = document.createElement("span");
-      placeholder.className = "multiselect-placeholder";
-      placeholder.textContent = "اختر من القائمة...";
-      placeholder.style.color = "#9ca3af";
-      placeholder.style.fontSize = "0.9rem";
-      placeholder.style.fontFamily = '"Noto Naskh Arabic", sans-serif';
-      placeholder.style.lineHeight = "24px";
-      selectedDisplay.appendChild(placeholder);
-
-      // Create dropdown
-      const dropdown = document.createElement("div");
-      dropdown.className = "multiselect-dropdown";
-      dropdown.style.position = "absolute";
-      dropdown.style.bottom = "100%";
-      dropdown.style.left = "0";
-      dropdown.style.right = "0";
-      dropdown.style.backgroundColor = "#fff";
-      dropdown.style.border = "1px solid #e2e8f0";
-      dropdown.style.borderBottom = "none";
-      dropdown.style.borderRadius = "4px 4px 0 0";
-      dropdown.style.maxHeight = "200px";
-      dropdown.style.overflowY = "auto";
-      dropdown.style.display = "none";
-      dropdown.style.zIndex = "1000";
-      dropdown.style.boxShadow = "0 -2px 8px rgba(0, 0, 0, 0.1)";
-
-      // Add options to dropdown
-      field.options.forEach((option) => {
-        const optionElement = document.createElement("div");
-        optionElement.className = "multiselect-option";
-        optionElement.textContent = option;
-        optionElement.style.padding = "8px 12px";
-        optionElement.style.cursor = "pointer";
-        optionElement.style.borderBottom = "1px solid #f0f0f0";
-        optionElement.style.fontSize = "0.9rem";
-        optionElement.style.fontFamily = '"Noto Naskh Arabic", sans-serif';
-        optionElement.style.textAlign = "right";
-        optionElement.style.direction = "rtl";
-        optionElement.style.backgroundColor = "#fff";
-        optionElement.style.transition = "background-color 0.2s ease";
-
-        optionElement.addEventListener("mouseenter", function () {
-          if (!this.classList.contains("selected")) {
-            this.style.backgroundColor = "#f3f4f6";
+        // Add all other options
+        field.options.forEach((option) => {
+          const optionElement = document.createElement("option");
+          optionElement.value = option;
+          optionElement.textContent = option;
+          if (option === currentValue) {
+            optionElement.selected = true;
           }
+          inputElement.appendChild(optionElement);
         });
+      } else if (field.type === "textarea") {
+        inputElement = document.createElement("textarea");
+        inputElement.className = "editable-field";
+        inputElement.value = currentValue;
+      } else {
+        inputElement = document.createElement("input");
+        inputElement.className = "editable-field";
 
-        optionElement.addEventListener("mouseleave", function () {
-          if (!this.classList.contains("selected")) {
-            this.style.backgroundColor = "#fff";
-          }
-        });
-
-        optionElement.addEventListener("click", function (e) {
-          e.stopPropagation();
-          toggleOption(option, inputElement, field);
-        });
-
-        dropdown.appendChild(optionElement);
-      });
-
-      // Toggle dropdown on click
-      inputElement.addEventListener("click", function (e) {
-        e.stopPropagation();
-        const isVisible = dropdown.style.display === "block";
-
-        if (!isVisible) {
-          // Calculate available space above and below
-          const rect = inputElement.getBoundingClientRect();
-          const spaceAbove = rect.top;
-          const spaceBelow = window.innerHeight - rect.bottom;
-          const dropdownHeight = 200; // max height
-
-          // Decide whether to show above or below
-          // Default: show above unless there's not enough space
-          if (spaceAbove > 100) {
-            // Show above (preferred)
-            dropdown.style.bottom = "100%";
-            dropdown.style.top = "auto";
-            dropdown.style.borderBottom = "none";
-            dropdown.style.borderTop = "1px solid #e2e8f0";
-            dropdown.style.borderRadius = "4px 4px 0 0";
-            dropdown.style.boxShadow = "0 -2px 8px rgba(0, 0, 0, 0.1)";
-          } else {
-            // Show below (fallback)
-            dropdown.style.top = "100%";
-            dropdown.style.bottom = "auto";
-            dropdown.style.borderTop = "none";
-            dropdown.style.borderBottom = "1px solid #e2e8f0";
-            dropdown.style.borderRadius = "0 0 4px 4px";
-            dropdown.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.1)";
-          }
-
-          dropdown.style.display = "block";
-
-          // Add focus effect
-          this.style.borderColor = "#3b82f6";
-          this.style.boxShadow = "0 0 0 2px rgba(59, 130, 246, 0.3)";
-        } else {
-          dropdown.style.display = "none";
+        switch (field.type) {
+          case "number":
+            inputElement.type = "number";
+            if (field.min !== undefined) inputElement.min = field.min;
+            if (field.max !== undefined) inputElement.max = field.max;
+            break;
+          case "date":
+            inputElement.type = "date";
+            break;
+          case "tel":
+            inputElement.type = "tel";
+            if (field.pattern) inputElement.pattern = field.pattern;
+            break;
+          case "email":
+            inputElement.type = "email";
+            break;
+          case "time":
+            inputElement.type = "time";
+            break;
+          default:
+            inputElement.type = "text";
         }
-      });
-
-      // Close dropdown when clicking outside
-      document.addEventListener("click", function () {
-        dropdown.style.display = "none";
-        // Remove focus effect
-        inputElement.style.borderColor = "#e2e8f0";
-        inputElement.style.boxShadow = "none";
-      });
-
-      inputElement.appendChild(selectedDisplay);
-      inputElement.appendChild(dropdown);
-
-      // Initialize with sector data or sample data
-      const fieldValues =
-        (sectorData && sectorData[field.key]) ||
-        table.sampleData[field.key] ||
-        [];
-      if (Array.isArray(fieldValues)) {
-        fieldValues.forEach((value) => {
-          addSelectedItem(value, inputElement, field);
-        });
+        inputElement.value = currentValue;
       }
-    } else if (field.type === "textarea") {
-      inputElement = document.createElement("textarea");
-      inputElement.className = "editable-field";
-      inputElement.rows = 3;
     } else {
       inputElement = document.createElement("input");
-      inputElement.type = field.type || "text";
+      inputElement.type = "text";
       inputElement.className = "editable-field";
+      inputElement.readOnly = true;
+      inputElement.style.backgroundColor = "#f0f0f0";
+      inputElement.style.cursor = "not-allowed";
+      inputElement.value = currentValue;
     }
 
-    // Set input properties
-    if (field.type !== "multiselect") {
-      // Use sector-specific data if available, otherwise use sample data
-      const fieldValue =
-        (sectorData && sectorData[field.key]) ||
-        table.sampleData[field.key] ||
-        "";
-      inputElement.value = fieldValue;
-      inputElement.style.width = "100%";
-      inputElement.style.padding = "8px";
-      inputElement.style.border = "1px solid #ddd";
-      inputElement.style.borderRadius = "4px";
-
-      // Add placeholder if specified and value is empty
-      if (field.placeholder && (!fieldValue || fieldValue === "")) {
-        inputElement.placeholder = field.placeholder;
-      }
-    } else {
-      inputElement.style.width = "100%";
-    }
-
-    inputElement.dataset.field = field.key;
     inputElement.dataset.table = tabId;
+    inputElement.dataset.field = field.key;
+    inputElement.dataset.changed = "false";
 
-    if (field.editable === false) {
-      inputElement.setAttribute("readonly", true);
+    // Set city name for city field
+    if (field.key === "city") {
+      inputElement.value = selectedCityName || "حلب";
+      inputElement.readOnly = true;
+      inputElement.style.backgroundColor = "#f0f0f0";
+      inputElement.style.cursor = "not-allowed";
     }
 
-    // Add input to value cell
-    valueCell.appendChild(inputElement);
+    // Set city ID for id field
+    if (field.key === "id") {
+      inputElement.value = cityId;
+      inputElement.readOnly = true;
+      inputElement.style.backgroundColor = "#f0f0f0";
+      inputElement.style.cursor = "not-allowed";
+    }
+
+    // Add change event listener for editable fields
+    if (field.editable) {
+      inputElement.addEventListener("change", function () {
+        this.dataset.changed = "true";
+
+        // تحديث القيم في واجهة حساب المركبة إذا كانت مفتوحة
+        updateCompositeFromInfoPanel(this);
+      });
+
+      // إضافة event listener للتحديث الفوري أثناء الكتابة (للحقول النصية والرقمية)
+      if (field.type !== "select") {
+        inputElement.addEventListener("input", function () {
+          updateCompositeFromInfoPanel(this);
+        });
+      }
+    }
+
+    // إضافة وظيفة النقر لحقل "عدد الأعضاء" في تبويب "أعضاء لجنة الحي"
+    if (
+      field.clickable &&
+      field.key === "members_count" &&
+      tabId === "أعضاء لجنة الحي"
+    ) {
+      // إنشاء حاوية للحقل مع الأيقونة
+      const clickableContainer = document.createElement("div");
+      clickableContainer.style.position = "relative";
+      clickableContainer.style.display = "inline-block";
+      clickableContainer.style.width = "100%";
+      clickableContainer.className = "clickable-field";
+
+      // تغيير شكل الحقل ليبدو قابلاً للنقر
+      inputElement.style.cursor = "pointer";
+      inputElement.style.backgroundColor = "#e3f2fd";
+      inputElement.style.border = "2px solid #2196f3";
+      inputElement.style.borderRadius = "6px";
+      inputElement.style.transition = "all 0.3s ease";
+      inputElement.style.paddingRight = "35px";
+      inputElement.style.fontWeight = "600";
+      inputElement.style.color = "#1565c0";
+      inputElement.title = "انقر لعرض تفاصيل الأعضاء";
+
+      // إضافة تأثيرات hover
+      inputElement.addEventListener("mouseenter", function () {
+        this.style.backgroundColor = "#bbdefb";
+        this.style.transform = "scale(1.02)";
+        this.style.boxShadow = "0 4px 12px rgba(33, 150, 243, 0.4)";
+        this.style.borderColor = "#1976d2";
+      });
+
+      inputElement.addEventListener("mouseleave", function () {
+        this.style.backgroundColor = "#e3f2fd";
+        this.style.transform = "scale(1)";
+        this.style.boxShadow = "0 2px 6px rgba(33, 150, 243, 0.2)";
+        this.style.borderColor = "#2196f3";
+      });
+
+      // إضافة وظيفة النقر
+      inputElement.addEventListener("click", function (e) {
+        e.preventDefault();
+        showMembersDetailsForCity(tabId, cityId);
+      });
+
+      // إضافة الحقل إلى الحاوية
+      clickableContainer.appendChild(inputElement);
+
+      // استبدال الحقل الأصلي بالحاوية الجديدة
+      valueCell.innerHTML = "";
+      valueCell.appendChild(clickableContainer);
+    } else {
+      // إضافة الحقل العادي
+      valueCell.appendChild(inputElement);
+    }
+
+    // دالة مساعدة لتحديث واجهة حساب المركبة
+    function updateCompositeFromInfoPanel(inputElement) {
+      if (typeof window.updateCompositeValuesFromInfoPanel === "function") {
+        // تحديث البيانات في tablesData
+        const currentTabId = inputElement.dataset.table;
+        const currentFieldKey = inputElement.dataset.field;
+        if (
+          window.tablesData &&
+          window.tablesData[currentTabId] &&
+          window.tablesData[currentTabId].sampleData
+        ) {
+          window.tablesData[currentTabId].sampleData[currentFieldKey] =
+            inputElement.value;
+        }
+
+        // تحديث واجهة حساب المركبة
+        window.updateCompositeValuesFromInfoPanel();
+      }
+    }
 
     // Add cells to row
     row.appendChild(labelCell);
@@ -1335,185 +1332,69 @@ function renderInfoPanel(tabId, sectorId) {
   // Add button group
   const buttonGroup = document.createElement("div");
   buttonGroup.className = "button-group";
-
-  // تطبيق تنسيق موحد لحاوية الأزرار
+  buttonGroup.style.marginTop = "20px";
+  buttonGroup.style.padding = "15px";
+  buttonGroup.style.backgroundColor = "#f8fafc";
+  buttonGroup.style.borderTop = "1px solid #ddd";
+  buttonGroup.style.borderRadius = "0 0 8px 8px";
   buttonGroup.style.display = "flex";
   buttonGroup.style.justifyContent = "center";
   buttonGroup.style.alignItems = "center";
-  buttonGroup.style.gap = "10px";
-  buttonGroup.style.padding = "15px 0";
-  buttonGroup.style.borderTop = "1px solid #e0e0e0";
-  buttonGroup.style.marginTop = "15px";
-  buttonGroup.style.direction = "ltr"; // لضمان ترتيب الأزرار من اليسار لليمين
+  buttonGroup.style.gap = "12px";
 
   // Dynamic label based on language
   const lang = document.documentElement.lang || "ar";
 
-  // دالة لتطبيق التنسيق الموحد على الأزرار
-  function applyUniformButtonStyling(button) {
-    button.style.width = "50px";
-    button.style.height = "50px";
-    button.style.padding = "0";
-    button.style.margin = "0 2px";
-    button.style.border = "none";
-    button.style.borderRadius = "8px";
-    button.style.cursor = "pointer";
-    button.style.fontSize = "18px";
-    button.style.fontWeight = "bold";
-    button.style.display = "flex";
-    button.style.alignItems = "center";
-    button.style.justifyContent = "center";
-    button.style.transition = "all 0.3s ease";
-    button.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.15)";
-    button.style.position = "relative";
-    button.style.overflow = "hidden";
-
-    // إضافة تأثيرات hover
-    button.addEventListener("mouseenter", function () {
-      if (!this.disabled) {
-        this.style.transform = "translateY(-2px)";
-        this.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.25)";
-      }
-    });
-
-    button.addEventListener("mouseleave", function () {
-      if (!this.disabled) {
-        this.style.transform = "translateY(0)";
-        this.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.15)";
-      }
-    });
-
-    // تطبيق تنسيق الأزرار المعطلة
-    const originalDisabled =
-      Object.getOwnPropertyDescriptor(button, "disabled") ||
-      Object.getOwnPropertyDescriptor(HTMLButtonElement.prototype, "disabled");
-
-    Object.defineProperty(button, "disabled", {
-      get: function () {
-        return originalDisabled.get
-          ? originalDisabled.get.call(this)
-          : this._disabled;
-      },
-      set: function (value) {
-        if (originalDisabled.set) {
-          originalDisabled.set.call(this, value);
-        } else {
-          this._disabled = value;
-        }
-
-        if (value) {
-          this.style.opacity = "0.5";
-          this.style.cursor = "not-allowed";
-          this.style.transform = "translateY(0)";
-          this.style.boxShadow = "0 1px 3px rgba(0, 0, 0, 0.1)";
-        } else {
-          this.style.opacity = "1";
-          this.style.cursor = "pointer";
-          this.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.15)";
-        }
-      },
-      configurable: true,
-    });
-  }
-
-  // Add Previous button (left-aligned, icon only, square design)
+  // Add Previous button
   const previousButton = document.createElement("button");
   previousButton.id = "previous-tab";
   previousButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
   previousButton.title = lang === "ar" ? "التبويب السابق" : "Previous Tab";
   previousButton.setAttribute("aria-label", previousButton.title);
 
-  // تطبيق التنسيق الموحد
-  applyUniformButtonStyling(previousButton);
-  previousButton.style.backgroundColor = "#6c757d";
-  previousButton.style.color = "white";
-
-  // إضافة tooltip محسن
-  previousButton.style.position = "relative";
-  const prevTooltip = document.createElement("div");
-  prevTooltip.textContent = previousButton.title;
-  prevTooltip.style.cssText = `
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.8);
-    color: white;
-    padding: 5px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-    z-index: 1000;
-  `;
-  previousButton.appendChild(prevTooltip);
-
-  previousButton.addEventListener("mouseenter", function () {
-    prevTooltip.style.opacity = "1";
-  });
-
-  previousButton.addEventListener("mouseleave", function () {
-    prevTooltip.style.opacity = "0";
-  });
-  previousButton.addEventListener("click", function () {
-    // Find the previous tab
+  // Previous button functionality
+  previousButton.addEventListener("click", function (e) {
+    e.preventDefault();
     const activeTab = document.querySelector(".tab-button.active");
     if (activeTab) {
       let prevTab = activeTab.previousElementSibling;
-      // Skip non-tab-button siblings
       while (prevTab && !prevTab.classList.contains("tab-button")) {
         prevTab = prevTab.previousElementSibling;
       }
       if (prevTab && prevTab.classList.contains("tab-button")) {
         prevTab.click();
-        // Update button states after tab change
-        setTimeout(updateButtonStates, 100);
       }
     }
   });
 
-  // Add save button (center-aligned, icon only, square design)
+  // Add Next button
+  const nextButton = document.createElement("button");
+  nextButton.id = "next-tab";
+  nextButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+  nextButton.title = lang === "ar" ? "التبويب التالي" : "Next Tab";
+  nextButton.setAttribute("aria-label", nextButton.title);
+
+  // Next button functionality
+  nextButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    const activeTab = document.querySelector(".tab-button.active");
+    if (activeTab) {
+      let nextTab = activeTab.nextElementSibling;
+      while (nextTab && !nextTab.classList.contains("tab-button")) {
+        nextTab = nextTab.nextElementSibling;
+      }
+      if (nextTab && nextTab.classList.contains("tab-button")) {
+        nextTab.click();
+      }
+    }
+  });
+
+  // Add save button
   const saveButton = document.createElement("button");
   saveButton.id = "save-changes";
   saveButton.innerHTML = '<i class="fas fa-save"></i>';
   saveButton.title = lang === "ar" ? "حفظ التغييرات" : "Save Changes";
   saveButton.setAttribute("aria-label", saveButton.title);
-
-  // تطبيق التنسيق الموحد
-  applyUniformButtonStyling(saveButton);
-  saveButton.style.backgroundColor = "#28a745";
-  saveButton.style.color = "white";
-
-  // إضافة tooltip محسن
-  const saveTooltip = document.createElement("div");
-  saveTooltip.textContent = saveButton.title;
-  saveTooltip.style.cssText = `
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.8);
-    color: white;
-    padding: 5px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-    z-index: 1000;
-  `;
-  saveButton.appendChild(saveTooltip);
-
-  saveButton.addEventListener("mouseenter", function () {
-    saveTooltip.style.opacity = "1";
-  });
-
-  saveButton.addEventListener("mouseleave", function () {
-    saveTooltip.style.opacity = "0";
-  });
   saveButton.addEventListener("click", function () {
     const inputs = document.querySelectorAll(".editable-field");
     const changes = [];
@@ -1530,395 +1411,646 @@ function renderInfoPanel(tabId, sectorId) {
 
     if (changes.length > 0) {
       console.log("التغييرات المحفوظة:", changes);
-
-      // Show success notification
-      showSuccessNotification(
-        lang === "ar" ? "تم حفظ التغييرات بنجاح" : "Changes saved successfully"
-      );
+      alert("تم حفظ التغييرات بنجاح");
 
       // Reset the changed flag
       inputs.forEach((input) => (input.dataset.changed = "false"));
     } else {
-      showSuccessNotification(
-        lang === "ar" ? "لم يتم إجراء أي تغييرات" : "No changes to save"
-      );
+      alert("لم يتم إجراء أي تغييرات");
     }
   });
 
-  // Add Next button (right-aligned, icon only, square design)
-  const nextButton = document.createElement("button");
-  nextButton.id = "next-tab";
-  nextButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
-  nextButton.title = lang === "ar" ? "التبويب التالي" : "Next Tab";
-  nextButton.setAttribute("aria-label", nextButton.title);
-
-  // تطبيق التنسيق الموحد
-  applyUniformButtonStyling(nextButton);
-  nextButton.style.backgroundColor = "#007bff";
-  nextButton.style.color = "white";
-
-  // إضافة tooltip محسن
-  const nextTooltip = document.createElement("div");
-  nextTooltip.textContent = nextButton.title;
-  nextTooltip.style.cssText = `
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.8);
-    color: white;
-    padding: 5px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-    z-index: 1000;
-  `;
-  nextButton.appendChild(nextTooltip);
-
-  nextButton.addEventListener("mouseenter", function () {
-    nextTooltip.style.opacity = "1";
-  });
-
-  nextButton.addEventListener("mouseleave", function () {
-    nextTooltip.style.opacity = "0";
-  });
-  nextButton.addEventListener("click", function () {
-    // Find the next tab
+  // Function to update button states
+  window.updateNavigationButtons = function () {
     const activeTab = document.querySelector(".tab-button.active");
-    if (activeTab) {
-      let nextTab = activeTab.nextElementSibling;
-      // Skip non-tab-button siblings
-      while (nextTab && !nextTab.classList.contains("tab-button")) {
-        nextTab = nextTab.nextElementSibling;
+    if (!activeTab) return;
+
+    const allTabs = document.querySelectorAll(".tab-button");
+    const currentIndex = Array.from(allTabs).indexOf(activeTab);
+    const isLastTab = currentIndex === allTabs.length - 1;
+
+    const prevBtn = document.getElementById("previous-tab");
+    if (prevBtn) {
+      if (currentIndex === 0) {
+        prevBtn.style.opacity = "0.5";
+        prevBtn.style.cursor = "not-allowed";
+        prevBtn.disabled = true;
+      } else {
+        prevBtn.style.opacity = "1";
+        prevBtn.style.cursor = "pointer";
+        prevBtn.disabled = false;
       }
-      if (nextTab && nextTab.classList.contains("tab-button")) {
-        nextTab.click();
-        // Update button states after tab change
-        setTimeout(updateButtonStates, 100);
-      }
-      // Remove the else block that was showing Update All button
     }
-  });
 
-  // Check if this is the last tab to show Update All button
+    const nextBtn = document.getElementById("next-tab");
+    if (nextBtn) {
+      if (isLastTab) {
+        nextBtn.style.opacity = "0.5";
+        nextBtn.style.cursor = "not-allowed";
+        nextBtn.disabled = true;
+      } else {
+        nextBtn.style.opacity = "1";
+        nextBtn.style.cursor = "pointer";
+        nextBtn.disabled = false;
+      }
+    }
+
+    // Show/hide update all button based on whether this is the last tab
+    const updateAllBtn = document.getElementById("update-all-btn");
+    if (updateAllBtn) {
+      updateAllBtn.style.display = isLastTab ? "flex" : "none";
+    }
+  };
+
+  // Initial button state update
+  setTimeout(() => {
+    if (window.updateNavigationButtons) {
+      window.updateNavigationButtons();
+    }
+  }, 100);
+
+  // Check if this is the last tab
+  const allTabs = document.querySelectorAll(".tab-button");
   const activeTab = document.querySelector(".tab-button.active");
-  const isFirstTab = activeTab && !activeTab.previousElementSibling;
-  const isLastTab = activeTab && !activeTab.nextElementSibling;
+  const currentIndex = Array.from(allTabs).indexOf(activeTab);
+  const isLastTab = currentIndex === allTabs.length - 1;
 
-  // Disable/enable buttons based on position
-  if (isFirstTab) {
-    previousButton.disabled = true;
-  }
+  // Define the last 3 tabs
+  const lastThreeTabs = [
+    "أعضاء لجنة الحي",
+    "معلومات التواصل مع لجنة الحي",
+    "لجان_التنمية",
+  ];
 
+  // Check if this is the last tab to add the Update All button
   if (isLastTab) {
-    nextButton.disabled = true;
-
-    // Add Update All button (special red button for last tab)
     const updateAllButton = document.createElement("button");
     updateAllButton.id = "update-all-btn";
-    updateAllButton.innerHTML = '<i class="fas fa-database"></i>';
-    updateAllButton.title = lang === "ar" ? "تحديث الجميع" : "Update All";
+    updateAllButton.innerHTML = lang === "ar" 
+      ? '<i class="fas fa-sync-alt"></i> تحديث الكل'
+      : '<i class="fas fa-sync-alt"></i> Update All';
+    updateAllButton.title = lang === "ar" ? "تحديث الكل" : "Update All";
     updateAllButton.setAttribute("aria-label", updateAllButton.title);
 
-    // تطبيق التنسيق الموحد
-    applyUniformButtonStyling(updateAllButton);
-    updateAllButton.style.backgroundColor = "#dc3545";
+    updateAllButton.style.flex = "1";
+    updateAllButton.style.height = "44px";
+    updateAllButton.style.border = "none";
+    updateAllButton.style.borderRadius = "6px";
+    updateAllButton.style.fontSize = "1rem";
+    updateAllButton.style.fontWeight = "600";
+    updateAllButton.style.cursor = "pointer";
+    updateAllButton.style.transition = "all 0.2s ease";
+    updateAllButton.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
+    updateAllButton.style.textAlign = "center";
+    updateAllButton.style.backgroundColor = "#28a745";
     updateAllButton.style.color = "white";
 
-    // إضافة tooltip محسن
-    const updateTooltip = document.createElement("div");
-    updateTooltip.textContent = updateAllButton.title;
-    updateTooltip.style.cssText = `
-      position: absolute;
-      bottom: 120%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.8);
-      color: white;
-      padding: 5px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-      z-index: 1000;
-    `;
-    updateAllButton.appendChild(updateTooltip);
-
     updateAllButton.addEventListener("mouseenter", function () {
-      updateTooltip.style.opacity = "1";
+      this.style.backgroundColor = "#218838";
+      this.style.transform = "translateY(-1px)";
+      this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.15)";
     });
 
     updateAllButton.addEventListener("mouseleave", function () {
-      updateTooltip.style.opacity = "0";
-    });
-    updateAllButton.addEventListener("click", function (ev) {
-      ev.preventDefault();
-      showUpdateAllModal(lang);
+      this.style.backgroundColor = "#28a745";
+      this.style.transform = "translateY(0)";
+      this.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
     });
 
-    // Add buttons to button group in order: Previous, Save, Update All, Next
-    buttonGroup.appendChild(nextButton);
+    updateAllButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      showCityUpdateAllConfirmation(lang);
+    });
+
+    // Add buttons to button group: Previous, Save, Update All, Next
+    buttonGroup.appendChild(previousButton);
     buttonGroup.appendChild(saveButton);
     buttonGroup.appendChild(updateAllButton);
-    buttonGroup.appendChild(previousButton);
-  } else {
-    // Add buttons to button group in order: Previous, Save, Next (default layout)
     buttonGroup.appendChild(nextButton);
-    buttonGroup.appendChild(saveButton);
+  } else {
+    // For all other tabs (not last tab), show normal navigation buttons
     buttonGroup.appendChild(previousButton);
+    buttonGroup.appendChild(saveButton);
+    buttonGroup.appendChild(nextButton);
   }
+
+  if (lastThreeTabs.includes(tabId)) {
+    const browseButton = document.createElement("button");
+    browseButton.id = "browse-btn";
+    browseButton.innerHTML = '<i class="fas fa-search"></i>';
+
+    let browseText = "استعراض";
+    if (
+      window.translations &&
+      window.translations[lang] &&
+      window.translations[lang].browseBtn
+    ) {
+      browseText = window.translations[lang].browseBtn;
+    } else if (lang === "en") {
+      browseText = "Browse";
+    }
+
+    browseButton.title = browseText;
+    browseButton.setAttribute("aria-label", browseText);
+
+    browseButton.style.flex = "1";
+    browseButton.style.height = "44px";
+    browseButton.style.border = "none";
+    browseButton.style.borderRadius = "6px";
+    browseButton.style.fontSize = "1rem";
+    browseButton.style.fontWeight = "600";
+    browseButton.style.cursor = "pointer";
+    browseButton.style.transition = "all 0.2s ease";
+    browseButton.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
+    browseButton.style.textAlign = "center";
+    browseButton.style.backgroundColor = "#17a2b8";
+    browseButton.style.color = "white";
+
+    browseButton.addEventListener("mouseenter", function () {
+      this.style.backgroundColor = "#138496";
+      this.style.transform = "translateY(-1px)";
+      this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.15)";
+    });
+
+    browseButton.addEventListener("mouseleave", function () {
+      this.style.backgroundColor = "#17a2b8";
+      this.style.transform = "translateY(0)";
+      this.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
+    });
+
+    browseButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (tabId === "لجان_التنمية") {
+        window.location.href = "../developmentCommitteesManagement.html";
+      } else {
+        window.location.href = "../neighborhoodCommitteesManagement.html";
+      }
+    });
+
+    buttonGroup.appendChild(previousButton);
+    buttonGroup.appendChild(saveButton);
+    buttonGroup.appendChild(browseButton);
+    buttonGroup.appendChild(nextButton);
+  }
+
+  // Add button group to info content
   infoContent.appendChild(buttonGroup);
 
-  // Show the panel
-  infoPanel.classList.add("show");
-  if (backdrop) backdrop.classList.add("show");
-
-  // Update button states when tabs change
-  updateButtonStates();
+  // Show the modal and backdrop
+  requestAnimationFrame(() => {
+    backdrop.classList.add("show");
+    infoPanel.classList.add("show");
+  });
 }
 
-// Function to update button states based on current tab position
-function updateButtonStates() {
-  const activeTab = document.querySelector(".tab-button.active");
-  const previousBtn = document.getElementById("previous-tab");
-  const nextBtn = document.getElementById("next-tab");
-
-  if (!activeTab || !previousBtn || !nextBtn) return;
-
-  // Check if this is the first tab
-  let prevTab = activeTab.previousElementSibling;
-  while (prevTab && !prevTab.classList.contains("tab-button")) {
-    prevTab = prevTab.previousElementSibling;
-  }
-  const isFirstTab = !prevTab;
-
-  // Check if this is the last tab
-  let nextTab = activeTab.nextElementSibling;
-  while (nextTab && !nextTab.classList.contains("tab-button")) {
-    nextTab = nextTab.nextElementSibling;
-  }
-  const isLastTab = !nextTab;
-
-  // Update button states
-  previousBtn.disabled = isFirstTab;
-  nextBtn.disabled = isLastTab;
-}
-
-function hideInfoPanel() {
+// Function to show members details for city
+function showMembersDetailsForCity(tabId, cityId) {
   const infoPanel = document.getElementById("info-panel");
-  const backdrop = document.querySelector(".modal-backdrop");
+  const infoTitle = document.getElementById("info-title");
+  const infoContent = document.getElementById("info-content");
 
-  if (infoPanel) {
-    infoPanel.classList.remove("show");
-  }
+  if (!infoPanel || !infoTitle || !infoContent) return;
 
-  if (backdrop) {
-    backdrop.classList.remove("show");
-  }
-}
-
-// Function to be called when a sector is selected
-function setSelectedSector(id, name) {
-  selectedSectorId = id;
-  selectedSectorName = name;
-  isFirstSelection = false;
-
-  // If there's an active tab, update its content
-  const activeTab = document.querySelector(".tab-button.active");
-  if (activeTab) {
-    const tabId = activeTab.getAttribute("data-tab");
-    renderInfoPanel(tabId, id);
-  }
-}
-
-// دالة للحصول على بيانات حسب نوع القطاع
-function getSectorData(sectorId, tabId) {
-  // إذا كان القطاع هو مدينة حلب، استخدم بيانات خاصة
-  if (sectorId === "aleppo-city") {
-    return getAleppoCityData(tabId);
-  }
-
-  // إذا كان قطاع عادي، استخدم البيانات النموذجية
   const table = tablesData[tabId];
-  if (table && table.sampleData) {
-    return { ...table.sampleData, city: selectedSectorName };
-  }
+  if (!table || !table.membersData) return;
 
-  return null;
-}
+  // update the title
+  infoTitle.innerHTML = `
+    <span>تفاصيل أعضاء لجنة المدينة - ${selectedCityName}</span>
+  `;
 
-// دالة للحصول على بيانات مدينة حلب
-function getAleppoCityData(tabId) {
-  const aleppoCityData = {
-    "التزود الأساسي": {
-      id: "aleppo-001",
-      city: "مدينة حلب",
-      supply_type: "المواد الغذائية الأساسية",
-      operation_status: "متوفر بشكل اعتيادي",
-      priority: "1",
-      need_description: "الوضع العام للتزود الأساسي في مدينة حلب مستقر نسبياً",
-    },
-    "الخدمة الصحية المركزية": {
-      id: "aleppo-002",
-      city: "مدينة حلب",
-      health_facility: "المشفى المركزي (الوطني)",
-      construction_status: "متضرر جزئيا",
-      building_status: "متضرر بشكل خفيف",
-      workers_status: "متاح",
-      consumables_status: "متاح بحدود",
-      operation_status: "يعمل بشكل مقبول",
-      priority: "1",
-      need_description:
-        "تحتاج المشافي المركزية في حلب إلى تطوير وتحديث المعدات الطبية",
-    },
-    "البنية التحتية": {
-      id: "aleppo-003",
-      city: "مدينة حلب",
-      infrastructure_facility: "مديرية الكهرباء",
-      construction_status: "متضرر جزئيا",
-      workers_status: "متاح بحدود",
-      consumables_status: "متاح بحدود",
-      operation_status: "يعمل بشكل متقطع",
-      priority: "1",
-      need_description: "شبكة الكهرباء في حلب تحتاج إلى إعادة تأهيل شاملة",
-    },
-    "الخدمات الإدارية": {
-      id: "aleppo-004",
-      city: "مدينة حلب",
-      administrative_service: "مديرية السجل المدني",
-      construction_status: "غير متضرر",
-      workers_status: "متاح",
-      consumables_status: "متاح",
-      operation_status: "يعمل بشكل اعتيادي",
-      priority: "2",
-      need_description: "الخدمات الإدارية تعمل بكفاءة جيدة",
-    },
-    "الخدمات الأخرى": {
-      id: "aleppo-005",
-      city: "مدينة حلب",
-      other_service: "سوق الهال المركزي",
-      construction_status: "متضرر جزئيا",
-      workers_status: "متاح",
-      consumables_status: "متاح",
-      operation_status: "يعمل بشكل اعتيادي",
-      priority: "2",
-      need_description: "الأسواق المركزية تحتاج إلى تطوير وتحديث",
-    },
-    "قسم النظافة": {
-      id: "aleppo-006",
-      city: "مدينة حلب",
-      technical_staff_status: "كادر فني متاح بحدود",
-      machinery_status: "آليات متوفرة جزئياً",
-      rubble_status: "إزالة الأنقاض مستمرة",
-      need_description: "تحتاج حلب إلى تعزيز قسم النظافة بآليات ومعدات حديثة",
-    },
-    "المنشآت والفعاليات الاقتصادية الأساسية": {
-      id: "aleppo-007",
-      city: "مدينة حلب",
-      facility_name: "المنطقة الصناعية الشيخ نجار",
-      facility_type: "منطقة صناعية",
-      construction_status: "متضرر جزئيا",
-      workers_status: "متاح بحدود",
-      consumables_status: "متاح بحدود",
-      operation_status: "يعمل بشكل متقطع",
-      priority: "1",
-      need_description: "المناطق الصناعية في حلب تحتاج إلى إعادة إعمار وتطوير",
-    },
-    "الاقتصاد الزراعي": {
-      id: "aleppo-008",
-      city: "مدينة حلب",
-      planted_area: "15000",
-      working_families: "2500",
-      main_agriculture_type: "الزراعة المختلطة والبساتين",
-      irrigation_methods: "الري بالرش والتنقيط",
-      animal_production: "الأغنام والماعز",
-      product_disposal: "الأسواق المحلية والتصدير",
-      need_description:
-        "القطاع الزراعي في حلب يحتاج إلى دعم التسويق وتطوير طرق الري",
-    },
-    "تحليل علاقة الشركاء الفاعلين": {
-      id: "aleppo-009",
-      city: "مدينة حلب",
-      potential_partner: "منظمات دولية",
-      share_type: ["شراكة", "تشاور", "مراقبة"],
-    },
-  };
+  // clear the current content
+  infoContent.innerHTML = "";
 
-  return aleppoCityData[tabId] || null;
-}
+  // create an info message
+  const infoMessage = document.createElement("div");
+  infoMessage.style.backgroundColor = "#fff3cd";
+  infoMessage.style.border = "1px solid #ff7800";
+  infoMessage.style.borderRadius = "8px";
+  infoMessage.style.padding = "15px";
+  infoMessage.style.margin = "20px";
+  infoMessage.style.textAlign = "center";
+  infoMessage.style.color = "#856404";
+  infoMessage.style.fontWeight = "600";
+  infoMessage.innerHTML = `
+    <i class="fas fa-info-circle" style="margin-left: 8px;"></i>
+    قائمة بجميع أعضاء لجنة المدينة مع معلومات التواصل
+    <br>
+    <span style="font-size: 0.9rem; margin-top: 5px; display: inline-block;">
+      <i class="fas fa-users" style="margin-left: 5px;"></i>
+      إجمالي الأعضاء: ${table.membersData.length} اعضاء
+    </span>
+  `;
 
-/**
- * إنشاء زر التبديل للتبويبات
- * يضيف زر دائري في أعلى حاوية التبويبات للطي والتوسيع
- */
-function createTabsToggleButton() {
-  // Find the footer
-  const footer = document.getElementById("mainFooter");
-  // إنشاء زر التبديل
-  const toggleButton = document.createElement("div");
-  toggleButton.className = "tabs-toggle-btn collapsed"; // إضافة فئة collapsed بشكل افتراضي
-  toggleButton.innerHTML = '<i class="fas fa-chevron-up"></i>'; // سهم لأعلى للإشارة إلى إمكانية التوسيع
-  toggleButton.title = "طي/توسيع التبويبات";
+  // create a table container
+  const tableContainer = document.createElement("div");
+  tableContainer.className = "members-table-container";
+  tableContainer.style.padding = "0 20px 20px 20px";
 
-  // إضافة مستمع حدث النقر
-  toggleButton.addEventListener("click", function () {
-    toggleTabsContainer();
+  // create the table
+  const tableElement = document.createElement("table");
+  tableElement.className = "info-table members-table";
+  tableElement.style.border = "2px solid #ddd";
+  tableElement.style.borderRadius = "8px";
+  tableElement.style.overflow = "hidden";
+  tableElement.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+  tableElement.style.width = "100%";
+
+  // create the table header
+  const tableHead = document.createElement("thead");
+  const headerRow = document.createElement("tr");
+
+  const headers = ["اسم العضو", "رقم الهاتف", "مكان التواجد"];
+  headers.forEach((headerText) => {
+    const th = document.createElement("th");
+    th.textContent = headerText;
+    th.style.fontSize = "1.1rem";
+    th.style.fontWeight = "bold";
+    th.style.padding = "12px 15px";
+    th.style.backgroundColor = "#ff7800"; // Orange for city
+    th.style.color = "white";
+    th.style.textAlign = "center";
+    th.style.borderBottom = "2px solid #ddd";
+    headerRow.appendChild(th);
   });
 
-  // إنشاء حاوية للزر إذا لم تكن موجودة
-  let toggleBtnContainer = document.querySelector(".tabs-toggle-btn-container");
-  if (!toggleBtnContainer) {
-    toggleBtnContainer = document.createElement("div");
-    toggleBtnContainer.className = "tabs-toggle-btn-container";
-    // ضع الحاوية قبل الفوتر مباشرة
-    if (footer && footer.parentNode) {
-      footer.parentNode.insertBefore(toggleBtnContainer, footer);
-    } else {
-      document.body.appendChild(toggleBtnContainer);
-    }
-  }
-  // أضف الزر إلى الحاوية
-  toggleBtnContainer.appendChild(toggleButton);
+  tableHead.appendChild(headerRow);
+  tableElement.appendChild(tableHead);
 
-  // جعل tabs-container مطوياً بشكل افتراضي
-  const tabsContainer = document.querySelector(".tabs-container");
-  if (tabsContainer) {
-    tabsContainer.classList.add("collapsed");
-  }
+  // create the table body
+  const tableBody = document.createElement("tbody");
+
+  table.membersData.forEach((member, index) => {
+    const row = document.createElement("tr");
+
+    // add the zebra striping effect
+    if (index % 2 === 0) {
+      row.style.backgroundColor = "#f8fafc";
+    }
+
+    // add the hover effect
+    row.addEventListener("mouseenter", function () {
+      this.style.backgroundColor = "#fff3cd";
+    });
+
+    row.addEventListener("mouseleave", function () {
+      this.style.backgroundColor = index % 2 === 0 ? "#f8fafc" : "white";
+    });
+
+    // create the data cells
+    const nameCell = document.createElement("td");
+    nameCell.textContent = member.name;
+    nameCell.style.padding = "12px 15px";
+    nameCell.style.borderBottom = "1px solid #e5e7eb";
+    nameCell.style.fontWeight = "600";
+
+    const phoneCell = document.createElement("td");
+    phoneCell.style.padding = "12px 15px";
+    phoneCell.style.borderBottom = "1px solid #e5e7eb";
+    phoneCell.style.direction = "ltr";
+    phoneCell.style.textAlign = "center";
+
+    // create the phone link
+    const phoneLink = document.createElement("a");
+    phoneLink.href = `tel:${member.phone}`;
+    phoneLink.innerHTML = `<i class="fas fa-phone" style="margin-left: 5px; font-size: 0.9rem;"></i>${member.phone}`;
+    phoneLink.style.color = "#ff7800";
+    phoneLink.style.textDecoration = "none";
+    phoneLink.style.fontWeight = "600";
+    phoneLink.style.transition = "all 0.2s ease";
+    phoneLink.style.display = "inline-flex";
+    phoneLink.style.alignItems = "center";
+    phoneLink.title = "انقر للاتصال";
+
+    phoneLink.addEventListener("mouseenter", function () {
+      this.style.color = "#e56b00";
+      this.style.textDecoration = "underline";
+    });
+
+    phoneLink.addEventListener("mouseleave", function () {
+      this.style.color = "#ff7800";
+      this.style.textDecoration = "none";
+    });
+
+    phoneCell.appendChild(phoneLink);
+
+    const locationCell = document.createElement("td");
+    locationCell.textContent = member.location;
+    locationCell.style.padding = "12px 15px";
+    locationCell.style.borderBottom = "1px solid #e5e7eb";
+
+    row.appendChild(nameCell);
+    row.appendChild(phoneCell);
+    row.appendChild(locationCell);
+
+    tableBody.appendChild(row);
+  });
+
+  tableElement.appendChild(tableBody);
+  tableContainer.appendChild(tableElement);
+
+  // add the back button
+  const backButtonContainer = document.createElement("div");
+  backButtonContainer.style.marginTop = "20px";
+  backButtonContainer.style.textAlign = "center";
+
+  const backButton = document.createElement("button");
+  backButton.innerHTML =
+    '<i class="fas fa-arrow-right"></i> العودة إلى معلومات اللجنة';
+  backButton.style.padding = "12px 24px";
+  backButton.style.fontSize = "1rem";
+  backButton.style.fontWeight = "600";
+  backButton.style.backgroundColor = "#6b7280";
+  backButton.style.color = "white";
+  backButton.style.border = "none";
+  backButton.style.borderRadius = "6px";
+  backButton.style.cursor = "pointer";
+  backButton.style.transition = "all 0.3s ease";
+
+  // add the hover effects to the back button
+  backButton.addEventListener("mouseenter", function () {
+    this.style.backgroundColor = "#4b5563";
+    this.style.transform = "translateY(-2px)";
+    this.style.boxShadow = "0 4px 12px rgba(107, 114, 128, 0.3)";
+  });
+
+  backButton.addEventListener("mouseleave", function () {
+    this.style.backgroundColor = "#6b7280";
+    this.style.transform = "translateY(0)";
+    this.style.boxShadow = "none";
+  });
+
+  // add the click event to the back button
+  backButton.addEventListener("click", function () {
+    renderInfoPanelForCity(tabId, cityId);
+  });
+
+  backButtonContainer.appendChild(backButton);
+
+  // add the content to the info-content
+  infoContent.appendChild(infoMessage);
+  infoContent.appendChild(tableContainer);
+  infoContent.appendChild(backButtonContainer);
 }
 
 /**
- * تبديل حالة حاوية التبويبات (مطوية/موسعة)
+ * Show confirmation dialog for city update all
+ */
+function showCityUpdateAllConfirmation(lang) {
+  // Create modal backdrop
+  const backdrop = document.createElement("div");
+  backdrop.className = "modal-backdrop-confirmation";
+  backdrop.style.position = "fixed";
+  backdrop.style.top = "0";
+  backdrop.style.left = "0";
+  backdrop.style.width = "100%";
+  backdrop.style.height = "100%";
+  backdrop.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+  backdrop.style.zIndex = "10000";
+  backdrop.style.display = "flex";
+  backdrop.style.alignItems = "center";
+  backdrop.style.justifyContent = "center";
+
+  // Create confirmation modal
+  const modal = document.createElement("div");
+  modal.className = "confirmation-modal";
+  modal.style.backgroundColor = "white";
+  modal.style.borderRadius = "12px";
+  modal.style.padding = "30px";
+  modal.style.maxWidth = "450px";
+  modal.style.width = "90%";
+  modal.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.3)";
+  modal.style.textAlign = "center";
+  modal.style.direction = "rtl";
+  modal.style.fontFamily = '"Cairo", sans-serif';
+
+  // Create icon
+  const icon = document.createElement("div");
+  icon.innerHTML = '<i class="fas fa-sync-alt"></i>';
+  icon.style.fontSize = "3rem";
+  icon.style.color = "#28a745";
+  icon.style.marginBottom = "20px";
+
+  // Create title
+  const title = document.createElement("h3");
+  title.textContent = lang === "ar" ? "تحديث جميع البيانات" : "Update All Data";
+  title.style.margin = "0 0 15px 0";
+  title.style.color = "#2c3e50";
+  title.style.fontSize = "1.5rem";
+  title.style.fontWeight = "bold";
+
+  // Create message
+  const message = document.createElement("p");
+  message.textContent = lang === "ar" 
+    ? "هل أنت متأكد من أنك تريد تحديث جميع بيانات المدينة؟ سيتم حفظ جميع التغييرات المدخلة."
+    : "Are you sure you want to update all city data? All entered changes will be saved.";
+  message.style.margin = "0 0 25px 0";
+  message.style.color = "#7f8c8d";
+  message.style.fontSize = "1rem";
+  message.style.lineHeight = "1.5";
+
+  // Create button container
+  const buttonContainer = document.createElement("div");
+  buttonContainer.style.display = "flex";
+  buttonContainer.style.gap = "15px";
+  buttonContainer.style.justifyContent = "center";
+
+  // Create confirm button
+  const confirmButton = document.createElement("button");
+  confirmButton.textContent = lang === "ar" ? "تأكيد التحديث" : "Confirm Update";
+  confirmButton.style.padding = "12px 25px";
+  confirmButton.style.backgroundColor = "#28a745";
+  confirmButton.style.color = "white";
+  confirmButton.style.border = "none";
+  confirmButton.style.borderRadius = "6px";
+  confirmButton.style.fontSize = "1rem";
+  confirmButton.style.fontWeight = "600";
+  confirmButton.style.cursor = "pointer";
+  confirmButton.style.transition = "all 0.3s ease";
+
+  confirmButton.addEventListener("mouseenter", function () {
+    this.style.backgroundColor = "#218838";
+    this.style.transform = "translateY(-2px)";
+  });
+
+  confirmButton.addEventListener("mouseleave", function () {
+    this.style.backgroundColor = "#28a745";
+    this.style.transform = "translateY(0)";
+  });
+
+  confirmButton.addEventListener("click", function () {
+    // Remove the confirmation modal
+    document.body.removeChild(backdrop);
+    
+    // Execute the update
+    executeCityUpdateAll(lang);
+  });
+
+  // Create cancel button
+  const cancelButton = document.createElement("button");
+  cancelButton.textContent = lang === "ar" ? "إلغاء" : "Cancel";
+  cancelButton.style.padding = "12px 25px";
+  cancelButton.style.backgroundColor = "#6c757d";
+  cancelButton.style.color = "white";
+  cancelButton.style.border = "none";
+  cancelButton.style.borderRadius = "6px";
+  cancelButton.style.fontSize = "1rem";
+  cancelButton.style.fontWeight = "600";
+  cancelButton.style.cursor = "pointer";
+  cancelButton.style.transition = "all 0.3s ease";
+
+  cancelButton.addEventListener("mouseenter", function () {
+    this.style.backgroundColor = "#5a6268";
+    this.style.transform = "translateY(-2px)";
+  });
+
+  cancelButton.addEventListener("mouseleave", function () {
+    this.style.backgroundColor = "#6c757d";
+    this.style.transform = "translateY(0)";
+  });
+
+  cancelButton.addEventListener("click", function () {
+    document.body.removeChild(backdrop);
+  });
+
+  // Assemble modal
+  buttonContainer.appendChild(confirmButton);
+  buttonContainer.appendChild(cancelButton);
+
+  modal.appendChild(icon);
+  modal.appendChild(title);
+  modal.appendChild(message);
+  modal.appendChild(buttonContainer);
+
+  backdrop.appendChild(modal);
+
+  // Add to document
+  document.body.appendChild(backdrop);
+
+  // Close on backdrop click
+  backdrop.addEventListener("click", function (e) {
+    if (e.target === backdrop) {
+      document.body.removeChild(backdrop);
+    }
+  });
+}
+
+/**
+ * Execute city update all and show success message
+ */
+function executeCityUpdateAll(lang) {
+  // Close the info panel
+  hideInfoPanel();
+
+  // Show success notification
+  showCityUpdateSuccessNotification(lang);
+}
+
+/**
+ * Show success notification for city update
+ */
+function showCityUpdateSuccessNotification(lang) {
+  // Create notification container
+  const notification = document.createElement("div");
+  notification.className = "success-notification";
+  notification.style.position = "fixed";
+  notification.style.top = "20px";
+  notification.style.right = "20px";
+  notification.style.backgroundColor = "#28a745";
+  notification.style.color = "white";
+  notification.style.padding = "20px 25px";
+  notification.style.borderRadius = "10px";
+  notification.style.boxShadow = "0 4px 15px rgba(40, 167, 69, 0.3)";
+  notification.style.zIndex = "10001";
+  notification.style.direction = "rtl";
+  notification.style.fontFamily = '"Cairo", sans-serif';
+  notification.style.maxWidth = "350px";
+  notification.style.transform = "translateX(400px)";
+  notification.style.transition = "transform 0.3s ease";
+
+  // Create content
+  const content = document.createElement("div");
+  content.style.display = "flex";
+  content.style.alignItems = "center";
+  content.style.gap = "12px";
+
+  const icon = document.createElement("i");
+  icon.className = "fas fa-check-circle";
+  icon.style.fontSize = "1.5rem";
+
+  const text = document.createElement("span");
+  text.textContent = lang === "ar" 
+    ? "تم تحديث جميع بيانات المدينة بنجاح!"
+    : "All city data updated successfully!";
+  text.style.fontSize = "1rem";
+  text.style.fontWeight = "600";
+
+  content.appendChild(icon);
+  content.appendChild(text);
+  notification.appendChild(content);
+
+  // Add to document
+  document.body.appendChild(notification);
+
+  // Animate in
+  setTimeout(() => {
+    notification.style.transform = "translateX(0)";
+  }, 100);
+
+  // Auto remove after 3 seconds
+  setTimeout(() => {
+    notification.style.transform = "translateX(400px)";
+    setTimeout(() => {
+      if (notification.parentNode) {
+        document.body.removeChild(notification);
+      }
+    }, 300);
+  }, 3000);
+}
+
+/**
+ * toggle the tabs container (collapsed/expanded)
  */
 function toggleTabsContainer() {
   const tabsContainer = document.querySelector(".tabs-container");
-  const toggleButton = document.querySelector(".tabs-toggle-btn");
+  const toggleButton = document.getElementById("tabsToggleBtn");
 
-  if (!tabsContainer || !toggleButton) return;
+  if (!tabsContainer) return;
 
-  // تبديل الفئة المطوية
-  const isCollapsing = !tabsContainer.classList.contains("collapsed");
-  tabsContainer.classList.toggle("collapsed");
-  toggleButton.classList.toggle("collapsed");
+  // toggle the tabs display in a simple and effective way
+  const isCurrentlyHidden = tabsContainer.style.display === "none" ||
+    tabsContainer.classList.contains("hidden") ||
+    tabsContainer.classList.contains("collapsed");
 
-  // تغيير أيقونة الزر بناءً على الحالة
-  const icon = toggleButton.querySelector("i");
-  if (icon) {
-    if (isCollapsing) {
-      // عند الطي، تغيير الأيقونة إلى سهم لأعلى
-      icon.className = "fas fa-chevron-up";
-    } else {
-      // عند التوسيع، تغيير الأيقونة إلى سهم لأسفل
-      icon.className = "fas fa-chevron-down";
+  if (isCurrentlyHidden) {
+    // show the tabs
+    tabsContainer.style.display = "flex";
+    tabsContainer.classList.remove("hidden", "collapsed");
+    tabsContainer.classList.add("visible");
+
+    // change the button icon
+    if (toggleButton) {
+      const icon = toggleButton.querySelector("i");
+      if (icon) {
+        icon.className = "fa-solid fa-table-columns";
+      }
+    }
+  } else {
+    // hide the tabs
+    tabsContainer.style.display = "none";
+    tabsContainer.classList.remove("visible");
+    tabsContainer.classList.add("hidden", "collapsed");
+
+    // change the button icon
+    if (toggleButton) {
+      const icon = toggleButton.querySelector("i");
+      if (icon) {
+        icon.className = "fa-solid fa-eye-slash";
+      }
     }
   }
 
-  // تحديث الخريطة لتجنب مشاكل العرض
+  // update the map to avoid display issues
   try {
     if (window.map && typeof window.map.invalidateSize === "function") {
       setTimeout(function () {
@@ -1930,11 +2062,204 @@ function toggleTabsContainer() {
   }
 }
 
-// Export functions for use in other files
-window.selectedSectorId = selectedSectorId;
-window.selectedSectorName = selectedSectorName;
-window.renderInfoPanel = renderInfoPanel;
-window.setSelectedSector = setSelectedSector;
+/**
+ * display the members details in the info-panel
+ */
+function showMembersDetails(tabId, neighborhoodId) {
+  const infoPanel = document.getElementById("info-panel");
+  const infoTitle = document.getElementById("info-title");
+  const infoContent = document.getElementById("info-content");
+
+  if (!infoPanel || !infoTitle || !infoContent) return;
+
+  const table = tablesData[tabId];
+  if (!table || !table.membersData) return;
+
+  // update the title
+  infoTitle.innerHTML = `
+    <span>تفاصيل أعضاء لجنة الحي - ${selectedNeighborhoodName}</span>
+  `;
+
+  // clear the current content
+  infoContent.innerHTML = "";
+
+  // create an info message
+  const infoMessage = document.createElement("div");
+  infoMessage.style.backgroundColor = "#e3f2fd";
+  infoMessage.style.border = "1px solid #2196f3";
+  infoMessage.style.borderRadius = "8px";
+  infoMessage.style.padding = "15px";
+  infoMessage.style.margin = "20px";
+  infoMessage.style.textAlign = "center";
+  infoMessage.style.color = "#1565c0";
+  infoMessage.style.fontWeight = "600";
+  infoMessage.innerHTML = `
+    <i class="fas fa-info-circle" style="margin-left: 8px;"></i>
+    قائمة بجميع أعضاء لجنة الحي مع معلومات التواصل
+    <br>
+    <span style="font-size: 0.9rem; margin-top: 5px; display: inline-block;">
+      <i class="fas fa-users" style="margin-left: 5px;"></i>
+      إجمالي الأعضاء: ${table.membersData.length} اعضاء
+    </span>
+  `;
+
+  // create a table container
+  const tableContainer = document.createElement("div");
+  tableContainer.className = "members-table-container";
+  tableContainer.style.padding = "0 20px 20px 20px";
+
+  // create the table
+  const tableElement = document.createElement("table");
+  tableElement.className = "info-table members-table";
+  tableElement.style.border = "2px solid #ddd";
+  tableElement.style.borderRadius = "8px";
+  tableElement.style.overflow = "hidden";
+  tableElement.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+  tableElement.style.width = "100%";
+
+  // create the table header
+  const tableHead = document.createElement("thead");
+  const headerRow = document.createElement("tr");
+
+  const headers = ["اسم العضو", "رقم الهاتف", "مكان التواجد"];
+  headers.forEach((headerText) => {
+    const th = document.createElement("th");
+    th.textContent = headerText;
+    th.style.fontSize = "1.1rem";
+    th.style.fontWeight = "bold";
+    th.style.padding = "12px 15px";
+    th.style.backgroundColor = "#1e40af";
+    th.style.color = "white";
+    th.style.textAlign = "center";
+    th.style.borderBottom = "2px solid #ddd";
+    headerRow.appendChild(th);
+  });
+
+  tableHead.appendChild(headerRow);
+  tableElement.appendChild(tableHead);
+
+  // create the table body
+  const tableBody = document.createElement("tbody");
+
+  table.membersData.forEach((member, index) => {
+    const row = document.createElement("tr");
+
+    // add the zebra striping effect
+    if (index % 2 === 0) {
+      row.style.backgroundColor = "#f8fafc";
+    }
+
+    // add the hover effect
+    row.addEventListener("mouseenter", function () {
+      this.style.backgroundColor = "#e3f2fd";
+    });
+
+    row.addEventListener("mouseleave", function () {
+      this.style.backgroundColor = index % 2 === 0 ? "#f8fafc" : "white";
+    });
+
+    // create the data cells
+    const nameCell = document.createElement("td");
+    nameCell.textContent = member.name;
+    nameCell.style.padding = "12px 15px";
+    nameCell.style.borderBottom = "1px solid #e5e7eb";
+    nameCell.style.fontWeight = "600";
+
+    const phoneCell = document.createElement("td");
+    phoneCell.style.padding = "12px 15px";
+    phoneCell.style.borderBottom = "1px solid #e5e7eb";
+    phoneCell.style.direction = "ltr";
+    phoneCell.style.textAlign = "center";
+
+    // create the phone link
+    const phoneLink = document.createElement("a");
+    phoneLink.href = `tel:${member.phone}`;
+    phoneLink.innerHTML = `<i class="fas fa-phone" style="margin-left: 5px; font-size: 0.9rem;"></i>${member.phone}`;
+    phoneLink.style.color = "#2196f3";
+    phoneLink.style.textDecoration = "none";
+    phoneLink.style.fontWeight = "600";
+    phoneLink.style.transition = "all 0.2s ease";
+    phoneLink.style.display = "inline-flex";
+    phoneLink.style.alignItems = "center";
+    phoneLink.title = "انقر للاتصال";
+
+    phoneLink.addEventListener("mouseenter", function () {
+      this.style.color = "#1976d2";
+      this.style.textDecoration = "underline";
+    });
+
+    phoneLink.addEventListener("mouseleave", function () {
+      this.style.color = "#2196f3";
+      this.style.textDecoration = "none";
+    });
+
+    phoneCell.appendChild(phoneLink);
+
+    const locationCell = document.createElement("td");
+    locationCell.textContent = member.location;
+    locationCell.style.padding = "12px 15px";
+    locationCell.style.borderBottom = "1px solid #e5e7eb";
+
+    row.appendChild(nameCell);
+    row.appendChild(phoneCell);
+    row.appendChild(locationCell);
+
+    tableBody.appendChild(row);
+  });
+
+  tableElement.appendChild(tableBody);
+  tableContainer.appendChild(tableElement);
+
+  // add the back button
+  const backButtonContainer = document.createElement("div");
+  backButtonContainer.style.marginTop = "20px";
+  backButtonContainer.style.textAlign = "center";
+
+  const backButton = document.createElement("button");
+  backButton.innerHTML =
+    '<i class="fas fa-arrow-right"></i> العودة إلى معلومات اللجنة';
+  backButton.style.padding = "12px 24px";
+  backButton.style.fontSize = "1rem";
+  backButton.style.fontWeight = "600";
+  backButton.style.backgroundColor = "#6b7280";
+  backButton.style.color = "white";
+  backButton.style.border = "none";
+  backButton.style.borderRadius = "6px";
+  backButton.style.cursor = "pointer";
+  backButton.style.transition = "all 0.3s ease";
+
+  // add the hover effects to the back button
+  backButton.addEventListener("mouseenter", function () {
+    this.style.backgroundColor = "#4b5563";
+    this.style.transform = "translateY(-2px)";
+    this.style.boxShadow = "0 4px 12px rgba(107, 114, 128, 0.3)";
+  });
+
+  backButton.addEventListener("mouseleave", function () {
+    this.style.backgroundColor = "#6b7280";
+    this.style.transform = "translateY(0)";
+    this.style.boxShadow = "none";
+  });
+
+  // add the click event to the back button
+  backButton.addEventListener("click", function () {
+    renderInfoPanel(tabId, neighborhoodId);
+  });
+
+  backButtonContainer.appendChild(backButton);
+
+  // add the content to the info-content
+  infoContent.appendChild(infoMessage);
+  infoContent.appendChild(tableContainer);
+  infoContent.appendChild(backButtonContainer);
+}
+
+// export the functions for use in other files
+window.selectedCityId = selectedCityId;
+window.selectedCityName = selectedCityName;
+window.setSelectedCity = setSelectedCity;
+window.renderInfoPanelForCity = renderInfoPanelForCity;
+window.showMembersDetailsForCity = showMembersDetailsForCity;
 window.toggleTabsContainer = toggleTabsContainer;
 
 function closeInfoPanel() {
@@ -1957,7 +2282,7 @@ function closeInfoPanel() {
 }
 
 function updateTabContent(tabId) {
-  if (!selectedSectorId) {
+  if (!selectedNeighborhoodId) {
     showWarning();
     return;
   }
@@ -1994,14 +2319,14 @@ function updateTabContent(tabId) {
 function generateInfoTabContent() {
   return `
         <div class="info-section">
-            <h3>معلومات القطاع</h3>
+            <h3>معلومات الحي</h3>
             <div class="info-field">
                 <label>الاسم:</label>
-                <span class="editable" data-field="name">${selectedSectorName}</span>
+                <span class="editable" data-field="name">${selectedNeighborhoodName}</span>
             </div>
             <div class="info-field">
                 <label>المعرف:</label>
-                <span>${selectedSectorId}</span>
+                <span>${selectedNeighborhoodId}</span>
             </div>
             <!-- Add more fields as needed -->
         </div>
@@ -2045,25 +2370,12 @@ function setupEditableFields() {
   // Implementation of setupEditableFields function
 }
 
-// إضافة CSS ديناميكي لموضع التابات فوق الفوتر
-(function addTabsContainerCSS() {
-  const style = document.createElement("style");
-  style.innerHTML = `
-    .tabs-container {
-      position: fixed !important;
-      bottom: 50px !important; /* المسافة من أسفل الصفحة */
-      z-index: 1200;
-      /* يمكنك إضافة أو تعديل بقية التنسيقات هنا */
-    }
-  `;
-  document.head.appendChild(style);
-})();
-
-// Add showSaveAllModal and showSuccessNotification functions at the end of the file
-
 function showSaveAllModal(lang) {
+  // Remove any existing modal
   let oldModal = document.getElementById("save-all-modal");
   if (oldModal) oldModal.remove();
+
+  // Create modal overlay
   const modal = document.createElement("div");
   modal.id = "save-all-modal";
   modal.style.position = "fixed";
@@ -2076,6 +2388,8 @@ function showSaveAllModal(lang) {
   modal.style.alignItems = "center";
   modal.style.justifyContent = "center";
   modal.style.zIndex = "4000";
+
+  // Modal content
   const content = document.createElement("div");
   content.style.background = "#fff";
   content.style.borderRadius = "12px";
@@ -2084,6 +2398,8 @@ function showSaveAllModal(lang) {
   content.style.textAlign = "center";
   content.style.maxWidth = "90vw";
   content.style.minWidth = "260px";
+
+  // Modal text
   const msg = document.createElement("div");
   msg.style.fontSize = "1.15rem";
   msg.style.marginBottom = "1.5rem";
@@ -2091,26 +2407,29 @@ function showSaveAllModal(lang) {
   msg.style.fontWeight = "bold";
   msg.textContent =
     window.translations &&
-    window.translations[lang] &&
-    window.translations[lang].saveAllWarning
+      window.translations[lang] &&
+      window.translations[lang].saveAllWarning
       ? window.translations[lang].saveAllWarning
       : lang === "ar"
-      ? "سيتم حفظ جميع التغييرات بشكل دائم. هل أنت متأكد من المتابعة؟"
-      : "All changes will be saved permanently. Are you sure you want to continue?";
+        ? "سيتم حفظ جميع التغييرات بشكل دائم. هل أنت متأكد من المتابعة؟"
+        : "All changes will be saved permanently. Are you sure you want to continue?";
   content.appendChild(msg);
+
+  // Buttons
   const btns = document.createElement("div");
   btns.style.display = "flex";
   btns.style.justifyContent = "center";
   btns.style.gap = "20px";
+
   const continueBtn = document.createElement("button");
   continueBtn.textContent =
     window.translations &&
-    window.translations[lang] &&
-    window.translations[lang].continue
+      window.translations[lang] &&
+      window.translations[lang].continue
       ? window.translations[lang].continue
       : lang === "ar"
-      ? "متابعة"
-      : "Continue";
+        ? "متابعة"
+        : "Continue";
   continueBtn.style.background = "#1e40af";
   continueBtn.style.color = "white";
   continueBtn.style.border = "none";
@@ -2120,8 +2439,9 @@ function showSaveAllModal(lang) {
   continueBtn.style.fontWeight = "bold";
   continueBtn.style.cursor = "pointer";
   continueBtn.addEventListener("click", function () {
+    // Close info-panel and tabs
     document.getElementById("info-panel").classList.remove("show");
-    document.querySelector(".modal-backdrop").classList.remove("show");
+    document.getElementById("modal-backdrop").classList.remove("show");
     const tabs = document.querySelector(".tabs-container");
     if (tabs) {
       tabs.classList.remove("visible");
@@ -2131,21 +2451,18 @@ function showSaveAllModal(lang) {
       }, 400);
     }
     modal.remove();
-    showSuccessNotification(
-      lang === "ar"
-        ? "تم حفظ جميع البيانات بنجاح!"
-        : "All data saved successfully!"
-    );
+    showSuccessNotification(lang);
   });
+
   const cancelBtn = document.createElement("button");
   cancelBtn.textContent =
     window.translations &&
-    window.translations[lang] &&
-    window.translations[lang].cancel
+      window.translations[lang] &&
+      window.translations[lang].cancel
       ? window.translations[lang].cancel
       : lang === "ar"
-      ? "إلغاء"
-      : "Cancel";
+        ? "إلغاء"
+        : "Cancel";
   cancelBtn.style.background = "#f3f4f6";
   cancelBtn.style.color = "#4b5563";
   cancelBtn.style.border = "1px solid #ddd";
@@ -2157,6 +2474,7 @@ function showSaveAllModal(lang) {
   cancelBtn.addEventListener("click", function () {
     modal.remove();
   });
+
   btns.appendChild(continueBtn);
   btns.appendChild(cancelBtn);
   content.appendChild(btns);
@@ -2164,117 +2482,18 @@ function showSaveAllModal(lang) {
   document.body.appendChild(modal);
 }
 
-function showUpdateAllModal(lang) {
-  let oldModal = document.getElementById("update-all-modal");
-  if (oldModal) oldModal.remove();
-  const modal = document.createElement("div");
-  modal.id = "update-all-modal";
-  modal.style.position = "fixed";
-  modal.style.top = "0";
-  modal.style.left = "0";
-  modal.style.width = "100vw";
-  modal.style.height = "100vh";
-  modal.style.background = "rgba(0,0,0,0.35)";
-  modal.style.display = "flex";
-  modal.style.alignItems = "center";
-  modal.style.justifyContent = "center";
-  modal.style.zIndex = "4000";
-  const content = document.createElement("div");
-  content.style.background = "#fff";
-  content.style.borderRadius = "12px";
-  content.style.padding = "2.5rem 2.5rem 2rem 2.5rem";
-  content.style.boxShadow = "0 8px 32px rgba(0,0,0,0.18)";
-  content.style.textAlign = "center";
-  content.style.maxWidth = "90vw";
-  content.style.minWidth = "260px";
-  const msg = document.createElement("div");
-  msg.style.fontSize = "1.15rem";
-  msg.style.marginBottom = "1.5rem";
-  msg.style.color = "#dc2626";
-  msg.style.fontWeight = "bold";
-  msg.textContent =
-    window.translations &&
-    window.translations[lang] &&
-    window.translations[lang].updateAllWarning
-      ? window.translations[lang].updateAllWarning
-      : lang === "ar"
-      ? "سيتم تحديث جميع البيانات بشكل دائم. هل أنت متأكد من المتابعة؟"
-      : "All data will be updated permanently. Are you sure you want to continue?";
-  content.appendChild(msg);
-  const btns = document.createElement("div");
-  btns.style.display = "flex";
-  btns.style.justifyContent = "center";
-  btns.style.gap = "20px";
-  const continueBtn = document.createElement("button");
-  continueBtn.textContent =
-    window.translations &&
-    window.translations[lang] &&
-    window.translations[lang].continue
-      ? window.translations[lang].continue
-      : lang === "ar"
-      ? "متابعة"
-      : "Continue";
-  continueBtn.style.background = "#dc2626";
-  continueBtn.style.color = "white";
-  continueBtn.style.border = "none";
-  continueBtn.style.borderRadius = "6px";
-  continueBtn.style.padding = "0.7rem 2.2rem";
-  continueBtn.style.fontSize = "1.1rem";
-  continueBtn.style.fontWeight = "bold";
-  continueBtn.style.cursor = "pointer";
-  continueBtn.addEventListener("click", function () {
-    document.getElementById("info-panel").classList.remove("show");
-    document.querySelector(".modal-backdrop").classList.remove("show");
-    const tabs = document.querySelector(".tabs-container");
-    if (tabs) {
-      tabs.classList.remove("visible");
-      tabs.classList.add("hidden");
-      setTimeout(function () {
-        tabs.style.display = "none";
-      }, 400);
-    }
-    modal.remove();
-    showSuccessNotification(
-      lang === "ar"
-        ? "تم تحديث جميع البيانات بنجاح!"
-        : "All data updated successfully!"
-    );
-  });
-  const cancelBtn = document.createElement("button");
-  cancelBtn.textContent =
-    window.translations &&
-    window.translations[lang] &&
-    window.translations[lang].cancel
-      ? window.translations[lang].cancel
-      : lang === "ar"
-      ? "إلغاء"
-      : "Cancel";
-  cancelBtn.style.background = "#f3f4f6";
-  cancelBtn.style.color = "#4b5563";
-  cancelBtn.style.border = "1px solid #ddd";
-  cancelBtn.style.borderRadius = "6px";
-  cancelBtn.style.padding = "0.7rem 2.2rem";
-  cancelBtn.style.fontSize = "1.1rem";
-  cancelBtn.style.fontWeight = "bold";
-  cancelBtn.style.cursor = "pointer";
-  cancelBtn.addEventListener("click", function () {
-    modal.remove();
-  });
-  btns.appendChild(continueBtn);
-  btns.appendChild(cancelBtn);
-  content.appendChild(btns);
-  modal.appendChild(content);
-  document.body.appendChild(modal);
-}
-
-function showSuccessNotification(message) {
+// Show a beautiful notification at the top of the page
+function showSuccessNotification(lang) {
+  // Remove any existing notification
   let oldNotif = document.getElementById("success-notification");
   if (oldNotif) oldNotif.remove();
+
   const notif = document.createElement("div");
   notif.id = "success-notification";
   notif.style.position = "fixed";
   notif.style.top = "40px";
-  notif.style.right = "40px";
+  notif.style.left = "50%";
+  notif.style.transform = "translateX(-50%)";
   notif.style.background = "linear-gradient(90deg, #22c55e 0%, #16a34a 100%)";
   notif.style.color = "white";
   notif.style.padding = "1.1rem 2.5rem";
@@ -2288,10 +2507,20 @@ function showSuccessNotification(message) {
   notif.style.gap = "12px";
   notif.style.opacity = "0";
   notif.style.transition = "opacity 0.4s";
+
+  // Success icon
   notif.innerHTML = `<span style="font-size:1.6rem;display:flex;align-items:center;">✅</span>`;
   const msg = document.createElement("span");
-  msg.textContent = message;
+  msg.textContent =
+    window.translations &&
+      window.translations[lang] &&
+      window.translations[lang].successMessage
+      ? window.translations[lang].successMessage
+      : lang === "ar"
+        ? "تم تحديث جميع البيانات بنجاح!"
+        : "All data saved successfully!";
   notif.appendChild(msg);
+
   document.body.appendChild(notif);
   setTimeout(() => {
     notif.style.opacity = "1";
@@ -2302,120 +2531,533 @@ function showSuccessNotification(message) {
   }, 3500);
 }
 
-// Helper functions for multiselect
-function toggleOption(option, container, field) {
-  const selectedDisplay = container.querySelector(".selected-items");
-  const existingItem = Array.from(selectedDisplay.children).find(
-    (item) => item.textContent.replace("×", "").trim() === option
-  );
+/**
+ * Show confirmation dialog for "Update All" functionality
+ * @param {string} lang - Current language (ar/en)
+ */
+function showUpdateAllConfirmation(lang) {
+  // Remove any existing modal
+  let oldModal = document.getElementById("update-all-modal");
+  if (oldModal) oldModal.remove();
 
-  if (existingItem) {
-    // Remove if already selected
-    existingItem.remove();
-  } else {
-    // Add if not selected
-    addSelectedItem(option, container, field);
-  }
+  // Create modal overlay using the same pattern as showSaveAllModal
+  const modal = document.createElement("div");
+  modal.id = "update-all-modal";
+  modal.style.position = "fixed";
+  modal.style.top = "0";
+  modal.style.left = "0";
+  modal.style.width = "100vw";
+  modal.style.height = "100vh";
+  modal.style.background = "rgba(0,0,0,0.35)";
+  modal.style.display = "flex";
+  modal.style.alignItems = "center";
+  modal.style.justifyContent = "center";
+  modal.style.zIndex = "4000";
 
-  // Update the dropdown option appearance
-  updateDropdownOptions(container, field);
-}
+  // Modal content
+  const content = document.createElement("div");
+  content.style.background = "#fff";
+  content.style.borderRadius = "12px";
+  content.style.padding = "2.5rem 2.5rem 2rem 2.5rem";
+  content.style.boxShadow = "0 8px 32px rgba(0,0,0,0.18)";
+  content.style.textAlign = "center";
+  content.style.maxWidth = "90vw";
+  content.style.minWidth = "260px";
+  content.style.direction = lang === "ar" ? "rtl" : "ltr";
 
-function addSelectedItem(value, container, field) {
-  const selectedDisplay = container.querySelector(".selected-items");
-  const placeholder = selectedDisplay.querySelector(".multiselect-placeholder");
+  // Modal header
+  const header = document.createElement("div");
+  header.style.marginBottom = "1.5rem";
+  header.style.borderBottom = "1px solid #dee2e6";
+  header.style.paddingBottom = "1rem";
 
-  // Check if item already exists
-  const existingItem = Array.from(selectedDisplay.children).find(
-    (item) =>
-      item.classList.contains("selected-item") &&
-      item.textContent.replace("×", "").trim() === value
-  );
+  const title = document.createElement("h4");
+  title.style.margin = "0";
+  title.style.fontSize = "1.25rem";
+  title.style.fontWeight = "bold";
+  title.style.color = "#333";
+  title.textContent = lang === "ar" ? "تأكيد التحديث" : "Confirm Update";
+  header.appendChild(title);
 
-  if (existingItem) return; // Don't add duplicates
+  // Modal text
+  const msg = document.createElement("div");
+  msg.style.fontSize = "1.15rem";
+  msg.style.marginBottom = "1.5rem";
+  msg.style.color = "#dc3545";
+  msg.style.fontWeight = "600";
+  msg.style.lineHeight = "1.5";
+  msg.textContent =
+    lang === "ar"
+      ? "هل أنت متأكد من تحديث جميع البيانات؟"
+      : "Are you sure you want to update all data?";
 
-  // Hide placeholder when adding first item
-  if (placeholder) {
-    placeholder.style.display = "none";
-  }
+  // Buttons container
+  const btns = document.createElement("div");
+  btns.style.display = "flex";
+  btns.style.justifyContent = "center";
+  btns.style.gap = "20px";
 
-  const item = document.createElement("span");
-  item.className = "selected-item";
-  item.style.backgroundColor = "#e3f2fd";
-  item.style.color = "#1976d2";
-  item.style.padding = "4px 8px";
-  item.style.borderRadius = "12px";
-  item.style.fontSize = "12px";
-  item.style.display = "inline-flex";
-  item.style.alignItems = "center";
-  item.style.gap = "4px";
-  item.style.border = "1px solid #bbdefb";
+  // Yes button
+  const yesBtn = document.createElement("button");
+  yesBtn.textContent = lang === "ar" ? "نعم" : "Yes";
+  yesBtn.style.background = "#28a745";
+  yesBtn.style.color = "white";
+  yesBtn.style.border = "none";
+  yesBtn.style.borderRadius = "6px";
+  yesBtn.style.padding = "0.7rem 2.2rem";
+  yesBtn.style.fontSize = "1.1rem";
+  yesBtn.style.fontWeight = "bold";
+  yesBtn.style.cursor = "pointer";
+  yesBtn.style.transition = "background-color 0.2s ease";
 
-  const text = document.createElement("span");
-  text.textContent = value;
+  yesBtn.addEventListener("mouseenter", function () {
+    this.style.backgroundColor = "#218838";
+  });
 
-  const removeBtn = document.createElement("span");
-  removeBtn.textContent = "×";
-  removeBtn.style.cursor = "pointer";
-  removeBtn.style.fontWeight = "bold";
-  removeBtn.style.marginLeft = "4px";
-  removeBtn.style.color = "#d32f2f";
+  yesBtn.addEventListener("mouseleave", function () {
+    this.style.backgroundColor = "#28a745";
+  });
 
-  removeBtn.addEventListener("click", function (e) {
+  yesBtn.addEventListener("click", function () {
+    modal.remove();
+    executeUpdateAll(lang);
+  });
+
+  // Cancel button
+  const cancelBtn = document.createElement("button");
+  cancelBtn.textContent = lang === "ar" ? "إلغاء" : "Cancel";
+  cancelBtn.style.background = "#f3f4f6";
+  cancelBtn.style.color = "#4b5563";
+  cancelBtn.style.border = "1px solid #ddd";
+  cancelBtn.style.borderRadius = "6px";
+  cancelBtn.style.padding = "0.7rem 2.2rem";
+  cancelBtn.style.fontSize = "1.1rem";
+  cancelBtn.style.fontWeight = "bold";
+  cancelBtn.style.cursor = "pointer";
+  cancelBtn.style.transition = "background-color 0.2s ease";
+
+  cancelBtn.addEventListener("mouseenter", function () {
+    this.style.backgroundColor = "#e5e7eb";
+  });
+
+  cancelBtn.addEventListener("mouseleave", function () {
+    this.style.backgroundColor = "#f3f4f6";
+  });
+
+  cancelBtn.addEventListener("click", function () {
+    modal.remove();
+  });
+
+  // Close modal when clicking backdrop
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+
+  // Prevent modal from closing when clicking inside content
+  content.addEventListener("click", function (e) {
     e.stopPropagation();
-    item.remove();
-
-    // Show placeholder if no items left
-    const remainingItems = selectedDisplay.querySelectorAll(".selected-item");
-    if (remainingItems.length === 0 && placeholder) {
-      placeholder.style.display = "block";
-    }
-
-    updateDropdownOptions(container, field);
   });
 
-  item.appendChild(text);
-  item.appendChild(removeBtn);
-  selectedDisplay.appendChild(item);
+  // Assemble modal structure
+  if (lang === "ar") {
+    btns.appendChild(yesBtn);
+    btns.appendChild(cancelBtn);
+  } else {
+    btns.appendChild(cancelBtn);
+    btns.appendChild(yesBtn);
+  }
+
+  content.appendChild(header);
+  content.appendChild(msg);
+  content.appendChild(btns);
+  modal.appendChild(content);
+  document.body.appendChild(modal);
 }
 
-function updateDropdownOptions(container, field) {
-  const selectedDisplay = container.querySelector(".selected-items");
-  const dropdown = container.querySelector(".multiselect-dropdown");
-  const selectedItems = selectedDisplay.querySelectorAll(".selected-item");
-  const selectedValues = Array.from(selectedItems).map((item) =>
-    item.textContent.replace("×", "").trim()
-  );
+/**
+ * Execute the update all functionality
+ * @param {string} lang - Current language (ar/en)
+ */
+function executeUpdateAll(lang) {
+  // Close tabs container
+  const tabsContainer = document.querySelector(".tabs-container");
+  if (tabsContainer) {
+    tabsContainer.style.display = "none";
+  }
 
-  // Update option styles based on selection
-  const options = dropdown.querySelectorAll(".multiselect-option");
-  options.forEach((option) => {
-    const isSelected = selectedValues.includes(option.textContent);
-    if (isSelected) {
-      option.classList.add("selected");
-      option.style.backgroundColor = "#e3f2fd";
-      option.style.color = "#1976d2";
-      option.style.fontWeight = "bold";
-      // Add checkmark for selected items
-      if (!option.querySelector(".checkmark")) {
-        const checkmark = document.createElement("span");
-        checkmark.className = "checkmark";
-        checkmark.textContent = "✓";
-        checkmark.style.float = "left";
-        checkmark.style.color = "#1976d2";
-        checkmark.style.fontWeight = "bold";
-        option.appendChild(checkmark);
+  // Close info panel
+  hideInfoPanel();
+
+  // Show success notification
+  showSuccessNotification(lang);
+}
+
+/**
+ * Show success notification in top-right corner
+ * @param {string} lang - Current language (ar/en)
+ */
+function showSuccessNotification(lang) {
+  // Create notification element
+  const notification = document.createElement("div");
+  notification.className = "success-notification";
+  notification.textContent =
+    lang === "ar" ? "تم تحديث البيانات بنجاح" : "Data updated successfully";
+
+  // Style the notification
+  notification.style.position = "fixed";
+  notification.style.top = "20px";
+  notification.style.right = "20px";
+  notification.style.backgroundColor = "#28a745";
+  notification.style.color = "white";
+  notification.style.padding = "1rem 1.5rem";
+  notification.style.borderRadius = "0.5rem";
+  notification.style.fontSize = "1rem";
+  notification.style.fontWeight = "500";
+  notification.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
+  notification.style.zIndex = "10001";
+  notification.style.transform = "translateX(100%)";
+  notification.style.transition = "transform 0.3s ease-in-out";
+  notification.style.direction = lang === "ar" ? "rtl" : "ltr";
+  notification.style.textAlign = lang === "ar" ? "right" : "left";
+
+  // Add icon
+  const icon = document.createElement("i");
+  icon.className = "fas fa-check-circle";
+  icon.style.marginRight = lang === "ar" ? "0" : "0.5rem";
+  icon.style.marginLeft = lang === "ar" ? "0.5rem" : "0";
+
+  if (lang === "ar") {
+    notification.appendChild(icon);
+    notification.insertBefore(
+      document.createTextNode(notification.textContent),
+      icon
+    );
+    notification.removeChild(notification.lastChild);
+  } else {
+    notification.insertBefore(icon, notification.firstChild);
+  }
+
+  // Add to DOM
+  document.body.appendChild(notification);
+
+  // Animate in
+  setTimeout(() => {
+    notification.style.transform = "translateX(0)";
+  }, 100);
+
+  // Auto-dismiss after 4 seconds
+  setTimeout(() => {
+    notification.style.transform = "translateX(100%)";
+    setTimeout(() => {
+      if (notification && notification.parentNode) {
+        notification.parentNode.removeChild(notification);
       }
-    } else {
-      option.classList.remove("selected");
-      option.style.backgroundColor = "#fff";
-      option.style.color = "#333";
-      option.style.fontWeight = "normal";
-      // Remove checkmark
-      const checkmark = option.querySelector(".checkmark");
-      if (checkmark) {
-        checkmark.remove();
+    }, 300);
+  }, 4000);
+}
+
+// Initialize tabs toggle button functionality when DOM is loaded
+document.addEventListener('DOMContentLoaded', function () {
+  // Add event listener for the tabsToggleBtn in the HTML
+  const tabsToggleBtn = document.getElementById('tabsToggleBtn');
+  if (tabsToggleBtn) {
+    tabsToggleBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleTabsContainer();
+    });
+
+    // Ensure tabs are hidden by default
+    const tabsContainer = document.querySelector(".tabs-container");
+    if (tabsContainer) {
+      tabsContainer.style.display = "none";
+      tabsContainer.classList.remove("visible");
+      tabsContainer.classList.add("hidden", "collapsed");
+
+      // Set correct initial icon (eye-slash for hidden state)
+      const icon = tabsToggleBtn.querySelector("i");
+      if (icon) {
+        icon.className = "fa-solid fa-eye-slash";
       }
     }
+  }
+});
+
+// Make sure the toggleTabsContainer function is globally accessible
+window.toggleTabsContainer = toggleTabsContainer;
+
+// Add missing functions that are referenced in HTML
+function showFullscreenPopup() {
+  const popup = document.getElementById('fullscreen-popup');
+  if (popup) {
+    popup.style.display = 'block';
+    popup.classList.add('show');
+    
+    // Show the composite functionality container by default
+    const compositeContainer = document.getElementById('composite-functionality-container');
+    const sectoralContainer = document.getElementById('sectoral-functionality-container');
+    const sectoralMappingContainer = document.getElementById('sectoral-mapping-container');
+    
+    if (compositeContainer) compositeContainer.style.display = 'flex';
+    if (sectoralContainer) sectoralContainer.style.display = 'none';
+    if (sectoralMappingContainer) sectoralMappingContainer.style.display = 'none';
+  }
+}
+
+function showFinalUrbanEffectivenessPopup() {
+  // This function can be implemented later when needed
+  console.log('showFinalUrbanEffectivenessPopup called');
+  alert('هذه الميزة قيد التطوير');
+}
+
+// Export the new functions
+window.showFullscreenPopup = showFullscreenPopup;
+window.showFinalUrbanEffectivenessPopup = showFinalUrbanEffectivenessPopup;
+
+/**
+ * toggle the tabs container (collapsed/expanded)
+ */
+function toggleTabsContainer() {
+  const tabsContainer = document.querySelector(".tabs-container");
+  const toggleButton = document.getElementById("tabsToggleBtn");
+
+  if (!tabsContainer) return;
+
+  // toggle the tabs display in a simple and effective way
+  const isCurrentlyHidden = tabsContainer.style.display === "none" ||
+    tabsContainer.classList.contains("hidden") ||
+    tabsContainer.classList.contains("collapsed");
+
+  if (isCurrentlyHidden) {
+    // show the tabs
+    tabsContainer.style.display = "flex";
+    tabsContainer.classList.remove("hidden", "collapsed");
+    tabsContainer.classList.add("visible");
+
+    // change the button icon
+    if (toggleButton) {
+      const icon = toggleButton.querySelector("i");
+      if (icon) {
+        icon.className = "fa-solid fa-table-columns";
+      }
+    }
+  } else {
+    // hide the tabs
+    tabsContainer.style.display = "none";
+    tabsContainer.classList.remove("visible");
+    tabsContainer.classList.add("hidden", "collapsed");
+
+    // change the button icon
+    if (toggleButton) {
+      const icon = toggleButton.querySelector("i");
+      if (icon) {
+        icon.className = "fa-solid fa-eye-slash";
+      }
+    }
+  }
+
+  // update the map to avoid display issues
+  try {
+    if (window.map && typeof window.map.invalidateSize === "function") {
+      setTimeout(function () {
+        window.map.invalidateSize();
+      }, 300);
+    }
+  } catch (e) {
+    console.log("Error updating map size:", e);
+  }
+}
+
+/**
+ * display the members details in the info-panel
+ */
+function showMembersDetails(tabId, neighborhoodId) {
+  const infoPanel = document.getElementById("info-panel");
+  const infoTitle = document.getElementById("info-title");
+  const infoContent = document.getElementById("info-content");
+
+  if (!infoPanel || !infoTitle || !infoContent) return;
+
+  const table = tablesData[tabId];
+  if (!table || !table.membersData) return;
+
+  // update the title
+  infoTitle.innerHTML = `
+    <span>تفاصيل أعضاء لجنة الحي - ${selectedNeighborhoodName}</span>
+  `;
+
+  // clear the current content
+  infoContent.innerHTML = "";
+
+  // create an info message
+  const infoMessage = document.createElement("div");
+  infoMessage.style.backgroundColor = "#e3f2fd";
+  infoMessage.style.border = "1px solid #2196f3";
+  infoMessage.style.borderRadius = "8px";
+  infoMessage.style.padding = "15px";
+  infoMessage.style.margin = "20px";
+  infoMessage.style.textAlign = "center";
+  infoMessage.style.color = "#1565c0";
+  infoMessage.style.fontWeight = "600";
+  infoMessage.innerHTML = `
+    <i class="fas fa-info-circle" style="margin-left: 8px;"></i>
+    قائمة بجميع أعضاء لجنة الحي مع معلومات التواصل
+    <br>
+    <span style="font-size: 0.9rem; margin-top: 5px; display: inline-block;">
+      <i class="fas fa-users" style="margin-left: 5px;"></i>
+      إجمالي الأعضاء: ${table.membersData.length} اعضاء
+    </span>
+  `;
+
+  // create a table container
+  const tableContainer = document.createElement("div");
+  tableContainer.className = "members-table-container";
+  tableContainer.style.padding = "0 20px 20px 20px";
+
+  // create the table
+  const tableElement = document.createElement("table");
+  tableElement.className = "info-table members-table";
+  tableElement.style.border = "2px solid #ddd";
+  tableElement.style.borderRadius = "8px";
+  tableElement.style.overflow = "hidden";
+  tableElement.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+  tableElement.style.width = "100%";
+
+  // create the table header
+  const tableHead = document.createElement("thead");
+  const headerRow = document.createElement("tr");
+
+  const headers = ["اسم العضو", "رقم الهاتف", "مكان التواجد"];
+  headers.forEach((headerText) => {
+    const th = document.createElement("th");
+    th.textContent = headerText;
+    th.style.fontSize = "1.1rem";
+    th.style.fontWeight = "bold";
+    th.style.padding = "12px 15px";
+    th.style.backgroundColor = "#1e40af";
+    th.style.color = "white";
+    th.style.textAlign = "center";
+    th.style.borderBottom = "2px solid #ddd";
+    headerRow.appendChild(th);
   });
+
+  tableHead.appendChild(headerRow);
+  tableElement.appendChild(tableHead);
+
+  // create the table body
+  const tableBody = document.createElement("tbody");
+
+  table.membersData.forEach((member, index) => {
+    const row = document.createElement("tr");
+
+    // add the zebra striping effect
+    if (index % 2 === 0) {
+      row.style.backgroundColor = "#f8fafc";
+    }
+
+    // add the hover effect
+    row.addEventListener("mouseenter", function () {
+      this.style.backgroundColor = "#e3f2fd";
+    });
+
+    row.addEventListener("mouseleave", function () {
+      this.style.backgroundColor = index % 2 === 0 ? "#f8fafc" : "white";
+    });
+
+    // create the data cells
+    const nameCell = document.createElement("td");
+    nameCell.textContent = member.name;
+    nameCell.style.padding = "12px 15px";
+    nameCell.style.borderBottom = "1px solid #e5e7eb";
+    nameCell.style.fontWeight = "600";
+
+    const phoneCell = document.createElement("td");
+    phoneCell.style.padding = "12px 15px";
+    phoneCell.style.borderBottom = "1px solid #e5e7eb";
+    phoneCell.style.direction = "ltr";
+    phoneCell.style.textAlign = "center";
+
+    // create the phone link
+    const phoneLink = document.createElement("a");
+    phoneLink.href = `tel:${member.phone}`;
+    phoneLink.innerHTML = `<i class="fas fa-phone" style="margin-left: 5px; font-size: 0.9rem;"></i>${member.phone}`;
+    phoneLink.style.color = "#2196f3";
+    phoneLink.style.textDecoration = "none";
+    phoneLink.style.fontWeight = "600";
+    phoneLink.style.transition = "all 0.2s ease";
+    phoneLink.style.display = "inline-flex";
+    phoneLink.style.alignItems = "center";
+    phoneLink.title = "انقر للاتصال";
+
+    phoneLink.addEventListener("mouseenter", function () {
+      this.style.color = "#1976d2";
+      this.style.textDecoration = "underline";
+    });
+
+    phoneLink.addEventListener("mouseleave", function () {
+      this.style.color = "#2196f3";
+      this.style.textDecoration = "none";
+    });
+
+    phoneCell.appendChild(phoneLink);
+
+    const locationCell = document.createElement("td");
+    locationCell.textContent = member.location;
+    locationCell.style.padding = "12px 15px";
+    locationCell.style.borderBottom = "1px solid #e5e7eb";
+
+    row.appendChild(nameCell);
+    row.appendChild(phoneCell);
+    row.appendChild(locationCell);
+
+    tableBody.appendChild(row);
+  });
+
+  tableElement.appendChild(tableBody);
+  tableContainer.appendChild(tableElement);
+
+  // add the back button
+  const backButtonContainer = document.createElement("div");
+  backButtonContainer.style.marginTop = "20px";
+  backButtonContainer.style.textAlign = "center";
+
+  const backButton = document.createElement("button");
+  backButton.innerHTML =
+    '<i class="fas fa-arrow-right"></i> العودة إلى معلومات اللجنة';
+  backButton.style.padding = "12px 24px";
+  backButton.style.fontSize = "1rem";
+  backButton.style.fontWeight = "600";
+  backButton.style.backgroundColor = "#6b7280";
+  backButton.style.color = "white";
+  backButton.style.border = "none";
+  backButton.style.borderRadius = "6px";
+  backButton.style.cursor = "pointer";
+  backButton.style.transition = "all 0.3s ease";
+
+  // add the hover effects to the back button
+  backButton.addEventListener("mouseenter", function () {
+    this.style.backgroundColor = "#4b5563";
+    this.style.transform = "translateY(-2px)";
+    this.style.boxShadow = "0 4px 12px rgba(107, 114, 128, 0.3)";
+  });
+
+  backButton.addEventListener("mouseleave", function () {
+    this.style.backgroundColor = "#6b7280";
+    this.style.transform = "translateY(0)";
+    this.style.boxShadow = "none";
+  });
+
+  // add the click event to the back button
+  backButton.addEventListener("click", function () {
+    renderInfoPanel(tabId, neighborhoodId);
+  });
+
+  backButtonContainer.appendChild(backButton);
+
+  // add the content to the info-content
+  infoContent.appendChild(infoMessage);
+  infoContent.appendChild(tableContainer);
+  infoContent.appendChild(backButtonContainer);
 }

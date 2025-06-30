@@ -1,62 +1,39 @@
-/**
- * sidebar.js
- * يدير وظائف الشريط الجانبي للتطبيق
- */
-
-// متغيرات عامة
+// global variables
 let leftSidebarActive = false;
 let rightSidebarActive = false;
 let leftSidebarTimer = null;
-let rightSidebarTimer = null;
-const AUTO_CLOSE_DELAY = 2000; // 2 seconds
 
-// تهيئة الأشرطة الجانبية عند تحميل الصفحة
+// initialize the sidebars when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
-  // تعيين حالة التثبيت الافتراضية
-  const leftSidebar = document.getElementById("leftSidebar");
-  const rightSidebar = document.getElementById("rightSidebar");
-
-  if (leftSidebar) {
-    leftSidebar.setAttribute("data-pinned", "false");
-  }
-
-  if (rightSidebar) {
-    rightSidebar.setAttribute("data-pinned", "false");
-  }
-
   initSidebars();
 });
 
 /**
- * تهيئة الأشرطة الجانبية والأزرار المرتبطة بها
+ * initialize the sidebars and the buttons related to them
  */
 function initSidebars() {
   const leftSidebar = document.getElementById("leftSidebar");
   const rightSidebar = document.getElementById("rightSidebar");
   const mainContent = document.querySelector(".main-content");
 
-  // أزرار التبديل في الشريطين الجانبيين
+  // toggle buttons in the left and right sidebars
   const toggleLeftSidebar = document.getElementById("toggleLeftSidebar");
   const toggleRightSidebar = document.getElementById("toggleRightSidebar");
 
-  // أزرار التثبيت في الشريطين الجانبيين
-  const pinLeftSidebar = document.getElementById("pinLeftSidebar");
-  const pinRightSidebar = document.getElementById("pinRightSidebar");
-
-  // أزرار التبديل في الهيدر
+  // toggle buttons in the header
   const toggleLeftSidebarBtn = document.getElementById("toggleLeftSidebarBtn");
   const toggleRightSidebarBtn = document.getElementById(
     "toggleRightSidebarBtn"
   );
 
-  // إضافة الطبقة الحيوية للأشرطة الجانبية لتمكين الانتقالات
-  leftSidebar.classList.add("sidebar-animate");
-  rightSidebar.classList.add("sidebar-animate");
+  // initialize sidebars as collapsed by default
+  leftSidebar.classList.add("collapsed");
+  rightSidebar.classList.add("collapsed");
 
-  // تفعيل الشريطين الجانبيين في الوضع العريض فقط
+  // enable the sidebars in the wide mode only
   handleResponsiveSidebars();
 
-  // تعيين أحداث النقر لأزرار التبديل
+  // set the click events for the toggle buttons
   if (toggleLeftSidebar) {
     toggleLeftSidebar.addEventListener("click", function () {
       toggleSidebar("left");
@@ -83,29 +60,44 @@ function initSidebars() {
     });
   }
 
-  // إعادة حساب وضع الأشرطة الجانبية عند تغيير حجم النافذة
+  // recalculate the sidebar positions when the window is resized
   window.addEventListener("resize", function () {
     handleResponsiveSidebars();
+    // Hide overlay if window is resized to desktop
+    const overlay = document.getElementById("sidebarOverlay");
+    if (window.innerWidth >= 992 && overlay) {
+      overlay.classList.remove("show");
+    }
   });
 
-  // إضافة مستمعي أحداث الماوس للإغلاق التلقائي
-  setupAutoCloseSidebars(leftSidebar, rightSidebar);
+  // Add click event listener to overlay to close sidebars
+  const overlay = document.getElementById("sidebarOverlay");
+  if (overlay) {
+    overlay.addEventListener("click", function () {
+      if (leftSidebarActive) {
+        toggleSidebar("left");
+      }
+      if (rightSidebarActive) {
+        toggleSidebar("right");
+      }
+    });
+  }
 
-  // تهيئة اختصارات لوحة المفاتيح للأشرطة الجانبية
+  // initialize the keyboard shortcuts for the sidebars
   initKeyboardShortcuts();
 
-  // تهيئة وظائف أخرى مرتبطة بالأشرطة الجانبية
+  // initialize other functions related to the sidebars
   initLayerControls();
   initStyleControls();
   initImportControls();
 }
 
 /**
- * تبديل حالة الشريط الجانبي (مفتوح/مغلق)
- * @param {string} side - جانب الشريط ('left' أو 'right')
+ * toggle the sidebar state (open/closed)
+ * @param {string} side - the side of the sidebar ('left' or 'right')
  */
 function toggleSidebar(side) {
-  // إلغاء أي مؤقتات إغلاق تلقائي عند التبديل اليدوي
+  // clear any automatic close timers when manually toggling
   clearAutoCloseTimers();
 
   const sidebar =
@@ -113,74 +105,108 @@ function toggleSidebar(side) {
       ? document.getElementById("leftSidebar")
       : document.getElementById("rightSidebar");
 
-  const mainContent = document.querySelector(".main-content");
+  const overlay = document.getElementById("sidebarOverlay");
+  const leftToggleBtn = document.getElementById("toggleLeftSidebar");
+  const rightToggleBtn = document.getElementById("toggleRightSidebar");
 
   if (side === "left") {
     leftSidebarActive = !leftSidebarActive;
-    sidebar.classList.toggle("collapsed", !leftSidebarActive);
 
-    if (window.innerWidth >= 992) {
-      // No margins needed anymore with absolute positioning
+    if (leftSidebarActive) {
+      sidebar.classList.add("open");
+      sidebar.classList.remove("collapsed");
+      // Move toggle button
+      if (leftToggleBtn) {
+        leftToggleBtn.classList.add("sidebar-moved");
+        leftToggleBtn.querySelector("i").className = "fas fa-chevron-left";
+      }
+      // Show overlay on mobile
+      if (window.innerWidth < 992 && overlay) {
+        overlay.classList.add("show");
+      }
     } else {
-      sidebar.classList.toggle("active", leftSidebarActive);
+      sidebar.classList.add("collapsed");
+      sidebar.classList.remove("open");
+      // Move toggle button back
+      if (leftToggleBtn) {
+        leftToggleBtn.classList.remove("sidebar-moved");
+        leftToggleBtn.querySelector("i").className = "fas fa-chevron-right";
+      }
+      // Hide overlay
+      if (overlay) {
+        overlay.classList.remove("show");
+      }
     }
 
-    // Update button visibility in header
+    // update button visibility in header
     const headerBtn = document.getElementById("toggleLeftSidebarBtn");
     if (headerBtn) {
       headerBtn.classList.toggle("active", leftSidebarActive);
     }
 
-    // إذا تم إغلاق الشريط الجانبي، إلغاء المؤقت
-    if (!leftSidebarActive && leftSidebarTimer) {
+    // if the sidebar is closed, clear the timer
+    if (!leftSidebarActive) {
       clearTimeout(leftSidebarTimer);
       leftSidebarTimer = null;
     }
   } else {
     rightSidebarActive = !rightSidebarActive;
-    sidebar.classList.toggle("collapsed", !rightSidebarActive);
 
-    if (window.innerWidth >= 992) {
-      // No margins needed anymore with absolute positioning
+    if (rightSidebarActive) {
+      sidebar.classList.add("open");
+      sidebar.classList.remove("collapsed");
+      // Move toggle button
+      if (rightToggleBtn) {
+        rightToggleBtn.classList.add("sidebar-moved");
+        rightToggleBtn.querySelector("i").className = "fas fa-chevron-right";
+      }
+      // Show overlay on mobile
+      if (window.innerWidth < 992 && overlay) {
+        overlay.classList.add("show");
+      }
     } else {
-      sidebar.classList.toggle("active", rightSidebarActive);
+      sidebar.classList.add("collapsed");
+      sidebar.classList.remove("open");
+      // Move toggle button back
+      if (rightToggleBtn) {
+        rightToggleBtn.classList.remove("sidebar-moved");
+        rightToggleBtn.querySelector("i").className = "fas fa-chevron-left";
+      }
+      // Hide overlay
+      if (overlay) {
+        overlay.classList.remove("show");
+      }
     }
 
-    // Update button visibility in header
+    // update button visibility in header
     const headerBtn = document.getElementById("toggleRightSidebarBtn");
     if (headerBtn) {
       headerBtn.classList.toggle("active", rightSidebarActive);
-    }
-
-    // إذا تم إغلاق الشريط الجانبي، إلغاء المؤقت
-    if (!rightSidebarActive && rightSidebarTimer) {
-      clearTimeout(rightSidebarTimer);
-      rightSidebarTimer = null;
     }
   }
 }
 
 /**
- * تهيئة اختصارات لوحة المفاتيح للأشرطة الجانبية
- * Ctrl + L: تبديل الشريط الجانبي الأيسر
- * Ctrl + R: تبديل الشريط الجانبي الأيمن
+ * initialize the keyboard shortcuts for the sidebars
+ * Ctrl + L: toggle the left sidebar
+ * Ctrl + R: toggle the right sidebar
  */
 function initKeyboardShortcuts() {
-  // إضافة مستمع أحداث لوحة المفاتيح على مستوى المستند
+  // add a keyboard event listener to the document
   document.addEventListener("keydown", function (event) {
-    // التحقق من أن مفتاح Ctrl مضغوط
+    // check if the Ctrl key is pressed
     if (event.ctrlKey) {
-      // التحقق من المفتاح المضغوط
+      // check the pressed key
       switch (event.key.toLowerCase()) {
         case "l":
-          // Ctrl + L: تبديل الشريط الجانبي الأيسر
-          event.preventDefault(); // منع السلوك الافتراضي للمتصفح
+          // Ctrl + L: toggle the left sidebar
+          event.preventDefault(); // prevent the default browser behavior
           toggleSidebar("left");
           break;
 
         case "r":
-          // Ctrl + R: تبديل الشريط الجانبي الأيمن
-          event.preventDefault(); // منع السلوك الافتراضي للمتصفح
+          // Ctrl + R: toggle the right sidebar
+          event.preventDefault(); // prevent the default browser behavior
           toggleSidebar("right");
           break;
       }
@@ -189,27 +215,30 @@ function initKeyboardShortcuts() {
 }
 
 /**
- * معالجة الأشرطة الجانبية بشكل مستجيب لحجم الشاشة
+ * handle the responsive sidebars
  */
 function handleResponsiveSidebars() {
   const leftSidebar = document.getElementById("leftSidebar");
   const rightSidebar = document.getElementById("rightSidebar");
 
-  if (window.innerWidth >= 992) {
-    // وضع النافذة الكبيرة
-    leftSidebar.classList.remove("active");
-    rightSidebar.classList.remove("active");
-
-    // تطبيق حالة الانهيار
-    leftSidebar.classList.toggle("collapsed", !leftSidebarActive);
-    rightSidebar.classList.toggle("collapsed", !rightSidebarActive);
+  // apply the state classes based on active state
+  if (leftSidebarActive) {
+    leftSidebar.classList.add("open");
+    leftSidebar.classList.remove("collapsed");
   } else {
-    // وضع النافذة الصغيرة - استخدام transform للشريط الجانبي
-    leftSidebar.classList.toggle("active", leftSidebarActive);
-    rightSidebar.classList.toggle("active", rightSidebarActive);
+    leftSidebar.classList.add("collapsed");
+    leftSidebar.classList.remove("open");
   }
 
-  // تحديث أزرار التبديل في الهيدر
+  if (rightSidebarActive) {
+    rightSidebar.classList.add("open");
+    rightSidebar.classList.remove("collapsed");
+  } else {
+    rightSidebar.classList.add("collapsed");
+    rightSidebar.classList.remove("open");
+  }
+
+  // update the toggle buttons in the header
   const leftHeaderBtn = document.getElementById("toggleLeftSidebarBtn");
   const rightHeaderBtn = document.getElementById("toggleRightSidebarBtn");
 
@@ -223,16 +252,16 @@ function handleResponsiveSidebars() {
 }
 
 /**
- * تهيئة عناصر التحكم في الطبقات
+ * initialize the layer controls
  */
 function initLayerControls() {
-  // التحكم في عناصر الاختيار للطبقات
+  // the controls for the layers
   const neighborhoodsLayerCheckbox = document.getElementById(
     "layer-neighborhoods"
   );
   const sectorsLayerCheckbox = document.getElementById("layer-sectors");
 
-  // إضافة أحداث لمعالجة تغييرات حالة الطبقات
+  // add event listeners to handle layer state changes
   if (neighborhoodsLayerCheckbox) {
     neighborhoodsLayerCheckbox.addEventListener("change", function () {
       toggleMapLayer("neighborhoods", this.checked);
@@ -245,7 +274,7 @@ function initLayerControls() {
     });
   }
 
-  // أزرار إجراءات الطبقة
+  // layer action buttons
   const layerActionButtons = document.querySelectorAll(".layer-action-btn");
   layerActionButtons.forEach((button) => {
     button.addEventListener("click", function () {
@@ -262,13 +291,13 @@ function initLayerControls() {
 }
 
 /**
- * تبديل رؤية طبقة على الخريطة
- * @param {string} layerName - اسم الطبقة
- * @param {boolean} visible - حالة الرؤية
+ * toggle the visibility of a layer on the map
+ * @param {string} layerName - the name of the layer
+ * @param {boolean} visible - the visibility state
  */
 function toggleMapLayer(layerName, visible) {
-  // هذه الوظيفة ستتم معالجتها بشكل كامل في ملف map.js
-  // مجرد مكان مؤقت هنا للاتصال بوظائف الخريطة
+  // this function will be handled completely in the map.js file
+  // it's just a temporary place to call the map functions
   if (window.mapLayerToggle) {
     window.mapLayerToggle(layerName, visible);
   } else {
@@ -279,11 +308,12 @@ function toggleMapLayer(layerName, visible) {
 }
 
 /**
- * التكبير على طبقة محددة
- * @param {string} layerName - اسم الطبقة
+ * zoom to a specific layer
+ * @param {string} layerName - the name of the layer
  */
 function zoomToLayer(layerName) {
-  // هذه الوظيفة ستتم معالجتها بشكل كامل في ملف map.js
+  // this function will be handled completely in the map.js file
+  // it's just a temporary place to call the map functions
   if (window.zoomToMapLayer) {
     window.zoomToMapLayer(layerName);
   } else {
@@ -292,11 +322,12 @@ function zoomToLayer(layerName) {
 }
 
 /**
- * عرض معلومات الطبقة
- * @param {string} layerName - اسم الطبقة
+ * show the information of a layer
+ * @param {string} layerName - the name of the layer
  */
 function showLayerInfo(layerName) {
-  // هذه الوظيفة ستتم معالجتها بشكل كامل في ملف map.js
+  // this function will be handled completely in the map.js file
+  // it's just a temporary place to call the map functions
   if (window.showMapLayerInfo) {
     window.showMapLayerInfo(layerName);
   } else {
@@ -305,7 +336,7 @@ function showLayerInfo(layerName) {
 }
 
 /**
- * تهيئة عناصر التحكم في النمط
+ * initialize the style controls
  */
 function initStyleControls() {
   const layerStyleSelect = document.getElementById("layerStyleSelect");
@@ -315,14 +346,14 @@ function initStyleControls() {
   const opacityValue = document.getElementById("opacityValue");
   const applyStyleBtn = document.getElementById("applyStyleBtn");
 
-  // عرض قيمة الشفافية
+  // show the opacity value
   if (layerOpacity && opacityValue) {
     layerOpacity.addEventListener("input", function () {
       opacityValue.textContent = this.value;
     });
   }
 
-  // تطبيق النمط على الطبقة المحددة
+  // apply the style to the specified layer
   if (applyStyleBtn) {
     applyStyleBtn.addEventListener("click", function () {
       if (!layerStyleSelect || !layerColor || !layerOpacity || !lineWeight)
@@ -344,12 +375,13 @@ function initStyleControls() {
 }
 
 /**
- * تطبيق نمط على طبقة
- * @param {string} layerName - اسم الطبقة
- * @param {Object} style - مواصفات النمط
+ * apply a style to a layer
+ * @param {string} layerName - the name of the layer
+ * @param {Object} style - the style specification
  */
 function applyLayerStyle(layerName, style) {
-  // هذه الوظيفة ستتم معالجتها بشكل كامل في ملف map.js
+  // this function will be handled completely in the map.js file
+  // it's just a temporary place to call the map functions
   if (window.applyMapLayerStyle) {
     window.applyMapLayerStyle(layerName, style);
   } else {
@@ -358,25 +390,25 @@ function applyLayerStyle(layerName, style) {
 }
 
 /**
- * تهيئة عناصر التحكم في استيراد الطبقات
- * ملاحظة: تم نقل جميع event listeners للاستيراد إلى features.js لتجنب التضارب
+ * initialize the import controls
+ * note: all event listeners for import have been moved to features.js to avoid conflicts
  */
 function initImportControls() {
-  // منع التهيئة المتكررة  
+  // prevent the repeated initialization
   if (window.sidebarImportInitialized) {
     return;
   }
   window.sidebarImportInitialized = true;
-  
-  console.log("تم تهيئة عناصر التحكم في الاستيراد من sidebar.js");
-  
-  // تم نقل جميع event listeners إلى features.js لتجنب التضارب
-  // لا نحتاج إضافة أي event listeners هنا
+
+  console.log("initialized the import controls from sidebar.js");
+
+  // all event listeners for import have been moved to features.js to avoid conflicts
+  // we don't need to add any event listeners here
 }
 
 /**
- * استيراد طبقة من ملف
- * @param {File} file - الملف المراد استيراده
+ * import a layer from a file
+ * @param {File} file - the file to import
  */
 function importLayer(file) {
   console.log(`استيراد طبقة من الملف: ${file.name}`);
@@ -384,141 +416,41 @@ function importLayer(file) {
 }
 
 
-
 /**
- * إعداد الإغلاق التلقائي للأشرطة الجانبية بعد إبعاد مؤشر الماوس
- * @param {HTMLElement} leftSidebar - عنصر الشريط الجانبي الأيسر
- * @param {HTMLElement} rightSidebar - عنصر الشريط الجانبي الأيمن
+ * hide the auto-close indicator
+ * @param {string} sidebarId - the id of the sidebar
+ * @param {boolean} closeSidebar - whether to close the sidebar
  */
-function setupAutoCloseSidebars(leftSidebar, rightSidebar) {
-  // الحصول على عناصر مؤشرات الإغلاق التلقائي
-  const leftIndicator = document.getElementById(
-    "leftSidebarAutoCloseIndicator"
-  );
-  const rightIndicator = document.getElementById(
-    "rightSidebarAutoCloseIndicator"
-  );
+function hideAutoCloseIndicator(sidebarId, closeSidebar = false) {
+  const indicator = document.getElementById(`${sidebarId}AutoCloseIndicator`);
 
-  // إضافة مستمعي أحداث للشريط الجانبي الأيسر
-  if (leftSidebar) {
-    leftSidebar.addEventListener("mouseenter", function () {
-      // إلغاء المؤقت عند دخول المؤشر للشريط الجانبي
-      if (leftSidebarTimer) {
-        clearTimeout(leftSidebarTimer);
-        leftSidebarTimer = null;
-
-        // إخفاء المؤشر
-        if (leftIndicator) {
-          leftIndicator.classList.remove("show");
-        }
-      }
-    });
-
-    leftSidebar.addEventListener("mouseleave", function () {
-      // تحقق مما إذا كان الشريط مثبتًا
-      if (leftSidebar.getAttribute("data-pinned") === "true") {
-        return; // تجاهل الإغلاق التلقائي إذا كان مثبتًا
-      }
-
-      // بدء المؤقت عند خروج المؤشر من الشريط الجانبي
-      if (leftSidebarActive && !leftSidebar.classList.contains("collapsed")) {
-        // إظهار المؤشر
-        if (leftIndicator) {
-          leftIndicator.classList.add("show");
-        }
-
-        leftSidebarTimer = setTimeout(function () {
-          // تحقق مرة أخرى في حالة تغيير حالة التثبيت أثناء المهلة
-          if (leftSidebar.getAttribute("data-pinned") !== "true") {
-            toggleSidebar("left");
-
-            // إخفاء المؤشر بعد الإغلاق
-            if (leftIndicator) {
-              leftIndicator.classList.remove("show");
-            }
-          }
-        }, AUTO_CLOSE_DELAY);
-      }
-    });
+  if (indicator) {
+    indicator.classList.remove("show");
   }
 
-  // إضافة مستمعي أحداث للشريط الجانبي الأيمن
-  if (rightSidebar) {
-    rightSidebar.addEventListener("mouseenter", function () {
-      // إلغاء المؤقت عند دخول المؤشر للشريط الجانبي
-      if (rightSidebarTimer) {
-        clearTimeout(rightSidebarTimer);
-        rightSidebarTimer = null;
 
-        // إخفاء المؤشر
-        if (rightIndicator) {
-          rightIndicator.classList.remove("show");
-        }
+  if (closeSidebar) {
+    const sidebar = document.getElementById(sidebarId);
+    if (sidebar.getAttribute("data-pinned") !== "true") {
+      if (sidebarId === "leftSidebar") {
+        leftSidebarActive = false;
+        sidebar.classList.add("collapsed");
+      } else {
+        rightSidebarActive = false;
+        sidebar.classList.add("collapsed");
       }
-    });
-
-    rightSidebar.addEventListener("mouseleave", function () {
-      // تحقق مما إذا كان الشريط مثبتًا
-      if (rightSidebar.getAttribute("data-pinned") === "true") {
-        return; // تجاهل الإغلاق التلقائي إذا كان مثبتًا
-      }
-
-      // بدء المؤقت عند خروج المؤشر من الشريط الجانبي
-      if (rightSidebarActive && !rightSidebar.classList.contains("collapsed")) {
-        // إظهار المؤشر
-        if (rightIndicator) {
-          rightIndicator.classList.add("show");
-        }
-
-        rightSidebarTimer = setTimeout(function () {
-          // تحقق مرة أخرى في حالة تغيير حالة التثبيت أثناء المهلة
-          if (rightSidebar.getAttribute("data-pinned") !== "true") {
-            toggleSidebar("right");
-
-            // إخفاء المؤشر بعد الإغلاق
-            if (rightIndicator) {
-              rightIndicator.classList.remove("show");
-            }
-          }
-        }, AUTO_CLOSE_DELAY);
-      }
-    });
+    }
   }
 }
 
 /**
- * إلغاء مؤقتات الإغلاق التلقائي
+ * clear all auto-close timers
  */
 function clearAutoCloseTimers() {
-  // الحصول على عناصر مؤشرات الإغلاق التلقائي
-  const leftIndicator = document.getElementById(
-    "leftSidebarAutoCloseIndicator"
-  );
-  const rightIndicator = document.getElementById(
-    "rightSidebarAutoCloseIndicator"
-  );
-
-  if (leftSidebarTimer) {
-    clearTimeout(leftSidebarTimer);
-    leftSidebarTimer = null;
-
-    // إخفاء المؤشر
-    if (leftIndicator) {
-      leftIndicator.classList.remove("show");
-    }
-  }
-
-  if (rightSidebarTimer) {
-    clearTimeout(rightSidebarTimer);
-    rightSidebarTimer = null;
-
-    // إخفاء المؤشر
-    if (rightIndicator) {
-      rightIndicator.classList.remove("show");
-    }
-  }
+  hideAutoCloseIndicator("leftSidebar");
+  hideAutoCloseIndicator("rightSidebar");
 }
 
-// كشف عن الوظائف للاستخدام الخارجي
+// expose the functions for external use
 window.toggleSidebar = toggleSidebar;
 window.clearAutoCloseTimers = clearAutoCloseTimers;

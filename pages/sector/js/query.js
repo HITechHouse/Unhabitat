@@ -1,21 +1,21 @@
 /**
  * query.js
- * يدير وظائف الاستعلام والتحليل للتطبيق
+ * manages the query and analysis functions for the application
  */
 
-// متغيرات عامة للاستعلامات
+// global variables for the queries
 let queryConditions = [];
 let queryResults = [];
 let highlightedFeatures = [];
 let tableFields = {};
 
-// تهيئة منشئ الاستعلامات عند تحميل الصفحة
+// initialize the query builder when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
   initQueryBuilder();
 });
 
 /**
- * تهيئة منشئ الاستعلامات
+ * initialize the query builder
  */
 function initQueryBuilder() {
   const queryTableSelect = document.getElementById("queryTableSelect");
@@ -26,10 +26,10 @@ function initQueryBuilder() {
   const addConditionBtn = document.getElementById("addConditionBtn");
   const runQueryBtn = document.getElementById("runQueryBtn");
 
-  // تحديد الحقول المتاحة للجداول
+  // define the fields for each table
   defineTableFields();
 
-  // تعيين أحداث التغيير والنقر
+  // set the change and click events
   if (queryTableSelect) {
     queryTableSelect.addEventListener("change", function () {
       loadFieldsForTable(this.value);
@@ -70,7 +70,7 @@ function initQueryBuilder() {
 }
 
 /**
- * تعريف الحقول لكل جدول
+ * define the fields for each table
  */
 function defineTableFields() {
   tableFields = {
@@ -101,17 +101,17 @@ function defineTableFields() {
 }
 
 /**
- * تحميل الحقول المتاحة للجدول المحدد
- * @param {string} tableName - اسم الجدول
+ * load the fields for the specified table
+ * @param {string} tableName - the name of the table
  */
 function loadFieldsForTable(tableName) {
   const queryFieldSelect = document.getElementById("queryFieldSelect");
 
   if (queryFieldSelect) {
-    // إفراغ القائمة
+    // clear the list
     queryFieldSelect.innerHTML = '<option value="">اختر حقل...</option>';
 
-    // إضافة الحقول المتاحة للجدول المحدد
+    // add the fields for the specified table
     if (tableFields[tableName]) {
       tableFields[tableName].forEach((field) => {
         const option = document.createElement("option");
@@ -124,7 +124,7 @@ function loadFieldsForTable(tableName) {
 }
 
 /**
- * عرض قائمة بالقيم المحتملة للحقل المحدد مع واجهة محسنة
+ * show a list of possible values for the specified field with a better interface
  */
 function showValueList() {
   const tableSelect = document.getElementById("queryTableSelect");
@@ -140,7 +140,7 @@ function showValueList() {
   const field = fieldSelect.value;
   const fieldLabel = getFieldLabel(table, field);
 
-  // الحصول على القيم الفريدة للحقل
+  // get the unique values for the field
   let values = [];
 
   if (table === "neighborhoods" && typeof neighborhoodsData !== "undefined") {
@@ -160,115 +160,109 @@ function showValueList() {
   }
 
   if (values.length > 0) {
-    // فرز القيم للعرض المنظم
+    // sort the values for the better display
     values.sort();
 
-    // إنشاء محتوى محسن للحوار
+    // create the better content for the dialog
     let valueListHTML = "";
 
-    // إنشاء حقل بحث للقيم
+    // create the search field for the values
     const searchInputHtml = `
-      <div class="search-container" style="margin-bottom: 15px;">
-        <input type="text" id="valueSearchInput" class="sidebar-input" placeholder="ابحث عن قيمة..." style="width: 100%;">
+      <div class="value-selector-search">
+        <input type="text" id="valueSearchInput" class="search-input" placeholder="ابحث عن قيمة...">
       </div>
     `;
 
-    // تنظيم القيم في مصفوفة من الأزرار مع تصميم محسن
+    // organize the values in an array of buttons with a better design
     valueListHTML += `
-      <div class="value-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; max-height: 300px; overflow-y: auto; padding: 10px 5px;">
+      <div class="value-selector-container">
         ${values
-          .map(
-            (v) =>
-              `<button class="value-option sidebar-button" style="margin: 0; padding: 8px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" data-value="${v}">${v}</button>`
-          )
-          .join("")}
+        .map(
+          (v) =>
+            `<div class="value-item value-option" data-value="${v}">
+              <span class="value-text">${v}</span>
+              <i class="fas fa-check"></i>
+            </div>`
+        )
+        .join("")}
       </div>
     `;
 
     const dialogContent = `
-      <div class="value-selector-dialog" style="width: 90%; max-width: 600px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);">
-        <div class="dialog-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px;">
-          <h3 style="margin: 0; color: var(--primary-color);">اختر قيمة للحقل: ${fieldLabel}</h3>
-          <button class="close-dialog-btn" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #666;">&times;</button>
+      <div class="value-selector-content">
+        <div class="value-selector-header">
+          <h3>اختر قيمة للحقل: ${fieldLabel}</h3>
+          <button class="close-btn close-dialog-btn">&times;</button>
         </div>
         ${searchInputHtml}
         ${valueListHTML}
-        <div class="dialog-footer" style="margin-top: 15px; display: flex; justify-content: flex-end; border-top: 1px solid #e5e7eb; padding-top: 15px;">
-          <button class="cancel-btn sidebar-button" style="margin: 0 5px;">إلغاء</button>
+        <div class="value-selector-footer">
+          <button class="cancel-btn">إلغاء</button>
         </div>
       </div>
     `;
 
-    // إنشاء عنصر الحوار المحسن
+    // create the better dialog element
     const dialog = document.createElement("div");
-    dialog.style.position = "fixed";
-    dialog.style.top = "0";
-    dialog.style.left = "0";
-    dialog.style.width = "100%";
-    dialog.style.height = "100%";
-    dialog.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    dialog.style.display = "flex";
-    dialog.style.justifyContent = "center";
-    dialog.style.alignItems = "center";
-    dialog.style.zIndex = "2000";
+    dialog.className = "value-selector-dialog";
     dialog.innerHTML = dialogContent;
 
     document.body.appendChild(dialog);
 
-    // وظيفة تصفية القيم بناءً على النص المدخل
+    // function to filter the values based on the entered text
     const filterValues = (searchText) => {
-      const valueButtons = dialog.querySelectorAll(".value-option");
+      const valueItems = dialog.querySelectorAll(".value-option");
       searchText = searchText.toLowerCase();
 
-      valueButtons.forEach((btn) => {
-        const value = btn.dataset.value.toLowerCase();
+      valueItems.forEach((item) => {
+        const value = item.dataset.value.toLowerCase();
         if (value.includes(searchText)) {
-          btn.style.display = "block";
+          item.style.display = "flex";
         } else {
-          btn.style.display = "none";
+          item.style.display = "none";
         }
       });
     };
 
-    // إضافة الأحداث بعد إنشاء العناصر
+    // add the events after creating the elements
     const searchInput = dialog.querySelector("#valueSearchInput");
     if (searchInput) {
       searchInput.addEventListener("input", function () {
         filterValues(this.value);
       });
-      // تركيز حقل البحث عند فتح الحوار
+      // focus the search field when the dialog is opened
       setTimeout(() => searchInput.focus(), 100);
     }
 
-    // إضافة أحداث النقر للخيارات
+    // add the click events for the options
     const valueOptions = dialog.querySelectorAll(".value-option");
     valueOptions.forEach((option) => {
       option.addEventListener("click", function () {
         valueInput.value = this.dataset.value;
-        document.body.removeChild(dialog);
+        dialog.remove();
       });
     });
 
-    // إضافة حدث للزر إغلاق
+    // add the close button event
     const closeBtn = dialog.querySelector(".close-dialog-btn");
     if (closeBtn) {
       closeBtn.addEventListener("click", function () {
-        document.body.removeChild(dialog);
+        dialog.remove();
       });
     }
 
-    // إضافة حدث لزر الإلغاء
+    // add the cancel button event
     const cancelBtn = dialog.querySelector(".cancel-btn");
     if (cancelBtn) {
       cancelBtn.addEventListener("click", function () {
-        document.body.removeChild(dialog);
+        dialog.remove();
       });
     }
 
-    // إغلاق الحوار عند النقر خارج المحتوى
+    // close the dialog when clicking outside the content
     dialog.addEventListener("click", function (e) {
       if (e.target === dialog) {
-        document.body.removeChild(dialog);
+        dialog.remove();
       }
     });
   } else {
@@ -277,10 +271,10 @@ function showValueList() {
 }
 
 /**
- * الحصول على القيم الفريدة لحقل معين من مصفوفة
- * @param {Array} data - البيانات
- * @param {string} field - اسم الحقل
- * @return {Array} - القيم الفريدة
+ * get the unique values for the specified field from an array
+ * @param {Array} data - the data array
+ * @param {string} field - the field name
+ * @return {Array} - the unique values
  */
 function getUniqueValues(data, field) {
   const values = data
@@ -292,17 +286,17 @@ function getUniqueValues(data, field) {
 }
 
 /**
- * إضافة شرط استعلام جديد
- * @param {string} table - اسم الجدول
- * @param {string} field - اسم الحقل
- * @param {string} operator - العملية
- * @param {string} value - القيمة
+ * add a new query condition
+ * @param {string} table - the name of the table
+ * @param {string} field - the field name
+ * @param {string} operator - the operator
+ * @param {string} value - the value
  */
 function addQueryCondition(table, field, operator, value) {
-  // إنشاء معرّف فريد للشرط
+  // create a unique id for the condition
   const id = Date.now();
 
-  // إضافة الشرط إلى المصفوفة
+  // add the condition to the array
   queryConditions.push({
     id,
     table,
@@ -311,7 +305,7 @@ function addQueryCondition(table, field, operator, value) {
     value,
   });
 
-  // عرض الشرط في واجهة المستخدم
+  // display the condition in the user interface
   const queryConditionsElement = document.getElementById("queryConditions");
 
   if (queryConditionsElement) {
@@ -332,7 +326,7 @@ function addQueryCondition(table, field, operator, value) {
 
     queryConditionsElement.appendChild(conditionElement);
 
-    // إضافة حدث إزالة الشرط
+    // add the remove condition event
     const removeButton = conditionElement.querySelector(".condition-remove");
     if (removeButton) {
       removeButton.addEventListener("click", function () {
@@ -344,14 +338,14 @@ function addQueryCondition(table, field, operator, value) {
 }
 
 /**
- * إزالة شرط استعلام
- * @param {number} id - معرّف الشرط
+ * remove a query condition
+ * @param {number} id - the id of the condition
  */
 function removeQueryCondition(id) {
-  // إزالة الشرط من المصفوفة
+  // remove the condition from the array
   queryConditions = queryConditions.filter((condition) => condition.id !== id);
 
-  // إزالة الشرط من واجهة المستخدم
+  // remove the condition from the user interface
   const conditionElement = document.getElementById(`condition-${id}`);
   if (conditionElement) {
     conditionElement.remove();
@@ -359,10 +353,10 @@ function removeQueryCondition(id) {
 }
 
 /**
- * الحصول على اسم الحقل المعروض
- * @param {string} table - اسم الجدول
- * @param {string} field - اسم الحقل
- * @return {string} - اسم الحقل المعروض
+ * get the label of the specified field
+ * @param {string} table - the name of the table
+ * @param {string} field - the field name
+ * @return {string} - the label of the field
  */
 function getFieldLabel(table, field) {
   if (tableFields[table]) {
@@ -376,9 +370,9 @@ function getFieldLabel(table, field) {
 }
 
 /**
- * ترجمة العملية إلى نص عربي
- * @param {string} operator - رمز العملية
- * @return {string} - النص العربي
+ * translate the operator to a text
+ * @param {string} operator - the operator
+ * @return {string} - the translated operator
  */
 function getOperatorText(operator) {
   const translations = {
@@ -395,19 +389,19 @@ function getOperatorText(operator) {
 }
 
 /**
- * تنفيذ الاستعلام بناءً على الشروط المحددة
+ * execute the query based on the specified conditions
  */
 function executeQuery() {
-  // تصفية النتائج السابقة من الخريطة
+  // clear the highlighted features from the map
   clearHighlightedFeatures();
 
-  // التحقق من وجود شروط
+  // check if there are any conditions
   if (queryConditions.length === 0) {
     alert("الرجاء إضافة شرط واحد على الأقل قبل تنفيذ الاستعلام");
     return;
   }
 
-  // تنفيذ الاستعلام حسب نوع الطبقة
+  // execute the query based on the type of layer
   const tables = [...new Set(queryConditions.map((c) => c.table))];
 
   queryResults = [];
@@ -425,7 +419,7 @@ function executeQuery() {
   }
 
   if (tables.includes("infrastructure") || tables.includes("services")) {
-    // هذه الاستعلامات ترتبط بالأحياء، لذا نحتاج إلى تحويلها إلى استعلامات أحياء
+    // these queries are related to the neighborhoods, so we need to convert them to neighborhood queries
     const results = executeInfrastructureQuery();
     if (results.length > 0) {
       const relatedNeighborhoods = getRelatedNeighborhoods(results);
@@ -440,16 +434,16 @@ function executeQuery() {
     highlightServiceSectors(results);
   }
 
-  // عرض النتائج
+  // display the results
   displayQueryResults();
 
-  // التكبير على النتائج
+  // zoom to the results
   zoomToQueryResults();
 }
 
 /**
- * تنفيذ الاستعلام على بيانات الأحياء
- * @return {Array} - نتائج الاستعلام
+ * execute the query on the neighborhoods data
+ * @return {Array} - the query results
  */
 function executeNeighborhoodQuery() {
   if (typeof neighborhoodsData === "undefined") {
@@ -493,8 +487,8 @@ function executeNeighborhoodQuery() {
 }
 
 /**
- * تنفيذ الاستعلام على بيانات القطاعات
- * @return {Array} - نتائج الاستعلام
+ * execute the query on the sectors data
+ * @return {Array} - the query results
  */
 function executeSectorQuery() {
   if (typeof sectors === "undefined") {
@@ -536,8 +530,8 @@ function executeSectorQuery() {
 }
 
 /**
- * تنفيذ الاستعلام على بيانات البنية التحتية والخدمات
- * @return {Array} - نتائج الاستعلام
+ * execute the query on the infrastructure and services data
+ * @return {Array} - the query results
  */
 function executeInfrastructureQuery() {
   const infraConditions = queryConditions.filter(
@@ -550,7 +544,7 @@ function executeInfrastructureQuery() {
 
   let results = [];
 
-  // تنفيذ استعلامات البنية التحتية
+  // execute the infrastructure queries
   if (
     typeof infrastructureData !== "undefined" &&
     infraConditions.some((c) => c.table === "infrastructure")
@@ -578,7 +572,7 @@ function executeInfrastructureQuery() {
     results = results.concat(infraResults);
   }
 
-  // تنفيذ استعلامات الخدمات
+  // execute the services queries
   if (
     typeof servicesData !== "undefined" &&
     infraConditions.some((c) => c.table === "services")
@@ -616,9 +610,9 @@ function executeInfrastructureQuery() {
 }
 
 /**
- * الحصول على الأحياء المرتبطة ببيانات البنية التحتية/الخدمات
- * @param {Array} results - نتائج استعلام البنية التحتية/الخدمات
- * @return {Array} - الأحياء المرتبطة
+ * get the neighborhoods related to the infrastructure and services data
+ * @param {Array} results - the query results
+ * @return {Array} - the related neighborhoods
  */
 function getRelatedNeighborhoods(results) {
   if (typeof neighborhoodsData === "undefined") {
@@ -634,14 +628,14 @@ function getRelatedNeighborhoods(results) {
 }
 
 /**
- * تسليط الضوء على الأحياء في نتائج الاستعلام
- * @param {Array} neighborhoods - الأحياء المراد تسليط الضوء عليها
+ * highlight the neighborhoods in the query results
+ * @param {Array} neighborhoods - the neighborhoods to highlight
  */
 function highlightNeighborhoods(neighborhoods) {
   if (!map) return;
 
   neighborhoods.forEach((neighborhood) => {
-    // إنشاء نسخة من الحدود لتسليط الضوء عليها
+    // create a copy of the borders to highlight
     const highlightedFeature = L.geoJSON(neighborhood, {
       style: {
         color: "#ff6b6b",
@@ -652,21 +646,21 @@ function highlightNeighborhoods(neighborhoods) {
       },
     });
 
-    // إضافة التسمية للمعلم المسلط عليه الضوء
+    // add the label to the highlighted feature
     const name =
       neighborhood.properties.Names ||
       neighborhood.properties.Name_En ||
       "حي رقم " + neighborhood.properties.ID;
 
-    // إضافة النقر لعرض المعلومات
+    // add the click event to display the information
     highlightedFeature.on("click", function () {
       showNeighborhoodInfo(neighborhood.properties);
     });
 
-    // إضافة إلى الخريطة
+    // add to the map
     highlightedFeature.addTo(map);
 
-    // تخزين المعلم المسلط عليه الضوء
+    // store the highlighted feature
     highlightedFeatures.push({
       layer: highlightedFeature,
       type: "neighborhood",
@@ -677,23 +671,23 @@ function highlightNeighborhoods(neighborhoods) {
 }
 
 /**
- * تسليط الضوء على القطاعات في نتائج الاستعلام
- * @param {Array} sectors - القطاعات المراد تسليط الضوء عليها
+ * highlight the sectors in the query results
+ * @param {Array} sectors - the sectors to highlight
  */
 function highlightSectors(sectors) {
   if (!map) return;
 
-  // استخدام العناصر الموجودة في طبقة القطاعات
+  // use the elements in the sectors layer
   if (sectorsLayer) {
     const sectorIds = sectors.map((s) => s.id);
 
     sectorsLayer.eachLayer((layer) => {
       if (layer instanceof L.Polygon) {
-        // التحقق من أن المضلع يمثل قطاعًا من النتائج
+        // check if the polygon represents a sector from the results
         const sectorId = layer.options.className?.split("-")[1];
 
         if (sectorId && sectorIds.includes(parseInt(sectorId))) {
-          // نسخ المضلع وتغيير نمطه
+          // create a copy of the polygon and change the style
           const highlightedFeature = L.polygon(layer.getLatLngs(), {
             color: "#ff6b6b",
             weight: 4,
@@ -702,10 +696,10 @@ function highlightSectors(sectors) {
             opacity: 1,
           });
 
-          // إضافة إلى الخريطة
+          // add to the map
           highlightedFeature.addTo(map);
 
-          // تخزين المعلم المسلط عليه الضوء
+          // store the highlighted feature
           const sector = sectors.find((s) => s.id === parseInt(sectorId));
           highlightedFeatures.push({
             layer: highlightedFeature,
@@ -720,7 +714,7 @@ function highlightSectors(sectors) {
 }
 
 /**
- * إزالة تسليط الضوء عن العناصر السابقة
+ * remove the highlighted features
  */
 function clearHighlightedFeatures() {
   if (!map) return;
@@ -733,7 +727,7 @@ function clearHighlightedFeatures() {
 }
 
 /**
- * عرض نتائج الاستعلام في لوحة النتائج
+ * display the query results in the results panel
  */
 function displayQueryResults() {
   const queryResultsElement = document.getElementById("queryResults");
@@ -748,53 +742,53 @@ function displayQueryResults() {
 
   let resultsHtml = "";
 
-  // تخزين الأنواع المختلفة من النتائج
+  // store the different types of results
   const neighborhoods = highlightedFeatures.filter(
     (f) => f.type === "neighborhood"
   );
   const sectors = highlightedFeatures.filter((f) => f.type === "sector");
 
-  // إضافة قسم النتائج للأحياء
+  // add the results section for the neighborhoods
   if (neighborhoods.length > 0) {
     resultsHtml += `
       <div class="result-section">
         <h4>الأحياء (${neighborhoods.length})</h4>
         <div class="result-list">
           ${neighborhoods
-            .map(
-              (n) => `
+        .map(
+          (n) => `
             <div class="result-item" data-type="${n.type}" data-id="${n.data.properties.ID}">
               <span>${n.name}</span>
             </div>
           `
-            )
-            .join("")}
+        )
+        .join("")}
         </div>
       </div>
     `;
   }
 
-  // إضافة قسم النتائج للقطاعات
+  // add the results section for the sectors
   if (sectors.length > 0) {
     resultsHtml += `
       <div class="result-section">
         <h4>القطاعات (${sectors.length})</h4>
         <div class="result-list">
           ${sectors
-            .map(
-              (s) => `
+        .map(
+          (s) => `
             <div class="result-item" data-type="${s.type}" data-id="${s.data.id}">
               <span>${s.name}</span>
             </div>
           `
-            )
-            .join("")}
+        )
+        .join("")}
         </div>
       </div>
     `;
   }
 
-  // إضافة قسم النتائج لدوائر الخدمات
+  // add the results section for the service sectors
   const serviceSectors = highlightedFeatures.filter(
     (f) => f.type === "service-sector"
   );
@@ -804,20 +798,20 @@ function displayQueryResults() {
         <h4>دوائر الخدمات (${serviceSectors.length})</h4>
         <div class="result-list">
           ${serviceSectors
-            .map(
-              (s) => `
+        .map(
+          (s) => `
             <div class="result-item" data-type="${s.type}" data-id="${s.data.properties.OBJECTID}">
               <span>${s.name}</span>
             </div>
           `
-            )
-            .join("")}
+        )
+        .join("")}
         </div>
       </div>
     `;
   }
 
-  // إضافة أزرار لتصدير وطباعة النتائج
+  // add the buttons for exporting and printing the results
   resultsHtml += `
     <div style="margin-top: 15px; display: flex; gap: 10px;">
       <button id="exportResultsBtn" class="sidebar-button">
@@ -831,7 +825,7 @@ function displayQueryResults() {
 
   queryResultsElement.innerHTML = resultsHtml;
 
-  // إضافة أحداث النقر لعناصر النتائج
+  // add the click events for the result items
   const resultItems = queryResultsElement.querySelectorAll(".result-item");
   resultItems.forEach((item) => {
     item.addEventListener("click", function () {
@@ -842,7 +836,7 @@ function displayQueryResults() {
     });
   });
 
-  // إضافة حدث لزر تصدير النتائج
+  // add the click event for the export results button
   const exportResultsBtn = document.getElementById("exportResultsBtn");
   if (exportResultsBtn) {
     exportResultsBtn.addEventListener("click", function () {
@@ -850,7 +844,7 @@ function displayQueryResults() {
     });
   }
 
-  // إضافة حدث لزر طباعة النتائج
+  // add the click event for the print results button
   const printResultsBtn = document.getElementById("printResultsBtn");
   if (printResultsBtn) {
     printResultsBtn.addEventListener("click", function () {
@@ -860,7 +854,7 @@ function displayQueryResults() {
 }
 
 /**
- * التكبير على نتائج الاستعلام
+ * zoom to the query results
  */
 function zoomToQueryResults() {
   if (!map || highlightedFeatures.length === 0) return;
@@ -875,9 +869,9 @@ function zoomToQueryResults() {
 }
 
 /**
- * التكبير على عنصر محدد من النتائج
- * @param {string} type - نوع العنصر
- * @param {string} id - معرّف العنصر
+ * zoom to the specified result item
+ * @param {string} type - the type of the result item
+ * @param {string} id - the id of the result item
  */
 function zoomToResultItem(type, id) {
   if (!map) return;
@@ -888,10 +882,10 @@ function zoomToResultItem(type, id) {
     );
 
     if (feature) {
-      // التكبير على الحي
+      // zoom to the neighborhood
       map.fitBounds(feature.layer.getBounds(), { padding: [50, 50] });
 
-      // عرض معلومات الحي
+      // display the neighborhood information
       showNeighborhoodInfo(feature.data.properties);
     }
   } else if (type === "sector") {
@@ -900,17 +894,17 @@ function zoomToResultItem(type, id) {
     );
 
     if (feature) {
-      // التكبير على القطاع
+      // zoom to the sector
       map.fitBounds(feature.layer.getBounds(), { padding: [50, 50] });
 
-      // عرض معلومات القطاع
+      // display the sector information
       showSectorInfo(feature.data);
     }
   }
 }
 
 /**
- * تصدير نتائج الاستعلام
+  * export the query results
  */
 function exportQueryResults() {
   if (queryResults.length === 0) {
@@ -918,7 +912,7 @@ function exportQueryResults() {
     return;
   }
 
-  // إنشاء بيانات التصدير
+  // create the export data
   const exportData = {
     query: {
       conditions: queryConditions.map((c) => ({
@@ -947,10 +941,10 @@ function exportQueryResults() {
     exportDate: new Date().toLocaleString("ar-SA"),
   };
 
-  // تحويل البيانات إلى نص JSON
+  // convert the data to JSON
   const jsonData = JSON.stringify(exportData, null, 2);
 
-  // إنشاء ملف للتحميل
+  // create a file for the download
   const blob = new Blob([jsonData], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -964,7 +958,7 @@ function exportQueryResults() {
 }
 
 /**
- * طباعة نتائج الاستعلام
+ * print the query results
  */
 function printQueryResults() {
   if (queryResults.length === 0) {
@@ -972,16 +966,16 @@ function printQueryResults() {
     return;
   }
 
-  // استخراج معلومات النتائج
+  // extract the information of the results
   const neighborhoods = highlightedFeatures.filter(
     (f) => f.type === "neighborhood"
   );
   const sectors = highlightedFeatures.filter((f) => f.type === "sector");
 
-  // إنشاء صفحة الطباعة
+  // create the print window
   const printWindow = window.open("", "_blank");
 
-  // تحضير HTML للطباعة
+  // prepare the HTML for the print
   let printContent = `
     <!DOCTYPE html>
     <html lang="ar" dir="rtl">
@@ -1046,21 +1040,21 @@ function printQueryResults() {
         <h3>معايير الاستعلام:</h3>
         <ul>
           ${queryConditions
-            .map(
-              (c) => `
+      .map(
+        (c) => `
             <li>
               <strong>${getFieldLabel(c.table, c.field)}</strong>
               ${getOperatorText(c.operator)}
               ${c.value || "فارغ"}
             </li>
           `
-            )
-            .join("")}
+      )
+      .join("")}
         </ul>
       </div>
   `;
 
-  // إضافة نتائج الأحياء إذا كانت موجودة
+  // add the results of the neighborhoods if they exist
   if (neighborhoods.length > 0) {
     printContent += `
       <div class="result-section">
@@ -1076,26 +1070,26 @@ function printQueryResults() {
           </thead>
           <tbody>
             ${neighborhoods
-              .map(
-                (n, index) => `
+        .map(
+          (n, index) => `
               <tr>
                 <td>${index + 1}</td>
                 <td>${n.name}</td>
                 <td>${n.data.properties.Sector_01 || "غير محدد"}</td>
                 <td>${(n.data.properties.Shape_Area / 1000000).toFixed(
-                  2
-                )} كم²</td>
+            2
+          )} كم²</td>
               </tr>
             `
-              )
-              .join("")}
+        )
+        .join("")}
           </tbody>
         </table>
       </div>
     `;
   }
 
-  // إضافة نتائج القطاعات إذا كانت موجودة
+  // add the results of the sectors if they exist
   if (sectors.length > 0) {
     printContent += `
       <div class="result-section">
@@ -1110,23 +1104,23 @@ function printQueryResults() {
           </thead>
           <tbody>
             ${sectors
-              .map(
-                (s, index) => `
+        .map(
+          (s, index) => `
               <tr>
                 <td>${index + 1}</td>
                 <td>${s.name}</td>
                 <td>${s.data.id}</td>
               </tr>
             `
-              )
-              .join("")}
+        )
+        .join("")}
           </tbody>
         </table>
       </div>
     `;
   }
 
-  // إضافة تذييل الصفحة
+  // add the footer of the page
   printContent += `
       <div class="footer">
         <p>تم إنشاء هذا التقرير في: ${new Date().toLocaleString("ar-SA")}</p>
@@ -1144,15 +1138,15 @@ function printQueryResults() {
     </html>
   `;
 
-  // كتابة المحتوى إلى نافذة الطباعة
+  // write the content to the print window
   printWindow.document.open();
   printWindow.document.write(printContent);
   printWindow.document.close();
 }
 
 /**
- * تنفيذ الاستعلام على بيانات دوائر الخدمات
- * @return {Array} - نتائج الاستعلام
+ * execute the query on the service sectors data
+ * @return {Array} - the query results
  */
 function executeServiceSectorsQuery() {
   if (
@@ -1199,8 +1193,8 @@ function executeServiceSectorsQuery() {
 }
 
 /**
- * تسليط الضوء على دوائر الخدمات في نتائج الاستعلام
- * @param {Array} serviceSectors - دوائر الخدمات المراد تسليط الضوء عليها
+ * highlight the service sectors in the query results
+ * @param {Array} serviceSectors - the service sectors to highlight
  */
 function highlightServiceSectors(serviceSectors) {
   if (!map) return;
@@ -1224,10 +1218,10 @@ function highlightServiceSectors(serviceSectors) {
       }
     });
 
-    // Add to map
+    // add to the map
     highlightedFeature.addTo(map);
 
-    // Store in highlightedFeatures for zooming and results
+    // store in highlightedFeatures for zooming and results
     highlightedFeatures.push({
       layer: highlightedFeature,
       type: "service-sector",

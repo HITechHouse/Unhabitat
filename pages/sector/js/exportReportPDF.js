@@ -202,15 +202,11 @@ async function generateNeighborhoodReport(neighborhoodId, neighborhoodName) {
     const neighborhoodInfo = getNeighborhoodDetailedInfo(neighborhoodFeature);
     console.log('معلومات الحي:', neighborhoodInfo);
     
-    // 2. Get real sectoral functions data from calculator
-    const sectoralFunctionsData = getSectoralFunctionsData(neighborhoodName);
-    console.log('بيانات الوظائف القطاعية:', sectoralFunctionsData);
-    
-    // 3. Get real damage ratios data
+    // 2. Get real damage ratios data
     const damageRatiosData = getRealDamageRatiosData(neighborhoodId);
     console.log('بيانات نسب الأضرار:', damageRatiosData);
     
-    // 4. Capture current map view for the neighborhood
+    // 3. Capture current map view for the neighborhood
     const mapImageData = await captureNeighborhoodMap(neighborhoodFeature);
     console.log('صورة الخريطة:', mapImageData ? 'تم التقاطها بنجاح' : 'فشل في التقاط الصورة');
 
@@ -384,42 +380,6 @@ async function generateNeighborhoodReport(neighborhoodId, neighborhoodName) {
             <div style="text-align: center; padding: 20px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; color: #856404;">
               <strong>لا توجد معلومات تفصيلية متاحة لهذا الحي</strong><br>
               <small>البيانات الأساسية: معرف الحي ${convertToEnglishNumbers(neighborhoodId)}</small>
-            </div>
-          `}
-        </div>
-
-
-        <!-- Sectoral Functions Section -->
-        <div class="section" style="margin-bottom: 300px;">
-          <h2 style="color: #2196F3; border-bottom: 2px solid #2196F3; padding-bottom: 5px;">🏢 الوظائف القطاعية الحضرية</h2>
-          ${sectoralFunctionsData.length > 0 ? `
-            <table>
-              <tr>
-                <th style="width: 40%;">نوع الوظيفة القطاعية</th>
-                <th style="width: 20%;">النسبة المئوية</th>
-                <th style="width: 20%;">الحالة</th>
-                <th style="width: 20%;">التقييم</th>
-              </tr>
-              ${sectoralFunctionsData.map(sector => `
-                <tr>
-                  <td style="font-weight: bold;">${convertToEnglishNumbers(sector.name)}</td>
-                  <td style="text-align: center; font-weight: bold; color: ${getSectorColor(sector.percentage)};">${convertToEnglishNumbers(sector.percentage.toFixed(1))}%</td>
-                  <td style="text-align: center;" class="${getStatusClass(sector.status)}">${convertToEnglishNumbers(sector.status)}</td>
-                  <td style="text-align: center;">${convertToEnglishNumbers(sector.assessment)}</td>
-                </tr>
-              `).join('')}
-            </table>
-            <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 5px;">
-              <strong style="color: #2e7d32;">ملخص الوظائف القطاعية:</strong><br>
-              <div style="margin-top: 10px;">
-                <div>• عدد الوظائف المقيمة: <strong>${convertToEnglishNumbers(sectoralFunctionsData.length)}</strong></div>
-                <div>• متوسط الأداء العام: <strong style="color: ${getSectorColor(sectoralFunctionsData.reduce((sum, s) => sum + s.percentage, 0) / sectoralFunctionsData.length)};">${convertToEnglishNumbers((sectoralFunctionsData.reduce((sum, s) => sum + s.percentage, 0) / sectoralFunctionsData.length).toFixed(1))}%</strong></div>
-              </div>
-            </div>
-          ` : `
-            <div style="text-align: center; padding: 20px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; color: #856404;">
-              <strong>لا توجد بيانات للوظائف القطاعية متاحة لهذا الحي</strong><br>
-              <small>يُرجى استخدام حاسبة الوظائف القطاعية لإدخال البيانات أولاً</small>
             </div>
           `}
         </div>
@@ -653,40 +613,6 @@ function getNeighborhoodDetailedInfo(neighborhoodFeature) {
   
   // Filter out undefined values and return only available data
   return info.filter(item => item.value && item.value !== 'غير محدد' && item.value !== 'undefined');
-}
-
-/**
- * Get sectoral functions data from the calculator
- * @param {string} neighborhoodName - Name of the neighborhood
- * @returns {Array} Array of sectoral function data
- */
-function getSectoralFunctionsData(neighborhoodName) {
-  const sectoralData = [];
-  
-  console.log('البحث عن بيانات الوظائف القطاعية للحي:', neighborhoodName);
-  console.log('البيانات المتاحة:', window.sectoralFunctionalityData);
-  
-  // Check if global sectoral functionality data exists
-  if (window.sectoralFunctionalityData && window.sectoralFunctionalityData[neighborhoodName]) {
-    const neighborhoodData = window.sectoralFunctionalityData[neighborhoodName];
-    console.log('تم العثور على بيانات للحي:', neighborhoodData);
-    
-    Object.keys(neighborhoodData).forEach(sectorName => {
-      const sector = neighborhoodData[sectorName];
-      if (sector && sector.percentage !== undefined) {
-        sectoralData.push({
-          name: sectorName,
-          percentage: sector.percentage,
-          status: sector.status || getStatusFromPercentage(sector.percentage),
-          assessment: getAssessmentFromPercentage(sector.percentage)
-        });
-      }
-    });
-  } else {
-    console.log('لم يتم العثور على بيانات الوظائف القطاعية للحي');
-  }
-  
-  return sectoralData;
 }
 
 /**

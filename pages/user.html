@@ -10,28 +10,16 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- External Font Awesome CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+    <link href="libraries/css/fontawesome-6.5.1.min.css" rel="stylesheet" />
     <!-- External Swiper CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/swiper/swiper-bundle.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
+    <link href="libraries/css/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="libraries/css/material-icons.css" rel="stylesheet" />
 
     <!-- Simplified Arabic Font -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="libraries/css/noto-naskh-arabic.css" rel="stylesheet" />
 
     <!-- External Swiper JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="libraries/js/swiper-bundle.min.js"></script>
 
     <style>
       /* General Page Styles */
@@ -818,13 +806,6 @@
           <a href="maps/index.html" class="btn btn-primary" id="exploreMapBtn"
             >Neighborhood Map
           </a>
-          <a
-            href="dashboard.html"
-            class="btn btn-secondary"
-            id="dashboardBtn"
-            style="text-align: center; display: none"
-            >Dashboard</a
-          >
         </div>
       </div>
     </main>
@@ -943,7 +924,6 @@
             "تقييم الوضع السكاني، النسيج العمراني، البنى التحتية، الخدمات الأساسية، والتدخلات الإنسانية والتعافي المبكر بشكل تفصيلي.",
           exploreMapBtn: "خريطة الاحياء",
           servicesCirclesBtn: "خريطة المدينة",
-          dashboardBtn: "لوحة التحكم",
           settingsText: "الإعدادات",
           logoutText: "تسجيل الخروج",
           modalTitle: "اختر الوضع",
@@ -962,7 +942,6 @@
             "Detailed assessment of population status, urban fabric, infrastructure, basic services, and humanitarian interventions and early recovery.",
           exploreMapBtn: "Neighborhood Map",
           servicesCirclesBtn: "City Map",
-          dashboardBtn: "Dashboard",
           settingsText: "Settings",
           logoutText: "Logout",
           modalTitle: "Choose Mode",
@@ -1012,7 +991,6 @@
         document.getElementById("exploreMapBtn").textContent = t.exploreMapBtn;
         document.getElementById("servicesCirclesBtn").textContent =
           t.servicesCirclesBtn;
-        document.getElementById("dashboardBtn").textContent = t.dashboardBtn;
 
         document.getElementById("settingsText").textContent = t.settingsText;
         document.getElementById("logoutText").textContent = t.logoutText;

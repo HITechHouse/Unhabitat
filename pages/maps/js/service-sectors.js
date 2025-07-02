@@ -1,8 +1,8 @@
 /**
- * بيانات دوائر الخدمات في مدينة حلب
+ * Service sectors data in Homs
  */
 
-// تعريف متغير عام لتخزين بيانات دوائر الخدمات
+// define a global variable to store the service sectors data
 let serviceSectorsData = null;
 let serviceSectors = [];
 
@@ -30,22 +30,23 @@ const serviceSectorsData_new = {
   },
 };
 
-// تصدير البيانات للاستخدام في الملفات الأخرى
+// export the data for use in other files
 window.serviceSectorsData = serviceSectorsData_new;
 
-// متغير لتتبع حالة تحميل البيانات
+// variable to track the loading status
 window.serviceSectorsDataLoaded = false;
 
-// تحميل بيانات دوائر الخدمات من متغير معرف مسبقاً
+// download the data from the server
+
 document.addEventListener("DOMContentLoaded", function () {
-  // نستخدم البيانات الموجودة مباشرة بدلاً من محاولة تحميلها
+  // use the existing data directly instead of trying to load it
   console.log("جاري تجهيز بيانات دوائر الخدمات...");
 
-  // تأكد من تحويل الإحداثيات إلى النظام المناسب
-  // حيث أن بيانات GeoJSON هي بنظام UTM Zone 37N
-  // ونحتاج إلى تحويلها إلى WGS84 لعرضها على Leaflet
+  // make sure to convert the coordinates to the appropriate system
+  // where GeoJSON is in UTM Zone 37N
+  // and we need to convert it to WGS84 to display it on Leaflet
 
-  // استخدام البيانات المبسطة
+  // use the simplified data
   const serviceSectorsDataFixed = {
     type: "FeatureCollection",
     name: "Service_Directorate",
@@ -3654,13 +3655,13 @@ document.addEventListener("DOMContentLoaded", function () {
     ],
   };
 
-  // تعيين البيانات
+  // set the data
   serviceSectorsData = serviceSectorsDataFixed;
-  
-  // تعيين البيانات في window أيضاً للوصول إليها من ملفات أخرى
+
+  // set the data in window for other files to access
   window.serviceSectorsData = serviceSectorsDataFixed;
 
-  // استخراج البيانات المبسطة من GeoJSON
+  // extract the simplified data from GeoJSON
   serviceSectors = serviceSectorsDataFixed.features.map((feature) => ({
     id: feature.properties.OBJECTID,
     name: feature.properties.Name,
@@ -3669,33 +3670,33 @@ document.addEventListener("DOMContentLoaded", function () {
   }));
 
   console.log("تم تحميل بيانات دوائر الخدمات بنجاح", serviceSectorsDataFixed.features.length, "عنصر");
-  
-  // تحديث حالة التحميل
+
+  // update the loading state
   window.serviceSectorsDataLoaded = true;
 
-  // إطلاق حدث لإخبار بقية التطبيق أن البيانات جاهزة
+  // trigger an event to inform other parts of the application that the data is ready
   const event = new CustomEvent("serviceSectorsLoaded", {
     detail: { data: serviceSectorsDataFixed, count: serviceSectorsDataFixed.features.length }
   });
   document.dispatchEvent(event);
 });
 
-// بدلاً من محاولة تحميل الطبقات فوراً، ننتظر حتى تكون الخريطة جاهزة
-// سيتم استدعاء loadServiceSectorsLayer من map.js بعد تهيئة الخريطة
+// instead of trying to load the layers immediately, we wait until the map is ready
+// loadServiceSectorsLayer will be called from map.js after the map is initialized
 
-// تحويل الإحداثيات من UTM Zone 37N إلى WGS84 (اللاتيني والطولي)
+// convert the coordinates from UTM Zone 37N to WGS84 (latitude and longitude)
 function convertUTMToLatLng(easting, northing) {
-  // هذه دالة مبسطة للتحويل، يمكن استخدام مكتبات أكثر دقة مثل Proj4js
-  // في هذه الحالة، نستعيض عن التحويل الدقيق باستخدام تقريب لمنطقة حلب
+  // this is a simplified conversion function, you can use more accurate libraries like Proj4js
+  // in this case, we are using an approximation for the center of Homs
 
-  // مركز حلب التقريبي بإحداثيات WGS84
+  // the approximate center of Homs in WGS84 coordinates
   const centerLat = 36.2021;
   const centerLng = 37.1343;
 
-  // معاملات التحويل التقريبية (يجب استبدالها بالحسابات الدقيقة)
-  // هذه القيم تقريبية فقط ولا تصلح للتطبيقات الدقيقة!
-  const latFactor = 0.00001; // معامل تحويل تقريبي للعرض
-  const lngFactor = 0.00001; // معامل تحويل تقريبي للطول
+  // approximate conversion factors (should be replaced with accurate calculations)
+  // these values are approximate and not suitable for precise applications!
+  const latFactor = 0.00001; // approximate conversion factor for latitude
+  const lngFactor = 0.00001; // approximate conversion factor for longitude
 
   const lat = centerLat + (northing - 4000000) * latFactor;
   const lng = centerLng + (easting - 300000) * lngFactor;
@@ -3703,7 +3704,7 @@ function convertUTMToLatLng(easting, northing) {
   return [lat, lng];
 }
 
-// بيانات دوائر خدمات المياه (الهيدروليك) - بيانات وهمية للعرض
+// service sectors data - dummy data for display
 const hydraulicServiceData = [
   {
     sectorId: 1,
@@ -3763,7 +3764,7 @@ const hydraulicServiceData = [
   },
 ];
 
-// بيانات الفواتير وتحصيل الرسوم - بيانات وهمية للعرض
+// billing and collection data - dummy data for display
 const billingServiceData = [
   {
     sectorId: 1,

@@ -1,7 +1,7 @@
 /**
  * Advanced Layer Manager - ArcMap-style layer management
  * Provides drag-and-drop, grouping, and advanced layer controls
- * يدير الطبقات والاستيراد فقط (وظائف التصدير موجودة في import-export.js)
+ * manages layers and imports only (export functions are in import-export.js)
  */
 
 class AdvancedLayerManager {
@@ -77,8 +77,6 @@ class AdvancedLayerManager {
       .getElementById("layerPropertiesBtn")
       ?.addEventListener("click", () => this.showLayerProperties());
 
-    // Import enhanced functionality - تم إيقافه لتجنب التضارب مع features.js
-    // this.setupImportHandlers();
   }
 
   toggleLayerGroup(toggleBtn) {
@@ -540,10 +538,7 @@ class AdvancedLayerManager {
   }
 
   setupImportHandlers() {
-    // Enhanced import functionality
-    // ملاحظة: تم نقل event listener للـ importLayerBtn إلى features.js لتجنب التضارب
-    // document.getElementById("importLayerBtn")?.addEventListener("click", () => this.importLayer());
-    
+
     document
       .getElementById("importFromUrlBtn")
       ?.addEventListener("click", () => this.importFromUrl());
@@ -551,8 +546,6 @@ class AdvancedLayerManager {
       .getElementById("importFromServiceBtn")
       ?.addEventListener("click", () => this.importFromService());
 
-    // File input handler - يجب أيضاً حذف هذا لتجنب التضارب مع features.js
-    // document.getElementById("layerFileInput")?.addEventListener("change", (e) => this.handleFileImport(e));
 
     // Section toggle
     document
@@ -571,92 +564,8 @@ class AdvancedLayerManager {
       });
   }
 
-  importLayer() {
-    // ملاحظة: تم إيقاف هذه الدالة لتجنب التضارب مع features.js
-    console.log("تم إيقاف importLayer في advanced-layer-manager.js لتجنب التضارب");
-    return;
-    
-    /*
-    const fileInput = document.getElementById("layerFileInput");
-    if (fileInput) {
-      fileInput.click();
-    }
-    */
-  }
 
-  handleFileImport(event) {
-    // ملاحظة: تم إيقاف هذه الدالة لتجنب التضارب مع features.js
-    // جميع وظائف استيراد الملفات تتم من خلال features.js الآن
-    console.log("تم إيقاف handleFileImport في advanced-layer-manager.js لتجنب التضارب");
-    return;
-    
-    /*
-    const file = event.target.files[0];
-    if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        let data;
-        const fileName = file.name.toLowerCase();
-
-        if (fileName.endsWith(".geojson") || fileName.endsWith(".json")) {
-          data = JSON.parse(e.target.result);
-          this.addGeoJSONLayer(data, file.name);
-        } else if (fileName.endsWith(".kml")) {
-          // For KML files, you'd need a KML parser
-          alert("دعم ملفات KML سيتم إضافته قريباً");
-        } else {
-          alert("نوع الملف غير مدعوم. يرجى استخدام GeoJSON.");
-        }
-      } catch (error) {
-        console.error("Error importing file:", error);
-        alert("خطأ في استيراد الملف: " + error.message);
-      }
-    };
-    reader.readAsText(file);
-    */
-  }
-
-  addGeoJSONLayer(data, name) {
-    // ملاحظة: تم إيقاف هذه الدالة لتجنب التضارب مع features.js
-    console.log("تم إيقاف addGeoJSONLayer في advanced-layer-manager.js لتجنب التضارب");
-    return;
-    
-    /*
-    // Get the global map object
-    const map = window.map;
-    if (!map) {
-      console.error("Map object not found");
-      return;
-    }
-
-    const layer = L.geoJSON(data, {
-      style: {
-        color: "#ff7800",
-        weight: 2,
-        opacity: 0.8,
-        fillOpacity: 0.5,
-      },
-      onEachFeature: (feature, layer) => {
-        if (feature.properties) {
-          const popupContent = Object.entries(feature.properties)
-            .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
-            .join("<br>");
-          layer.bindPopup(popupContent);
-        }
-      },
-    }).addTo(map);
-
-    // Add to layers list
-    this.addImportedLayerToList(name, layer);
-
-    // Zoom to layer
-    map.fitBounds(layer.getBounds());
-
-    alert("تم استيراد الطبقة بنجاح: " + name);
-    */
-  }
 
   addImportedLayerToList(name, layer) {
     const layersList = document.getElementById("layersList");
@@ -690,13 +599,6 @@ class AdvancedLayerManager {
     layersList.appendChild(layerGroup);
     this.layers.set(layerId, layer);
   }
-
-
-
-
-
-
-
 
 
   importFromUrl() {

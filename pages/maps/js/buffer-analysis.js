@@ -1,59 +1,59 @@
 /**
  * Buffer Analysis Module
- * تحليل النطاق - Buffer Analysis
+ * Buffer Analysis
  * 
- * يوفر وظائف لإنشاء منطقة نطاق دائرية وتحليل تقاطعها مع الأحياء
+ * Provides functions to create a circular buffer area and analyze its intersection with neighborhoods
  */
 
-(function() {
+(function () {
     'use strict';
 
-    // متغيرات لحفظ حالة التحليل
+    // variables to save the analysis state
     let analysisCenter = null;
     let analysisRadius = 1;
     let bufferCircle = null;
     let isSelectingCenter = false;
 
     /**
-     * تهيئة وظائف تحليل النطاق
+     * initialize the buffer analysis functions
      */
     function initBufferAnalysis() {
-        // التأكد من وجود الخريطة
+        // check if the map is available
         if (!window.map) {
             console.error('الخريطة غير متوفرة');
             return;
         }
 
-        // التأكد من وجود Turf.js
+        // check if Turf.js is available
         if (typeof turf === 'undefined') {
             console.error('مكتبة Turf.js غير متوفرة');
             return;
         }
 
-        // ربط الأحداث
+        // bind the events
         bindEvents();
-        
-        // تحديث النصوص حسب اللغة الحالية
+
+        // update the text according to the current language
         updateLanguage();
     }
 
     /**
-     * تحديث النصوص حسب اللغة الحالية
+     * update the text according to the current language
      */
     function updateLanguage() {
         const currentLang = document.documentElement.lang || 'ar';
         const t = window.translations && window.translations[currentLang] && window.translations[currentLang].bufferAnalysis;
-        
+
         if (!t) return;
 
-        // تحديث العناوين
+        // update the titles
         const spatialAnalysisTitle = document.getElementById('spatial-analysis-title');
         if (spatialAnalysisTitle) spatialAnalysisTitle.textContent = t.sectionTitle;
 
         const bufferAnalysisTitle = document.getElementById('buffer-analysis-title');
         if (bufferAnalysisTitle) bufferAnalysisTitle.textContent = t.title;
 
-        // تحديث التسميات
+        // update the labels
         const radiusLabel = document.getElementById('buffer-radius-label');
         if (radiusLabel) radiusLabel.textContent = t.radiusLabel;
 
@@ -68,7 +68,7 @@
     }
 
     /**
-     * ربط الأحداث بالعناصر
+     * bind the events to the elements
      */
     function bindEvents() {
         const selectCenterBtn = document.getElementById('select-center-btn');
@@ -87,10 +87,10 @@
             closeButton.addEventListener('click', closeModal);
         }
 
-        // إغلاق النافذة المنبثقة عند النقر خارجها
+        // close the modal when clicking outside it
         const modal = document.getElementById('report-modal');
         if (modal) {
-            modal.addEventListener('click', function(e) {
+            modal.addEventListener('click', function (e) {
                 if (e.target === modal) {
                     closeModal();
                 }
@@ -99,71 +99,71 @@
     }
 
     /**
-     * بدء عملية تحديد المركز
+     * start the center selection process
      */
     function startCenterSelection() {
         if (!window.map) return;
 
         isSelectingCenter = true;
-        
-        // تغيير شكل المؤشر
+
+        // change the cursor shape
         document.getElementById('map').style.cursor = 'crosshair';
-        
-        // تحديث نص الزر
+
+        // update the button text
         const selectBtn = document.getElementById('select-center-btn');
         const currentLang = document.documentElement.lang || 'ar';
         const t = window.translations && window.translations[currentLang] && window.translations[currentLang].bufferAnalysis;
-        
+
         if (selectBtn && t) {
             selectBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>' + t.selectingCenterBtn + '</span>';
             selectBtn.style.background = '#ffc107';
             selectBtn.disabled = true;
         }
 
-        // إضافة مستمع النقر على الخريطة لمرة واحدة
+        // add a one-time click listener to the map
         window.map.once('click', onMapClick);
     }
 
     /**
-     * معالج النقر على الخريطة
+     * handle the map click
      */
     function onMapClick(e) {
         if (!isSelectingCenter) return;
 
-        // حفظ موقع المركز
+        // save the center location
         analysisCenter = e.latlng;
-        
-        // الحصول على نصف القطر
+
+        // get the radius
         const radiusInput = document.getElementById('buffer-radius-km');
         analysisRadius = parseFloat(radiusInput.value) || 1;
 
-        // إزالة الدائرة القديمة إن وجدت
+        // remove the old circle if it exists
         if (bufferCircle) {
             window.map.removeLayer(bufferCircle);
         }
 
-        // رسم الدائرة الجديدة
+        // draw the new circle
         bufferCircle = L.circle(analysisCenter, {
-            radius: analysisRadius * 1000, // تحويل من كيلومتر إلى متر
+            radius: analysisRadius * 1000, // convert from kilometers to meters
             color: '#dc3545',
             fillColor: '#dc3545',
             fillOpacity: 0.2,
             weight: 3
         }).addTo(window.map);
 
-        // إعادة تعيين حالة التحديد
+        // reset the selection state
         isSelectingCenter = false;
         document.getElementById('map').style.cursor = '';
 
-        // تحديث الأزرار
+        // update the buttons
         updateButtons(true);
 
-        // تكبير الخريطة لتظهر الدائرة
+        // zoom the map to show the circle
         window.map.fitBounds(bufferCircle.getBounds(), { padding: [20, 20] });
     }
 
     /**
-     * تحديث حالة الأزرار
+     * update the buttons state
      */
     function updateButtons(centerSelected) {
         const selectBtn = document.getElementById('select-center-btn');
@@ -204,7 +204,7 @@
     }
 
     /**
-     * تشغيل تحليل النطاق
+     * run the buffer analysis
      */
     function runBufferAnalysis() {
         if (!analysisCenter || !window.map) {
@@ -214,7 +214,7 @@
             return;
         }
 
-        // التأكد من وجود طبقة الأحياء
+        // check if the neighborhoods layer is available
         if (!window.neighborhoodsLayer) {
             const currentLang = document.documentElement.lang || 'ar';
             const t = window.translations && window.translations[currentLang] && window.translations[currentLang].bufferAnalysis;
@@ -222,14 +222,14 @@
             return;
         }
 
-        // إعادة تعيين أنماط الأحياء
+        // reset the neighborhoods styles
         resetNeighborhoodStyles();
 
-        // إنشاء الدائرة باستخدام Turf.js
+        // create the circle using Turf.js
         const center = turf.point([analysisCenter.lng, analysisCenter.lat]);
         const bufferPolygon = turf.buffer(center, analysisRadius, { units: 'kilometers' });
 
-        // قائمة الأحياء المتقاطعة
+        // list of intersecting neighborhoods
         const intersectingNeighborhoods = [];
 
         console.log('بدء تحليل النطاق:', {
@@ -238,35 +238,35 @@
             layerExists: !!window.neighborhoodsLayer
         });
 
-        // فحص كل حي
-        window.neighborhoodsLayer.eachLayer(function(layer) {
+        // check each neighborhood
+        window.neighborhoodsLayer.eachLayer(function (layer) {
             if (layer.feature && layer.feature.geometry) {
                 try {
-                    // تحويل طبقة الحي إلى GeoJSON
+                    // convert the layer to GeoJSON
                     const neighborhoodGeoJSON = layer.feature;
-                    
-                    // فحص التقاطع
+
+                    // check the intersection
                     let intersection = null;
-                    
+
                     try {
                         intersection = turf.intersect(bufferPolygon, neighborhoodGeoJSON);
                     } catch (intersectError) {
-                        // في حالة فشل turf.intersect، نجرب طريقة بديلة
-                        console.warn('فشل في turf.intersect، جاري المحاولة بطريقة بديلة');
+                        // if turf.intersect fails, try an alternative method
+                        console.warn('turf.intersect failed, trying an alternative method');
                         try {
-                            // نفحص إذا كان مركز المضلع داخل الدائرة
+                            // check if the centroid of the polygon is inside the circle
                             const centroid = turf.centroid(neighborhoodGeoJSON);
                             const distance = turf.distance(center, centroid, { units: 'kilometers' });
                             if (distance <= analysisRadius) {
-                                intersection = centroid; // أي قيمة غير null
+                                intersection = centroid; // any value other than null
                             }
                         } catch (centroidError) {
-                            console.error('فشل في التحقق البديل أيضاً:', centroidError);
+                            console.error('alternative check also failed:', centroidError);
                         }
                     }
-                    
+
                     if (intersection) {
-                        // تغيير لون الحي المتقاطع
+                        // change the color of the intersecting neighborhood
                         layer.setStyle({
                             fillColor: '#dc3545',
                             fillOpacity: 0.6,
@@ -274,20 +274,20 @@
                             weight: 3
                         });
 
-                        // إضافة اسم الحي إلى القائمة
-                        const neighborhoodName = layer.feature.properties.Names || 
-                                               layer.feature.properties.Name_En || 
-                                               layer.feature.properties.name || 
-                                               layer.feature.properties.Name || 
-                                               layer.feature.properties.NAME || 
-                                               'حي غير محدد';
-                        
-                        // طباعة معلومات التشخيص
-                        console.log('تم العثور على حي متقاطع:', {
+                        // add the neighborhood name to the list
+                        const neighborhoodName = layer.feature.properties.Names ||
+                            layer.feature.properties.Name_En ||
+                            layer.feature.properties.name ||
+                            layer.feature.properties.Name ||
+                            layer.feature.properties.NAME ||
+                            'حي غير محدد';
+
+                        // print diagnostic information
+                        console.log('intersecting neighborhood found:', {
                             name: neighborhoodName,
                             properties: layer.feature.properties
                         });
-                        
+
                         intersectingNeighborhoods.push(neighborhoodName);
                     }
                 } catch (error) {
@@ -302,29 +302,29 @@
             neighborhoods: intersectingNeighborhoods
         });
 
-        // إزالة الدائرة من الخريطة بعد التحليل
+        // remove the circle from the map after the analysis
         if (bufferCircle) {
             window.map.removeLayer(bufferCircle);
             bufferCircle = null;
         }
 
-        // إعادة تعيين حالة المركز للسماح بتحليل جديد
+        // reset the center state to allow new analysis
         analysisCenter = null;
-        
-        // تحديث الأزرار لحالة جديدة
+
+        // update the buttons for new state
         updateButtons(false);
 
-        // عرض التقرير
+        // show the report
         showReport(intersectingNeighborhoods);
     }
 
     /**
-     * إعادة تعيين أنماط الأحياء إلى الحالة الافتراضية
+     * reset the neighborhoods styles to the default state
      */
     function resetNeighborhoodStyles() {
         if (!window.neighborhoodsLayer) return;
 
-        window.neighborhoodsLayer.eachLayer(function(layer) {
+        window.neighborhoodsLayer.eachLayer(function (layer) {
             if (layer.setStyle) {
                 layer.setStyle({
                     fillColor: '#3388ff',
@@ -337,7 +337,7 @@
     }
 
     /**
-     * عرض تقرير النتائج
+     * show the report
      */
     function showReport(neighborhoods) {
         const modal = document.getElementById('report-modal');
@@ -347,7 +347,7 @@
 
         const currentLang = document.documentElement.lang || 'ar';
         const t = window.translations && window.translations[currentLang] && window.translations[currentLang].bufferAnalysis;
-        
+
         if (!t) return;
 
         let content = '';
@@ -438,37 +438,39 @@
         }
 
         resultsDiv.innerHTML = content;
-        
-        // إظهار النافذة المنبثقة
+
+        // show the modal
+        modal.style.display = 'block';
         modal.classList.remove('modal-hidden');
         modal.classList.add('modal-visible');
     }
 
     /**
-     * إغلاق النافذة المنبثقة
+     * close the modal
      */
     function closeModal() {
         const modal = document.getElementById('report-modal');
         if (modal) {
+            modal.style.display = 'none';
             modal.classList.remove('modal-visible');
             modal.classList.add('modal-hidden');
         }
 
-        // إعادة تعيين ألوان الأحياء إلى الحالة الافتراضية عند إغلاق النافذة
+        // reset the neighborhoods styles when the modal is closed
         resetNeighborhoodStyles();
     }
 
     /**
-     * عرض رسالة خطأ
+     * show an error message
      */
     function showError(message) {
-        alert(message);
+        alert(message || 'حدث خطأ في التحليل');
     }
 
-    // تهيئة الوحدة عند تحميل الصفحة
-    document.addEventListener('DOMContentLoaded', function() {
-        // انتظار تحميل الخريطة
-        const checkMapReady = setInterval(function() {
+    // initialize the module when the page is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        // wait for the map to be ready
+        const checkMapReady = setInterval(function () {
             if (window.map && typeof window.map.on === 'function') {
                 clearInterval(checkMapReady);
                 initBufferAnalysis();
@@ -477,41 +479,41 @@
     });
 
     /**
-     * بدء تحليل جديد
+     * start a new analysis
      */
     function startNewAnalysis() {
-        // إغلاق النافذة المنبثقة
+        // close the modal
         closeModal();
-        
-        // إعادة تعيين جميع المتغيرات
+
+        // reset all variables
         analysisCenter = null;
         analysisRadius = 1;
-        
-        // إعادة تعيين قيمة نصف القطر في الحقل
+
+        // reset the radius value in the field
         const radiusInput = document.getElementById('buffer-radius-km');
         if (radiusInput) {
             radiusInput.value = 1;
         }
-        
-        // تحديث الأزرار
+
+        // update the buttons
         updateButtons(false);
-        
-        // إزالة أي دوائر موجودة
+
+        // remove any existing circles
         if (bufferCircle) {
             window.map.removeLayer(bufferCircle);
             bufferCircle = null;
         }
-        
-        // إعادة تعيين ألوان الأحياء
+
+        // reset the neighborhoods styles
         resetNeighborhoodStyles();
     }
 
-    // الاستماع لتغيير اللغة
-    document.addEventListener('languageChanged', function(e) {
+    // listen for language changes
+    document.addEventListener('languageChanged', function (e) {
         updateLanguage();
     });
 
-    // تصدير الوظائف للاستخدام العام
+    // export the functions for global use
     window.BufferAnalysis = {
         init: initBufferAnalysis,
         startCenterSelection: startCenterSelection,

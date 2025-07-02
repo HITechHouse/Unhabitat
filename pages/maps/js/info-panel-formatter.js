@@ -1,17 +1,17 @@
 /**
- * ملف لتنسيق لوحة المعلومات (info-panel)
- * يقوم بتحويل الأسطر إلى جدول بعمودين
+ * file for formatting the info-panel
+ * it converts the lines to a table with two columns
  */
 
-// تنفيذ الكود عند تحميل الصفحة
+// execute the code when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
-  // تعديل طريقة عرض محتوى info-panel
+  // modify the way the info-panel content is displayed
   setupInfoPanelFormatter();
 
-  // تنسيق أزرار لوحة المعلومات
+  // format the info-panel buttons
   formatInfoPanelButtons();
 
-  // إضافة مراقب للتغييرات في لوحة المعلومات لتنسيق الأزرار عند فتحها
+  // add a watcher for changes in the info-panel to format the buttons when it is opened
   const infoPanel = document.getElementById("info-panel");
   if (infoPanel) {
     const observer = new MutationObserver(function (mutations) {
@@ -27,23 +27,23 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /**
- * إعداد منسق لوحة المعلومات
+ * setup the info-panel formatter
  */
 function setupInfoPanelFormatter() {
-  // مراقبة التغييرات في info-panel
+  // watch for changes in the info-panel
   const observer = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       if (
         mutation.type === "childList" &&
         mutation.target.id === "info-content"
       ) {
-        // تحويل الأسطر إلى جدول
+        // convert the lines to a table
         convertParagraphsToTable(mutation.target);
       }
     });
   });
 
-  // بدء المراقبة على عنصر info-content
+  // start watching the info-content element
   const infoContent = document.getElementById("info-content");
   if (infoContent) {
     observer.observe(infoContent, { childList: true, subtree: true });
@@ -51,45 +51,45 @@ function setupInfoPanelFormatter() {
 }
 
 /**
- * تحويل الفقرات إلى جدول
- * @param {HTMLElement} contentElement - عنصر المحتوى
+ * convert the paragraphs to a table
+ * @param {HTMLElement} contentElement - the content element
  */
 function convertParagraphsToTable(contentElement) {
-  // البحث عن جميع الفقرات في المحتوى
+  // find all the paragraphs in the content
   const paragraphs = contentElement.querySelectorAll("p");
 
-  // تجاهل التحويل إذا لم تكن هناك فقرات
+  // ignore the conversion if there are no paragraphs
   if (paragraphs.length === 0) return;
 
-  // إنشاء جدول جديد
+  // create a new table
   const table = document.createElement("table");
   table.className = "info-table";
 
-  // تتبع الفقرات التي تم تحويلها
+  // track the paragraphs that have been converted
   const processedParagraphs = [];
 
-  // إضافة صفوف للجدول من الفقرات
+  // add rows to the table from the paragraphs
   paragraphs.forEach(function (paragraph) {
-    // تجاهل الفقرات التي تحتوي على عناصر أخرى مثل ul, div, table
+    // ignore the paragraphs that contain other elements like ul, div, table
     if (paragraph.querySelector("ul, div, table")) {
       return;
     }
 
-    // استخراج المعرف والقيمة من الفقرة
+    // extract the identifier and value from the paragraph
     const strong = paragraph.querySelector("strong");
     if (!strong) return;
 
-    // إنشاء صف جديد
+    // create a new row
     const row = document.createElement("tr");
 
-    // إنشاء خلية للمعرف
+    // create a cell for the identifier
     const labelCell = document.createElement("td");
     labelCell.textContent = strong.textContent.replace(":", "");
 
-    // إنشاء خلية للقيمة
+    // create a cell for the value
     const valueCell = document.createElement("td");
 
-    // نسخ محتوى الفقرة بعد العنصر strong
+    // copy the content of the paragraph after the strong element
     let valueContent = "";
     let currentNode = strong.nextSibling;
 
@@ -102,76 +102,76 @@ function convertParagraphsToTable(contentElement) {
       currentNode = currentNode.nextSibling;
     }
 
-    // تنظيف النص من الفراغات الزائدة
+    // clean the text from extra spaces
     valueContent = valueContent.trim();
 
-    // إضافة المحتوى إلى خلية القيمة
+    // add the content to the value cell
     valueCell.innerHTML = valueContent;
 
-    // إضافة الخلايا إلى الصف
+    // add the cells to the row
     row.appendChild(labelCell);
     row.appendChild(valueCell);
 
-    // إضافة الصف إلى الجدول
+    // add the row to the table
     table.appendChild(row);
 
-    // إضافة الفقرة إلى قائمة المعالجة
+    // add the paragraph to the processed paragraphs list
     processedParagraphs.push(paragraph);
   });
 
-  // إضافة الجدول إلى المحتوى قبل أول فقرة إذا كان هناك صفوف
+  // add the table to the content before the first paragraph if there are rows
   if (table.rows.length > 0) {
     contentElement.insertBefore(table, paragraphs[0]);
 
-    // إخفاء الفقرات الأصلية التي تم تحويلها
+    // hide the original paragraphs that have been converted
     processedParagraphs.forEach((paragraph) => {
       paragraph.style.display = "none";
     });
   }
 
-  // معالجة العناصر الأخرى في المحتوى
+  // process the other elements in the content
   processOtherElements(contentElement);
 }
 
 /**
- * معالجة العناصر الأخرى في المحتوى
- * @param {HTMLElement} contentElement - عنصر المحتوى
+ * process the other elements in the content
+ * @param {HTMLElement} contentElement - the content element
  */
 function processOtherElements(contentElement) {
-  // معالجة العناصر div التي تحتوي على معلومات
+  // process the div elements that contain information
   const divs = contentElement.querySelectorAll("div.futuristic-panel");
 
   divs.forEach((div) => {
-    // البحث عن الفقرات داخل div
+    // find the paragraphs inside the div
     const divParagraphs = div.querySelectorAll("p");
     if (divParagraphs.length === 0) return;
 
-    // إنشاء جدول جديد
+    // create a new table
     const table = document.createElement("table");
     table.className = "info-table";
 
-    // تحويل الفقرات إلى صفوف في الجدول
+    // convert the paragraphs to rows in the table
     divParagraphs.forEach((paragraph) => {
-      // تجاهل الفقرات التي تحتوي على عناصر أخرى
+      // ignore the paragraphs that contain other elements
       if (paragraph.querySelector("ul, div, table")) {
         return;
       }
 
-      // استخراج المعرف والقيمة
+      // extract the identifier and value
       const strong = paragraph.querySelector("strong");
       if (!strong) return;
 
-      // إنشاء صف جديد
+      // create a new row
       const row = document.createElement("tr");
 
-      // إنشاء خلية للمعرف
+      // create a cell for the identifier
       const labelCell = document.createElement("td");
       labelCell.textContent = strong.textContent.replace(":", "");
 
-      // إنشاء خلية للقيمة
+      // create a cell for the value
       const valueCell = document.createElement("td");
 
-      // نسخ محتوى الفقرة بعد العنصر strong
+      // copy the content of the paragraph after the strong element
       let valueContent = "";
       let currentNode = strong.nextSibling;
 
@@ -184,39 +184,39 @@ function processOtherElements(contentElement) {
         currentNode = currentNode.nextSibling;
       }
 
-      // تنظيف النص من الفراغات الزائدة
+      // clean the text from extra spaces
       valueContent = valueContent.trim();
 
-      // إضافة المحتوى إلى خلية القيمة
+      // add the content to the value cell
       valueCell.innerHTML = valueContent;
 
-      // إضافة الخلايا إلى الصف
+      // add the cells to the row
       row.appendChild(labelCell);
       row.appendChild(valueCell);
 
-      // إضافة الصف إلى الجدول
+      // add the row to the table
       table.appendChild(row);
 
-      // إخفاء الفقرة الأصلية
+      // hide the original paragraph
       paragraph.style.display = "none";
     });
 
-    // إضافة الجدول إلى div إذا كان هناك صفوف
+    // add the table to the div if there are rows
     if (table.rows.length > 0) {
       div.insertBefore(table, divParagraphs[0]);
     }
   });
 
-  // معالجة القوائم (ul) لتحويلها إلى جدول إذا كانت تحتوي على عناصر li مع نص بسيط
+  // process the lists (ul) to convert them to a table if they contain simple text elements
   const lists = contentElement.querySelectorAll("ul");
   lists.forEach((list) => {
     const items = list.querySelectorAll("li");
     if (items.length === 0) return;
 
-    // التحقق مما إذا كانت القائمة مناسبة للتحويل
+    // check if the list is suitable for conversion
     let canConvert = true;
     items.forEach((item) => {
-      // إذا كان العنصر يحتوي على عناصر معقدة، لا نقوم بالتحويل
+      // if the element contains complex elements, we don't convert it
       if (item.querySelector("div, ul, ol, table")) {
         canConvert = false;
       }
@@ -224,37 +224,37 @@ function processOtherElements(contentElement) {
 
     if (!canConvert) return;
 
-    // إنشاء جدول جديد
+    // create a new table
     const table = document.createElement("table");
     table.className = "info-table";
 
-    // تحويل عناصر القائمة إلى صفوف في الجدول
+    // convert the list items to rows in the table
     items.forEach((item, index) => {
       const row = document.createElement("tr");
 
-      // إنشاء خلية للمعرف (رقم العنصر)
+      // create a cell for the identifier (the item number)
       const labelCell = document.createElement("td");
       labelCell.textContent = `العنصر ${index + 1}`;
 
-      // إنشاء خلية للقيمة
+      // create a cell for the value
       const valueCell = document.createElement("td");
       valueCell.innerHTML = item.innerHTML;
 
-      // إضافة الخلايا إلى الصف
+      // add the cells to the row
       row.appendChild(labelCell);
       row.appendChild(valueCell);
 
-      // إضافة الصف إلى الجدول
+      // add the row to the table
       table.appendChild(row);
     });
 
-    // استبدال القائمة بالجدول
+    // replace the list with the table
     list.parentNode.replaceChild(table, list);
   });
 }
 
 /**
- * تنسيق أزرار لوحة المعلومات
+ * format the info-panel buttons
  */
 function formatInfoPanelButtons() {
   const buttonGroup = document.querySelector(".info-panel .button-group");
@@ -268,7 +268,7 @@ function formatInfoPanelButtons() {
   }
 }
 
-// تصدير الدوال للاستخدام العام
+// export the functions for global use
 window.convertParagraphsToTable = convertParagraphsToTable;
 window.processOtherElements = processOtherElements;
 window.formatInfoPanelButtons = formatInfoPanelButtons;

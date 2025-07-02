@@ -981,132 +981,6 @@ const tablesData = {
 
 window.tablesData = tablesData;
 
-// تحديث أسماء الجداول بالعربي
-const tableNames = {
-  التدخلات_الإنسانية: [
-    "معرف التدخل الانساني",
-    "معرف الحي",
-    "انواع التدخل الانساني",
-    "ملاحظات",
-  ],
-  الأسواق_الأساسية: [
-    "معرف السوق الاساسي",
-    "معرف الحي",
-    "نوع السوق",
-    "منطقة الخدمة",
-    "عدد المحلات",
-    "حالة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  إدارة_النفايات_الصلبة: [
-    "معرف إدارة النفايات الصلبة",
-    "معرف الحي",
-    "مواقع التفريغ العشوائي",
-    "مستوى نظافة الشوارع",
-    "مكافحة القوارض",
-    "ازالة الانقاض",
-    "حالة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  شبكة_الكهرباء: [
-    "معرف شبكة الكهرباء",
-    "معرف الحي",
-    "مستوى ضرر المحول",
-    "مستوى ضرر الخط",
-    "حالة الشبكة",
-    "وصف الاحتياجات",
-  ],
-  شبكة_الاتصالات: [
-    "معرف شبكة الاتصالات",
-    "معرف الحي",
-    "مستوى ضرر الخط الارضي",
-    "مستوى ضرر البرج",
-    "حالة الشبكة",
-    "وصف الاحتياجات",
-  ],
-  إمدادات_المياه: [
-    "معرف إمدادات المياه",
-    "معرف الحي",
-    "متصل بالشبكة",
-    "مستوى ضرر الامداد الرئيسي",
-    "مستوى ضرر الامداد الفرعي",
-    "مستوى تشغيل الامداد الرئيسي",
-    "مستوى تشغيل الامداد الفرعي",
-    "نسبة الضرر",
-    "نسبة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  شبكة_الصرف_الصحي: [
-    "معرف شبكة الصرف الصحي",
-    "معرف الحي",
-    "متصل بالشبكة",
-    "مستوى ضرر التجميع الرئيسي",
-    "مستوى ضرر التجميع الفرعي",
-    "مستوى تشغيل التجميع الرئيسي",
-    "مستوى تشغيل التجميع الفرعي",
-    "نسبة الضرر",
-    "نسبة التشغيل",
-    "وصف الاحتياجات",
-  ],
-  أضرار_الإسكان: [
-    "معرف أضرار الاسكان",
-    "معرف الحي",
-    "إجمالي الوحدات السكنية",
-    "نسبة الوحدات الشاغرة",
-    "نسبة الضرر الشديد",
-    "نسبة الضرر المتوسط",
-    "نسبة الضرر الخفيف",
-    "نسبة الوحدات بدون ضرر",
-    "وصف الاحتياجات",
-  ],
-  النسيج_الحضري: [
-    "معرف النسيج الحضري",
-    "معرف الحي",
-    "المنطقة الحضرية",
-    "حالة النسيج الحضري",
-    "نسبة الاسكان غير الرسمي",
-    "نسبة الاسكان العالي الارتفاع",
-    "نسبة الاسكان التقليدي",
-    "ملاحظات",
-  ],
-  التغيرات_السكانية: [
-    "معرف التغيرات السكانية",
-    "معرف الحي",
-    "عدد السكان",
-    "نسبة المهاجرين",
-    "نسبة العائدين",
-    "وصف الاحتياجات",
-  ],
-  "أعضاء لجنة الحي": [
-    "معرف مميز",
-    "معرف الحي",
-    "اسم المختار",
-    "عدد الأعضاء",
-    "اسم أمين السر",
-    "نسبة الذكور من الأعضاء",
-    "تاريخ التشكيل",
-    "ملاحظات",
-  ],
-  "معلومات التواصل مع لجنة الحي": [
-    "معرف مميز",
-    "معرف الحي",
-    "رقم هاتف المختار",
-    "رقم هاتف أمين السر",
-    "البريد الإلكتروني",
-    "عنوان مقر اللجنة",
-    "أيام الاجتماع",
-    "وقت الاجتماع",
-    "ملاحظات التواصل",
-  ],
-  لجان_التنمية: [
-    "معرف",
-    "معرف الحي",
-    "رقم هاتف رئيس اللجنة",
-    "مكان ومقر اللجنة",
-    "ملاحظات",
-  ],
-};
-
 // تهيئة التبويبات عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", function () {
   initializeTabs();
@@ -1114,7 +988,6 @@ document.addEventListener("DOMContentLoaded", function () {
   setupDraggablePanel();
   createModalBackdrop();
   createWarningMessage();
-  createTabsToggleButton();
 });
 
 function createWarningMessage() {
@@ -1898,73 +1771,51 @@ function setSelectedNeighborhood(id, name) {
   }
 }
 
-/**
- * إنشاء زر التبديل للتبويبات
- * يضيف زر دائري في أعلى حاوية التبويبات للطي والتوسيع
- */
-function createTabsToggleButton() {
-  // Find the footer
-  const footer = document.getElementById("mainFooter");
-  // إنشاء زر التبديل
-  const toggleButton = document.createElement("div");
-  toggleButton.className = "tabs-toggle-btn collapsed"; // إضافة فئة collapsed بشكل افتراضي
-  toggleButton.innerHTML = '<i class="fas fa-chevron-up"></i>'; // سهم لأعلى للإشارة إلى إمكانية التوسيع
-  toggleButton.title = "طي/توسيع التبويبات";
 
-  // إضافة مستمع حدث النقر
-  toggleButton.addEventListener("click", function () {
-    toggleTabsContainer();
-  });
-
-  // إنشاء حاوية للزر إذا لم تكن موجودة
-  let toggleBtnContainer = document.querySelector(".tabs-toggle-btn-container");
-  if (!toggleBtnContainer) {
-    toggleBtnContainer = document.createElement("div");
-    toggleBtnContainer.className = "tabs-toggle-btn-container";
-    // ضع الحاوية قبل الفوتر مباشرة
-    if (footer && footer.parentNode) {
-      footer.parentNode.insertBefore(toggleBtnContainer, footer);
-    } else {
-      document.body.appendChild(toggleBtnContainer);
-    }
-  }
-  // أضف الزر إلى الحاوية
-  toggleBtnContainer.appendChild(toggleButton);
-
-  // جعل tabs-container مطوياً بشكل افتراضي
-  const tabsContainer = document.querySelector(".tabs-container");
-  if (tabsContainer) {
-    tabsContainer.classList.add("collapsed");
-  }
-}
 
 /**
- * تبديل حالة حاوية التبويبات (مطوية/موسعة)
+ * toggle the tabs container (collapsed/expanded)
  */
 function toggleTabsContainer() {
   const tabsContainer = document.querySelector(".tabs-container");
-  const toggleButton = document.querySelector(".tabs-toggle-btn");
+  const toggleButton = document.getElementById("tabsToggleBtn");
 
-  if (!tabsContainer || !toggleButton) return;
+  if (!tabsContainer) return;
 
-  // تبديل الفئة المطوية
-  const isCollapsing = !tabsContainer.classList.contains("collapsed");
-  tabsContainer.classList.toggle("collapsed");
-  toggleButton.classList.toggle("collapsed");
+  // toggle the tabs display in a simple and effective way
+  const isCurrentlyHidden = tabsContainer.style.display === "none" ||
+    tabsContainer.classList.contains("hidden") ||
+    tabsContainer.classList.contains("collapsed");
 
-  // تغيير أيقونة الزر بناءً على الحالة
-  const icon = toggleButton.querySelector("i");
-  if (icon) {
-    if (isCollapsing) {
-      // عند الطي، تغيير الأيقونة إلى سهم لأعلى
-      icon.className = "fas fa-chevron-up";
-    } else {
-      // عند التوسيع، تغيير الأيقونة إلى سهم لأسفل
-      icon.className = "fas fa-chevron-down";
+  if (isCurrentlyHidden) {
+    // show the tabs
+    tabsContainer.style.display = "flex";
+    tabsContainer.classList.remove("hidden", "collapsed");
+    tabsContainer.classList.add("visible");
+
+    // change the button icon
+    if (toggleButton) {
+      const icon = toggleButton.querySelector("i");
+      if (icon) {
+        icon.className = "fa-solid fa-table-columns";
+      }
+    }
+  } else {
+    // hide the tabs
+    tabsContainer.style.display = "none";
+    tabsContainer.classList.remove("visible");
+    tabsContainer.classList.add("hidden", "collapsed");
+
+    // change the button icon
+    if (toggleButton) {
+      const icon = toggleButton.querySelector("i");
+      if (icon) {
+        icon.className = "fa-solid fa-eye-slash";
+      }
     }
   }
 
-  // تحديث الخريطة لتجنب مشاكل العرض
+  // update the map to avoid display issues
   try {
     if (window.map && typeof window.map.invalidateSize === "function") {
       setTimeout(function () {
@@ -1977,7 +1828,7 @@ function toggleTabsContainer() {
 }
 
 /**
- * عرض تفاصيل أعضاء اللجنة في info-panel
+ * display the members details in the info-panel
  */
 function showMembersDetails(tabId, neighborhoodId) {
   const infoPanel = document.getElementById("info-panel");
@@ -1989,15 +1840,15 @@ function showMembersDetails(tabId, neighborhoodId) {
   const table = tablesData[tabId];
   if (!table || !table.membersData) return;
 
-  // تحديث العنوان
+  // update the title
   infoTitle.innerHTML = `
     <span>تفاصيل أعضاء لجنة الحي - ${selectedNeighborhoodName}</span>
   `;
 
-  // مسح المحتوى الحالي
+  // clear the current content
   infoContent.innerHTML = "";
 
-  // إنشاء رسالة توضيحية
+  // create an info message
   const infoMessage = document.createElement("div");
   infoMessage.style.backgroundColor = "#e3f2fd";
   infoMessage.style.border = "1px solid #2196f3";
@@ -2017,12 +1868,12 @@ function showMembersDetails(tabId, neighborhoodId) {
     </span>
   `;
 
-  // إنشاء حاوية الجدول
+  // create a table container
   const tableContainer = document.createElement("div");
   tableContainer.className = "members-table-container";
   tableContainer.style.padding = "0 20px 20px 20px";
 
-  // إنشاء الجدول
+  // create the table
   const tableElement = document.createElement("table");
   tableElement.className = "info-table members-table";
   tableElement.style.border = "2px solid #ddd";
@@ -2031,7 +1882,7 @@ function showMembersDetails(tabId, neighborhoodId) {
   tableElement.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
   tableElement.style.width = "100%";
 
-  // إنشاء رأس الجدول
+  // create the table header
   const tableHead = document.createElement("thead");
   const headerRow = document.createElement("tr");
 
@@ -2052,18 +1903,18 @@ function showMembersDetails(tabId, neighborhoodId) {
   tableHead.appendChild(headerRow);
   tableElement.appendChild(tableHead);
 
-  // إنشاء جسم الجدول
+  // create the table body
   const tableBody = document.createElement("tbody");
 
   table.membersData.forEach((member, index) => {
     const row = document.createElement("tr");
 
-    // إضافة تأثير zebra striping
+    // add the zebra striping effect
     if (index % 2 === 0) {
       row.style.backgroundColor = "#f8fafc";
     }
 
-    // إضافة تأثير hover
+    // add the hover effect
     row.addEventListener("mouseenter", function () {
       this.style.backgroundColor = "#e3f2fd";
     });
@@ -2072,7 +1923,7 @@ function showMembersDetails(tabId, neighborhoodId) {
       this.style.backgroundColor = index % 2 === 0 ? "#f8fafc" : "white";
     });
 
-    // إنشاء خلايا البيانات
+    // create the data cells
     const nameCell = document.createElement("td");
     nameCell.textContent = member.name;
     nameCell.style.padding = "12px 15px";
@@ -2085,7 +1936,7 @@ function showMembersDetails(tabId, neighborhoodId) {
     phoneCell.style.direction = "ltr";
     phoneCell.style.textAlign = "center";
 
-    // إنشاء رابط للهاتف
+    // create the phone link
     const phoneLink = document.createElement("a");
     phoneLink.href = `tel:${member.phone}`;
     phoneLink.innerHTML = `<i class="fas fa-phone" style="margin-left: 5px; font-size: 0.9rem;"></i>${member.phone}`;
@@ -2124,7 +1975,7 @@ function showMembersDetails(tabId, neighborhoodId) {
   tableElement.appendChild(tableBody);
   tableContainer.appendChild(tableElement);
 
-  // إضافة زر العودة
+  // add the back button
   const backButtonContainer = document.createElement("div");
   backButtonContainer.style.marginTop = "20px";
   backButtonContainer.style.textAlign = "center";
@@ -2142,7 +1993,7 @@ function showMembersDetails(tabId, neighborhoodId) {
   backButton.style.cursor = "pointer";
   backButton.style.transition = "all 0.3s ease";
 
-  // تأثيرات hover للزر
+  // add the hover effects to the back button
   backButton.addEventListener("mouseenter", function () {
     this.style.backgroundColor = "#4b5563";
     this.style.transform = "translateY(-2px)";
@@ -2155,20 +2006,20 @@ function showMembersDetails(tabId, neighborhoodId) {
     this.style.boxShadow = "none";
   });
 
-  // وظيفة العودة
+  // add the click event to the back button
   backButton.addEventListener("click", function () {
     renderInfoPanel(tabId, neighborhoodId);
   });
 
   backButtonContainer.appendChild(backButton);
 
-  // إضافة المحتوى إلى info-content
+  // add the content to the info-content
   infoContent.appendChild(infoMessage);
   infoContent.appendChild(tableContainer);
   infoContent.appendChild(backButtonContainer);
 }
 
-// Export functions for use in other files
+// export the functions for use in other files
 window.selectedNeighborhoodId = selectedNeighborhoodId;
 window.selectedNeighborhoodName = selectedNeighborhoodName;
 window.renderInfoPanel = renderInfoPanel;
@@ -2321,12 +2172,12 @@ function showSaveAllModal(lang) {
   msg.style.fontWeight = "bold";
   msg.textContent =
     window.translations &&
-    window.translations[lang] &&
-    window.translations[lang].saveAllWarning
+      window.translations[lang] &&
+      window.translations[lang].saveAllWarning
       ? window.translations[lang].saveAllWarning
       : lang === "ar"
-      ? "سيتم حفظ جميع التغييرات بشكل دائم. هل أنت متأكد من المتابعة؟"
-      : "All changes will be saved permanently. Are you sure you want to continue?";
+        ? "سيتم حفظ جميع التغييرات بشكل دائم. هل أنت متأكد من المتابعة؟"
+        : "All changes will be saved permanently. Are you sure you want to continue?";
   content.appendChild(msg);
 
   // Buttons
@@ -2338,12 +2189,12 @@ function showSaveAllModal(lang) {
   const continueBtn = document.createElement("button");
   continueBtn.textContent =
     window.translations &&
-    window.translations[lang] &&
-    window.translations[lang].continue
+      window.translations[lang] &&
+      window.translations[lang].continue
       ? window.translations[lang].continue
       : lang === "ar"
-      ? "متابعة"
-      : "Continue";
+        ? "متابعة"
+        : "Continue";
   continueBtn.style.background = "#1e40af";
   continueBtn.style.color = "white";
   continueBtn.style.border = "none";
@@ -2371,12 +2222,12 @@ function showSaveAllModal(lang) {
   const cancelBtn = document.createElement("button");
   cancelBtn.textContent =
     window.translations &&
-    window.translations[lang] &&
-    window.translations[lang].cancel
+      window.translations[lang] &&
+      window.translations[lang].cancel
       ? window.translations[lang].cancel
       : lang === "ar"
-      ? "إلغاء"
-      : "Cancel";
+        ? "إلغاء"
+        : "Cancel";
   cancelBtn.style.background = "#f3f4f6";
   cancelBtn.style.color = "#4b5563";
   cancelBtn.style.border = "1px solid #ddd";
@@ -2427,12 +2278,12 @@ function showSuccessNotification(lang) {
   const msg = document.createElement("span");
   msg.textContent =
     window.translations &&
-    window.translations[lang] &&
-    window.translations[lang].successMessage
+      window.translations[lang] &&
+      window.translations[lang].successMessage
       ? window.translations[lang].successMessage
       : lang === "ar"
-      ? "تم تحديث جميع البيانات بنجاح!"
-      : "All data saved successfully!";
+        ? "تم تحديث جميع البيانات بنجاح!"
+        : "All data saved successfully!";
   notif.appendChild(msg);
 
   document.body.appendChild(notif);
@@ -2671,3 +2522,33 @@ function showSuccessNotification(lang) {
     }, 300);
   }, 4000);
 }
+
+// Initialize tabs toggle button functionality when DOM is loaded
+document.addEventListener('DOMContentLoaded', function () {
+  // Add event listener for the tabsToggleBtn in the HTML
+  const tabsToggleBtn = document.getElementById('tabsToggleBtn');
+  if (tabsToggleBtn) {
+    tabsToggleBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleTabsContainer();
+    });
+
+    // Ensure tabs are hidden by default
+    const tabsContainer = document.querySelector(".tabs-container");
+    if (tabsContainer) {
+      tabsContainer.style.display = "none";
+      tabsContainer.classList.remove("visible");
+      tabsContainer.classList.add("hidden", "collapsed");
+
+      // Set correct initial icon (eye-slash for hidden state)
+      const icon = tabsToggleBtn.querySelector("i");
+      if (icon) {
+        icon.className = "fa-solid fa-eye-slash";
+      }
+    }
+  }
+});
+
+// Make sure the toggleTabsContainer function is globally accessible
+window.toggleTabsContainer = toggleTabsContainer;

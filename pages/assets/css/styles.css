@@ -1,0 +1,421 @@
+/* ============================
+   COMMON STYLES FOR ALL PAGES
+   ============================ */
+
+/* General body styles and font setup */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Noto Naskh Arabic", sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+}
+
+/* Reset and base font for all elements */
+* {
+  font-family: "Noto Naskh Arabic", sans-serif;
+}
+
+/* Arabic font for RTL and specific elements */
+:lang(ar),
+[lang="ar"],
+.arabic-text,
+.copyright-text,
+.social-icons,
+.btn,
+label,
+input,
+.header-title,
+.title-ar,
+.title-en,
+.header-title div {
+  font-family: "Noto Naskh Arabic", sans-serif !important;
+}
+
+/* Font consistency for LTR elements, excluding icons */
+body[dir="ltr"] *:not(i):not(.fa):not(.fab):not(.fas):not(.far) {
+  font-family: "Noto Naskh Arabic", sans-serif !important;
+}
+
+/* Ensure Font Awesome icons display correctly */
+.fa,
+.fas,
+.far,
+.fab,
+[class*="fa-"] {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+}
+
+/* ============================
+   HEADER STYLES
+   ============================ */
+
+#mainHeader {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 5000;
+  background-color: #00b2e3;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 16px;
+  height: 50px;
+  box-sizing: border-box;
+  direction: rtl !important;
+}
+
+.header-title {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+#mainHeader .title-ar {
+  font-size: 1.1rem !important;
+  margin-bottom: 2px !important;
+}
+
+#mainHeader .title-en {
+  font-size: 0.7rem !important;
+  opacity: 0.9 !important;
+}
+
+.header-logo {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  object-fit: contain;
+}
+
+.header-logos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px;
+}
+
+.header-logos img {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+/* ============================
+   LANGUAGE AND MENU DROPDOWNS
+   ============================ */
+
+.menu-dropdown,
+.language-dropdown {
+  position: relative;
+}
+
+.menu-toggle,
+.language-toggle {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background-color: #00b2e3;
+}
+
+.language-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.language-toggle:active {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.menu-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.32);
+  transform: scale(1.05);
+}
+
+.menu-dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 1000;
+  margin-top: 5px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.menu-item i {
+  margin-left: 8px;
+  width: 20px;
+  text-align: center;
+}
+.menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+/* RTL adjustments for menu dropdown */
+body[dir="ltr"] .menu-dropdown-content {
+  right: auto;
+  left: 0;
+}
+
+/* ============================
+   MAIN FOOTER STYLES
+   ============================ */
+
+#mainFooter {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  z-index: 1000;
+  background-color: #00b2e3;
+  padding: 4px 16px;
+  height: 50px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  direction: rtl !important;
+}
+
+.footer-content {
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  color: white;
+}
+
+.footer-logo {
+  height: 24px;
+  margin-right: 8px;
+  vertical-align: middle;
+  display: inline-block !important;
+}
+
+/* Footer Copyright Image Style */
+footer .copyright img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  background-color: white;
+  padding: 2px;
+  object-fit: contain;
+  background-clip: content-box;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+footer .copyright img.footer-logo {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  background-color: white;
+  padding: 2px;
+  object-fit: contain;
+  background-clip: content-box;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.companyHITech {
+  color: white !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-block;
+  margin: 0 8px;
+}
+
+.companyHITech:hover {
+  color: #f0f0f0 !important;
+  text-decoration: underline;
+}
+
+.copyright-text {
+  color: white;
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.social-icon {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #3498db;
+}
+
+body[dir="rtl"] .footer-content,
+body[dir="ltr"] .footer-content {
+  flex-direction: row;
+}
+
+body[dir="rtl"] .footer-logo {
+  margin-right: 8px;
+  margin-left: 0;
+}
+
+body[dir="ltr"] .footer-logo {
+  margin-left: 8px;
+  margin-right: 0;
+}
+
+body[dir="rtl"] .social-icon {
+  margin-left: 1rem;
+  margin-right: 0;
+}
+
+body[dir="ltr"] .social-icon {
+  margin-right: 1rem;
+  margin-left: 0;
+}
+
+/* Font Awesome icon styles */
+.fa,
+.fab,
+.fas,
+.far,
+i.fa,
+i.fab,
+i.fas,
+i.far,
+i.fa-facebook-f,
+i.fa-x-twitter,
+i.fa-instagram,
+i.fa-linkedin-in,
+i.fa-whatsapp {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+  display: inline-block !important;
+  visibility: visible !important;
+}
+
+/* ============================
+   SCROLLABLE CONTENT AREA
+   ============================ */
+
+#scrollableContent {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+}
+
+/* ============================
+   NAVIGATION TABS
+   ============================ */
+
+.nav-tabs .nav-link {
+  font-weight: bold;
+  color: #495057;
+  border-radius: 12px 12px 0 0;
+  border: none;
+  background: #e3f2fd;
+  margin-right: 5px;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link.active {
+  background: #0d6efd;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================
+   RESPONSIVE STYLES
+   ============================ */
+
+@media (max-width: 768px) {
+  .title-en {
+    display: none;
+  }
+}
+
+/* Notifications System - Common Styles */
+.notifications-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.notifications-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.notifications-toggle:hover {
+  background: rgba(255, 255, 255, 0.32);
+  transform: scale(1.05);
+}
+
+.notifications-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ef4444;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 2px solid #fff;
+}
+
+/* LTR adjustments for notifications */
+body[dir="ltr"] .notifications-badge {
+  right: auto;
+  left: -5px;
+}
